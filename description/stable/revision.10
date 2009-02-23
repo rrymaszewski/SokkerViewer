@@ -1,0 +1,5 @@
+* added czech language file
+* improved login changer
+* bugfix: restore db crash
+* center note window on OS where are 2 monitors
+* dissable teamMatches downloader (problems with wrong xml format)

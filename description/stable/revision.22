@@ -1,0 +1,5 @@
+* added changes to french language
+* bugfix: removed duplicate from match details
+* bugfix: removed problem with player translating
+* bugfix: removed problem with check_transfers
+* corrected match tables sorting direction

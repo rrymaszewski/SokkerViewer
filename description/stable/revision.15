@@ -1,0 +1,2 @@
+* bugfix: problem with wrong trainers xml parsing (keeper skill)
+* reduced loading data time from database

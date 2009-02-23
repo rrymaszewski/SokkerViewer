@@ -1,0 +1,22 @@
+* added new tabs for players:
+- played matches
+- all graphs
+* modified players description
+* modified juniors description
+* added more AI to update data
+* flags collections
+* settings average jumps in school
+* modified graphs
+* added tax calculator
+* added fast currency calculator
+* added info about nt players
+* task bar icon
+* highlighting player without training
+* season diffrence in statistics
+* modified database transaction
+* added some small UI changes (e.g. new icons)
+* added info about juniors begin level
+* modified matches information view (added graphics with teams tactics)
+* exit confirmation
+* fixed major bug
+* and much small changes
