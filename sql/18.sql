@@ -1,0 +1,12 @@
+ALTER TABLE player_skills ADD COLUMN pass_training BOOLEAN DEFAULT true NOT NULL;
+ALTER TABLE transfers ADD COLUMN checked boolean DEFAULT false NOT NULL;
+ALTER TABLE player ADD COLUMN exists_in_sokker INTEGER DEFAULT 0 NOT NULL;
+ALTER TABLE system DROP COLUMN check_youth_team_id;
+ALTER TABLE system DROP COLUMN check_transfers;
+DELETE FROM arena;
+ALTER TABLE arena ADD COLUMN team_id INTEGER DEFAULT 0 NOT NULL;
+ALTER TABLE system ADD COLUMN junior_minimum_pop DOUBLE default 3 NOT NULL;
+ALTER TABLE players_stats ADD COLUMN injury_days INTEGER DEFAULT 0 NOT NULL;
+UPDATE system SET check_countries = true;
+UPDATE system SET check_update_db = true;
+UPDATE SYSTEM SET VERSION = 18;

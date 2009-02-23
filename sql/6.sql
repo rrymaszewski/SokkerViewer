@@ -1,0 +1,4 @@
+ALTER TABLE player ADD COLUMN transfer_list INTEGER DEFAULT 0;
+ALTER TABLE player ADD COLUMN national INTEGER DEFAULT 0;
+ALTER TABLE player ADD COLUMN youth_team_id INTEGER DEFAULT 0;
+UPDATE system SET version = 6;

@@ -1,0 +1,24 @@
+package pl.pronux.sokker.data.sql.dto;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import pl.pronux.sokker.model.Date;
+import pl.pronux.sokker.model.Rank;
+import pl.pronux.sokker.model.SokkerDate;
+
+public class RankDto extends Rank {
+	private ResultSet rs;
+
+	public RankDto(ResultSet rs) {
+		this.rs = rs;
+	}
+	
+	public Rank getRankDto() throws SQLException {
+		this.setId(rs.getInt("id_data")); //$NON-NLS-1$
+		this.setRank(rs.getDouble("rank")); //$NON-NLS-1$
+		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		return this;
+	}
+}

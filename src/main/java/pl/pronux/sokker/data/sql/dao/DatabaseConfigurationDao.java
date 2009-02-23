@@ -1,0 +1,168 @@
+package pl.pronux.sokker.data.sql.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import pl.pronux.sokker.data.sql.SQLSession;
+import pl.pronux.sokker.model.Date;
+import pl.pronux.sokker.model.DbProperties;
+import pl.pronux.sokker.model.SokkerDate;
+
+public class DatabaseConfigurationDao {
+
+	private Connection connection;
+
+	public DatabaseConfigurationDao(Connection connection) {
+		this.connection = connection;
+	}
+
+	public void setDbRepair(boolean b) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET repair_db = ?"); //$NON-NLS-1$
+		ps.setBoolean(1, b);
+		ps.executeUpdate();
+		ps.close();
+	}
+
+	public void setDbCountry(boolean b) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET check_countries = ?"); //$NON-NLS-1$
+		ps.setBoolean(1, b);
+		ps.executeUpdate();
+		ps.close();
+	}
+	
+	public void updateScanCounter(int scanCounter) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET scan_counter = ?"); //$NON-NLS-1$
+		ps.setInt(1, scanCounter);
+		ps.executeUpdate();
+		ps.close();
+	}
+
+	public void setDbDate(Date date) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET last_modification_millis = ?, last_modification_sk_week = ?, last_modification_sk_day = ?"); //$NON-NLS-1$
+		ps.setLong(1, date.getMillis());
+		ps.setLong(2, date.getSokkerDate().getWeek());
+		ps.setLong(3, date.getSokkerDate().getDay());
+		ps.executeUpdate();
+		ps.close();
+	}
+
+	public void setDbUpdate(boolean b) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET check_update_db = ?"); //$NON-NLS-1$
+		ps.setBoolean(1, b);
+		ps.executeUpdate();
+		ps.close();
+	}
+
+	public void setDBVersion(int dbVersion) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET " + "version = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		ps.setInt(1, dbVersion);
+		ps.executeUpdate();
+		ps.close();
+	}
+
+	public DbProperties getDbProperties() throws SQLException {
+		Date date = null;
+		DbProperties dbProperties = null;
+		PreparedStatement ps;
+		ps = connection.prepareStatement("SELECT version, last_modification_millis, last_modification_sk_day, last_modification_sk_week, check_countries, check_update_db, repair_db, scan_counter FROM system"); //$NON-NLS-1$
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			dbProperties = new DbProperties();
+			dbProperties.setDbVersion(rs.getInt("version")); //$NON-NLS-1$
+			date = new Date(rs.getLong("last_modification_millis")); //$NON-NLS-1$
+			date.setSokkerDate(new SokkerDate(rs.getInt("last_modification_sk_day"), rs.getInt("last_modification_sk_week"))); //$NON-NLS-1$ //$NON-NLS-2$
+			dbProperties.setLastModification(date);
+			dbProperties.setCheckCountries(rs.getBoolean("check_countries")); //$NON-NLS-1$
+			dbProperties.setCheckDbUpdate(rs.getBoolean("check_update_db")); //$NON-NLS-1$
+			dbProperties.setRepairDB(rs.getBoolean("repair_db")); //$NON-NLS-1$
+			dbProperties.setScanCounter(rs.getInt("scan_counter")); //$NON-NLS-1$
+		}
+		rs.close();
+		ps.close();
+		return dbProperties;
+	}
+
+	public Date getMaxDate() throws SQLException {
+		Date date = null;
+		PreparedStatement ps;
+		ps = connection
+				.prepareStatement("SELECT c.last_modification_millis, c.last_modification_sk_day, c.last_modification_sk_week FROM system c WHERE c.last_modification_millis IN (SELECT max(last_modification_millis) FROM system)"); //$NON-NLS-1$
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			date = new Date(rs.getLong(1));
+			date.setSokkerDate(new SokkerDate(rs.getInt(2), rs.getInt(3)));
+		}
+		rs.close();
+		ps.close();
+		return date;
+	}
+
+	public int getTeamID() throws SQLException {
+		PreparedStatement ps;
+		int teamID = 0;
+		ps = connection.prepareStatement("SELECT team_id from system "); //$NON-NLS-1$
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			teamID = rs.getInt("team_id"); //$NON-NLS-1$
+		}
+		rs.close();
+		ps.close();
+		return teamID;
+	}
+
+	public void setDBTeamID(int teamID) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET " + "team_id = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		ps.setInt(1, teamID);
+		ps.executeUpdate();
+		ps.close();
+
+	}
+
+	public void setJuniorMinimumPop(double pop) throws SQLException {
+
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET " + "junior_minimum_pop = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		ps.setDouble(1, pop);
+		ps.executeUpdate();
+		ps.close();
+
+	}
+
+	public double getJuniorMinimumPop() throws SQLException {
+		PreparedStatement ps;
+		double pop = 0;
+		ps = connection.prepareStatement("SELECT junior_minimum_pop from system "); //$NON-NLS-1$
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			pop = rs.getDouble("junior_minimum_pop"); //$NON-NLS-1$
+		}
+		rs.close();
+		ps.close();
+		return pop;
+	}
+
+	public int checkDBVersion() throws SQLException {
+		PreparedStatement ps;
+		int version = 0;
+		ps = SQLSession.getConnection().prepareStatement("SELECT version FROM system"); //$NON-NLS-1$
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			version = rs.getInt(1);
+		}
+		rs.close();
+		ps.close();
+
+		return version;
+
+	}
+
+}
