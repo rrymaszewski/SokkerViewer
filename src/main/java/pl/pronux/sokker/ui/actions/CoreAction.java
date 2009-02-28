@@ -13,7 +13,7 @@ import java.util.List;
 
 import pl.pronux.sokker.actions.AssistantManager;
 import pl.pronux.sokker.actions.CountriesManager;
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.GalleryManager;
 import pl.pronux.sokker.actions.LeaguesManager;
 import pl.pronux.sokker.actions.MatchesManager;
@@ -81,8 +81,8 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.interrupt();
 			return;
 		}
-		
-		DatabaseConfiguration dbConf = new DatabaseConfiguration();
+
+		ConfigurationManager dbConf = new ConfigurationManager();
 		// FIXME: if some players will be removed from then there will be null
 		// pointer error
 
@@ -94,28 +94,25 @@ public class CoreAction implements IRunnableWithProgress {
 		// Cache.getTree().setSelection(selectTreeItem);
 		// Cache.getTree().setEnabled(false);
 
-		// FIXME: dodac flage do uzytkownika logged ktora bedzie wykorzystywana
-		// do wykonywania dodatkowych funkcji takich jak aktywacja funkcji w
-		// menu
 		ViewerHandler.getViewer().clear();
+
 		try {
 			SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 			SQLQuery.setSettings(settings);
 			DbProperties dbProperties = null;
-//			String value = "-4"; //$NON-NLS-1$
+			monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
+			SQLSession.connect();
+			// String value = "-4"; //$NON-NLS-1$
 			if (!SQLQuery.dbExist()) {
 				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); //$NON-NLS-1$
 				String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				String fileProperties = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				try {
-					SQLSession.connect();
 					SQLSession.beginTransaction();
 					SQLQuery.initDB();
 					SQLSession.commit();
-					SQLSession.close();
 				} catch (SQLException e) {
 					SQLSession.rollback();
-					SQLSession.close();
 					new File(file).delete();
 					new File(fileProperties).delete();
 					throw new SVException("DB file error: deleted", e);
@@ -125,12 +122,11 @@ public class CoreAction implements IRunnableWithProgress {
 			} else {
 				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
 				if (SQLQuery.dbPropertiesExist()) {
-					monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
 
 					dbConf.updateDbStructure(SV.DB_VERSION);
 
 					dbProperties = dbConf.getDbProperties();
-					
+
 					int params = 0;
 					if (dbProperties != null) {
 						if (dbProperties.isCheckCountries()) {
@@ -147,22 +143,20 @@ public class CoreAction implements IRunnableWithProgress {
 						params = params | Synchronizer.DOWNLOAD_BASE;
 					}
 					new Synchronizer(settings, params).run(monitor);
-					
+
 					if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
-						SQLSession.connect();
-						int counter = dbProperties.getScanCounter(); 
-						
+						int counter = dbProperties.getScanCounter();
+
 						String directory = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername();
-						if(counter % 30 == 0) {
-							 File file = new File(directory);
-							 if(file.exists() && file.listFiles().length > 10000) {
-								 file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_" + Calendar.getInstance().getTimeInMillis()));
-								 new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername()).mkdir();
-							 }
+						if (counter % 30 == 0) {
+							File file = new File(directory);
+							if (file.exists() && file.listFiles().length > 10000) {
+								file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_" + Calendar.getInstance().getTimeInMillis()));
+								new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername()).mkdir();
+							}
 						}
 						counter++;
 						dbConf.updateScanCounter(counter);
-						SQLSession.close();
 						dbProperties.setScanCounter(counter);
 					}
 				} else {
@@ -175,17 +169,18 @@ public class CoreAction implements IRunnableWithProgress {
 			} catch (IOException ioe) {
 				throw new SVException("Synchronizer -> post-autobackup failed", ioe);
 			}
-//			if (!value.equals("0")) { //$NON-NLS-1$
-//				
-//				return;
-//			}
+			// if (!value.equals("0")) { //$NON-NLS-1$
+			//				
+			// return;
+			// }
 			monitor.beginTask(Messages.getString("CoreAction.info"), 17);//$NON-NLS-1$
 
 			monitor.subTask(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
 
-			SQLSession.connect();
 			final Date sokkerDate = dbConf.getMaxDate();
 			Cache.setDate(sokkerDate);
+
+			Cache.setConfiguration(new ConfigurationManager().getConfiguration());
 			
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -289,7 +284,6 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.subTask(Messages.getString("progressBar.info.getJuniorsFiredData")); //$NON-NLS-1$
 
 			Cache.setJuniorsFired(TeamManager.getJuniorsFired(Cache.getTrainingsMap()));
-
 			Cache.setJuniorsTrash(TeamManager.getJuniorsFromTrash(Cache.getTrainingsMap()));
 
 			// mapa juniorow do szybkiego wyszukiwania
@@ -315,7 +309,6 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); //$NON-NLS-1$
 
 			Cache.setPlayersHistory(playerManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
-
 			Cache.setPlayersTrash(playerManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
 
 			ArrayList<Player> alPlayers = new ArrayList<Player>();
@@ -349,12 +342,11 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.subTask(Messages.getString("progressBar.info.getLeaguesData")); //$NON-NLS-1$
 
 			Cache.setClubMap(teamManager.getTeams());
-			
+
 			Cache.setLeaguesMap(new LeaguesManager().getLeagues());
-			
+
 			Cache.setLeagueSeasons(new LeaguesManager().getLeagueSeasons(Cache.getLeaguesMap(), Cache.getClubMap()));
 
-			
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getMatchesData")); //$NON-NLS-1$
 
@@ -378,50 +370,53 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.done();
 			SettingsHandler.setLogged(true);
 		} catch (final InvocationTargetException e) {
-//			if(e.getCause() instanceof SVSynchronizerCriticalException) {
-//				new SVLogger(Level.WARNING, "Downloader -> Synchronizer", e); //$NON-NLS-1$
-//				MessageDialog.openErrorMessage(ViewerHandler.getViewer(), e.getCause().getMessage());
-//			}
+			// if(e.getCause() instanceof SVSynchronizerCriticalException) {
+			// new SVLogger(Level.WARNING, "Downloader -> Synchronizer", e);
+			// //$NON-NLS-1$
+			// MessageDialog.openErrorMessage(ViewerHandler.getViewer(),
+			// e.getCause().getMessage());
+			// }
 			monitor.interrupt();
 			throw e;
 		} catch (final SQLException e) {
-			try {
-				SQLSession.close();
-			} catch (SQLException e1) {
-			}
 			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "CoreAction SQLException");
 		} catch (final ConnectException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, Messages.getString("message.error.connection"));
 		} catch (final IOException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "IOException Bean");
 		} catch (ClassNotFoundException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "ClassNotFound");
 		} catch (NumberFormatException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "NumberFormatExcetion");
 		} catch (Exception e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "CoreAction Undefined");
 		} finally {
 			try {
-				if (SQLSession.getConnection() != null) {
-					SQLSession.close();
-				}
+				SQLSession.close();
 			} catch (Exception e) {
 				SettingsHandler.setLogged(false);
 				throw new InvocationTargetException(e, "CoreAction Finally");
 			}
 			lock = UNLOCK;
+		}
+	}
+
+	public void onFinish() {
+		try {
+			SQLSession.close();
+		} catch (SQLException e) {
 		}
 	}
 }

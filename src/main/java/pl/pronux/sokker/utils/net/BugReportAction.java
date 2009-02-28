@@ -15,6 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import pl.pronux.sokker.downloader.HTMLDownloader;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.handlers.SettingsHandler;
+import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.utils.security.Crypto;
@@ -50,6 +51,6 @@ public class BugReportAction {
 	}
 	
 	private String getEnvironment() {
-		return System.getProperty("os.name") + "#" + System.getProperty("os.arch") + "#" + System.getProperty("java.version"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		return System.getProperty("os.name") + "#" + System.getProperty("os.arch") + "#" + System.getProperty("java.version") + "#" + SV.SK_VERSION; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 }

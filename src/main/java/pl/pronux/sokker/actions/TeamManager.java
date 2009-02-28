@@ -150,7 +150,7 @@ public class TeamManager {
 		if (!teamsDao.existsClub(club.getId())) {
 			teamsDao.addClub(club);
 			teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
-			teamsDao.addClubArenaName(club.getId(), club.getArena().getAlArenaName().get(0), currentDay);
+			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
 			teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);
 		} else {
 			
@@ -172,23 +172,14 @@ public class TeamManager {
 		Arena arena = club.getArena();
 
 		if (arena != null) {
-			ArrayList<Stand> stands = arena.getStands();
-
-			if (stands.size() < 8) {
-				Map<Integer, Stand> hmStands = new HashMap<Integer, Stand>();
-
-				for (Stand stand : stands) {
-					hmStands.put(stand.getLocation(), stand);
-				}
-
-				for (int i = 1; i < 9; i++) {
-					if (hmStands.get(i) == null) {
-						if (!teamsDao.existsStand(i, club.getId())) {
-							teamsDao.addStand(new Stand(i, 0, 100, 0, 0.0), currentDay, club.getId());
-						}
-					}
-				}
-			}
+			List<Stand> stands = arena.getStands();
+//			for (int i = Stand.N; i <= Stand.SE; i++) {
+//				if (stands.get(i) == null) {
+//					if (!teamsDao.existsStand(i, club.getId())) {
+//						teamsDao.addStand(new Stand(i, 0, 100, 0, 0.0), currentDay, club.getId());
+//					}
+//				}
+//			}
 
 			for (Stand stand : stands) {
 				if(stand.getConstructionDays() == null) {
@@ -209,7 +200,7 @@ public class TeamManager {
 			teamsDao.addClubDataFanclub(club.getId(), club.getClubSupporters().get(0), currentDay);
 			teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
 			teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
-			teamsDao.addClubArenaName(club.getId(), club.getArena().getAlArenaName().get(0), currentDay);
+			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
 			if(club.getRank().size() > 0 ) {
 				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);	
 			}
@@ -258,7 +249,7 @@ public class TeamManager {
 			teamsDao.addClubDataFanclub(club.getId(), club.getClubSupporters().get(0), currentDay);
 			teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
 			teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
-			teamsDao.addClubArenaName(club.getId(), club.getArena().getAlArenaName().get(0), currentDay);
+			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
 			if(club.getRank().size() > 0 ) {
 				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);	
 			}
@@ -266,8 +257,8 @@ public class TeamManager {
 			if (!teamsDao.getLastClubName(club.getId()).equals(club.getClubName().get(0).getName())) {
 				teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
 			}
-			if (!teamsDao.getLastClubArenaName(club.getId()).equals(club.getArena().getAlArenaName().get(0).getArenaName())) {
-				teamsDao.addClubArenaName(club.getId(), club.getArena().getAlArenaName().get(0), currentDay);
+			if (!teamsDao.getLastClubArenaName(club.getId()).equals(club.getArena().getArenaNames().get(0).getArenaName())) {
+				teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
 			}
 
 			if (club.getRank().size() > 0 && !teamsDao.getLastClubRank(club.getId()).equals(club.getRank().get(0).getRank())) {
@@ -317,7 +308,7 @@ public class TeamManager {
 		Arena arena = club.getArena();
 
 		if (arena != null) {
-			ArrayList<Stand> stands = arena.getStands();
+			List<Stand> stands = arena.getStands();
 
 			if (stands.size() < 8) {
 				Map<Integer, Stand> hmStands = new HashMap<Integer, Stand>();
@@ -383,7 +374,7 @@ public class TeamManager {
 			arena.setStands(stands);
 
 			clubArenaName = teamsDao.getClubArenaName(club.getId());
-			arena.setAlArenaName(clubArenaName);
+			arena.setArenaNames(clubArenaName);
 
 			club.setArena(arena);
 			clubMap.put(club.getId(), club);
@@ -429,7 +420,7 @@ public class TeamManager {
 		arena.setStands(stands);
 
 		clubArenaName = teamsDao.getClubArenaName(teamID);
-		arena.setAlArenaName(clubArenaName);
+		arena.setArenaNames(clubArenaName);
 
 		club.setArena(arena);
 		

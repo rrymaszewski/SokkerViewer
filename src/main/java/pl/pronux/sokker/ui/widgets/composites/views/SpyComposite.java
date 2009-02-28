@@ -1,4 +1,4 @@
-package pl.pronux.sokker.ui.widgets.composites;
+package pl.pronux.sokker.ui.widgets.composites.views;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Match;
+import pl.pronux.sokker.ui.widgets.composites.SpyArenaComposite;
 import pl.pronux.sokker.ui.widgets.groups.OpponentTeamInformationGroup;
 import pl.pronux.sokker.ui.widgets.groups.SpyLoginGroup;
 import pl.pronux.sokker.ui.widgets.tables.SpyPlayersTable;
@@ -20,6 +21,7 @@ public class SpyComposite extends Composite {
 	private SpyLoginGroup spyLoginGroup;
 	private SpyPlayersTable spyPlayersTable;
 	private OpponentTeamInformationGroup opponentInformationGroup;
+	private SpyArenaComposite arenaComposite;
 
 	public SpyComposite(Composite composite, int style) {
 		super(composite, style);
@@ -46,6 +48,16 @@ public class SpyComposite extends Composite {
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(spyLoginGroup,5);
+		formData.bottom = new FormAttachment(spyPlayersTable,-5);
+		formData.width = 220;
+//		formData.height = 60;
+
+		arenaComposite = new SpyArenaComposite(this, SWT.NONE);
+		arenaComposite.setLayoutData(formData);
+		
+		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.left = new FormAttachment(arenaComposite,5);
 		formData.right = new FormAttachment(100,-5);
 		formData.bottom = new FormAttachment(spyPlayersTable,-5);
 		
@@ -60,6 +72,7 @@ public class SpyComposite extends Composite {
 	public void fill(Club club) {
 		spyPlayersTable.fill(club.getPlayers());
 		opponentInformationGroup.fill(club);
+		arenaComposite.fill(club.getArena());
 	}
 	
 	@Override

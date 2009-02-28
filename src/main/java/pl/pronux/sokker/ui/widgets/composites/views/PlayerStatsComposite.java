@@ -1,4 +1,4 @@
-package pl.pronux.sokker.ui.widgets.composites;
+package pl.pronux.sokker.ui.widgets.composites.views;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;

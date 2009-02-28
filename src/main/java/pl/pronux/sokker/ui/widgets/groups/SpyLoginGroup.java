@@ -26,11 +26,11 @@ import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.events.TeamEvent;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class SpyLoginGroup extends Group {
@@ -49,7 +49,7 @@ public class SpyLoginGroup extends Group {
 		this.setFont(ConfigBean.getFontMain());
 		this.setLayout(new FormLayout());
 		this.setText(Messages.getString("spy.group.data")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 		
 		FormData formData;
 		formData = new FormData();

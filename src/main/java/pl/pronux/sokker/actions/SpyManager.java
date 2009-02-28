@@ -111,6 +111,9 @@ public class SpyManager {
 						}
 					}
 					match.getHomeTeamStats().setAverageRating(sum/count);
+					
+					sum = 0;
+					count = 0;
 					for (PlayerStats playerStats : match.getAwayTeamStats().getPlayersStats()) {
 						Player player =  playersMap.get(playerStats.getPlayerID());
 						

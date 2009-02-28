@@ -12,9 +12,9 @@ import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
@@ -61,7 +61,7 @@ public class MatchesTable extends SVTable<Match> {
 		this.setHeaderVisible(true);
 	}
 
-	public void fill(List<Match> matches) {
+	public void fill(int teamID, List<Match> matches) {
 		this.setRedraw(false);
 
 		this.remove(0, this.getItemCount() - 1);
@@ -79,21 +79,21 @@ public class MatchesTable extends SVTable<Match> {
 					if (league.getIsOfficial() == League.OFFICIAL) {
 						if (league.getType() == League.TYPE_LEAGUE) {
 							item.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
-							item.setBackground(ColorResources.getColor(243, 247, 237));
+							item.setBackground(Colors.getLeagueMatch());
 						} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
 							item.setImage(ImageResources.getImageResources("playoff.png")); //$NON-NLS-1$
-							item.setBackground(ColorResources.getColor(226, 234, 208));
+							item.setBackground(Colors.getPlayoff());
 						} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
 							item.setImage(ImageResources.getImageResources("cup.png")); //$NON-NLS-1$
-							item.setBackground(ColorResources.getColor(246, 246, 206));
+							item.setBackground(Colors.getCup());
 						}
 					} else {
 						if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
 							item.setImage(ImageResources.getImageResources("friendly_match.png")); //$NON-NLS-1$
-							item.setBackground(ColorResources.getColor(252,242,242));
+							item.setBackground(Colors.getFriendlyMatch());
 						} else if (league.getType() == League.TYPE_LEAGUE) {
 							item.setImage(ImageResources.getImageResources("friendly_league.png")); //$NON-NLS-1$
-							item.setBackground(ColorResources.getColor(242, 252, 250));
+							item.setBackground(Colors.getFriendlyLeague());
 						}
 					}
 				}
@@ -112,16 +112,32 @@ public class MatchesTable extends SVTable<Match> {
 				if (match.getHomeTeamScore() < 0 || match.getAwayTeamScore() < 0) {
 					c++;
 				} else {
+					item.setFont(c, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
+					if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
+						if(match.getHomeTeamID() == teamID) {
+							item.setForeground(c, Colors.getMatchWin());	
+						} else {
+							item.setForeground(c, Colors.getMatchLost());
+						}
+					} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
+						if(match.getHomeTeamID() == teamID) {
+							item.setForeground(c, Colors.getMatchLost());	
+						} else {
+							item.setForeground(c, Colors.getMatchWin());
+						}
+					} else {
+						item.setForeground(c, Colors.getMatchDraw());
+					}
 					item.setText(c++, match.getHomeTeamScore() + " : " + match.getAwayTeamScore()); //$NON-NLS-1$
 				}
 				
 				item.setText(c++, match.getAwayTeamName());
 				
-				if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
-					item.setFont(c - 3, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
-				} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
-					item.setFont(c - 1, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
-				}
+//				if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
+//					item.setFont(c - 3, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
+//				} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
+//					item.setFont(c - 1, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
+//				}
 				
 //				if(match.getAwayTeamStats() == null) {
 //					c++;

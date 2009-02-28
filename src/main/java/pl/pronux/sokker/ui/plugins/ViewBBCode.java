@@ -14,7 +14,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.ColorDialog;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -27,7 +26,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ColorResources;
@@ -35,10 +33,6 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.items.ColorToolItem;
 
 public class ViewBBCode implements IPlugin {
-
-	private static final int FORMAT_FORUM = 0;
-
-	private static final int FORMAT_SKMAIL = 1;
 
 	private Composite composite;
 
@@ -58,10 +52,7 @@ public class ViewBBCode implements IPlugin {
 
 	private StyledText formattedText;
 
-	private Combo formatItem;
-
 	public void clear() {
-
 	}
 
 	public Composite getComposite() {
@@ -97,7 +88,7 @@ public class ViewBBCode implements IPlugin {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, 0);
-		formData.top = new FormAttachment(50, -10);
+		formData.top = new FormAttachment(0, 5);
 		formData.height = 20;
 
 		final ToolBar toolBar = new ToolBar(composite2, SWT.HORIZONTAL | SWT.FLAT);
@@ -196,32 +187,11 @@ public class ViewBBCode implements IPlugin {
 			}
 		});
 
-		ToolItem sep = new ToolItem (toolBar, SWT.SEPARATOR);
-		formatItem = new Combo (toolBar, SWT.READ_ONLY);
-		formatItem.add(Messages.getString("bbcode.button.format.forum"));
-		formatItem.add(Messages.getString("bbcode.button.format.skmail"));
-		formatItem.setText(Messages.getString("bbcode.button.format.forum"));
-		formatItem.setData("format", FORMAT_FORUM);
-		formatItem.pack ();
-		formatItem.setFont(ConfigBean.getFontMain());
-
-		sep.setWidth (formatItem.getSize ().x);
-		sep.setControl (formatItem);
-
-		formatItem.addListener(SWT.Selection, new Listener() {
-
-			public void handleEvent(Event arg0) {
-				formatItem.setData("format", formatItem.getSelectionIndex());
-				text2BBCode(styledText);
-			}
-
-		});
-
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 0);
 		formData.right = new FormAttachment(100, 0);
-		formData.top = new FormAttachment(0, 0);
-		formData.bottom = new FormAttachment(toolBar, 0);
+		formData.top = new FormAttachment(toolBar, 5);
+		formData.bottom = new FormAttachment(50, 5);
 
 		styledText = new StyledText(composite2, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
 		styledText.setLayoutData(formData);
@@ -238,17 +208,15 @@ public class ViewBBCode implements IPlugin {
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 0);
 		formData.right = new FormAttachment(100, 0);
-		formData.top = new FormAttachment(toolBar, 0);
+		formData.top = new FormAttachment(styledText, 5);
 		formData.bottom = new FormAttachment(100, 0);
 
 		formattedText = new StyledText(composite2, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL);
 		formattedText.setLayoutData(formData);
 		formattedText.setBackground(ColorResources.getColor(243, 247, 237));
-
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
-
 	}
 
 	public void setTreeItem(TreeItem treeItem) {
@@ -258,11 +226,9 @@ public class ViewBBCode implements IPlugin {
 	}
 
 	public void set() {
-
 	}
 
 	public void dispose() {
-
 	}
 
 	private void checkRanges(StyledText styledText, int start, int length, Color foreground) {
@@ -298,7 +264,7 @@ public class ViewBBCode implements IPlugin {
 
 		for (int i = 0; i < ranges.length; i++) {
 
-			if(ranges[i].length < 0 || ranges[i].start < 0) {
+			if (ranges[i].length < 0 || ranges[i].start < 0) {
 				continue;
 			}
 			StyleRange range = new StyleRange(ranges[i].start, ranges[i].length, ranges[i].foreground, ranges[i].background);
@@ -376,148 +342,130 @@ public class ViewBBCode implements IPlugin {
 		int start = 0;
 		formattedText.setText("");
 
-		if ((Integer) formatItem.getData("format") == FORMAT_FORUM) {
-			StyleRange[] ranges = styleText.getStyleRanges();
+		StyleRange[] ranges = styleText.getStyleRanges();
 
-			for (int i = 0; i < ranges.length; i++) {
+		for (int i = 0; i < ranges.length; i++) {
 
-				text += styleText.getTextRange(start, ranges[i].start - start);
+			text += styleText.getTextRange(start, ranges[i].start - start);
 
-				start = ranges[i].start + ranges[i].length;
+			start = ranges[i].start + ranges[i].length;
 
-				if (ranges[i].fontStyle == SWT.BOLD) {
-					text += "[b]";
+			if (ranges[i].fontStyle == SWT.BOLD) {
+				text += "[b]";
 
-					if (ranges[i].underline == true) {
-						text += "[u]";
-					}
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
-					}
-
-					text += styleText.getTextRange(ranges[i].start, ranges[i].length);
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[/color]";
-					}
-
-					if (ranges[i].underline == true) {
-						text += "[/u]";
-					}
-
-					text += "[/b]";
-
-				} else if (ranges[i].fontStyle == SWT.ITALIC) {
-					text += "[i]";
-					if (ranges[i].underline == true) {
-						text += "[u]";
-					}
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
-					}
-
-					text += styleText.getTextRange(ranges[i].start, ranges[i].length);
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[/color]";
-					}
-
-					if (ranges[i].underline == true) {
-						text += "[/u]";
-					}
-					text += "[/i]";
-				} else if (ranges[i].fontStyle == SWT.NORMAL) {
-
-					if (ranges[i].underline == true) {
-						text += "[u]";
-					}
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
-					}
-
-					text += styleText.getTextRange(ranges[i].start, ranges[i].length);
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[/color]";
-					}
-
-					if (ranges[i].underline == true) {
-						text += "[/u]";
-					}
-				} else if (ranges[i].fontStyle == (SWT.BOLD | SWT.ITALIC)) {
-					text += "[b][i]";
-					if (ranges[i].underline == true) {
-						text += "[u]";
-					}
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
-					}
-
-					text += styleText.getTextRange(ranges[i].start, ranges[i].length);
-
-					if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
-						text += "[/color]";
-					}
-
-					if (ranges[i].underline == true) {
-						text += "[/u]";
-					}
-					text += "[/i][/b]";
-
+				if (ranges[i].underline == true) {
+					text += "[u]";
 				}
-			}
-			text += styleText.getTextRange(start, styleText.getText().length() - start);
 
-			//problems with meta data '?'
-			text = text.replaceAll("\\?", "¿");
-
-			Pattern pattern;
-			Matcher matcher;
-
-			pattern = Pattern.compile("[A-Za-z0-9.-]+\\@([A-Za-z0-9]+[.])+[A-Za-z0-9]{2,3}", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-			matcher = pattern.matcher(text);
-			if (matcher.find()) {
-				for (int i = 0; i < matcher.groupCount(); i++) {
-					text = text.replaceAll(matcher.group(i), "[email]" + matcher.group(i) + "[/email]");
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
 				}
+
+				text += styleText.getTextRange(ranges[i].start, ranges[i].length);
+
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[/color]";
+				}
+
+				if (ranges[i].underline == true) {
+					text += "[/u]";
+				}
+
+				text += "[/b]";
+
+			} else if (ranges[i].fontStyle == SWT.ITALIC) {
+				text += "[i]";
+				if (ranges[i].underline == true) {
+					text += "[u]";
+				}
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
+				}
+
+				text += styleText.getTextRange(ranges[i].start, ranges[i].length);
+
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[/color]";
+				}
+
+				if (ranges[i].underline == true) {
+					text += "[/u]";
+				}
+				text += "[/i]";
+			} else if (ranges[i].fontStyle == SWT.NORMAL) {
+
+				if (ranges[i].underline == true) {
+					text += "[u]";
+				}
+
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
+				}
+
+				text += styleText.getTextRange(ranges[i].start, ranges[i].length);
+
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[/color]";
+				}
+
+				if (ranges[i].underline == true) {
+					text += "[/u]";
+				}
+			} else if (ranges[i].fontStyle == (SWT.BOLD | SWT.ITALIC)) {
+				text += "[b][i]";
+				if (ranges[i].underline == true) {
+					text += "[u]";
+				}
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[color=" + ColorResources.rgb2hex(ranges[i].foreground) + "]";
+				}
+
+				text += styleText.getTextRange(ranges[i].start, ranges[i].length);
+
+				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
+					text += "[/color]";
+				}
+
+				if (ranges[i].underline == true) {
+					text += "[/u]";
+				}
+				text += "[/i][/b]";
+
 			}
-			// *(/[a-z]+[.][a-z])*
-			// (/[a-z]+[.][a-z]+)*
-			pattern = Pattern.compile("http://([a-z]+[.])+[a-z]+(/[a-zA-Z_.0-9=¿-]+)*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-			matcher = pattern.matcher(text);
-			int j = 0;
-			while (matcher.find(j)) {
-				text = text.replaceAll(matcher.group(), "[url]" + matcher.group().replaceAll("/", "&#47;") + "[/url]");
-				j++;
-			}
-			// if(matcher.find()) {
-			//
-			// matcher.
-			// for(int i=0; i < matcher.groupCount(); i++) {
-			// text = text.replaceAll(matcher.group(i), "[url]" +
-			// matcher.group(i).replaceAll("/", "&#47;") + "[/url]");
-			// }
-			// }
-		} else if( (Integer) formatItem.getData("format") == FORMAT_SKMAIL) {
-
-			text = styleText.getText();
-
-			//problems with meta data '?'
-			text = text.replaceAll("\\?", "¿");
-
-			text = text.replaceAll("/", "&#47;");
-//			Pattern pattern = Pattern.compile("http://([a-z]+[.])+[a-z]+(/[a-zA-Z_.0-9=¿-]+)*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-//			Matcher matcher = pattern.matcher(text);
-//			int j = 0;
-//
-//			while (matcher.find(j)) {
-//				text = text.replaceAll(matcher.group(), matcher.group().replaceAll("/", "&#47;"));
-//				j++;
-//			}
 		}
+		text += styleText.getTextRange(start, styleText.getText().length() - start);
+
+		// problems with meta data '?'
+		text = text.replaceAll("\\?", "¿");
+
+		Pattern pattern;
+		Matcher matcher;
+
+		pattern = Pattern.compile("[A-Za-z0-9.-]+\\@([A-Za-z0-9]+[.])+[A-Za-z0-9]{2,3}", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+		matcher = pattern.matcher(text);
+		if (matcher.find()) {
+			for (int i = 0; i < matcher.groupCount(); i++) {
+				text = text.replaceAll(matcher.group(i), "[email]" + matcher.group(i) + "[/email]");
+			}
+		}
+		// *(/[a-z]+[.][a-z])*
+		// (/[a-z]+[.][a-z]+)*
+		pattern = Pattern.compile("http://([a-z]+[.])+[a-z]+(/[a-zA-Z_.0-9=¿-]+)*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		matcher = pattern.matcher(text);
+		int j = 0;
+		while (matcher.find(j)) {
+			text = text.replaceAll(matcher.group(), "[url]" + matcher.group().replaceAll("/", "&#47;") + "[/url]");
+			j++;
+		}
+		// if(matcher.find()) {
+		//
+		// matcher.
+		// for(int i=0; i < matcher.groupCount(); i++) {
+		// text = text.replaceAll(matcher.group(i), "[url]" +
+		// matcher.group(i).replaceAll("/", "&#47;") + "[/url]");
+		// }
+		// }
 
 		text = text.replaceAll("%", "&#37;");
 		text = text.replaceAll("<", "&lt;");
@@ -530,11 +478,8 @@ public class ViewBBCode implements IPlugin {
 	}
 
 	public void setSvBean(SvBean svBean) {
-
 	}
 
 	public void reload() {
-		// TODO Auto-generated method stub
-
 	}
 }

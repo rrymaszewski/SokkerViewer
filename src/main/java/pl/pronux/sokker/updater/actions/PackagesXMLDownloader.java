@@ -115,4 +115,7 @@ public class PackagesXMLDownloader implements IRunnableWithProgress {
 			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); //$NON-NLS-1$
 		}
 	}
+
+	public void onFinish() {
+	}
 }

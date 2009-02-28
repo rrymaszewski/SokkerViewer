@@ -11,8 +11,8 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 import pl.pronux.sokker.model.GalleryImage;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.tables.ImageInformationTable;
 
 public class ImageInformationGroup extends Group {
@@ -30,7 +30,7 @@ public class ImageInformationGroup extends Group {
 		FormData formData;
 		this.setFont(ConfigBean.getFontMain());
 		this.setText(Messages.getString("ImageInformationGroup.info")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 
 		imageInformationTable = new ImageInformationTable(this, SWT.FULL_SELECTION);
 

@@ -163,7 +163,7 @@ public class JuniorsDao {
 			juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
 			juniorSkills.setTraining(trainingMap.get(rs.getInt("id_training_fk"))); //$NON-NLS-1$
 			if (trainingMap.get(rs.getInt("id_training_fk")) != null) { //$NON-NLS-1$
-				trainingMap.get(rs.getInt("id_training_fk")).getAlJuniors() //$NON-NLS-1$
+				trainingMap.get(rs.getInt("id_training_fk")).getJuniors() //$NON-NLS-1$
 						.add(junior);
 			}
 			juniorsSkills.add(juniorSkills);

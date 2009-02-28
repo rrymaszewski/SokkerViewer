@@ -120,4 +120,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 		}
 	}
 
+	public void onFinish() {
+	}
+
 }

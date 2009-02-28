@@ -15,6 +15,7 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.resources.ColorResources;
@@ -67,7 +68,6 @@ public class PlayerTable extends SVTable<Player> implements SV {
 				column.pack();
 			}
 		}
-
 	}
 
 	public void fill(Player player) {
@@ -126,13 +126,13 @@ public class PlayerTable extends SVTable<Player> implements SV {
 //									item.setImage(18, ImageResources.getImageResources("playoff.png"));
 //								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(18, ColorResources.getColor(221, 255, 255));
+									item.setBackground(18, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(18, ColorResources.getColor(255, 230, 214));
+									item.setBackground(18, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(18, ColorResources.getColor(255, 255, 208));
+									item.setBackground(18, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(18, ColorResources.getColor(226, 255, 208));
+									item.setBackground(18, Colors.getPositionATT());
 								}
 
 							} else {
@@ -142,13 +142,13 @@ public class PlayerTable extends SVTable<Player> implements SV {
 //									item.setImage(19, ImageResources.getImageResources("cup.png"));
 								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-								item.setBackground(19, ColorResources.getColor(221, 255, 255));
+								item.setBackground(19, Colors.getPositionGK());
 							} else if (playerStats.getFormation() == PlayerStats.DEF) {
-								item.setBackground(19, ColorResources.getColor(255, 230, 214));
+								item.setBackground(19, Colors.getPositionDEF());
 							} else if (playerStats.getFormation() == PlayerStats.MID) {
-								item.setBackground(19, ColorResources.getColor(255, 255, 208));
+								item.setBackground(19, Colors.getPositionMID());
 							} else if (playerStats.getFormation() == PlayerStats.ATT) {
-								item.setBackground(19, ColorResources.getColor(226, 255, 208));
+								item.setBackground(19, Colors.getPositionATT());
 							}
 								item.setText(19, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 //								if(league.getType() == League.TYPE_LEAGUE) {

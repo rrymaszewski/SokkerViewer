@@ -443,12 +443,6 @@ public final class ColorResources {
 		}
 	}
 	
-	public static Color getBlueDescription() {
-		return getColor(0, 70, 213);
-	}
-
-	
-
 	/**
 	 * Private constructor to block instantiation.
 	 */

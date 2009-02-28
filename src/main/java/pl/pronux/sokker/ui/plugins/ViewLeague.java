@@ -26,7 +26,7 @@ import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
-import pl.pronux.sokker.ui.widgets.composites.LeagueComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.LeagueComposite;
 import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewLeague implements IPlugin {
@@ -130,7 +130,7 @@ public class ViewLeague implements IPlugin {
 				if (item != null) {
 					if (item.getData(LeagueRound.IDENTIFIER) != null) { 
 						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.IDENTIFIER); 
-						leagueComposite.fillLeagueTable(leagueRound);
+						leagueComposite.fillLeague(leagueRound);
 						show(leagueComposite);
 					}
 
@@ -155,7 +155,7 @@ public class ViewLeague implements IPlugin {
 				if (item != null) {
 					if (item.getData(LeagueRound.IDENTIFIER) != null) { 
 						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.IDENTIFIER); 
-						leagueComposite.fillLeagueTable(leagueRound);
+						leagueComposite.fillLeague(leagueRound);
 						show(leagueComposite);
 					}
 
@@ -189,7 +189,7 @@ public class ViewLeague implements IPlugin {
 //					treeItemSeason.setText(langResources.getString("league.season") + " " + leagueSeason.getSeason());
 					treeItemSeason.setText(String.format("%s %2d (%s)", Messages.getString("league.season"), leagueSeason.getRawSeason(), leagueSeason.getLeague().getName())); //$NON-NLS-1$ //$NON-NLS-2$
 					treeItemSeason.setData(LeagueSeason.IDENTIFIER, leagueSeason);
-					for (LeagueRound round : leagueSeason.getAlRounds()) {
+					for (LeagueRound round : leagueSeason.getRounds()) {
 						TreeItem treeItemRound = new TreeItem(treeItemSeason, SWT.NONE);
 						if(round.getRoundNumber() == 0) {
 							treeItemRound.setImage(ImageResources.getImageResources("round0.png")); //$NON-NLS-1$

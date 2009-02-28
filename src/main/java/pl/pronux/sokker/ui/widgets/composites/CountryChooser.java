@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 
 public class CountryChooser extends Shell {
@@ -46,7 +46,7 @@ public class CountryChooser extends Shell {
 		layout.marginWidth = 5;
 		this.setLayout(layout);
 		this.setFont(ConfigBean.getFontMain());
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 
 		listener = new Listener() {
 

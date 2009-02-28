@@ -7,8 +7,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class ImageGroup extends Group {
 
@@ -19,7 +19,7 @@ public class ImageGroup extends Group {
 		setLayout(new FillLayout());
 		imageLabel = new CLabel(this, SWT.CENTER);
 		this.setFont(ConfigBean.getFontMain());
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 	}
 
 	public void setImage(Image image) {

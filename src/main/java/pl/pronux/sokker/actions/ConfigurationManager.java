@@ -9,21 +9,25 @@ import java.util.Map;
 
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
+import pl.pronux.sokker.data.sql.dao.ConfigurationDao;
 import pl.pronux.sokker.data.sql.dao.DatabaseConfigurationDao;
 import pl.pronux.sokker.data.sql.dao.JuniorsDao;
 import pl.pronux.sokker.data.sql.dao.PlayersDao;
 import pl.pronux.sokker.data.sql.dao.TeamsDao;
+import pl.pronux.sokker.data.sql.dao.TrainingConfigurationDao;
 import pl.pronux.sokker.model.ClubArenaName;
 import pl.pronux.sokker.model.ClubName;
+import pl.pronux.sokker.model.Configuration;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.DbProperties;
 import pl.pronux.sokker.model.JuniorSkills;
 import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.Rank;
 import pl.pronux.sokker.model.Training;
+import pl.pronux.sokker.model.TrainingConfiguration;
 import pl.pronux.sokker.resources.Messages;
 
-public class DatabaseConfiguration {
+public class ConfigurationManager {
 
 	public void updateDbRepairCoaches(boolean b) throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
@@ -49,30 +53,35 @@ public class DatabaseConfiguration {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		dbConfDao.setDBVersion(version);
 	}
+	
+	public Configuration getConfiguration() throws SQLException {
+		Configuration configuration = new Configuration();
+		TrainingConfiguration trainingConfiguration = new TrainingConfiguration();
+		
+		ConfigurationDao configurationDao = new ConfigurationDao(SQLSession.getConnection());
+		TrainingConfigurationDao trainingConfigurationDao = new TrainingConfigurationDao(SQLSession.getConnection());
+		
+		trainingConfiguration.setSettings(trainingConfigurationDao.getValues());
+		trainingConfiguration.setGeneralSettings(configurationDao.getTrainingSettings());
+		
+		configuration.setTrainingConfiguration(trainingConfiguration);
+		return configuration;
+	}
 
 	public DbProperties getDbProperties() throws SQLException {
-		boolean newConnection = SQLQuery.connect();
-
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		DbProperties dbProperties = dbConfDao.getDbProperties();
-
-		SQLSession.close(newConnection);
 		return dbProperties;
 	}
 
 	public Date getMaxDate() throws SQLException {
-		boolean newConnection = SQLQuery.connect();
-
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		Date date = dbConfDao.getMaxDate();
-
-		SQLSession.close(newConnection);
 		return date;
 	}
 
 	public void updateDbStructure(int db_version) throws SQLException, ClassNotFoundException, IOException {
 		try {
-			SQLSession.connect();
 			SQLSession.beginTransaction();
 			DatabaseConfigurationDao databaseConfigurationDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 			while (databaseConfigurationDao.checkDBVersion() < db_version) {
@@ -82,8 +91,6 @@ public class DatabaseConfiguration {
 		} catch (SQLException e) {
 			SQLSession.rollback();
 			throw e;
-		} finally {
-			SQLSession.close();
 		}
 	}
 
@@ -99,13 +106,13 @@ public class DatabaseConfiguration {
 
 	public void setJuniorMinimumPop(double pop) throws SQLException {
 		try {
-		SQLSession.connect();
-		new DatabaseConfigurationDao(SQLSession.getConnection()).setJuniorMinimumPop(pop);
+			SQLSession.connect();
+			new DatabaseConfigurationDao(SQLSession.getConnection()).setJuniorMinimumPop(pop);
 		} finally {
-			SQLSession.close();	
+			SQLSession.close();
 		}
 	}
-	
+
 	public void updateScanCounter(int scanCounter) throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		dbConfDao.updateScanCounter(scanCounter);
@@ -116,12 +123,26 @@ public class DatabaseConfiguration {
 		return dbConfDao.getJuniorMinimumPop();
 	}
 
+	public TrainingConfiguration getTrainingConfiguration() {
+		return new TrainingConfiguration();
+	}
+
+	public void setTrainingConfiguration(TrainingConfiguration trainingConfiguration) throws SQLException {
+		try {
+			SQLSession.connect();
+			new TrainingConfigurationDao(SQLSession.getConnection()).setValues(trainingConfiguration.getSettings());
+			new ConfigurationDao(SQLSession.getConnection()).setValues(trainingConfiguration.getGeneralSettings());
+		} finally {
+			SQLSession.close();
+		}
+	}
+
 	public void repairDatabase() throws SQLException {
 		int teamID = getTeamID();
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		
+
 		ArrayList<ClubArenaName> clubArenaNameList = teamsDao.getClubArenaName(teamID);
 		ArrayList<ClubName> clubNameList = teamsDao.getClubName(teamID);
 		ArrayList<Rank> rankList = teamsDao.getRank(teamID);
@@ -161,66 +182,63 @@ public class DatabaseConfiguration {
 				}
 			}
 		}
-		
-		
+
 		ArrayList<Training> trainings = teamsDao.getTrainings();
 		Map<Integer, Training> trainingsMap = new HashMap<Integer, Training>();
-		for(Training training : trainings) {
+		for (Training training : trainings) {
 			trainingsMap.put(training.getDate().getSokkerDate().getTrainingWeek(), training);
 		}
-		
 
-		
 		ArrayList<PlayerSkills> skills = playersDao.getPlayerSkillsWithoutTrainingID();
 		for (PlayerSkills playerSkills : skills) {
 			Training training = trainingsMap.get(playerSkills.getDate().getSokkerDate().getTrainingWeek());
-			if(training != null) {
-				playerSkills.setTrainingID(training.getId());	
+			if (training != null) {
+				playerSkills.setTrainingID(training.getId());
 			} else {
 				Training trainingDefault = new Training();
 				trainingDefault.setFormation(Training.FORMATION_ALL);
 				trainingDefault.setType(Training.TYPE_UNKNOWN);
 				trainingDefault.setDate(playerSkills.getDate());
-				
+
 				teamsDao.addTraining(trainingDefault);
 				int trainingID = teamsDao.getTrainingId(trainingDefault);
-				if(trainingID > -1) {
+				if (trainingID > -1) {
 					trainingDefault.setId(trainingID);
 					playerSkills.setTrainingID(trainingID);
 					trainingsMap.put(trainingDefault.getDate().getSokkerDate().getTrainingWeek(), trainingDefault);
 				} else {
 					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.players")); //$NON-NLS-1$
 				}
-				
+
 			}
 			playersDao.updatePlayerTrainingID(playerSkills);
 		}
-		
+
 		List<JuniorSkills> juniorsSkills = juniorsDao.getJuniorSkillsWithoutTrainingID();
 		for (JuniorSkills juniorSkills : juniorsSkills) {
 			Training training = trainingsMap.get(juniorSkills.getDate().getSokkerDate().getTrainingWeek());
-			if(training != null) {
-				juniorSkills.setTraining(training);	
+			if (training != null) {
+				juniorSkills.setTraining(training);
 			} else {
 				Training trainingDefault = new Training();
 				trainingDefault.setFormation(Training.FORMATION_ALL);
 				trainingDefault.setType(Training.TYPE_UNKNOWN);
 				trainingDefault.setDate(juniorSkills.getDate());
-				
+
 				teamsDao.addTraining(trainingDefault);
 				int trainingID = teamsDao.getTrainingId(trainingDefault);
-				if(trainingID > -1) {
+				if (trainingID > -1) {
 					trainingDefault.setId(trainingID);
 					juniorSkills.setTraining(trainingDefault);
 					trainingsMap.put(trainingDefault.getDate().getSokkerDate().getTrainingWeek(), trainingDefault);
 				} else {
 					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.juniors")); //$NON-NLS-1$
 				}
-				
+
 			}
 			juniorsDao.updateJuniorTrainingID(juniorSkills);
 		}
-		
+
 	}
 
 }

@@ -91,7 +91,7 @@ public class TeamsDao {
 
 		pstm.setLong(1, date.getMillis());
 		pstm.setInt(2, stand.getLocation());
-		pstm.setInt(3, stand.getSize());
+		pstm.setInt(3, stand.getCapacity());
 		pstm.setInt(4, stand.getType());
 		pstm.setDouble(5, stand.getConstructionDays());
 		pstm.setInt(6, stand.getIsRoof());
@@ -114,7 +114,7 @@ public class TeamsDao {
 		ps.setInt(4, stand.getIsRoof());
 		ps.setDouble(5, stand.getConstructionDays());
 		ps.setInt(6, stand.getType());
-		ps.setInt(7, stand.getSize());
+		ps.setInt(7, stand.getCapacity());
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -143,7 +143,7 @@ public class TeamsDao {
 					.prepareStatement("UPDATE arena a SET capacity=?, type=?, roof=?, days=?, millis=?, day=?, week=? WHERE location=? AND week = (select max(week) from arena where location = ? and team_id = arena.team_id) AND day = (select max(day) from arena where week = arena.week and team_id = arena.team_id) AND team_id = ?"); //$NON-NLS-1$
 		}
 
-		ps.setInt(1, stand.getSize());
+		ps.setInt(1, stand.getCapacity());
 		ps.setInt(2, stand.getType());
 		ps.setInt(3, stand.getIsRoof());
 		ps.setDouble(4, stand.getConstructionDays());
@@ -328,7 +328,7 @@ public class TeamsDao {
 
 		ps = connection.prepareStatement("UPDATE club_arena_name SET arena_name= ?, day = ?, week =?, millis = ? WHERE id_club_fk = ?"); //$NON-NLS-1$
 
-		ps.setString(1, club.getArena().getAlArenaName().get(0).getArenaName());
+		ps.setString(1, club.getArena().getArenaNames().get(0).getArenaName());
 		ps.setInt(2, date.getSokkerDate().getDay());
 		ps.setInt(3, date.getSokkerDate().getWeek());
 		ps.setLong(4, date.getMillis());

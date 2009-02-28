@@ -36,7 +36,6 @@ import pl.pronux.sokker.ui.widgets.tables.StatisticsRankTable;
 
 public class ViewStatistics implements IPlugin {
 
-
 	private Club club;
 
 	private TreeItem _treeItem;
@@ -102,6 +101,7 @@ public class ViewStatistics implements IPlugin {
 
 		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_COUNT).addListener(SWT.Selection, graphList);
 		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_MOOD).addListener(SWT.Selection, graphList);
+		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_DIFF).addListener(SWT.Selection, graphList);
 
 		cTabItemFans.setControl(tabComposite);
 
@@ -278,7 +278,7 @@ public class ViewStatistics implements IPlugin {
 			public void handleEvent(Event event) {
 
 				TableColumn tempColumn = (TableColumn) event.widget;
-				Table tempTable = (tempColumn).getParent();
+				Table tempTable = tempColumn.getParent();
 				
 
 				int[] tempIntTable = new int[tempTable.getItemCount()];
@@ -295,11 +295,11 @@ public class ViewStatistics implements IPlugin {
 				currentComposite.getGraphComposite().setColumn(k);
 
 				if(viewFolder.getSelection().equals(cTabItemFans)) {
-					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { //$NON-NLS-1$
+//					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { //$NON-NLS-1$
 						currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,false, -1);
-					} else {
-						currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,true, -1);
-					}
+//					} else {
+//						currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,true, -1);
+//					}
 				} else if(viewFolder.getSelection().equals(cTabItemEarns)){
 					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.SATURDAY,true, -1);
 				} else if(viewFolder.getSelection().equals(cTabItemRank)){

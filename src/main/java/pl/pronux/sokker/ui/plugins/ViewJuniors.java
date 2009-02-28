@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.comparators.JuniorsComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -54,9 +54,9 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.ChartDateComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionSingleComposite;
-import pl.pronux.sokker.ui.widgets.composites.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.JuniorDescriptionComposite;
 import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 import pl.pronux.sokker.ui.widgets.tables.JuniorTable;
@@ -75,7 +75,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		public void applyChanges() {
 			if (SQLSession.getConnection() != null) {
 				try {
-					new DatabaseConfiguration().setJuniorMinimumPop(spinner.getSelection() / 10.0);
+					new ConfigurationManager().setJuniorMinimumPop(spinner.getSelection() / 10.0);
 					Junior.minimumPop = spinner.getSelection() / 10.0;
 					for (int i = 0; i < juniors.size(); i++) {
 						juniors.get(i).reload();

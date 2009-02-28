@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Label;
 
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class WeatherGroup extends Group {
@@ -37,7 +37,7 @@ public class WeatherGroup extends Group {
 
 		this.setText(Messages.getString("weather")); //$NON-NLS-1$
 
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 
 		formData = new FormData(45, 45);
 		formData.left = new FormAttachment(0, 5);

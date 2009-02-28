@@ -3,14 +3,12 @@ package pl.pronux.sokker.ui.widgets.styledtexts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.PaintObjectEvent;
 import org.eclipse.swt.custom.PaintObjectListener;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.graphics.Image;
@@ -23,8 +21,7 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 
-public class PlayerDescriptionAdditionsStyledText extends StyledText {
-	private static String NEW_LINE = System.getProperty("line.separator"); //$NON-NLS-1$
+public class PlayerHistoryDescriptionAdditions extends StyledText implements IDescription {
 
 	private Image[] images = new Image[0];
 
@@ -35,7 +32,7 @@ public class PlayerDescriptionAdditionsStyledText extends StyledText {
 		// super.checkSubclass();
 	}
 
-	public PlayerDescriptionAdditionsStyledText(Composite parent, int style) {
+	public PlayerHistoryDescriptionAdditions(Composite parent, int style) {
 		super(parent, style);
 		this.setBackground(parent.getBackground());
 		// this.setFont(ConfigBean.getFontTable());
@@ -92,15 +89,6 @@ public class PlayerDescriptionAdditionsStyledText extends StyledText {
 		setStatsPlayerInfo(player, 0);
 	}
 
-	private void addStyle(int start, int length, Color color, int style) {
-		StyleRange range = new StyleRange();
-		range.foreground = color;
-		range.start = start;
-		range.fontStyle = style;
-		range.length = length;
-		this.setStyleRange(range);
-	}
-
 	public void setStatsPlayerInfo(Player player, int index) {
 		this.setRedraw(false);
 		List<Image> imagesList = new ArrayList<Image>();
@@ -119,18 +107,8 @@ public class PlayerDescriptionAdditionsStyledText extends StyledText {
 		this.addText(NEW_LINE);
 
 		if (max > 0) {
-
-			int diff = player.getSkills()[max].getSummarySkill() - player.getSkills()[max - 1].getSummarySkill();
 			int diff1 = player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill();
-			if (diff != 0 && diff1 != 0) {
-				String pop = SVNumberFormat.formatIntegerWithSignZero(diff);
-				this.addText(String.format("%s: [%d %s] (%s)", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill()), pop)); //$NON-NLS-1$ //$NON-NLS-2$
-				if (diff > 0) {
-					addStyle(this.getText().length() - pop.length() - 2, pop.length() + 2, ConfigBean.getColorIncreaseDescription(), SWT.NONE);
-				} else if (diff < 0) {
-					addStyle(this.getText().length() - pop.length() - 2, pop.length() + 2, ConfigBean.getColorDecreaseDescription(), SWT.NONE);
-				}
-			} else if (diff == 0 && diff1 != 0) {
+			if (diff1 != 0) {
 				this.addText(String.format("%s: [%d %s]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill()))); //$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				this.addText(String.format("%s: [%d]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill())); //$NON-NLS-1$ //$NON-NLS-2$
@@ -154,6 +132,22 @@ public class PlayerDescriptionAdditionsStyledText extends StyledText {
 				this.addText(String.format("%s: %s", Messages.getString("player.from.transferlist"), player.getTransferBuy().getPrice().formatIntegerCurrencySymbol()));
 			}
 		}
+		
+		this.addText(NEW_LINE);
+		if (player.getTransferSell() != null) {
+			if (player.getTransferSell().getPrice().toInt() > 0) {
+				this.addText(String.format("%s: %s", Messages.getString("player.soldPrice"), player.getTransferSell().getPrice().formatDoubleCurrencySymbol()));
+			} else {
+				this.addText(String.format("%s: %s", Messages.getString("player.soldPrice"), Messages.getString("player.fired"))); 
+			}
+		} else {
+			if (player.getSoldPrice().toInt() > 0) {
+				this.addText(String.format("%s: %s", Messages.getString("player.soldPrice"), player.getSoldPrice().formatDoubleCurrencySymbol()));
+			} else {
+				this.addText(String.format("%s: %s", Messages.getString("player.soldPrice"), Messages.getString("player.fired")));
+			}
+		}
+		
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 		

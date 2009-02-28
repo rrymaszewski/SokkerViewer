@@ -3,6 +3,9 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
@@ -84,7 +87,7 @@ public class TeamXmlParser {
 
 	static int TAG_switch = 0;
 
-	private ArrayList<Stand> alStand;
+	private List<Stand> stands;
 
 	private Arena arena;
 
@@ -128,75 +131,75 @@ public class TeamXmlParser {
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
-				case TAG_stand_size:
-					stand.setSize(Integer.valueOf(message.toString()).intValue());
-					break;
-				case TAG_stand_type:
-					stand.setType(Integer.valueOf(message.toString()).intValue());
-					break;
-				case TAG_stand_days:
-					stand.setConstructionDays(Double.valueOf(message.toString()).doubleValue());
-					break;
-				case TAG_stand_is_roof:
-					stand.setIsRoof(Integer.valueOf(message.toString()).intValue());
-					break;
-				case TAG_stand_location:
-					stand.setLocation(Integer.valueOf(message.toString()).intValue());
-					break;
-				case TAG_login:
-					user.setLogin(message.toString());
-					break;
-				case TAG_userID:
-					user.setUserID(Integer.valueOf(message.toString()));
-					break;
-				case TAG_training_formation:
-					training.setFormation(Integer.valueOf(message.toString()));
-					break;
-				case TAG_training_type:
-					training.setType(Integer.valueOf(message.toString()));
-					break;
-				case TAG_arena_name:
-					clubArenaName.setArenaName(message.toString());
-					break;
-				case TAG_teamID:
-					club.setId(Integer.valueOf(message.toString()));
-					break;
-				case TAG_name:
-					clubName.setName(message.toString());
-					break;
-				case TAG_countryID:
-					club.setCountry(Integer.valueOf(message.toString()));
-					break;
-				case TAG_regionID:
-					club.setRegionID(Integer.valueOf(message.toString()));
-					break;
-				case TAG_money:
-					clubMoney.setMoney(new Money(Integer.valueOf(message.toString())));
-					break;
-				case TAG_fanclubCount:
-					clubFanclub.setFanclubcount(Integer.valueOf(message.toString()));
-					break;
-				case TAG_fanclubMood:
-					clubFanclub.setFanclubmood(Integer.valueOf(message.toString()).byteValue());
-					break;
-				case TAG_juniorsMax:
-					club.setJuniorsMax(Integer.valueOf(message.toString()).byteValue());
-					break;
-				case TAG_date_created:
-					club.setDateCreated(new Date(message.toString()));
-					break;
-				case TAG_rank:
-					rank.setRank(Double.valueOf(message.toString()));
-					break;
-				default:
-					break;
+					case TAG_stand_size:
+						stand.setCapacity(Integer.valueOf(message.toString()).intValue());
+						break;
+					case TAG_stand_type:
+						stand.setType(Integer.valueOf(message.toString()).intValue());
+						break;
+					case TAG_stand_days:
+						stand.setConstructionDays(Double.valueOf(message.toString()).doubleValue());
+						break;
+					case TAG_stand_is_roof:
+						stand.setIsRoof(Integer.valueOf(message.toString()).intValue());
+						break;
+					case TAG_stand_location:
+						stand.setLocation(Integer.valueOf(message.toString()).intValue());
+						break;
+					case TAG_login:
+						user.setLogin(message.toString());
+						break;
+					case TAG_userID:
+						user.setUserID(Integer.valueOf(message.toString()));
+						break;
+					case TAG_training_formation:
+						training.setFormation(Integer.valueOf(message.toString()));
+						break;
+					case TAG_training_type:
+						training.setType(Integer.valueOf(message.toString()));
+						break;
+					case TAG_arena_name:
+						clubArenaName.setArenaName(message.toString());
+						break;
+					case TAG_teamID:
+						club.setId(Integer.valueOf(message.toString()));
+						break;
+					case TAG_name:
+						clubName.setName(message.toString());
+						break;
+					case TAG_countryID:
+						club.setCountry(Integer.valueOf(message.toString()));
+						break;
+					case TAG_regionID:
+						club.setRegionID(Integer.valueOf(message.toString()));
+						break;
+					case TAG_money:
+						clubMoney.setMoney(new Money(Integer.valueOf(message.toString())));
+						break;
+					case TAG_fanclubCount:
+						clubFanclub.setFanclubcount(Integer.valueOf(message.toString()));
+						break;
+					case TAG_fanclubMood:
+						clubFanclub.setFanclubmood(Integer.valueOf(message.toString()).byteValue());
+						break;
+					case TAG_juniorsMax:
+						club.setJuniorsMax(Integer.valueOf(message.toString()).byteValue());
+						break;
+					case TAG_date_created:
+						club.setDateCreated(new Date(message.toString()));
+						break;
+					case TAG_rank:
+						rank.setRank(Double.valueOf(message.toString()));
+						break;
+					default:
+						break;
 				}
 			}
 
 			// obsluga bledow
 
 			public void endDocument() {
-				if(club.getId() == -1) {
+				if (club.getId() == -1) {
 					club = null;
 				} else {
 					club.setArena(arena);
@@ -210,21 +213,34 @@ public class TeamXmlParser {
 			public void endElement(String namespaceURL, String localName, String qName) {
 				current_tag = 0;
 				if (localName.equalsIgnoreCase("stand")) { //$NON-NLS-1$
-					alStand.add(stand);
+					stands.add(stand);
 				} else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
-					arena.setStands(alStand);
+
+					if (stands.size() < 8) {
+						Map<Integer, Stand> standsMap = new HashMap<Integer, Stand>();
+						for (Stand stand : stands) {
+							standsMap.put(stand.getLocation(), stand);
+						}
+
+						for (int i = Stand.N; i <= Stand.SE; i++) {
+							if (standsMap.get(i) == null) {
+								stands.add(new Stand(i, 0, 100, 0, 0.0));
+							}
+						}
+					}
+					arena.setStands(stands);
 				} else if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
 					alClubFanclub.add(clubFanclub);
 					alClubMoney.add(clubMoney);
 					alClubName.add(clubName);
 					alRank.add(rank);
 					alArenaName.add(clubArenaName);
-					arena.setAlArenaName(alArenaName);
+					arena.setArenaNames(alArenaName);
 				}
 			}
 
 			public void startDocument() {
-				alStand = new ArrayList<Stand>();
+				stands = new ArrayList<Stand>();
 				alArenaName = new ArrayList<ClubArenaName>();
 				alClubFanclub = new ArrayList<ClubSupporters>();
 				alClubMoney = new ArrayList<ClubBudget>();
@@ -339,7 +355,9 @@ public class TeamXmlParser {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see pl.pronux.sokker.downloader.xml.parsers.TeamXmlParserInterface#getClub()
 	 */
 	public Club getClub() {

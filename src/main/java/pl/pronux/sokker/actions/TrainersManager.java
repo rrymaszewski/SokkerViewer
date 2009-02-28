@@ -31,7 +31,7 @@ public class TrainersManager {
 			if (trainer.getJob() == 1) {
 				training.setHeadCoach(trainer);
 			} else if (trainer.getJob() == 2) {
-				training.getAlAssistants().add(trainer);
+				training.getAssistants().add(trainer);
 			} else if (trainer.getJob() == 3) {
 				training.setJuniorCoach(trainer);
 			}
@@ -50,7 +50,7 @@ public class TrainersManager {
 			if (coach.getJob() == 1) {
 				training.setHeadCoach(coach);
 			} else if (coach.getJob() == 2) {
-				training.getAlAssistants().add(coach);
+				training.getAssistants().add(coach);
 			} else if (coach.getJob() == 3) {
 				training.setJuniorCoach(coach);
 			}

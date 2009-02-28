@@ -1,4 +1,4 @@
-package pl.pronux.sokker.ui.widgets.composites;
+package pl.pronux.sokker.ui.widgets.composites.views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.JuniorSkills;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.widgets.composites.ChartValueComposite;
 
 public class JuniorChartsComposite extends Composite {
 

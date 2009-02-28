@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.JuniorsManager;
 import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.actions.TeamManager;
@@ -52,7 +52,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 		monitor.beginTask(Messages.getString("ImportXMLAction.start"), packages.size()); //$NON-NLS-1$
 		try {
 			SQLSession.connect();
-			DatabaseConfiguration dbConfiguration = new DatabaseConfiguration();
+			ConfigurationManager dbConfiguration = new ConfigurationManager();
 			int teamID = dbConfiguration.getTeamID();
 			for (IXMLpack child : packages) {
 				if (monitor.isCanceled()) {
@@ -232,5 +232,10 @@ public class ImportXMLAction implements IRunnableWithProgress {
 		} finally {
 			monitor.done();
 		}
+	}
+
+	public void onFinish() {
+		// TODO Auto-generated method stub
+		
 	}
 }

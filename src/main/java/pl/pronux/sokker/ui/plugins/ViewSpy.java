@@ -27,7 +27,7 @@ import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ImageResources;
-import pl.pronux.sokker.ui.widgets.composites.SpyComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.SpyComposite;
 import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewSpy implements IPlugin {

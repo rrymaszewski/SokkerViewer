@@ -349,13 +349,7 @@ public class Viewer extends Shell {
 
 		ConfigBean.setColorNewTreeObject(ColorResources.getColor(0, 0, 255));
 
-		ConfigBean.setColorRed(ColorResources.getColor(255, 0, 0));
-
-		ConfigBean.setColorRedCard(ColorResources.getColor(255, 0, 0));
-
 		ConfigBean.setColorTrainedJunior(ColorResources.getColor(10, 150, 0));
-
-		ConfigBean.setColorYellowCard(ColorResources.getColor(255, 255, 0));
 
 		ConfigBean.setColorTransferList(ColorResources.getColor(221, 255, 255));
 	}

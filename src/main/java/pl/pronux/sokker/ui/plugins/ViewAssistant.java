@@ -176,7 +176,7 @@ public class ViewAssistant implements IPlugin, ISort {
 //					composite.getShell().notifyListeners(IEvents.REFRESH_PLAYERS_DESCRIPTION, new Event());
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_ARROW));
 				} catch (SQLException e) {
-					new BugReporter(composite.getDisplay()).openErrorMessage("ViewJuniorsFired", e);
+					new BugReporter(composite.getDisplay()).openErrorMessage("ViewAssistant", e);
 				}
 
 				changed = false;

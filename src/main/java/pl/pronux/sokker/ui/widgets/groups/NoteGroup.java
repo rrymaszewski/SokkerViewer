@@ -7,8 +7,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class NoteGroup extends Group {
 
@@ -20,7 +20,7 @@ public class NoteGroup extends Group {
 		setLayout(new FillLayout());
 		text = new Text(this, SWT.LEFT | SWT.MULTI | SWT.WRAP);
 		this.setFont(ConfigBean.getFontMain());
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 	}
 
 	public void setNote(String note) {

@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
+import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -138,6 +139,7 @@ public class ViewMatches implements IPlugin {
 	}
 
 	public void set() {
+		final Club team = Cache.getClub();
 		matches = Cache.getMatches();
 		fillTree(this.treeItem, matches);
 		// for (int i = alMatches.size() - 1; i >= 0; i--) {
@@ -147,7 +149,7 @@ public class ViewMatches implements IPlugin {
 		// }
 		// }
 
-		matchesComposite.fill(matches);
+		matchesComposite.fill(team.getId(), matches);
 
 		Listener matchesListener = new Listener() {
 			@SuppressWarnings("unchecked")//$NON-NLS-1$
@@ -176,7 +178,7 @@ public class ViewMatches implements IPlugin {
 								}
 							} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 								List<Match> matches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-								seasonComposite.fill(matches);
+								seasonComposite.fill(team.getId(), matches);
 								show(seasonComposite);
 							}
 
@@ -216,7 +218,7 @@ public class ViewMatches implements IPlugin {
 
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-							seasonComposite.fill(alMatches);
+							seasonComposite.fill(team.getId(), alMatches);
 							show(seasonComposite);
 						}
 
@@ -252,7 +254,7 @@ public class ViewMatches implements IPlugin {
 							matchComposite.fill(match);
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-							seasonComposite.fill(alMatches);
+							seasonComposite.fill(team.getId(), alMatches);
 							show(seasonComposite);
 						}
 					} else if (item.equals(treeItem)) {
@@ -270,7 +272,7 @@ public class ViewMatches implements IPlugin {
 
 			public void handleEvent(Event arg0) {
 				fillTree(treeItem, matches);
-				matchesComposite.fill(matches);
+				matchesComposite.fill(team.getId(), matches);
 			}
 		});
 

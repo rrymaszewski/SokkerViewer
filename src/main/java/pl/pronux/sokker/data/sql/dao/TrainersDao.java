@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -83,7 +84,7 @@ public class TrainersDao {
 				break;
 
 			case Coach.JOB_ASSISTANT:
-				training.getAlAssistants().add(coachMap.get(id_coach));
+				training.getAssistants().add(coachMap.get(id_coach));
 				break;
 
 			default:
@@ -229,7 +230,7 @@ public class TrainersDao {
 			pstm.executeUpdate();
 		}
 
-		ArrayList<Coach> assistants = training.getAlAssistants();
+		List<Coach> assistants = training.getAssistants();
 
 		for (Coach coach : assistants) {
 			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); //$NON-NLS-1$

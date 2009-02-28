@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.model.Date;
 
 public class SystemXmlManager extends XmlManager<Object> {
 	
-	private DatabaseConfiguration databaseConfigurationManager = new DatabaseConfiguration();
+	private ConfigurationManager databaseConfigurationManager = new ConfigurationManager();
 	
 	public SystemXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);

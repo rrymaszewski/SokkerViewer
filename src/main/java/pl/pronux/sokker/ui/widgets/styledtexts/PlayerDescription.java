@@ -26,8 +26,7 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
-public class PlayerDescriptionStyledText extends StyledText {
-	private static String NEW_LINE = System.getProperty("line.separator"); //$NON-NLS-1$
+public class PlayerDescription extends StyledText implements IDescription {
 
 	private Image[] images = new Image[0];
 
@@ -38,7 +37,7 @@ public class PlayerDescriptionStyledText extends StyledText {
 		// super.checkSubclass();
 	}
 
-	public PlayerDescriptionStyledText(Composite parent, int style) {
+	public PlayerDescription(Composite parent, int style) {
 		super(parent, style);
 		this.setBackground(parent.getBackground());
 		// this.setFont(ConfigBean.getFontTable());

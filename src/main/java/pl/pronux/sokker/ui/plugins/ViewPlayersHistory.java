@@ -1,12 +1,12 @@
 package pl.pronux.sokker.ui.plugins;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -44,7 +44,6 @@ import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerHistoryTable;
-import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
@@ -57,11 +56,13 @@ import pl.pronux.sokker.ui.resources.CursorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.ChartDateComposite;
-import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionSingleComposite;
 import pl.pronux.sokker.ui.widgets.composites.JuniorTrainedDescriptionComposite;
+import pl.pronux.sokker.ui.widgets.composites.PlayerHistoryDescriptionComposite;
+import pl.pronux.sokker.ui.widgets.composites.PlayersHistoryDescriptionComposite;
 import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
+import pl.pronux.sokker.ui.widgets.styledtexts.PlayerHistoryDescription;
 import pl.pronux.sokker.ui.widgets.tables.JuniorTrainedTable;
 import pl.pronux.sokker.ui.widgets.tables.PlayerTable;
 import pl.pronux.sokker.ui.widgets.tables.PlayersHistoryTable;
@@ -86,9 +87,9 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 
 	private Table currentView;
 
-	private Map<Integer, Composite> descMap;
+	private Map<Integer, PlayerHistoryDescriptionComposite> descMap;
 
-	private DescriptionSingleComposite descriptionComposite;
+	private PlayersHistoryDescriptionComposite playersHistoryDescription;
 
 	private FormData descriptionFormData;
 
@@ -104,11 +105,11 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 
 	private Menu menuPopUpParentTree;
 
-	private DescriptionDoubleComposite playerDesc;
+	private PlayerHistoryDescriptionComposite playerDesc;
 
-	private HashMap<Integer, Player> playerMap;
+	private Map<Integer, Player> playerMap;
 
-	private ArrayList<Player> players;
+	private List<Player> players;
 
 	private PlayerTable playerView;
 
@@ -116,19 +117,15 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 
 	private Map<Integer, TableItem> tableItemMap;
 
-	private HashMap<Integer, TreeItem> treeItemMap;
+	private Map<Integer, TreeItem> treeItemMap;
 
 	private JuniorTrainedDescriptionComposite universalJuniorComposite;
 
-	private DescriptionDoubleComposite universalPlayerComposite;
+	private PlayerHistoryDescriptionComposite universalPlayerComposite;
 
 	private FormData viewFormData;
 
-	private Listener viewKeyListener;
-
-	private Listener viewListener;
-
-	private HashMap<Integer, Table> viewMap;
+	private Map<Integer, Table> viewMap;
 
 	private SokkerViewerSettings settings;
 
@@ -154,7 +151,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 	}
 
 	public void clear() {
-		descriptionComposite.clearAll();
+		playersHistoryDescription.clearAll();
 		allPlayersTable.removeAll();
 		_treeItem.removeAll();
 		players.clear();
@@ -213,72 +210,72 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							Listener textListener = new Listener() {
 								public void handleEvent(final Event event) {
 									switch (event.type) {
-									case SWT.FocusOut:
+										case SWT.FocusOut:
 
-										if (text.getText().equals("")) {
-											text.setText("0");
-										}
-
-										int temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();
-
-										int value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
-
-										if (temp != value) {
-											item.setText(column, Money.convertMoneyFormatDoubleToInteger(Money.convertPricesToBase(value)));
-											Player player = (Player) item.getData(Player.IDENTIFIER);
-											player.setSoldPrice(Money.convertPricesToBase(value));
-											setStatsPlayerInfo(player, (DescriptionDoubleComposite) descMap.get(player.getId()), 0);
-											try {
-												new PlayersManager().updatePlayersSoldPrice(player);
-											} catch (SQLException e) {
-												new BugReporter(vComposite.getDisplay()).openErrorMessage("ViewPlayerHistory->FocusOut", e);
-											}
-											playerView.getColumn(playerView.getColumnCount() - 2).pack();
-										}
-										text.dispose();
-										break;
-									case SWT.Traverse:
-										switch (event.detail) {
-										case SWT.TRAVERSE_RETURN:
 											if (text.getText().equals("")) {
 												text.setText("0");
 											}
 
-											temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();
+											int temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();
 
-											value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
+											int value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
 
 											if (temp != value) {
 												item.setText(column, Money.convertMoneyFormatDoubleToInteger(Money.convertPricesToBase(value)));
 												Player player = (Player) item.getData(Player.IDENTIFIER);
 												player.setSoldPrice(Money.convertPricesToBase(value));
-												setStatsPlayerInfo(player, (DescriptionDoubleComposite) descMap.get(player.getId()), 0);
+												descMap.get(player.getId()).setStatsPlayerInfo(player, 0);
 												try {
 													new PlayersManager().updatePlayersSoldPrice(player);
 												} catch (SQLException e) {
-													new BugReporter(vComposite.getDisplay()).openErrorMessage("ViewPlayerHistory->Traverse", e);
+													new BugReporter(vComposite.getDisplay()).openErrorMessage("ViewPlayerHistory->FocusOut", e);
 												}
-												playerView.getColumn(playerView.getColumnCount() - 2).pack();
+												table.getColumn(table.getColumnCount() - 2).pack();
 											}
-											break;
-										// FALL THROUGH
-										case SWT.TRAVERSE_ESCAPE:
 											text.dispose();
-											event.doit = false;
 											break;
-										}
-										break;
-									case SWT.Verify:
-										String string = event.text;
-										char[] chars = new char[string.length()];
-										string.getChars(0, chars.length, chars, 0);
-										for (int j = 0; j < chars.length; j++) {
-											if (!('0' <= chars[j] && chars[j] <= '9')) {
-												event.doit = false;
-												return;
+										case SWT.Traverse:
+											switch (event.detail) {
+												case SWT.TRAVERSE_RETURN:
+													if (text.getText().equals("")) {
+														text.setText("0");
+													}
+
+													temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();
+
+													value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
+
+													if (temp != value) {
+														item.setText(column, Money.convertMoneyFormatDoubleToInteger(Money.convertPricesToBase(value)));
+														Player player = (Player) item.getData(Player.IDENTIFIER);
+														player.setSoldPrice(Money.convertPricesToBase(value));
+														descMap.get(player.getId()).setStatsPlayerInfo(player, 0);
+														try {
+															new PlayersManager().updatePlayersSoldPrice(player);
+														} catch (SQLException e) {
+															new BugReporter(vComposite.getDisplay()).openErrorMessage("ViewPlayerHistory->Traverse", e);
+														}
+														table.getColumn(table.getColumnCount() - 2).pack();
+													}
+													break;
+												// FALL THROUGH
+												case SWT.TRAVERSE_ESCAPE:
+													text.dispose();
+													event.doit = false;
+													break;
 											}
-										}
-										break;
+											break;
+										case SWT.Verify:
+											String string = event.text;
+											char[] chars = new char[string.length()];
+											string.getChars(0, chars.length, chars, 0);
+											for (int j = 0; j < chars.length; j++) {
+												if (!('0' <= chars[j] && chars[j] <= '9')) {
+													event.doit = false;
+													return;
+												}
+											}
+											break;
 									}
 								}
 							};
@@ -297,14 +294,12 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 					if (!visible)
 						return;
 				}
-
 			}
 		});
 
 	}
 
 	public void init(Composite composite) {
-
 		vComposite = new ViewComposite(composite.getParent(), composite.getStyle());
 		this.vComposite.setLayoutData(composite.getLayoutData());
 
@@ -316,8 +311,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 		cb = ViewerHandler.getClipboard();
 
 		players = new ArrayList<Player>();
-
-		descMap = new HashMap<Integer, Composite>();
+		descMap = new HashMap<Integer, PlayerHistoryDescriptionComposite>();
 		viewMap = new HashMap<Integer, Table>();
 		treeItemMap = new HashMap<Integer, TreeItem>();
 		playerMap = new HashMap<Integer, Player>();
@@ -332,7 +326,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 		addPopupMenu();
 		addPopupMenuParentTree();
 
-		currentDesc = descriptionComposite;
+		currentDesc = playersHistoryDescription;
 		currentView = allPlayersTable;
 	}
 
@@ -347,7 +341,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 		_treeItem.setImage(ImageResources.getImageResources("sold_player.png"));
 	}
 
-	private void setPlayersData() {
+	private void setPlayersData(List<Player> players) {
 		for (int i = 0; i < players.size(); i++) {
 			playerMap.put(players.get(i).getId(), players.get(i));
 		}
@@ -359,22 +353,9 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 	}
 
 	private void addPlayerDescription(Player player) {
-		playerDesc = new DescriptionDoubleComposite(vComposite, SWT.BORDER);
+		playerDesc = new PlayerHistoryDescriptionComposite(vComposite, SWT.BORDER);
 		playerDesc.setLayoutData(descriptionFormData);
-		playerDesc.setVisible(false);
-
-		playerDesc.setLeftDescriptionStringFormat("%-25s%-15s\r\n");
-		playerDesc.setLeftFirstColumnSize(25);
-		playerDesc.setLeftSecondColumnSize(15);
-
-		playerDesc.setRightDescriptionStringFormat("%-25s%-15s\r\n");
-		playerDesc.setRightFirstColumnSize(25);
-		playerDesc.setRightSecondColumnSize(15);
-
-		playerDesc.setFont(ConfigBean.getFontDescription());
-
-		setStatsPlayerInfo(player, playerDesc, 0);
-
+		playerDesc.setStatsPlayerInfo(player, 0);
 		descMap.put(player.getId(), playerDesc);
 	}
 
@@ -393,7 +374,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						_treeItem
 					});
 					showView(allPlayersTable);
-					showDescription(descriptionComposite);
+					showDescription(playersHistoryDescription);
 				}
 			}
 		});
@@ -406,9 +387,9 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 					if (event.button == 1) {
 						if (currentDesc instanceof ChartDateComposite) {
 							((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(((ChartDateComposite) currentDesc).getColumn()).replaceAll("[^0-9-]", "")));
-						} else if (currentDesc instanceof DescriptionDoubleComposite) {
+						} else if (currentDesc instanceof PlayerHistoryDescription) {
 							int index = item.getParent().indexOf(item);
-							setStatsPlayerInfo((Player) item.getParent().getData(Player.IDENTIFIER), universalPlayerComposite, index);
+							universalPlayerComposite.setStatsPlayerInfo((Player) item.getParent().getData(Player.IDENTIFIER), index);
 							showDescription(universalPlayerComposite);
 						}
 					} else if (event.button == 3) {
@@ -430,19 +411,48 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 
 		ViewerHandler.getViewer().addListener(IEvents.REFRESH_PLAYERS_HISTORY, new Listener() {
 			public void handleEvent(Event arg0) {
-				setPlayersData();
-				setDescriptionComposite(players);
+				setPlayersData(players);
+				playersHistoryDescription.setDescription(players);
 				fillTree(players);
 				tableItemMap = allPlayersTable.fill(players);
 			}
 		});
 
 		players = Cache.getPlayersHistory();
-		setViewComposite(players);
-		setDescriptionComposite(players);
+		tableItemMap = allPlayersTable.fill(players);
+		playersHistoryDescription.setDescription(players);
 		fillTree(players);
 		addTableEditor(allPlayersTable);
-		setPlayersData();
+		setPlayersData(players);
+
+		allPlayersTable.addListener(SWT.MouseDoubleClick, new Listener() {
+			public void handleEvent(Event event) {
+				Rectangle clientArea = allPlayersTable.getClientArea();
+				Point pt = new Point(event.x, event.y);
+				int index = allPlayersTable.getTopIndex();
+
+				while (index < allPlayersTable.getItemCount()) {
+					boolean visible = false;
+					TableItem item = allPlayersTable.getItem(index);
+					for (int i = 0; i < allPlayersTable.getColumnCount(); i++) {
+						Rectangle rect = item.getBounds(i);
+						if (rect.contains(pt)) {
+							_treeItem.getParent().setSelection(new TreeItem[] {
+								(TreeItem) treeItemMap.get(((PersonInterface) item.getData(Player.IDENTIFIER)).getId())
+							});
+							showView((Player) item.getData(Player.IDENTIFIER));
+							showDescription((Player) item.getData(Player.IDENTIFIER));
+						}
+						if (!visible && rect.intersects(clientArea)) {
+							visible = true;
+						}
+					}
+					if (!visible)
+						return;
+					index++;
+				}
+			}
+		});
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event event) {
@@ -450,49 +460,84 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 				TreeItem item = _treeItem.getParent().getItem(pt);
 				if (item != null) {
 					if (item.equals(_treeItem) && event.button == 3) {
-						cbData = descriptionComposite.getText();
+						cbData = playersHistoryDescription.getText();
 						_treeItem.getParent().setMenu(menuPopUpParentTree);
 						_treeItem.getParent().getMenu().setVisible(true);
 					}
 				}
 			}
 		});
+		Listener listener = new Listener() {
 
-		_treeItem.getParent().addListener(SWT.MouseDown, viewListener);
-		_treeItem.getParent().addListener(SWT.KeyUp, viewKeyListener);
+			public void handleEvent(Event event) {
+				TreeItem item = null;
+				switch (event.type) {
+					case SWT.KeyUp:
+						for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
+							item = _treeItem.getParent().getSelection()[i];
+						}
+						break;
+					case SWT.MouseDown:
+						Point point = new Point(event.x, event.y);
+						item = _treeItem.getParent().getItem(point);
+						break;
+				}
+
+				if (item != null) {
+					if (item != null) {
+						if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
+							Player player = (Player) item.getData(Player.IDENTIFIER);
+
+							if (event.type == SWT.MouseDown && event.button == 3) {
+								// currentPlayer = player;
+								setCbData(player);
+								menuPopUp.setData("item", item);
+								_treeItem.getParent().setMenu(menuPopUp);
+								// _treeItem.getParent().getMenu()._setVisible(true);
+								_treeItem.getParent().getMenu().setVisible(true);
+							}
+
+							showDescription(player);
+							showView(player);
+
+						} else if (item.equals(_treeItem)) {
+							showDescription(playersHistoryDescription);
+							showView(allPlayersTable);
+
+						} else if (item.getData("idJunior") != null) {
+							if (item.getParentItem().getParentItem().equals(_treeItem)) {
+								juniorTrainedTable.removeAll();
+								Integer id = (Integer) item.getData("idJunior");
+								juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
+								juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
+								showDescription(juniorTrainedComposite);
+								showView(juniorTrainedTable);
+							}
+						}
+					}
+				}
+			}
+
+		};
+
+		_treeItem.getParent().addListener(SWT.MouseDown, listener);
+		_treeItem.getParent().addListener(SWT.KeyUp, listener);
 
 	}
 
 	private void addDescriptionComposite() {
-		descriptionComposite = new DescriptionSingleComposite(vComposite, SWT.BORDER);
-		descriptionComposite.setLayoutData(descriptionFormData);
-		descriptionComposite.setVisible(true);
-
-		// descriptionComposite.setDescriptionStringFormat(40, 15);
-		descriptionComposite.setDescriptionStringFormat("%-40s%-35s\r\n");
-		descriptionComposite.setFirstColumnSize(40);
-		descriptionComposite.setSecondColumnSize(15);
-
-		descriptionComposite.setFont(ConfigBean.getFontDescription());
+		playersHistoryDescription = new PlayersHistoryDescriptionComposite(vComposite, SWT.BORDER);
+		playersHistoryDescription.setLayoutData(descriptionFormData);
+		playersHistoryDescription.setVisible(true);
 
 		graphComposite = new ChartDateComposite(vComposite, SWT.BORDER);
 		graphComposite.setLayoutData(descriptionFormData);
 		graphComposite.setVisible(false);
 		// graphComposite.getCanvas().addListener(SWT.MouseDown,historyBackListener);
 
-		universalPlayerComposite = new DescriptionDoubleComposite(vComposite, SWT.BORDER);
+		universalPlayerComposite = new PlayerHistoryDescriptionComposite(vComposite, SWT.BORDER);
 		universalPlayerComposite.setLayoutData(descriptionFormData);
 		universalPlayerComposite.setVisible(false);
-
-		universalPlayerComposite.setLeftDescriptionStringFormat("%-25s%-15s\r\n");
-		universalPlayerComposite.setLeftFirstColumnSize(25);
-		universalPlayerComposite.setLeftSecondColumnSize(15);
-
-		universalPlayerComposite.setRightDescriptionStringFormat("%-25s%-15s\r\n");
-		universalPlayerComposite.setRightFirstColumnSize(25);
-		universalPlayerComposite.setRightSecondColumnSize(15);
-
-		universalPlayerComposite.setFont(ConfigBean.getFontDescription());
 
 		universalJuniorComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
 		universalJuniorComposite.setLayoutData(descriptionFormData);
@@ -610,9 +655,8 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 								_treeItem.getParent().setSelection(new TreeItem[] {
 									_treeItem
 								});
-
-								setDescriptionComposite(players);
-								showDescription(descriptionComposite);
+								playersHistoryDescription.setDescription(players);
+								showDescription(playersHistoryDescription);
 								showView(allPlayersTable);
 
 								treeItemMap.get(player.getId()).dispose();
@@ -654,7 +698,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						fileDialog.setText(Messages.getString("confShell.chooser.title"));
 						fileDialog.setFilterExtensions(extensions);
 						fileDialog.setFilterPath(settings.getBaseDirectory());
-						fileDialog.setFileName(String.format("%s_%s",currentPlayer.getSurname(), currentPlayer.getName()));
+						fileDialog.setFileName(String.format("%s_%s", currentPlayer.getSurname(), currentPlayer.getName()));
 
 						String propsInputFile = fileDialog.open();
 						if (propsInputFile != null) {
@@ -701,7 +745,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_WAIT));
 
 						showView(allPlayersTable);
-						showDescription(descriptionComposite);
+						showDescription(playersHistoryDescription);
 
 						// allJuniorsTable.setRedraw(false);
 
@@ -728,8 +772,8 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							_treeItem
 						});
 
-						setDescriptionComposite(players);
-						showDescription(descriptionComposite);
+						playersHistoryDescription.setDescription(players);
+						showDescription(playersHistoryDescription);
 						showView(allPlayersTable);
 
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_TRASH_PLAYERS, new Event());
@@ -779,7 +823,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						allPlayersTable.getMenu().setVisible(true);
 					} else {
 						allPlayersTable.setMenu(menuClear);
-						showDescription(descriptionComposite);
+						showDescription(playersHistoryDescription);
 					}
 				}
 			}
@@ -809,136 +853,58 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 				graphComposite.setColumn(k);
 
 				switch (k) {
-				case PlayerHistoryTable.VALUE:
-					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, false, -1);
-					break;
-				case PlayerHistoryTable.SALARY:
-					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
-					break;
-				case PlayerHistoryTable.AGE:
-					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
-					break;
-				case PlayerHistoryTable.STAMINA:
-					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 12);
-					break;
-				default:
-					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 18);
-					break;
+					case PlayerHistoryTable.VALUE:
+						graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, false, -1);
+						break;
+					case PlayerHistoryTable.SALARY:
+						graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
+						break;
+					case PlayerHistoryTable.AGE:
+						graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
+						break;
+					case PlayerHistoryTable.STAMINA:
+						graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 12);
+						break;
+					default:
+						graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 18);
+						break;
 				}
 
 				showDescription(graphComposite);
 			}
 		};
 
-		viewListener = new Listener() {
-			public void handleEvent(Event event) {
-
-				Point point = new Point(event.x, event.y);
-				TreeItem item = _treeItem.getParent().getItem(point);
-				if (item != null) {
-					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-						Player player = (Player) item.getData(Player.IDENTIFIER);
-
-						if (event.button == 3) {
-							// currentPlayer = player;
-							setCbData(player);
-							menuPopUp.setData("item", item);
-							_treeItem.getParent().setMenu(menuPopUp);
-							// _treeItem.getParent().getMenu()._setVisible(true);
-							_treeItem.getParent().getMenu().setVisible(true);
-						}
-
-						showDescription(player);
-						showView(player);
-
-					} else if (item.equals(_treeItem)) {
-						showDescription(descriptionComposite);
-						showView(allPlayersTable);
-
-					} else if (item.getData("idJunior") != null) {
-						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-
-							Integer id = (Integer) item.getData("idJunior");
-
-							juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
-
-							juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
-							showDescription(juniorTrainedComposite);
-							showView(juniorTrainedTable);
-						}
-					}
-				}
-
-			}
-		};
-
-		viewKeyListener = new Listener() {
-
-			public void handleEvent(Event event) {
-				TreeItem item = null;
-				for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
-					item = _treeItem.getParent().getSelection()[i];
-				}
-
-				if (item != null) {
-					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-
-						showDescription((Player) item.getData(Player.IDENTIFIER));
-						showView((Player) item.getData(Player.IDENTIFIER));
-					} else if (item.equals(_treeItem)) {
-
-						showDescription(descriptionComposite);
-						showView(allPlayersTable);
-
-					} else if (item.getData("idJunior") != null) {
-
-						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-
-							juniorTrainedTable.removeAll();
-
-							Integer id = (Integer) item.getData("idJunior");
-							juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
-							juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
-
-							showDescription(juniorTrainedComposite);
-							showView(juniorTrainedTable);
-						}
-					}
-				}
-			}
-		};
-
 	}
 
-	private void fillTree(ArrayList<Player> player) {
-
+	private void fillTree(List<Player> players) {
 		_treeItem.removeAll();
 		PlayerHistoryComparator comparator = new PlayerHistoryComparator();
 		comparator.setColumn(PlayerHistoryComparator.SURNAME);
 		comparator.setDirection(PlayerHistoryComparator.ASCENDING);
-		Collections.sort(player, comparator);
+		Collections.sort(players, comparator);
 
-		for (int i = 0; i < player.size(); i++) {
+		for (int i = 0; i < players.size(); i++) {
 			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
-			item.setData(Player.IDENTIFIER, player.get(i));
-			item.setText(player.get(i).getSurname() + " " + player.get(i).getName());
-			item.setImage(FlagsResources.getFlag(player.get(i).getCountryfrom()));
+			item.setData(Player.IDENTIFIER, players.get(i));
+			item.setText(players.get(i).getSurname() + " " + players.get(i).getName());
+			item.setImage(FlagsResources.getFlag(players.get(i).getCountryfrom()));
 
-			treeItemMap.put(player.get(i).getId(), item);
+			treeItemMap.put(players.get(i).getId(), item);
 
-			if (player.get(i).getJunior() != null) {
+			if (players.get(i).getJunior() != null) {
 				item = new TreeItem(item, 0);
 				item.setImage(ImageResources.getImageResources("junior.png"));
 				item.setText(Messages.getString("tree.junior"));
-				item.setData("idJunior", Integer.valueOf(player.get(i).getJunior().getId()));
+				item.setData("idJunior", Integer.valueOf(players.get(i).getJunior().getId()));
 			}
 		}
 	}
 
 	private void setCbData(Player player) {
 		// TODO do poprawy !!!!!!!!
-		cbData = ((DescriptionDoubleComposite) descMap.get(player.getId())).getLeftText();
-		cbData += ((DescriptionDoubleComposite) descMap.get(player.getId())).getRightText();
+		cbData = ((PlayerHistoryDescriptionComposite) descMap.get(player.getId())).getText();
+		// cbData += ((DescriptionDoubleComposite)
+		// descMap.get(player.getId())).getRightText();
 		if (player.getJunior() != null) {
 
 			Junior junior = player.getJunior();
@@ -970,305 +936,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 		}
 	}
 
-	private void setDescriptionComposite(ArrayList<Player> player) {
-		int maxSkill = 0;
-		double teamValuePast = 0;
-		double teamSalaryPast = 0;
-		double averAgePast = 0;
-		double teamValue = 0;
-		double teamSalary = 0;
-		double averAge = 0;
-		String[][] values;
-
-		descriptionComposite.setText("");
-		for (int i = 0; i < player.size(); i++) {
-			maxSkill = player.get(i).getSkills().length - 1;
-			teamValue += player.get(i).getSkills()[maxSkill].getValue().getDoubleValue();
-			teamSalary += player.get(i).getSkills()[maxSkill].getSalary().getDoubleValue();
-			averAge += player.get(i).getSkills()[maxSkill].getAge();
-
-			if (maxSkill > 1) {
-				teamValuePast += player.get(i).getSkills()[maxSkill - 1].getValue().getDoubleValue();
-				teamSalaryPast += player.get(i).getSkills()[maxSkill - 1].getSalary().getDoubleValue();
-				averAgePast += player.get(i).getSkills()[maxSkill - 1].getAge();
-			}
-		}
-
-		// aktualizujemy srednie wartosci
-		values = new String[6][2];
-
-		values[0][0] = Messages.getString("player.allValue");
-		values[1][0] = Messages.getString("player.averageValue");
-		values[2][0] = Messages.getString("player.allSalary");
-		values[3][0] = Messages.getString("player.averageSalary");
-		values[4][0] = Messages.getString("player.averageAge");
-		values[5][0] = Messages.getString("player.allPlayers");
-
-		values[0][1] = Money.formatDoubleCurrencySymbol(teamValue);
-
-		if (player.size() > 0) {
-
-			values[1][1] = Money.formatDoubleCurrencySymbol(BigDecimal.valueOf(teamValue / player.size()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-
-			values[2][1] = Money.formatDoubleCurrencySymbol(teamSalary);
-
-			values[3][1] = Money.formatDoubleCurrencySymbol(BigDecimal.valueOf(teamSalary / player.size()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-
-			values[4][1] = BigDecimal.valueOf(averAge / player.size()).setScale(2, BigDecimal.ROUND_HALF_UP).toString() + "   ";
-
-			values[5][1] = String.valueOf(player.size()).toString() + "   ";
-
-		} else {
-			values[1][1] = Money.formatDouble(0);
-			values[2][1] = Money.formatDoubleCurrencySymbol(teamSalary);
-			values[3][1] = Money.formatDouble(0);
-			values[4][1] = "0   ";
-			values[5][1] = "0   ";
-		}
-
-		for (int i = 0; i < values.length; i++) {
-			descriptionComposite.addText(values[i]);
-		}
-
-		descriptionComposite.setColor();
-	}
-
-	private void setShellMainTableAllPlayersData(ArrayList<Player> player) {
-
-		tableItemMap = allPlayersTable.fill(players);
-
-		allPlayersTable.addListener(SWT.MouseDoubleClick, new Listener() {
-			public void handleEvent(Event event) {
-				Rectangle clientArea = allPlayersTable.getClientArea();
-				Point pt = new Point(event.x, event.y);
-				int index = allPlayersTable.getTopIndex();
-
-				while (index < allPlayersTable.getItemCount()) {
-					boolean visible = false;
-					TableItem item = allPlayersTable.getItem(index);
-					for (int i = 0; i < allPlayersTable.getColumnCount(); i++) {
-						Rectangle rect = item.getBounds(i);
-						if (rect.contains(pt)) {
-							_treeItem.getParent().setSelection(new TreeItem[] {
-								(TreeItem) treeItemMap.get(((PersonInterface) item.getData(Player.IDENTIFIER)).getId())
-							});
-							showView((Player) item.getData(Player.IDENTIFIER));
-							showDescription((Player) item.getData(Player.IDENTIFIER));
-						}
-						if (!visible && rect.intersects(clientArea)) {
-							visible = true;
-						}
-					}
-					if (!visible)
-						return;
-					index++;
-				}
-			}
-		});
-
-	}
-
-	private void setStatsPlayerInfo(Player player, DescriptionDoubleComposite description, int index) {
-
-		description.clearAll();
-
-		int maxSkill = player.getSkills().length - index;
-
-		int diffrents = 0;
-		// int maxSkill = player.getSkills().length;
-		int textSize = 0;
-
-		String cards = "\u2588";
-		String[][] values;
-
-		values = new String[12][2];
-		values[0][0] = Messages.getString("player.id");
-		values[1][0] = Messages.getString("player.name");
-		values[2][0] = Messages.getString("player.surname");
-		values[3][0] = Messages.getString("player.country");
-		values[4][0] = Messages.getString("player.value");
-		values[5][0] = Messages.getString("player.salary");
-		values[6][0] = Messages.getString("player.matches");
-		values[7][0] = Messages.getString("player.goals");
-		values[8][0] = Messages.getString("player.assists");
-		values[9][0] = Messages.getString("player.cards");
-		values[10][0] = Messages.getString("player.injurydays");
-		values[11][0] = Messages.getString("player.soldPrice");
-
-		textSize = 0;
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[0][0]);
-
-		values[0][1] = String.valueOf(player.getId());
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[0][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[1][0]);
-
-		values[1][1] = player.getName();
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[1][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[2][0]);
-
-		values[2][1] = player.getSurname();
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[2][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[3][0]);
-
-		values[3][1] = Messages.getString("country." + player.getCountryfrom() + ".name");
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[3][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[4][0]);
-
-		values[4][1] = player.getSkills()[maxSkill - 1].getValue().formatDoubleCurrencySymbol();
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[4][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[5][0]);
-
-		values[5][1] = player.getSkills()[maxSkill - 1].getSalary().formatDoubleCurrencySymbol();
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[5][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[6][0]);
-
-		values[6][1] = String.valueOf(player.getSkills()[maxSkill - 1].getMatches());
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[6][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[7][0]);
-
-		values[7][1] = String.valueOf(player.getSkills()[maxSkill - 1].getGoals());
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[7][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[8][0]);
-
-		values[8][1] = String.valueOf(player.getSkills()[maxSkill - 1].getAssists());
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[8][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[9][0]);
-
-		if (player.getSkills()[maxSkill - 1].getCards() == 2) {
-			cards += " " + cards;
-		} else if (player.getSkills()[maxSkill - 1].getCards() == 0) {
-			cards = String.valueOf(player.getSkills()[maxSkill - 1].getCards());
-		}
-
-		values[9][1] = cards.toString();
-
-		diffrents = player.getSkills()[maxSkill - 1].getCards();
-		if (diffrents < 3 && diffrents > 0) {
-			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorYellowCard());
-		} else if (diffrents >= 3) {
-			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorDecreaseDescription());
-		}
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[9][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[10][0]);
-
-		double injury = player.getSkills()[maxSkill - 1].getInjurydays();
-		if (injury > 7) {
-			values[10][1] = String.format("%.0f %s [%.2f]", new BigDecimal(injury).setScale(0, BigDecimal.ROUND_UP), Messages.getString("injury.days"), injury);
-		} else if (injury > 0 && injury < 7) {
-			values[10][1] = String.format("%s [%.2f]", Messages.getString("injury.lastDays"), injury);
-		} else {
-			values[10][1] = String.format("[%.2f]",injury);
-		}
-
-		if (player.getSkills()[maxSkill - 1].getInjurydays() > 0) {
-			description.leftColorText(textSize, values[10][1].length(), ConfigBean.getColorInjuryFg(), ConfigBean.getColorInjuryBg());
-		}
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[10][1]);
-
-		textSize = textSize + description.checkLeftFirstTextSize(values[11][0]);
-
-		if (player.getTransferSell() != null) {
-			if (player.getTransferSell().getPrice().toInt() > 0) {
-				values[11][1] = player.getTransferSell().getPrice().formatDoubleCurrencySymbol();
-			} else {
-				values[11][1] = Messages.getString("player.fired");
-			}
-		} else {
-			if (player.getSoldPrice().toInt() > 0) {
-				values[11][1] = player.getSoldPrice().formatDoubleCurrencySymbol();
-			} else {
-				values[11][1] = Messages.getString("player.fired");
-			}
-		}
-
-		textSize = textSize + description.checkLeftSecondTextSize(values[11][1]);
-
-		for (int i = 0; i < values.length; i++) {
-			description.addLeftText(values[i]);
-
-		}
-
-		description.setLeftColor();
-
-		values = new String[11][2];
-		values[0][0] = Messages.getString("player.age");
-		values[1][0] = Messages.getString("player.form");
-		values[2][0] = Messages.getString("player.stamina");
-		values[3][0] = Messages.getString("player.pace");
-		values[4][0] = Messages.getString("player.technique");
-		values[5][0] = Messages.getString("player.passing");
-		values[6][0] = Messages.getString("player.keeper");
-		values[7][0] = Messages.getString("player.defender");
-		values[8][0] = Messages.getString("player.playmaker");
-		values[9][0] = Messages.getString("player.scorer");
-		values[10][0] = Messages.getString("player.general");
-
-		values[0][1] = String.valueOf(player.getSkills()[maxSkill - 1].getAge());
-		values[0][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getAge(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getAge() - player.getSkills()[0].getAge()));
-
-		values[1][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getForm());
-		values[1][1] += String.format(" [%d] ", player.getSkills()[maxSkill - 1].getForm());
-
-		values[2][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getStamina());
-		values[2][1] += String.format(" [%d %s]", player.getSkills()[maxSkill - 1].getStamina(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getStamina() - player.getSkills()[0].getStamina()));
-
-		values[3][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getPace());
-		values[3][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getPace(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPace() - player.getSkills()[0].getPace()));
-
-		values[4][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getTechnique());
-		values[4][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getTechnique(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getTechnique() - player.getSkills()[0].getTechnique()));
-
-		values[5][1] = Messages.getString("skill.c" + player.getSkills()[maxSkill - 1].getPassing());
-		values[5][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getPassing(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPassing() - player.getSkills()[0].getPassing()));
-
-		values[6][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getKeeper());
-		values[6][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getKeeper(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getKeeper() - player.getSkills()[0].getKeeper()));
-
-		values[7][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getDefender());
-		values[7][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getDefender(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getDefender() - player.getSkills()[0].getDefender()));
-
-		values[8][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getPlaymaker());
-		values[8][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getPlaymaker(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPlaymaker() - player.getSkills()[0].getPlaymaker()));
-
-		values[9][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getScorer());
-		values[9][1] += String.format(" [%d %s] ", player.getSkills()[maxSkill - 1].getScorer(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getScorer() - player.getSkills()[0].getScorer()));
-
-		values[10][1] = String.format("[%d %s] ", player.getSkills()[maxSkill - 1].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getSummarySkill() - player.getSkills()[0].getSummarySkill()));
-
-		for (int i = 0; i < values.length; i++) {
-			description.addRightText(values[i]);
-		}
-		description.setRightColor();
-	}
-
-	private void setViewComposite(ArrayList<Player> player) {
-		setShellMainTableAllPlayersData(player);
-	}
-
 	private void showDescription(Composite composite) {
-
 		if (!(currentDesc instanceof ChartDateComposite)) {
 			previousDesc = currentDesc;
 		}
@@ -1278,7 +946,6 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 	}
 
 	private void showDescription(int id) {
-
 		currentDesc.setVisible(false);
 		currentDesc = (Composite) descMap.get(id);
 		currentDesc.setVisible(true);
@@ -1299,16 +966,12 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 	}
 
 	public void dispose() {
-
 	}
 
 	public void setSvBean(SvBean svBean) {
-
 	}
 
 	public void reload() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

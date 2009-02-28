@@ -21,9 +21,7 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 		this.setSecondColumnSize(35);
 
 		this.setFont(ConfigBean.getFontDescription());
-
 	}
-
 
 	public void setDescription(List<Player> players) {
 		int maxSkill = 0;

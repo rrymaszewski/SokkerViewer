@@ -8,6 +8,8 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ProgressBar;
 
 import pl.pronux.sokker.interfaces.IRunnableWithProgress;
@@ -23,6 +25,7 @@ public class ProgressBarCustom extends Composite {
 	private boolean cancellable;
 	private boolean fork;
 	private int running = 0;
+	private IRunnableWithProgress runnable;
 
 	public ProgressBarCustom(Composite parent, int style) {
 		super(parent, style);
@@ -59,6 +62,11 @@ public class ProgressBarCustom extends Composite {
 
 		this.layout();
 
+		this.addListener(SWT.Dispose, new Listener() {
+			public void handleEvent(Event arg0) {
+				ProgressBarCustom.this.runnable.onFinish();
+			}
+		});
 	}
 
 	private synchronized void addThread() {
@@ -77,6 +85,7 @@ public class ProgressBarCustom extends Composite {
 		monitor = new Monitor();
 		this.cancellable = cancellable;
 		this.fork = fork;
+		this.runnable = runnable;
 		Thread monitorThread = new Thread() {
 			@Override
 			public void run() {
@@ -117,7 +126,8 @@ public class ProgressBarCustom extends Composite {
 								}
 							}
 						});
-
+					}
+					if (!progressBar.isDisposed()) {
 						DisplayHandler.getDisplay().syncExec(new Runnable() {
 							public void run() {
 								if ((monitor.isCanceled() || monitor.isInterrupted())) {
@@ -149,20 +159,12 @@ public class ProgressBarCustom extends Composite {
 					monitor.setInterrupted(true);
 					ProgressBarCustom.this.getDisplay().syncExec(new Runnable() {
 						public void run() {
-							if(e.getCause() != null) {
+							if (e.getCause() != null) {
 								Throwable throwable = e.getCause();
-								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage(throwable.getMessage(), throwable);	
+								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage(throwable.getMessage(), throwable);
 							} else {
 								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage("ProgressBarCustom", e); //$NON-NLS-1$
 							}
-							
-//							String message;
-//							if (e.getMessage() == null) {
-//								message = e.getCause().getMessage();
-//							} else {
-//								message = e.getMessage();
-//							}
-//							MessageDialog.openErrorMessage(ProgressBarCustom.this.getShell(), message);
 						}
 					});
 				} catch (InterruptedException e) {

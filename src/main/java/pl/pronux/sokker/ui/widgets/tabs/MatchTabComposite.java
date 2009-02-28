@@ -5,8 +5,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.ui.widgets.composites.MatchComposite;
 import pl.pronux.sokker.ui.widgets.composites.MatchTeamComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.MatchComposite;
 
 public class MatchTabComposite extends SVTabFolder {
 
@@ -25,6 +25,7 @@ public class MatchTabComposite extends SVTabFolder {
 	}
 	
 	public void fill(Match match) {
+		this.setSelection(0);
 		if(this.getComposite(MAIN) instanceof MatchComposite) {
 			MatchComposite matches = (MatchComposite)this.getComposite(MAIN);
 			matches.fill(match);

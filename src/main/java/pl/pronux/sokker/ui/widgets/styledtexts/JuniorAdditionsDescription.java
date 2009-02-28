@@ -20,12 +20,12 @@ import org.eclipse.swt.widgets.Composite;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 
-public class JuniorAdditionsDescriptionStyledText extends StyledText {
-	private static String NEW_LINE = System.getProperty("line.separator"); //$NON-NLS-1$
+public class JuniorAdditionsDescription extends StyledText implements IDescription {
 
 	private Image[] images = new Image[0];
 
@@ -36,7 +36,7 @@ public class JuniorAdditionsDescriptionStyledText extends StyledText {
 		// super.checkSubclass();
 	}
 
-	public JuniorAdditionsDescriptionStyledText(Composite parent, int style) {
+	public JuniorAdditionsDescription(Composite parent, int style) {
 		super(parent, style);
 		this.setBackground(parent.getBackground());
 		// this.setFont(ConfigBean.getFontTable());
@@ -128,7 +128,7 @@ public class JuniorAdditionsDescriptionStyledText extends StyledText {
 			value = Messages.getString("skill.a" + trainer.getGeneralskill()); //$NON-NLS-1$
 			text = String.format("%s %s ", value, Messages.getString("coach")); //$NON-NLS-1$ //$NON-NLS-2$
 			this.addText(String.format("%s", text)); //$NON-NLS-1$
-			addStyle(this.getText().length() - text.length(), value.length(), ColorResources.getBlack(), SWT.BOLD);
+			addStyle(this.getText().length() - text.length(), value.length(), Colors.getTrainerGeneralSkill(), SWT.BOLD);
 			
 			this.addText(NEW_LINE);
 			

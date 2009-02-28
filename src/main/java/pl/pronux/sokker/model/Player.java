@@ -48,6 +48,7 @@ public class Player extends Person implements Serializable, PlayerInterface {
 	public static final int MATCH_DEF = 1;
 	public static final int MATCH_MID = 2;
 	public static final int MATCH_ATT = 3;
+	
 	private int preferredPosition;
 	
 	private int countryfrom;

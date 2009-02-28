@@ -13,6 +13,7 @@ import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.model.LeagueSeason;
+import pl.pronux.sokker.model.LeagueStats;
 import pl.pronux.sokker.model.LeagueTeam;
 import pl.pronux.sokker.model.Match;
 
@@ -57,6 +58,23 @@ public class LeaguesManager {
 		leagueSeasons = leagueDao.getLeagueSeasons(leaguesMap, clubsMap);
 		SQLSession.close(newConnection);
 		return leagueSeasons;
+	}
+	
+	public LeagueStats getLeagueStats(LeagueRound leagueRound) throws SQLException {
+		boolean newConnection = SQLQuery.connect();
+		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
+		LeagueStats leagueStats = new LeagueStats();
+		leagueStats.setAverateTeamRating(leagueDao.getAverageTeamRating(leagueRound));
+		leagueStats.setAveragePlayerRating(leagueDao.getAveragePlayerRating(leagueRound));
+		leagueStats.setPlayersAssists(leagueDao.getAssists(leagueRound));
+		leagueStats.setPlayersFouls(leagueDao.getFouls(leagueRound));
+		leagueStats.setPlayersGoals(leagueDao.getGoals(leagueRound));
+		leagueStats.setPlayersShoots(leagueDao.getShoots(leagueRound));
+		leagueStats.setSupporters(leagueDao.getSupporters(leagueRound));
+		leagueStats.setTeamRating(leagueDao.getTeamRating(leagueRound));
+		leagueStats.setSupporters(leagueDao.getSupporters(leagueRound));
+		SQLSession.close(newConnection);
+		return leagueStats;
 	}
 
 	public void completeLeagueRounds() throws SQLException {

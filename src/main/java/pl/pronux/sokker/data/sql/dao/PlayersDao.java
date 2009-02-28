@@ -227,7 +227,7 @@ public class PlayersDao {
 			playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
 			playerSkills.setTraining(trainingMap.get(playerSkills.getTrainingID()));
 			if (trainingMap.get(playerSkills.getTrainingID()) != null) {
-				trainingMap.get(playerSkills.getTrainingID()).getAlPlayers().add(player);
+				trainingMap.get(playerSkills.getTrainingID()).getPlayers().add(player);
 			}
 			alPlayerSkills.add(playerSkills);
 		}

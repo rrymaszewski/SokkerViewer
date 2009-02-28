@@ -14,15 +14,14 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
-public class JuniorDescriptionStyledText extends StyledText {
-	private static String NEW_LINE = System.getProperty("line.separator"); //$NON-NLS-1$
+public class JuniorDescription extends StyledText implements IDescription{
 
 	@Override
 	protected void checkSubclass() {
 		// super.checkSubclass();
 	}
 
-	public JuniorDescriptionStyledText(Composite parent, int style) {
+	public JuniorDescription(Composite parent, int style) {
 		super(parent, style);
 		this.setBackground(parent.getBackground());
 		// this.setFont(ConfigBean.getFontTable());

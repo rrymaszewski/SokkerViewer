@@ -16,6 +16,7 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
@@ -92,13 +93,13 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 		for (PlayerStats playerStats : playersStats) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			if (playerStats.getFormation() == PlayerStats.GK) {
-				item.setBackground(ColorResources.getColor(221, 255, 255));
+				item.setBackground(Colors.getPositionGK());
 			} else if (playerStats.getFormation() == PlayerStats.DEF) {
-				item.setBackground(ColorResources.getColor(255, 230, 214));
+				item.setBackground(Colors.getPositionDEF());
 			} else if (playerStats.getFormation() == PlayerStats.MID) {
-				item.setBackground(ColorResources.getColor(255, 255, 208));
+				item.setBackground(Colors.getPositionMID());
 			} else if (playerStats.getFormation() == PlayerStats.ATT) {
-				item.setBackground(ColorResources.getColor(226, 255, 208));
+				item.setBackground(Colors.getPositionATT());
 			}
 			int i = 0;
 			if (playerStats.getTimeOut() > 0 && playerStats.getTimeIn() == 0) {

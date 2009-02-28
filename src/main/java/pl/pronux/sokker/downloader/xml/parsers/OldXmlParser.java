@@ -291,7 +291,7 @@ public class OldXmlParser {
 					alArenaName.get(0).setArenaName(message.toString());
 					break;
 				case TAG_arena_capacity:
-					stand.setSize(Integer.valueOf(message.toString()).intValue());
+					stand.setCapacity(Integer.valueOf(message.toString()).intValue());
 					break;
 				case TAG_arena_type:
 					stand.setType(Integer.valueOf(message.toString()).intValue());
@@ -381,7 +381,7 @@ public class OldXmlParser {
 					} else if(coach.getJob() == Coach.JOB_JUNIORS) {
 						training.setJuniorCoach(coach);
 					} else if(coach.getJob() == Coach.JOB_ASSISTANT) {
-						training.getAlAssistants().add(coach);
+						training.getAssistants().add(coach);
 					}
 				}
 				club.setRank(new ArrayList<Rank>());
@@ -410,7 +410,7 @@ public class OldXmlParser {
 				} else if (localName.equalsIgnoreCase("coach")) { //$NON-NLS-1$
 					coaches.add(coach);
 				}else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
-					arena.setAlArenaName(alArenaName);
+					arena.setArenaNames(alArenaName);
 					arena.setStands(alStand);
 				}
 

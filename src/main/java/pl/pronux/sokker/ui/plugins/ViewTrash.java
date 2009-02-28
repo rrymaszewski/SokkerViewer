@@ -47,6 +47,7 @@ import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
+import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.TabComposite;
@@ -1572,7 +1573,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 		diffrents = player.getSkills()[maxSkill - 1].getCards();
 		if (diffrents < 3 && diffrents > 0) {
-			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorYellowCard());
+			description.leftColorText(textSize, values[9][1].length(), ColorResources.getYellow());
 		} else if (diffrents >= 3) {
 			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorDecreaseDescription());
 		}

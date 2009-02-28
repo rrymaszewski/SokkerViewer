@@ -32,4 +32,7 @@ public class SetUIAction implements IRunnableWithProgress {
 		ViewerHandler.getViewer().setLastUpdateDate(Messages.getString("statusBar.lastUpdateLabel.text") + " " + Cache.getDate().toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	public void onFinish() {
+	}
+
 }

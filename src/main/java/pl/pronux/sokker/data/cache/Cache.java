@@ -7,6 +7,7 @@ import java.util.Map;
 
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Coach;
+import pl.pronux.sokker.model.Configuration;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.GalleryImage;
@@ -80,6 +81,8 @@ public class Cache {
 	private static List<Report> reports;
 	
 	private static List<GalleryImage> galleryImages;
+	
+	private static Configuration configuration;
 	
 	public static List<GalleryImage> getGalleryImages() {
 		return galleryImages;
@@ -311,6 +314,14 @@ public class Cache {
 
 	public static void setLeagueSeasons(List<LeagueSeason> leagueSeasons) {
 		Cache.leagueSeasons = leagueSeasons;
+	}
+
+	public static Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public static void setConfiguration(Configuration configuration) {
+		Cache.configuration = configuration;
 	}
 
 }

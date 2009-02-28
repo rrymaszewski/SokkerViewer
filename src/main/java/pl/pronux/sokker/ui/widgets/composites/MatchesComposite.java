@@ -44,7 +44,7 @@ public class MatchesComposite extends Composite {
 		
 	}
 	
-	public void fill(List<Match> matches) {
+	public void fill(int teamID, List<Match> matches) {
 		this.setRedraw(false);
 		int counter = 0;
 		int week = 0;
@@ -92,8 +92,8 @@ public class MatchesComposite extends Composite {
 			}
 		}
 		
-		leftTable.fill(sundayMatches);
-		rightTable.fill(wednesdayMatches);
+		leftTable.fill(teamID, sundayMatches);
+		rightTable.fill(teamID, wednesdayMatches);
 		
 		this.setRedraw(true);
 	}

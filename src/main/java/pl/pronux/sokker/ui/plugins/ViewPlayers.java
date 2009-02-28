@@ -56,13 +56,14 @@ import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.ChartDateComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionSingleComposite;
-import pl.pronux.sokker.ui.widgets.composites.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.JuniorTrainedDescriptionComposite;
-import pl.pronux.sokker.ui.widgets.composites.PlayerChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.PlayerDescriptionComposite;
-import pl.pronux.sokker.ui.widgets.composites.PlayerStatsComposite;
 import pl.pronux.sokker.ui.widgets.composites.PlayersDescriptionComposite;
 import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.JuniorChartsComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.PlayerChartsComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.PlayerStatsComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.PlayerTrainingsComposite;
 import pl.pronux.sokker.ui.widgets.dialogs.MessageDialog;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
@@ -134,10 +135,6 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private FormData viewFormData;
 
-	private Listener viewKeyListener;
-
-	private Listener viewListener;
-
 	private HashMap<Integer, Table> viewMap;
 
 	private Composite composite;
@@ -146,29 +143,8 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private JuniorChartsComposite juniorGraphsComposite;
 
-	private void addDescriptionComposite() {
-		playersDescription = new PlayersDescriptionComposite(vComposite, SWT.BORDER);
-		playersDescription.setLayoutData(descriptionFormData);
-		playersDescription.setVisible(false);
+	private PlayerTrainingsComposite playerTrainingsComposite;
 
-		graphComposite = new ChartDateComposite(vComposite, SWT.BORDER);
-		graphComposite.setLayoutData(descriptionFormData);
-		graphComposite.setVisible(false);
-
-		playerDescription = new PlayerDescriptionComposite(vComposite, SWT.BORDER);
-		playerDescription.setLayoutData(descriptionFormData);
-		playerDescription.setVisible(false);
-
-		universalJuniorComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
-		universalJuniorComposite.setLayoutData(descriptionFormData);
-		universalJuniorComposite.setVisible(false);
-	}
-
-	private void addJuniorTrainedDescription() {
-		juniorTrainedComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
-		juniorTrainedComposite.setLayoutData(descriptionFormData);
-		juniorTrainedComposite.setVisible(false);
-	}
 
 	private void addJuniorTrainedView() {
 		juniorTrainedTable = new JuniorTrainedTable(vComposite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
@@ -265,28 +241,86 @@ public class ViewPlayers implements IPlugin, ISort {
 			}
 		};
 
-		viewListener = new Listener() {
-			public void handleEvent(Event event) {
+	}
 
-				Point point = new Point(event.x, event.y);
-				TreeItem item = _treeItem.getParent().getItem(point);
-				if (item != null) {
+	private void fillTree(List<Player> players) {
+		PlayerComparator comparator = new PlayerComparator();
+		comparator.setColumn(PlayerComparator.SURNAME);
+		comparator.setDirection(PlayerComparator.ASCENDING);
+		Collections.sort(players, comparator);
+
+		for (int i = 0; i < players.size(); i++) {
+			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
+			item.setData(Player.IDENTIFIER, players.get(i));
+			item.setText(players.get(i).getSurname() + " " + players.get(i).getName());
+			item.setImage(FlagsResources.getFlag(players.get(i).getCountryfrom()));
+
+			if (players.get(i).getSkills().length < 2) {
+				item.setForeground(ConfigBean.getColorNewTreeObject());
+			}
+
+			if (players.get(i).getSkills()[players.get(i).getSkills().length - 1].getCards() > 2 || players.get(i).getSkills()[players.get(i).getSkills().length - 1].getInjurydays() > 0) {
+				item.setForeground(ColorResources.getRed());
+			}
+
+			itemMap.put(players.get(i).getId(), item);
+
+			if (players.get(i).getJunior() != null) {
+				TreeItem juniorItem = new TreeItem(item, 0);
+				juniorItem.setImage(ImageResources.getImageResources("junior.png"));
+				juniorItem.setText(Messages.getString("tree.junior"));
+				juniorItem.setData("idJunior", Integer.valueOf(players.get(i).getJunior().getId()));
+
+				TreeItem chartItem = new TreeItem(juniorItem, SWT.NONE);
+				chartItem.setText(Messages.getString("charts"));
+				chartItem.setData("juniorCharts", players.get(i).getJunior());
+				chartItem.setImage(ImageResources.getImageResources("chart_blue.png"));
+			}
+
+			TreeItem chartItem = new TreeItem(item, SWT.NONE);
+			chartItem.setText(Messages.getString("charts"));
+			chartItem.setData("playerCharts", players.get(i));
+			chartItem.setImage(ImageResources.getImageResources("chart_blue.png"));
+
+			TreeItem statisticsItem = new TreeItem(item, SWT.NONE);
+			statisticsItem.setText(Messages.getString("matches"));
+			statisticsItem.setData("playerStatistics", players.get(i));
+			statisticsItem.setImage(ImageResources.getImageResources("player_history.png"));
+			
+			TreeItem trainingHistoryItem = new TreeItem(item, SWT.NONE);
+			trainingHistoryItem.setText(Messages.getString("trainings"));
+			trainingHistoryItem.setData("playerTrainingsHistory", players.get(i));
+			trainingHistoryItem.setImage(ImageResources.getImageResources("player_training_history.png"));
+
+		}
+		
+		Listener listener = new Listener() {
+			public void handleEvent(Event event) {
+				TreeItem item = null;
+				switch(event.type) {
+					case SWT.MouseDown:
+						Point point = new Point(event.x, event.y);
+						item = _treeItem.getParent().getItem(point);
+						break;
+					case SWT.KeyUp:
+						for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
+							item = _treeItem.getParent().getSelection()[i];
+						}
+						break;
+				}
+				
+				if(item != null) {
 					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
 						showMainView(vComposite);
-
 						comboFilter.setVisible(false);
-
 						// int id = ((PersonInterface)
 						// item.getData(Player.IDENTIFIER)).getId();
 						Player player = (Player) item.getData(Player.IDENTIFIER);
 
-						if (event.button == 3) {
-
+						if (event.type == SWT.MouseDown && event.button == 3) {
 							setCbData(player);
 							menuPopUp.setData("item", item);
-
 							_treeItem.getParent().setMenu(menuPopUp);
-							// _treeItem.getParent().getMenu()._setVisible(true);
 							_treeItem.getParent().getMenu().setVisible(true);
 						}
 
@@ -296,14 +330,13 @@ public class ViewPlayers implements IPlugin, ISort {
 					} else if (item.equals(_treeItem)) {
 						showMainView(vComposite);
 
-						if (event.button == 3) {
+						if (event.type == SWT.MouseDown && event.button == 3) {
 							cbData = playersDescription.getText();
 							_treeItem.getParent().setMenu(menuPopUpParentTree);
 							_treeItem.getParent().getMenu().setVisible(true);
 						}
 
 						comboFilter.setVisible(true);
-
 						showDescription(playersDescription);
 						showView(playersTable);
 
@@ -341,74 +374,12 @@ public class ViewPlayers implements IPlugin, ISort {
 								showMainView(playerStatsComposite);
 							}
 						}
-					} else if (item.getData("juniorCharts") != null) {
-
-						if (item.getParentItem().getData("idJunior") != null && item.getParentItem().getParentItem().getParentItem() != null && item.getParentItem().getParentItem().getParentItem().equals(_treeItem)) {
-							if (item.getData("juniorCharts") instanceof Junior) {
-								Junior junior = (Junior) item.getData("juniorCharts");
-								juniorGraphsComposite.fill(junior);
-								showMainView(juniorGraphsComposite);
-							}
-						}
-					}
-				}
-
-			}
-		};
-
-		viewKeyListener = new Listener() {
-
-			public void handleEvent(Event event) {
-				TreeItem item = null;
-				for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
-					item = _treeItem.getParent().getSelection()[i];
-				}
-
-				if (item != null) {
-					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-
-						comboFilter.setVisible(false);
-
-						showDescription((Player) item.getData(Player.IDENTIFIER));
-						showView((Player) item.getData(Player.IDENTIFIER));
-					} else if (item.equals(_treeItem)) {
-
-						comboFilter.setVisible(true);
-
-						showDescription(playersDescription);
-						showView(playersTable);
-
-					} else if (item.getData("idJunior") != null) {
-
+					} else if (item.getData("playerTrainingsHistory") != null) {
 						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-
-							comboFilter.setVisible(false);
-
-							juniorTrainedTable.removeAll();
-
-							Integer id = (Integer) item.getData("idJunior");
-							juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
-							juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
-
-							showDescription(juniorTrainedComposite);
-							showView(juniorTrainedTable);
-						}
-					} else if (item.getData("playerStatistics") != null) {
-
-						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-							if (item.getData("playerStatistics") instanceof Player) {
-								Player player = (Player) item.getData("playerStatistics");
-								playerStatsComposite.fill(player);
-								showMainView(playerStatsComposite);
-							}
-						}
-					} else if (item.getData("playerCharts") != null) {
-
-						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-							if (item.getData("playerCharts") instanceof Player) {
-								Player player = (Player) item.getData("playerCharts");
-								graphsComposite.fill(player);
-								showMainView(graphsComposite);
+							if (item.getData("playerTrainingsHistory") instanceof Player) {
+								Player player = (Player) item.getData("playerTrainingsHistory");
+								playerTrainingsComposite.fill(player);
+								showMainView(playerTrainingsComposite);
 							}
 						}
 					} else if (item.getData("juniorCharts") != null) {
@@ -422,59 +393,11 @@ public class ViewPlayers implements IPlugin, ISort {
 						}
 					}
 				}
-
 			}
 		};
-
-	}
-
-	private void fillTree(List<Player> player) {
-		PlayerComparator comparator = new PlayerComparator();
-		comparator.setColumn(PlayerComparator.SURNAME);
-		comparator.setDirection(PlayerComparator.ASCENDING);
-		Collections.sort(player, comparator);
-
-		for (int i = 0; i < player.size(); i++) {
-			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
-			item.setData(Player.IDENTIFIER, player.get(i));
-			item.setText(player.get(i).getSurname() + " " + player.get(i).getName());
-			item.setImage(FlagsResources.getFlag(player.get(i).getCountryfrom()));
-
-			if (player.get(i).getSkills().length < 2) {
-				item.setForeground(ConfigBean.getColorNewTreeObject());
-			}
-
-			if (player.get(i).getSkills()[player.get(i).getSkills().length - 1].getCards() > 2 || player.get(i).getSkills()[player.get(i).getSkills().length - 1].getInjurydays() > 0) {
-				item.setForeground(ConfigBean.getColorRedCard());
-			}
-
-			itemMap.put(player.get(i).getId(), item);
-
-			if (player.get(i).getJunior() != null) {
-				TreeItem juniorItem = new TreeItem(item, 0);
-				juniorItem.setImage(ImageResources.getImageResources("junior.png"));
-				juniorItem.setText(Messages.getString("tree.junior"));
-				juniorItem.setData("idJunior", Integer.valueOf(player.get(i).getJunior().getId()));
-
-				TreeItem chartItem = new TreeItem(juniorItem, SWT.NONE);
-				chartItem.setText(Messages.getString("charts"));
-				chartItem.setData("juniorCharts", player.get(i).getJunior());
-				chartItem.setImage(ImageResources.getImageResources("chart_blue.png"));
-			}
-
-			TreeItem chartItem = new TreeItem(item, SWT.NONE);
-			chartItem.setText(Messages.getString("charts"));
-			chartItem.setData("playerCharts", player.get(i));
-			chartItem.setImage(ImageResources.getImageResources("chart_blue.png"));
-
-			TreeItem statisticsItem = new TreeItem(item, SWT.NONE);
-			statisticsItem.setText(Messages.getString("matches"));
-			statisticsItem.setData("playerStatistics", player.get(i));
-			statisticsItem.setImage(ImageResources.getImageResources("player_history.png"));
-
-		}
-		_treeItem.getParent().addListener(SWT.MouseDown, viewListener);
-		_treeItem.getParent().addListener(SWT.KeyUp, viewKeyListener);
+		
+		_treeItem.getParent().addListener(SWT.MouseDown, listener);
+		_treeItem.getParent().addListener(SWT.KeyUp, listener);
 
 	}
 
@@ -994,6 +917,10 @@ public class ViewPlayers implements IPlugin, ISort {
 		playerStatsComposite.setLayoutData(formData);
 		playerStatsComposite.setVisible(false);
 
+		playerTrainingsComposite = new PlayerTrainingsComposite(this.composite, SWT.BORDER);
+		playerTrainingsComposite.setLayoutData(formData);
+		playerTrainingsComposite.setVisible(false);
+		
 		showMainView(vComposite);
 
 		cb = ViewerHandler.getClipboard();
@@ -1006,9 +933,28 @@ public class ViewPlayers implements IPlugin, ISort {
 		addListener();
 
 		addViewComposite();
-		addDescriptionComposite();
+		
+		playersDescription = new PlayersDescriptionComposite(vComposite, SWT.BORDER);
+		playersDescription.setLayoutData(descriptionFormData);
+		playersDescription.setVisible(false);
+
+		graphComposite = new ChartDateComposite(vComposite, SWT.BORDER);
+		graphComposite.setLayoutData(descriptionFormData);
+		graphComposite.setVisible(false);
+
+		playerDescription = new PlayerDescriptionComposite(vComposite, SWT.BORDER);
+		playerDescription.setLayoutData(descriptionFormData);
+		playerDescription.setVisible(false);
+
+		universalJuniorComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
+		universalJuniorComposite.setLayoutData(descriptionFormData);
+		universalJuniorComposite.setVisible(false);
+		
 		addJuniorTrainedView();
-		addJuniorTrainedDescription();
+		
+		juniorTrainedComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
+		juniorTrainedComposite.setLayoutData(descriptionFormData);
+		juniorTrainedComposite.setVisible(false);
 
 		addToolBar();
 		addPopupMenu();

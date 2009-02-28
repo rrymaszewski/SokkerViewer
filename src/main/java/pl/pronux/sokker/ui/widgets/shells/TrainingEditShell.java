@@ -71,7 +71,7 @@ public class TrainingEditShell extends Shell {
 
 		alCoaches.remove(training.getHeadCoach());
 		alCoaches.remove(training.getJuniorCoach());
-		alCoaches.removeAll(training.getAlAssistants());
+		alCoaches.removeAll(training.getAssistants());
 
 		this.setSize(650, 550);
 		this.setMinimumSize(new org.eclipse.swt.graphics.Point(650, 550));
@@ -326,7 +326,7 @@ public class TrainingEditShell extends Shell {
 					alCoaches.remove(coach);
 				}
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_ASSISTANT) {
-					tempTraining.getAlAssistants().add(coach);
+					tempTraining.getAssistants().add(coach);
 					coach.setJob(Coach.JOB_ASSISTANT);
 					alCoaches.remove(coach);
 				}
@@ -365,8 +365,8 @@ public class TrainingEditShell extends Shell {
 					tempTraining.setJuniorCoach(null);
 					alCoaches.add(coach);
 				}
-				if (tempTraining.getAlAssistants().contains(coach)) {
-					tempTraining.getAlAssistants().remove(coach);
+				if (tempTraining.getAssistants().contains(coach)) {
+					tempTraining.getAssistants().remove(coach);
 					alCoaches.add(coach);
 				}
 				items[0].dispose();
@@ -480,7 +480,7 @@ public class TrainingEditShell extends Shell {
 		// We remove all the table entries, sort our
 		// rows, then add the entries
 
-		for (Coach assistant : training.getAlAssistants()) {
+		for (Coach assistant : training.getAssistants()) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
 			item.setData(Coach.IDENTIFIER, assistant); 

@@ -84,7 +84,7 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 
 		// We remove all the table entries, sort our
 		// rows, then add the entries
-		this.removeAll();
+		this.remove(0, this.getItemCount() - 1);
 		Collections.sort(players, comparator);
 		for (PlayerArchive player : players) {
 			TableItem item = new TableItem(this, SWT.NONE);
@@ -154,7 +154,6 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 				label.setSize(size);
 			}
 		}
-		this.setLabel(label, column, item);
+		super.setLabel(label, column, item);
 	}
-
 }

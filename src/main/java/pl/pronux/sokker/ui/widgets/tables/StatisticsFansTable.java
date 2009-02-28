@@ -27,6 +27,7 @@ public class StatisticsFansTable extends SVTable<Club> {
 				Messages.getString("table.date"), //$NON-NLS-1$
 				Messages.getString("statistics.fans.count"), //$NON-NLS-1$
 				Messages.getString("statistics.fans.mood"), //$NON-NLS-1$
+				Messages.getString("statistics.fans.diff"), //$NON-NLS-1$
 				"" //$NON-NLS-1$
 		};
 
@@ -63,6 +64,18 @@ public class StatisticsFansTable extends SVTable<Club> {
 			item.setText(0, club.getClubSupporters().get(i).getDate().getTrainingDate(SokkerDate.MONDAY).toDateString());
 			item.setText(1, SVNumberFormat.formatInteger(club.getClubSupporters().get(i).getFanclubcount()));
 			item.setText(2, String.valueOf(club.getClubSupporters().get(i).getFanclubmood()));
+			if(i == 0) {
+				item.setText(3, "0");
+			} else {
+				int diff = club.getClubSupporters().get(i).getFanclubcount() - club.getClubSupporters().get(i-1).getFanclubcount();
+				item.setText(3, String.valueOf(diff));
+				if(diff > 0) {
+					item.setForeground(3, ColorResources.getDarkGreen());
+				} else if (diff < 0) {
+					item.setForeground(3, ColorResources.getRed());
+				}
+				
+			}
 			if(club.getClubSupporters().get(i).getDate().getSokkerDate().getSeason() % 2 == 0) {
 				item.setBackground(0, ColorResources.getColor(240, 240, 240));
 			} else {
@@ -72,7 +85,7 @@ public class StatisticsFansTable extends SVTable<Club> {
 
 		int[] columns = {
 				1,
-				2
+				2,
 		};
 		this.getChanges(columns);
 

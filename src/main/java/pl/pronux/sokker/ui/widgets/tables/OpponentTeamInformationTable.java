@@ -14,20 +14,18 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 
 	public OpponentTeamInformationTable(Composite parent, int style) {
 		super(parent, style);
-		
+
 		TableItem item;
 		TableColumn tableColumn;
 		this.setLinesVisible(false);
 		this.setHeaderVisible(false);
 		this.setBackground(parent.getBackground());
-//		this.setFont(ConfigBean.getFontTable());
+		// this.setFont(ConfigBean.getFontTable());
 		this.setFont(ConfigBean.getFontMain());
 
 		String[] column = {
 				"1", //$NON-NLS-1$
 				"2", //$NON-NLS-1$
-				"3", //$NON-NLS-1$
-				"4", //$NON-NLS-1$
 		};
 
 		for (int i = 0; i < column.length; i++) {
@@ -37,22 +35,14 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 
 		String[] firstColumn = {
 				Messages.getString("club.owner"), //$NON-NLS-1$
-				Messages.getString("club.id"), //$NON-NLS-1$
 				Messages.getString("club.name"), //$NON-NLS-1$
 				Messages.getString("club.date.created"), //$NON-NLS-1$
-		};
-		
-		String[] thirdColumn = {
 				Messages.getString("club.rank"), //$NON-NLS-1$
-				Messages.getString("club.country"), //$NON-NLS-1$
-				Messages.getString("club.arenaname"), //$NON-NLS-1$
-				""
 		};
 
 		for (int i = 0; i < firstColumn.length; i++) {
 			item = new TableItem(this, SWT.NONE);
 			item.setText(0, firstColumn[i]);
-			item.setText(2, thirdColumn[i]);
 		}
 
 		for (int i = 0; i < this.getColumnCount(); i++) {
@@ -67,55 +57,47 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 		}
 
 	}
-	
+
 	public void fill(Club club) {
-		if(club == null) {
+		if (club == null) {
 			return;
 		}
 		int secondColumn = 1;
-		int fourthColumn = 3;
-		
 		TableItem item;
-		
 		int c = 0;
+		String text;
 
-		item = this.getItem(c);
-		if(club.getUser() != null && club.getUser().getLogin() != null) {
-			item.setText(secondColumn, club.getUser().getLogin());	
+		item = this.getItem(c++);
+		if (club.getUser() != null && club.getUser().getLogin() != null) {
+			text = String.format("%s (%s)", club.getUser().getLogin(), Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			item.setText(secondColumn, text);
+		} else {
+			text = String.format("- (%s)", Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			item.setText(secondColumn, text);
 		}
-		
-		item = this.getItem(c++);
-		item.setText(fourthColumn, String.valueOf(club.getRank().get(0).getRank()));
-
-		item = this.getItem(c);
-		item.setText(secondColumn, String.valueOf(club.getId()));
 
 		item = this.getItem(c++);
-		item.setText(fourthColumn, Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		item = this.getItem(c);
-		item.setText(secondColumn, club.getClubName().get(club.getClubName().size() - 1).getName());
+		text = String.format("%s [%d]", club.getClubName().get(club.getClubName().size() - 1).getName(), club.getId()); //$NON-NLS-1$
+		item.setText(secondColumn, text);
+
+		// item = this.getItem(c++);
+		// item.setText(fourthColumn,
+		// club.getArena().getAlArenaName().get(club.getArena().getAlArenaName().size()
+		// - 1).getArenaName());
 
 		item = this.getItem(c++);
-		item.setText(fourthColumn, club.getArena().getAlArenaName().get(club.getArena().getAlArenaName().size() - 1).getArenaName());
-		
-		item = this.getItem(c);
-		if(club.getDateCreated() != null) {
+		if (club.getDateCreated() != null) {
 			item.setText(secondColumn, club.getDateCreated().toDateTimeString());
 		} else {
 			item.setText(secondColumn, "-"); //$NON-NLS-1$
 		}
 
-
-
-
-
-
+		item = this.getItem(c++);
+		item.setText(secondColumn, String.valueOf(club.getRank().get(0).getRank()));
 
 		for (int i = 0; i < this.getColumnCount(); i++) {
 			this.getColumn(i).pack();
 			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 15);
 		}
 	}
-
 }

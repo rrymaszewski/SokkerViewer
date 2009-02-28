@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.LeaguesManager;
 import pl.pronux.sokker.actions.MatchesManager;
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -100,9 +100,9 @@ public class Synchronizer implements IRunnableWithProgress {
 
 		String query = ""; //$NON-NLS-1$
 		if (SV.VERSION_TYPE == SV.TESTING) {
-			query = "http://sokkerviewer.net/sv/updates/testing" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+			query = "http://www.rymek.user.icpnet.pl/sv/updates/testing" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			query = "http://sokkerviewer.net/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+			query = "http://www.rymek.user.icpnet.pl/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		ProxySettings proxySettings = settings.getProxySettings();
@@ -264,8 +264,6 @@ public class Synchronizer implements IRunnableWithProgress {
 					monitor.worked(1);
 					teamMatches = matchesTeamXmlManager.parseXML();
 
-					SQLSession.connect();
-
 					monitor.subTask(Messages.getString("synchronizer.download.league")); //$NON-NLS-1$
 					leagueXmlManager.download(teamMatches);
 					monitor.worked(1);
@@ -282,7 +280,6 @@ public class Synchronizer implements IRunnableWithProgress {
 					matchXmlManager.download(alNotFinishedMatches);
 					matchXmlManager.parseXML();
 
-					SQLSession.close();
 					monitor.worked(1);
 					// download & parse region
 					monitor.subTask(Messages.getString("synchronizer.download.region")); //$NON-NLS-1$
@@ -306,10 +303,9 @@ public class Synchronizer implements IRunnableWithProgress {
 				// import xmls
 
 				monitor.subTask(Messages.getString("synchronizer.sql.update")); //$NON-NLS-1$
-				SQLSession.connect();
 				SQLSession.beginTransaction();
 
-				teamID = new DatabaseConfiguration().getTeamID();
+				teamID = new ConfigurationManager().getTeamID();
 				if (teamID == 0) {
 					systemXmlManager.updateDbTeamID(Integer.valueOf(downloader.getTeamID()));
 				} else if (Integer.valueOf(downloader.getTeamID()) != teamID) {
@@ -318,7 +314,7 @@ public class Synchronizer implements IRunnableWithProgress {
 
 				if ((params & Synchronizer.REPAIR_DB) != 0) {
 					trainersXmlManager.repairCoaches();
-					new DatabaseConfiguration().repairDatabase();
+					new ConfigurationManager().repairDatabase();
 				}
 
 				if ((params & Synchronizer.DOWNLOAD_COUNTRIES) != 0) {
@@ -360,12 +356,10 @@ public class Synchronizer implements IRunnableWithProgress {
 				}
 
 				SQLSession.commit();
-				SQLSession.close();
 				monitor.worked(1);
 			} catch (SQLException e) {
 				try {
 					SQLSession.rollback();
-					SQLSession.close();
 				} catch (SQLException e1) {
 					new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 				}
@@ -380,5 +374,8 @@ public class Synchronizer implements IRunnableWithProgress {
 				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("message.error.login"), e)); //$NON-NLS-1$
 			}
 		}
+	}
+
+	public void onFinish() {
 	}
 }

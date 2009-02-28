@@ -10,7 +10,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import pl.pronux.sokker.actions.CountriesManager;
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.CountriesXmlParser;
 import pl.pronux.sokker.model.Country;
@@ -48,7 +48,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 	}
 
 	public void updateDbCountries(boolean b) throws SQLException {
-		new DatabaseConfiguration().updateDbCountry(b);
+		new ConfigurationManager().updateDbCountry(b);
 	}
 
 	@Override

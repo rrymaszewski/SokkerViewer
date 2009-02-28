@@ -55,7 +55,7 @@ public class MirrorsPage extends Page {
 
 		mirrors.add(new String[] {
 				"icpnet.pl", //$NON-NLS-1$
-				"http://www.icpnet.pl/~rymek/" + root, //$NON-NLS-1$
+				"http://www.rymek.user.icpnet.pl/" + root, //$NON-NLS-1$
 				"1" //$NON-NLS-1$
 		});
 

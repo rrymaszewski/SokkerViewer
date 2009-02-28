@@ -21,6 +21,7 @@ public class ProgressBarDialog extends Shell {
 	private ProgressBarCustom progressBar;
 	private Button cancelButton;
 	private Button closeButton;
+	private IRunnableWithProgress runnable;
 
 	@Override
 	protected void checkSubclass() {
@@ -81,6 +82,7 @@ public class ProgressBarDialog extends Shell {
 		this.addListener(SWT.Close, new Listener() {
 			public void handleEvent(Event event) {
 				progressBar.cancel();
+				ProgressBarDialog.this.runnable.onFinish();
 			}
 		});
 
@@ -92,6 +94,7 @@ public class ProgressBarDialog extends Shell {
 	}
 	
 	public void run(boolean fork, boolean cancellable, final boolean autoclose, final IRunnableWithProgress runnable) throws InterruptedException, InvocationTargetException {
+		this.runnable = runnable;
 		
 		if(autoclose) {
 			closeButton.setVisible(false);
@@ -111,29 +114,29 @@ public class ProgressBarDialog extends Shell {
 					} catch (InterruptedException e) {
 					}
 				}
-				
-				if ((monitor.isDone() || monitor.isCanceled()) && !monitor.isInterrupted()) {
-					ProgressBarDialog.this.getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							if(autoclose) {
-								ProgressBarDialog.this.close();
-							} else {
+				if(!ProgressBarDialog.this.getDisplay().isDisposed()) {
+					if ((monitor.isDone() || monitor.isCanceled()) && !monitor.isInterrupted()) {
+						ProgressBarDialog.this.getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								if(autoclose) {
+									ProgressBarDialog.this.close();
+								} else {
+									closeButton.setEnabled(true);
+									cancelButton.setEnabled(false);
+								}
+							}
+						});
+					}
+
+					if (monitor.isInterrupted()) {
+						ProgressBarDialog.this.getDisplay().syncExec(new Runnable() {
+							public void run() {
 								closeButton.setEnabled(true);
 								cancelButton.setEnabled(false);
 							}
-						}
-					});
+						});
+					}
 				}
-
-				if (monitor.isInterrupted()) {
-					ProgressBarDialog.this.getDisplay().syncExec(new Runnable() {
-						public void run() {
-							closeButton.setEnabled(true);
-							cancelButton.setEnabled(false);
-						}
-					});
-				}
-				
 			}
 		});
 
@@ -141,5 +144,4 @@ public class ProgressBarDialog extends Shell {
 		monitorThread.start();
 		this.open();
 	}
-	
 }

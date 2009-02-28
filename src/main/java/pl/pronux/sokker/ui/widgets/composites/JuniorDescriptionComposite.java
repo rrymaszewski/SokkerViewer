@@ -7,13 +7,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.ui.widgets.styledtexts.JuniorAdditionsDescriptionStyledText;
-import pl.pronux.sokker.ui.widgets.styledtexts.JuniorDescriptionStyledText;
+import pl.pronux.sokker.ui.widgets.styledtexts.JuniorAdditionsDescription;
+import pl.pronux.sokker.ui.widgets.styledtexts.JuniorDescription;
 
 public class JuniorDescriptionComposite extends Composite {
 
-	private JuniorDescriptionStyledText juniorDescription;
-	private JuniorAdditionsDescriptionStyledText juniorAdditionsDescription;
+	private JuniorDescription juniorDescription;
+	private JuniorAdditionsDescription juniorAdditionsDescription;
 
 	public JuniorDescriptionComposite(Composite parent, int style) {
 		super(parent, style);
@@ -27,7 +27,7 @@ public class JuniorDescriptionComposite extends Composite {
 		formData.right = new FormAttachment(60,0);
 		formData.bottom = new FormAttachment(100,0);
 		
-		juniorDescription = new JuniorDescriptionStyledText(this, SWT.NONE);
+		juniorDescription = new JuniorDescription(this, SWT.NONE);
 		juniorDescription.setLayoutData(formData);
 		
 		formData = new FormData();
@@ -35,7 +35,7 @@ public class JuniorDescriptionComposite extends Composite {
 		formData.top = new FormAttachment(0,0);
 		formData.right = new FormAttachment(100,0);
 		formData.bottom = new FormAttachment(100,0);
-		juniorAdditionsDescription = new JuniorAdditionsDescriptionStyledText(this, SWT.NONE);
+		juniorAdditionsDescription = new JuniorAdditionsDescription(this, SWT.NONE);
 		juniorAdditionsDescription.setLayoutData(formData);
 	}
 	

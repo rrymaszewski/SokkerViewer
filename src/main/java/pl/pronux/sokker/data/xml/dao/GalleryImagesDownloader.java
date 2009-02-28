@@ -199,4 +199,7 @@ public class GalleryImagesDownloader implements IRunnableWithProgress {
 		byte[] sig = Crypto.decodeBase64(signature);
 		return Crypto.verifySignature(publicKey, sig, file);
 	}
+
+	public void onFinish() {
+	}
 }

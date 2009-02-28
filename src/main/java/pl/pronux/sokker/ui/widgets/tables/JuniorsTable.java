@@ -52,6 +52,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 				Messages.getString("junior.table.estimated.level.short"), //$NON-NLS-1$
 				Messages.getString("junior.table.jumps"), //$NON-NLS-1$
 				Messages.getString("table.age"), //$NON-NLS-1$
+				Messages.getString("junior.exit.week"), //$NON-NLS-1$
 				Messages.getString("junior.exit.date"), //$NON-NLS-1$
 				Messages.getString("junior.table.money.spent"), //$NON-NLS-1$
 				Messages.getString("junior.table.money.left"), //$NON-NLS-1$
@@ -138,6 +139,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			}
 			item.setText(c++, String.valueOf(junior.getPops()));
 			item.setText(c++, SVNumberFormat.formatIntegerWithSignZero(junior.getEstimatedAge()));
+			item.setText(c++, String.valueOf(junior.getEndDate().getSeason().getSeasonWeek()));
 			item.setText(c++, junior.getEndDate().toDateString());
 			item.setText(c++, junior.getMoneySpent().formatIntegerCurrencySymbol());
 			item.setText(c++, junior.getRestMoneyToSpend().formatIntegerCurrencySymbol());

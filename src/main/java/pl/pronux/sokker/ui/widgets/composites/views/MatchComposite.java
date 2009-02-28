@@ -1,4 +1,4 @@
-package pl.pronux.sokker.ui.widgets.composites;
+package pl.pronux.sokker.ui.widgets.composites.views;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import pl.pronux.sokker.model.Match;
+import pl.pronux.sokker.ui.widgets.composites.TabCompositeImpl;
 import pl.pronux.sokker.ui.widgets.groups.MatchFieldGroup;
 import pl.pronux.sokker.ui.widgets.groups.MatchInfoGroup;
 import pl.pronux.sokker.ui.widgets.groups.MatchPlayersGroup;

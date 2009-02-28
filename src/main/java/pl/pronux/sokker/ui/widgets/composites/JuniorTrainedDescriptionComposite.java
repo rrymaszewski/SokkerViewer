@@ -7,13 +7,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.ui.widgets.styledtexts.JuniorTrainedAdditionsDescriptionStyledText;
-import pl.pronux.sokker.ui.widgets.styledtexts.JuniorTrainedDescriptionStyledText;
+import pl.pronux.sokker.ui.widgets.styledtexts.JuniorTrainedAdditionsDescription;
+import pl.pronux.sokker.ui.widgets.styledtexts.JuniorTrainedDescription;
 
 public class JuniorTrainedDescriptionComposite extends Composite {
 
-	private JuniorTrainedDescriptionStyledText juniorDescription;
-	private JuniorTrainedAdditionsDescriptionStyledText juniorAdditionsDescription;
+	private JuniorTrainedDescription juniorDescription;
+	private JuniorTrainedAdditionsDescription juniorAdditionsDescription;
 
 	public JuniorTrainedDescriptionComposite(Composite parent, int style) {
 		super(parent, style);
@@ -27,7 +27,7 @@ public class JuniorTrainedDescriptionComposite extends Composite {
 		formData.right = new FormAttachment(60,0);
 		formData.bottom = new FormAttachment(100,0);
 		
-		juniorDescription = new JuniorTrainedDescriptionStyledText(this, SWT.NONE);
+		juniorDescription = new JuniorTrainedDescription(this, SWT.NONE);
 		juniorDescription.setLayoutData(formData);
 		
 		formData = new FormData();
@@ -35,7 +35,7 @@ public class JuniorTrainedDescriptionComposite extends Composite {
 		formData.top = new FormAttachment(0,0);
 		formData.right = new FormAttachment(100,0);
 		formData.bottom = new FormAttachment(100,0);
-		juniorAdditionsDescription = new JuniorTrainedAdditionsDescriptionStyledText(this, SWT.NONE);
+		juniorAdditionsDescription = new JuniorTrainedAdditionsDescription(this, SWT.NONE);
 		juniorAdditionsDescription.setLayoutData(formData);
 	}
 	

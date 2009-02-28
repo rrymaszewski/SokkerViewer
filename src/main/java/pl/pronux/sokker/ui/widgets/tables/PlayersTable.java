@@ -19,6 +19,7 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
@@ -173,13 +174,13 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 								item.setFont(PlayerComparator.MATCH_SUNDAY, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(PlayerComparator.MATCH_SUNDAY).getFontData()));
 								item.setText(PlayerComparator.MATCH_SUNDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(221, 255, 255));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(255, 230, 214));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(255, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(226, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionATT());
 								}
 							} else {
 								if (league.getIsOfficial() == League.OFFICIAL) {
@@ -187,13 +188,13 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 								}
 								item.setText(PlayerComparator.MATCH_WEDNESDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(221, 255, 255));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(255, 230, 214));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(255, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(226, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionATT());
 								}
 							}
 						}

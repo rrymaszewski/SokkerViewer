@@ -232,8 +232,8 @@ public class TrainingReportShell extends Shell {
 			fillCoachTreeItem(item, coach, Coach.JOB_JUNIORS);
 		}
 
-		if (training.getAlAssistants().size() > 0) {
-			for (Coach coach : training.getAlAssistants()) {
+		if (training.getAssistants().size() > 0) {
+			for (Coach coach : training.getAssistants()) {
 				item = new TreeItem(treeItem, SWT.NONE);
 				fillCoachTreeItem(item, coach, Coach.JOB_ASSISTANT);
 			}
@@ -295,8 +295,8 @@ public class TrainingReportShell extends Shell {
 		fillJuniorTreeItemVirtualColumns(item);
 		int max = 0;
 
-		if (training.getAlJuniors().size() > 0) {
-			for (Junior junior : training.getAlJuniors()) {
+		if (training.getJuniors().size() > 0) {
+			for (Junior junior : training.getJuniors()) {
 				JuniorSkills[] skills = junior.getSkills();
 				max = skills.length;
 				if (max > 1) {
@@ -320,8 +320,8 @@ public class TrainingReportShell extends Shell {
 		item.setBackground(treeItem.getParent().getShell().getBackground());
 		fillJuniorTrainedTreeItemVirtualColumns(item);
 
-		if (training.getAlJuniors().size() > 0) {
-			for (Junior junior : training.getAlJuniors()) {
+		if (training.getJuniors().size() > 0) {
+			for (Junior junior : training.getJuniors()) {
 				JuniorSkills[] skills = junior.getSkills();
 				max = skills.length;
 				if (max > 1) {
@@ -424,8 +424,8 @@ public class TrainingReportShell extends Shell {
 		item.setBackground(treeItem.getParent().getShell().getBackground());
 		fillPlayerTreeItemVirtualColumns(item);
 
-		if (training.getAlPlayers().size() > 0) {
-			for (Player player : training.getAlPlayers()) {
+		if (training.getPlayers().size() > 0) {
+			for (Player player : training.getPlayers()) {
 				PlayerSkills[] skills = player.getSkills();
 				max = skills.length;
 				if (max > 1) {

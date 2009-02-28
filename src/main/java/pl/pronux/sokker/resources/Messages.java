@@ -11,7 +11,7 @@ public class Messages {
 	private static final HashMap<Locale, LangResources> cache = new HashMap<Locale, LangResources>();
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName);
-	
+
 //	private Messages() {
 //	}
 

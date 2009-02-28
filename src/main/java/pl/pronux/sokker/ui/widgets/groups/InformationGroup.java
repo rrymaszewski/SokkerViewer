@@ -7,8 +7,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class InformationGroup extends Group {
 
@@ -20,7 +20,7 @@ public class InformationGroup extends Group {
 		setLayout(new FillLayout());
 		label = new CLabel(this, SWT.NONE);
 		this.setFont(ConfigBean.getFontMain());
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 		label.setBackground(this.getBackground());
 	}
 
