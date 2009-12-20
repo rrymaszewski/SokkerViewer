@@ -12,20 +12,17 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.TeamManager;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.model.Training;
-import pl.pronux.sokker.model.TrainingConfiguration;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
@@ -33,106 +30,12 @@ import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.PluginTrainingDescription;
-import pl.pronux.sokker.ui.widgets.composites.TrainingConfigurationAddsComposite;
-import pl.pronux.sokker.ui.widgets.composites.TrainingConfigurationComposite;
 import pl.pronux.sokker.ui.widgets.menus.TrainingsMenu;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.shells.TrainingReportShell;
 import pl.pronux.sokker.ui.widgets.tree.TrainingTree;
 
 public class ViewTrainings implements IPlugin {
-	private class Configure implements IViewConfigure {
-
-		private Composite composite;
-		private TreeItem treeItem;
-		private TrainingConfiguration trainingConfiguration;
-		private TrainingConfigurationComposite trainingConfigurationComposite;
-		private TrainingConfigurationAddsComposite trainingAddsConfigurationComposite;
-		private boolean initialized;
-
-		public void applyChanges() {
-			if(initialized) {
-				trainingConfiguration.setGeneralSettings(trainingConfigurationComposite.getGeneralSettings());
-				trainingConfiguration.getGeneralSettings().put(TrainingConfiguration.ENABLED, String.valueOf(trainingAddsConfigurationComposite.getEnabledButton()));
-				trainingConfiguration.setSettings(trainingAddsConfigurationComposite.getSettings());
-				try {
-					new ConfigurationManager().setTrainingConfiguration(trainingConfiguration);
-				} catch (SQLException e) {
-					new BugReporter(composite.getDisplay()).openErrorMessage("ViewTrainings", e);
-				}
-			}
-		}
-
-		public void clear() {
-		}
-
-		public void dispose() {
-		}
-
-		public Composite getComposite() {
-			return this.composite;
-		}
-
-		public TreeItem getTreeItem() {
-			return this.treeItem;
-		}
-
-		public void init(Composite composite) {
-			this.composite = composite;
-			this.composite.setLayout(new FormLayout());
-			FormData formData = new FormData();
-			formData.left = new FormAttachment(0,5);
-			formData.top = new FormAttachment(0,5);
-			formData.right = new FormAttachment(100, -5);
-			formData.height = 150;
-			
-			trainingConfigurationComposite = new TrainingConfigurationComposite(composite, SWT.NONE);
-			trainingConfigurationComposite.setLayoutData(formData);
-			trainingConfigurationComposite.setEnabled(false);
-			
-			formData = new FormData();
-			formData.left = new FormAttachment(0,0);
-			formData.top = new FormAttachment(trainingConfigurationComposite,0);
-			formData.right = new FormAttachment(100, 0);
-			
-			Label separator = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
-			separator.setLayoutData(formData);
-			
-			formData = new FormData();
-			formData.left = new FormAttachment(0,5);
-			formData.top = new FormAttachment(separator,5);
-			formData.right = new FormAttachment(100, -5);
-			formData.bottom = new FormAttachment(100, -5);
-			
-			trainingAddsConfigurationComposite = new TrainingConfigurationAddsComposite(composite, SWT.NONE);
-			trainingAddsConfigurationComposite.setLayoutData(formData);
-			trainingAddsConfigurationComposite.setEnabled(false);
-		}
-
-		public void restoreDefaultChanges() {
-			if (initialized) {
-				trainingConfigurationComposite.set(trainingConfiguration);
-				trainingAddsConfigurationComposite.set(trainingConfiguration);
-			}
-		}
-
-		public void set() {
-			initialized = true;
-			trainingConfiguration = Cache.getConfiguration().getTrainingConfiguration();
-			trainingConfigurationComposite.set(trainingConfiguration);
-			trainingAddsConfigurationComposite.set(trainingConfiguration);
-			trainingAddsConfigurationComposite.setEnabled(true);
-			trainingConfigurationComposite.setEnabled(true);
-		}
-
-		public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
-		}
-
-		public void setTreeItem(TreeItem treeItem) {
-			this.treeItem = treeItem;
-			this.treeItem.setText(Messages.getString("tree.ViewTrainings"));
-		}
-	}
 
 	private Composite composite;
 
@@ -198,10 +101,6 @@ public class ViewTrainings implements IPlugin {
 
 	public Composite getComposite() {
 		return composite;
-	}
-
-	public IViewConfigure getConfigureComposite() {
-		return new Configure();
 	}
 
 	public String getInfo() {
@@ -349,5 +248,10 @@ public class ViewTrainings implements IPlugin {
 	}
 
 	public void reload() {
+	}
+
+	@Override
+	public IViewConfigure getConfigureComposite() {
+		return null;
 	}
 }

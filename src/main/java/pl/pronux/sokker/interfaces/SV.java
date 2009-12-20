@@ -7,7 +7,7 @@ public interface SV {
 	final public int TESTING = 3;
 	final public int VERSION_TYPE = TESTING;
 
-	final public int DB_VERSION = 23;
+	final public int DB_VERSION = 22;
 
 	final public String SK_VERSION = "0.13"; //$NON-NLS-1$
 

@@ -24,16 +24,15 @@ import pl.pronux.sokker.utils.file.PropertiesChecker;
 import pl.pronux.sokker.utils.file.SVLogger;
 
 public class Launcher {
-	
+
 	/**
 	 * @param args
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
 	public static void main(String[] args) {
-		
+
 		try {
-			
 			PropertiesSession properties = PropertiesDatabase.getSession();
 			SokkerViewerSettings settings = new SokkerViewerSettingsDao(properties).getSokkerViewerSettings();
 			if (settings.isCheckProperties()) {
@@ -43,13 +42,13 @@ public class Launcher {
 				settings.setCheckProperties(false);
 				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
 			}
-			
+
 			SettingsHandler.setSokkerViewerSettings(settings);
 
 			// base directory settings
 			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
-			
+
 			if (proxySettings.isEnabled()) {
 				System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 				System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
@@ -64,10 +63,10 @@ public class Launcher {
 				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
 			}
 
-			if(args.length == 1 && args[0].equals("--download-only")) { //$NON-NLS-1$
+			if (args.length == 1 && args[0].equals("--download-only")) { //$NON-NLS-1$
 				SQLQuery.setSettings(settings);
 				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(new Monitor());
-			} else if(args.length == 0) {
+			} else if (args.length == 0) {
 				Display display = new Display();
 				try {
 					new Viewer(display, SWT.SHELL_TRIM).open();
@@ -76,27 +75,8 @@ public class Launcher {
 				} finally {
 					display.dispose();
 				}
-				
-			} 
-			
-			/*else if( args.length > 1) {
 
-			Map<String, String> mParams = new HashMap<String, String>();
-			for(int i = 0; i < args.length; i++) {
-				String[] split = args[i].split("=");
-				if(split.length == 2) {
-					mParams.put(split[0], split[1]);		
-				}  else {
-					mParams.put(args[i], null);
-				}
-			}
-			if(mParams.containsKey("--download-only") && mParams.containsKey("--name") && mParams.containsKey("--password") && mParams.containsKey("--download-path")) {
-				System.out.println("hi");
 			} else {
-				System.out.println(showHelp());
-			}
-		}*/ 
-			else {
 				System.out.println(showHelp());
 			}
 
@@ -105,21 +85,16 @@ public class Launcher {
 		} finally {
 			SVLogger.dispose();
 			try {
-				if(SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+				if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
 					SQLSession.getConnection().close();
 				}
 			} catch (SQLException e) {
 			}
 		}
 	}
-	
+
 	private static String showHelp() {
-/*		return "--download-only\r\n" +
-				"--user=<user>\r\n" +
-				"--password=<password>\r\n" +
-				"--path=<path>\r\n" +
-				"--help";*/
 		return "--donwload-only\r\n" + //$NON-NLS-1$
-				"--help"; //$NON-NLS-1$
+			   "--help"; //$NON-NLS-1$
 	}
 }

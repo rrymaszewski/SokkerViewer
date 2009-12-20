@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import pl.pronux.sokker.actions.AssistantManager;
-import pl.pronux.sokker.actions.CountriesManager;
 import pl.pronux.sokker.actions.ConfigurationManager;
-import pl.pronux.sokker.actions.GalleryManager;
+import pl.pronux.sokker.actions.CountriesManager;
 import pl.pronux.sokker.actions.LeaguesManager;
 import pl.pronux.sokker.actions.MatchesManager;
 import pl.pronux.sokker.actions.PlayersManager;
@@ -25,7 +23,6 @@ import pl.pronux.sokker.comparators.CountryComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.data.xml.dao.GalleryImagesDao;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -37,7 +34,6 @@ import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.DbProperties;
-import pl.pronux.sokker.model.GalleryImage;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.Player;
@@ -180,8 +176,6 @@ public class CoreAction implements IRunnableWithProgress {
 			final Date sokkerDate = dbConf.getMaxDate();
 			Cache.setDate(sokkerDate);
 
-			Cache.setConfiguration(new ConfigurationManager().getConfiguration());
-			
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -358,10 +352,6 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setMatches(new MatchesManager().getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache.getPlayersArchiveMap()));
 
 			PlayersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
-
-			Cache.setGalleryImages(new GalleryImagesDao().getImages());
-			List<GalleryImage> images = new GalleryManager().getGalleryImages();
-			Cache.getGalleryImages().addAll(images);
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.completeYouthTeamId")); //$NON-NLS-1$

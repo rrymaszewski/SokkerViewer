@@ -15,8 +15,6 @@ import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
-import org.eclipse.swt.graphics.Image;
-
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
 import pl.pronux.sokker.model.PlayerInterface;
@@ -278,8 +276,8 @@ public class OperationOnFile {
 			// step 3: we open the document
 			document.open();
 			// step 4: we add a paragraph to the document
-			BaseFont bfCourier = BaseFont.createFont(
-					SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
+			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator
+													 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
 			Font font = new Font(bfCourier, 12);
 			document.add(new Paragraph(text, font));
 		} catch (DocumentException de) {
@@ -377,16 +375,6 @@ public class OperationOnFile {
 		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
 		out.write(stringToWrite);
 		out.close();
-
-		// try {
-		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		// out.write(new String(stringToWrite.getBytes("UTF-8")));
-		// out.close();
-		// } catch (IOException e) {
-		// }
-	}
-
-	public static void writeToFile(String fileName, Image image) {
 
 		// try {
 		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));

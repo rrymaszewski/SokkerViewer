@@ -158,7 +158,6 @@ public class PropertiesChecker {
 						"pl.pronux.sokker.ui.plugins.ViewMatches", //$NON-NLS-1$
 						"pl.pronux.sokker.ui.plugins.ViewLeague", //$NON-NLS-1$
 						"pl.pronux.sokker.ui.plugins.ViewArchive", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewGallery", //$NON-NLS-1$
 						"pl.pronux.sokker.ui.plugins.ViewOffice", //$NON-NLS-1$
 						"pl.pronux.sokker.ui.plugins.ViewSpy", //$NON-NLS-1$
 				};

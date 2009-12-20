@@ -9,22 +9,18 @@ import java.util.Map;
 
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.data.sql.dao.ConfigurationDao;
 import pl.pronux.sokker.data.sql.dao.DatabaseConfigurationDao;
 import pl.pronux.sokker.data.sql.dao.JuniorsDao;
 import pl.pronux.sokker.data.sql.dao.PlayersDao;
 import pl.pronux.sokker.data.sql.dao.TeamsDao;
-import pl.pronux.sokker.data.sql.dao.TrainingConfigurationDao;
 import pl.pronux.sokker.model.ClubArenaName;
 import pl.pronux.sokker.model.ClubName;
-import pl.pronux.sokker.model.Configuration;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.DbProperties;
 import pl.pronux.sokker.model.JuniorSkills;
 import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.Rank;
 import pl.pronux.sokker.model.Training;
-import pl.pronux.sokker.model.TrainingConfiguration;
 import pl.pronux.sokker.resources.Messages;
 
 public class ConfigurationManager {
@@ -54,20 +50,6 @@ public class ConfigurationManager {
 		dbConfDao.setDBVersion(version);
 	}
 	
-	public Configuration getConfiguration() throws SQLException {
-		Configuration configuration = new Configuration();
-		TrainingConfiguration trainingConfiguration = new TrainingConfiguration();
-		
-		ConfigurationDao configurationDao = new ConfigurationDao(SQLSession.getConnection());
-		TrainingConfigurationDao trainingConfigurationDao = new TrainingConfigurationDao(SQLSession.getConnection());
-		
-		trainingConfiguration.setSettings(trainingConfigurationDao.getValues());
-		trainingConfiguration.setGeneralSettings(configurationDao.getTrainingSettings());
-		
-		configuration.setTrainingConfiguration(trainingConfiguration);
-		return configuration;
-	}
-
 	public DbProperties getDbProperties() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		DbProperties dbProperties = dbConfDao.getDbProperties();
@@ -121,20 +103,6 @@ public class ConfigurationManager {
 	public double getJuniorMinimumPop() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		return dbConfDao.getJuniorMinimumPop();
-	}
-
-	public TrainingConfiguration getTrainingConfiguration() {
-		return new TrainingConfiguration();
-	}
-
-	public void setTrainingConfiguration(TrainingConfiguration trainingConfiguration) throws SQLException {
-		try {
-			SQLSession.connect();
-			new TrainingConfigurationDao(SQLSession.getConnection()).setValues(trainingConfiguration.getSettings());
-			new ConfigurationDao(SQLSession.getConnection()).setValues(trainingConfiguration.getGeneralSettings());
-		} finally {
-			SQLSession.close();
-		}
 	}
 
 	public void repairDatabase() throws SQLException {
