@@ -8,13 +8,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.MatchesComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.Fonts;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
@@ -48,7 +48,7 @@ public class MatchesTable extends SVTable<Match> {
 			if (i == 0) {
 				column.setWidth(25);
 			} else if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

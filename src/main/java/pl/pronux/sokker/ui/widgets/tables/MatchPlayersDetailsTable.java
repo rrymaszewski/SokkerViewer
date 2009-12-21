@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.MatchPlayersComparator;
 import pl.pronux.sokker.comparators.MatchPlayersDetailsComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -18,7 +19,6 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
@@ -55,7 +55,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			if (i == 0) {
 				column.setWidth(25);
 			} else if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else if (i == MatchPlayersDetailsComparator.STARS) {
@@ -163,7 +163,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 
@@ -174,7 +174,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			}
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 			if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {

@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.MatchPlayersComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -17,7 +18,6 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
@@ -36,14 +36,16 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 		comparator.setColumn(MatchPlayersComparator.NUMBER);
 		comparator.setDirection(MatchPlayersComparator.ASCENDING);
 
-		String[] columnsTooltips = { Messages.getString("table.match.substitutions.tooltip"), Messages.getString("table.match.number.tooltip"), Messages.getString("table.match.player.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				Messages.getString("table.match.formation.tooltip"), Messages.getString("table.match.time.tooltip"), Messages.getString("table.match.rating.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				Messages.getString("table.match.goals.tooltip"), Messages.getString("table.match.shoots.tooltip"), Messages.getString("table.match.assists.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				Messages.getString("table.match.fouls.tooltip"), Messages.getString("table.match.injury.tooltip"), Messages.getString("table.match.cards.tooltip"), " " }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		String[] columnsTooltips = {
+									Messages.getString("table.match.substitutions.tooltip"), Messages.getString("table.match.number.tooltip"), Messages.getString("table.match.player.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+									Messages.getString("table.match.formation.tooltip"), Messages.getString("table.match.time.tooltip"), Messages.getString("table.match.rating.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+									Messages.getString("table.match.goals.tooltip"), Messages.getString("table.match.shoots.tooltip"), Messages.getString("table.match.assists.tooltip"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+									Messages.getString("table.match.fouls.tooltip"), Messages.getString("table.match.injury.tooltip"), Messages.getString("table.match.cards.tooltip"), " " }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-		String[] columns = { " ", Messages.getString("table.match.number"), Messages.getString("table.match.player"), Messages.getString("table.match.formation"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				Messages.getString("table.match.time"), Messages.getString("table.match.rating"), Messages.getString("table.match.goals"), Messages.getString("table.match.shoots"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				Messages.getString("table.match.assists"), Messages.getString("table.match.fouls"), Messages.getString("table.match.injury"), Messages.getString("table.match.cards"), " " }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		String[] columns = {
+							" ", Messages.getString("table.match.number"), Messages.getString("table.match.player"), Messages.getString("table.match.formation"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+							Messages.getString("table.match.time"), Messages.getString("table.match.rating"), Messages.getString("table.match.goals"), Messages.getString("table.match.shoots"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+							Messages.getString("table.match.assists"), Messages.getString("table.match.fouls"), Messages.getString("table.match.injury"), Messages.getString("table.match.cards"), " " }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn column = new TableColumn(this, SWT.LEFT);
@@ -52,7 +54,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			column.setMoveable(false);
 
 			if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {
@@ -115,7 +117,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 					if (player.getName() == null || player.getSurname() == null || (player.getName().equals("") && player.getSurname().equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
 						item.setText(i++, String.valueOf(playerStats.getPlayerID()));
 					} else {
-						if(player.getName().equals("")) { //$NON-NLS-1$
+						if (player.getName().equals("")) { //$NON-NLS-1$
 							item.setText(i++, String.format("%s", player.getSurname())); //$NON-NLS-1$
 						} else {
 							item.setText(i++, String.format("%s %s.", player.getSurname(), player.getName().substring(0, 1))); //$NON-NLS-1$
@@ -149,7 +151,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 
@@ -160,7 +162,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			}
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 			if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {
@@ -179,11 +181,11 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			// playerStats.getRedCards()));
 		}
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
-			
+
 			if (i == 0) {
 				this.getColumn(i).setWidth(25);
 			} else {
-				this.getColumn(i).pack();	
+				this.getColumn(i).pack();
 			}
 			// else {
 			// this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 3);

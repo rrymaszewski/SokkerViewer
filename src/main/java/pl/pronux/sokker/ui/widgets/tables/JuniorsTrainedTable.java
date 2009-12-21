@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.JuniorsTrainedComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Junior;
@@ -17,7 +18,6 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
@@ -74,7 +74,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 			column.setMoveable(false);
 			if (j == titles.length - 1) {
 				// potrzebne do dopelnienia tabel w Linuxie
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

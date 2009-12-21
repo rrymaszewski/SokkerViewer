@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.PropertiesSession;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -41,11 +42,11 @@ public class UpdaterWizard extends Wizard {
 			}
 
 		} else {
-			if (SettingsHandler.OS_TYPE == SV.WINDOWS) {
+			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 				osType = "/windows"; //$NON-NLS-1$
-			} else if (SettingsHandler.OS_TYPE == SV.LINUX) {
+			} else if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 				osType = "/linux"; //$NON-NLS-1$
-			} else if (SettingsHandler.OS_TYPE == SV.MAC) {
+			} else if (SettingsHandler.OS_TYPE == OperatingSystem.MACOSX) {
 				osType = "/mac"; //$NON-NLS-1$
 			}
 		}

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerStatsComparator;
 import pl.pronux.sokker.comparators.SpyPlayersComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -20,7 +21,6 @@ import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.FlagsResources;
@@ -85,7 +85,7 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			// } else
 			if (j == titles.length - 1) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else if ( j == SpyPlayersComparator.INJURY) {

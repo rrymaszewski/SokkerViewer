@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 
 import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.comparators.PlayerStatsComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.League;
@@ -26,7 +27,6 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
@@ -50,22 +50,21 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 		this.setLinesVisible(true);
 		this.setFont(ConfigBean.getFontTable());
 		this.setBackground(parent.getBackground());
-		String[] columns = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.team.home"), //$NON-NLS-1$
-				Messages.getString("table.team.away"), //$NON-NLS-1$
-				Messages.getString("table.match.formation"), //$NON-NLS-1$
-				Messages.getString("table.match.time"), //$NON-NLS-1$
-				Messages.getString("table.match.rating"), //$NON-NLS-1$
-				Messages.getString("table.match.rating"), //$NON-NLS-1$
-				Messages.getString("table.match.goals"), //$NON-NLS-1$
-				Messages.getString("table.match.shoots"), //$NON-NLS-1$
-				Messages.getString("table.match.assists"), //$NON-NLS-1$
-				Messages.getString("table.match.fouls"), //$NON-NLS-1$
-				Messages.getString("table.match.injury"), //$NON-NLS-1$
-				Messages.getString("table.match.cards"), //$NON-NLS-1$
-				" " //$NON-NLS-1$
+		String[] columns = { "", //$NON-NLS-1$
+							Messages.getString("table.date"), //$NON-NLS-1$
+							Messages.getString("table.team.home"), //$NON-NLS-1$
+							Messages.getString("table.team.away"), //$NON-NLS-1$
+							Messages.getString("table.match.formation"), //$NON-NLS-1$
+							Messages.getString("table.match.time"), //$NON-NLS-1$
+							Messages.getString("table.match.rating"), //$NON-NLS-1$
+							Messages.getString("table.match.rating"), //$NON-NLS-1$
+							Messages.getString("table.match.goals"), //$NON-NLS-1$
+							Messages.getString("table.match.shoots"), //$NON-NLS-1$
+							Messages.getString("table.match.assists"), //$NON-NLS-1$
+							Messages.getString("table.match.fouls"), //$NON-NLS-1$
+							Messages.getString("table.match.injury"), //$NON-NLS-1$
+							Messages.getString("table.match.cards"), //$NON-NLS-1$
+							" " //$NON-NLS-1$
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -73,7 +72,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			column.setText(columns[i]);
 
 			if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 					column.pack();
 				}
 			} else if (i == PlayerStatsComparator.STARS) {
@@ -95,46 +94,91 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 		final TableEditor editor = new TableEditor(this);
 		editor.horizontalAlignment = SWT.LEFT;
 		editor.grabHorizontal = true;
-		
-		this.addListener(SWT.PaintItem, new PaintStarListener(PlayerStatsComparator.STARS));	
+
+		this.addListener(SWT.PaintItem, new PaintStarListener(PlayerStatsComparator.STARS));
 		this.addListener(SWT.MouseDown, new Listener() {
+
 			public void handleEvent(Event event) {
 				Rectangle clientArea = PlayerStatsTable.this.getClientArea();
 				Point pt = new Point(event.x, event.y);
 				final TableItem item = PlayerStatsTable.this.getItem(pt);
 				if (item != null) {
-					if (((PlayerStats) item.getData(PlayerStats.IDENTIFIER)).getIsInjured() == PlayerStats.NOT_INJURED) { 
+					if (((PlayerStats) item.getData(PlayerStats.IDENTIFIER)).getIsInjured() == PlayerStats.NOT_INJURED) {
 						return;
 					}
 					boolean visible = false;
-						Rectangle rect = item.getBounds(PlayerStatsComparator.INJURY);
-						if (rect.contains(pt)) {
-							final int column = PlayerStatsComparator.INJURY;
-							final Text text = new Text(PlayerStatsTable.this, SWT.RIGHT);
-							text.setTextLimit(2);
-							text.setFont(ConfigBean.getFontTable());
+					Rectangle rect = item.getBounds(PlayerStatsComparator.INJURY);
+					if (rect.contains(pt)) {
+						final int column = PlayerStatsComparator.INJURY;
+						final Text text = new Text(PlayerStatsTable.this, SWT.RIGHT);
+						text.setTextLimit(2);
+						text.setFont(ConfigBean.getFontTable());
 
-							editor.setEditor(text, item, PlayerStatsComparator.INJURY);
-							if(item.getData(PlayerStats.IDENTIFIER) != null && item.getData(PlayerStats.IDENTIFIER) instanceof PlayerStats) { 
-								text.setText(String.valueOf(((PlayerStats)item.getData(PlayerStats.IDENTIFIER)).getInjuryDays())); 
-							} else {
-								text.setText(item.getText(PlayerStatsComparator.INJURY));	
-							}
-							
-							Listener textListener = new Listener() {
-								int temp;
-								int value;
-								PlayerStats stats;
-								public void handleEvent(final Event e) {
-									switch (e.type) {
-									case SWT.FocusOut:
+						editor.setEditor(text, item, PlayerStatsComparator.INJURY);
+						if (item.getData(PlayerStats.IDENTIFIER) != null && item.getData(PlayerStats.IDENTIFIER) instanceof PlayerStats) {
+							text.setText(String.valueOf(((PlayerStats) item.getData(PlayerStats.IDENTIFIER)).getInjuryDays()));
+						} else {
+							text.setText(item.getText(PlayerStatsComparator.INJURY));
+						}
+
+						Listener textListener = new Listener() {
+
+							int temp;
+							int value;
+							PlayerStats stats;
+
+							public void handleEvent(final Event e) {
+								switch (e.type) {
+								case SWT.FocusOut:
+
+									if (text.getText().equals("")) { //$NON-NLS-1$
+										text.setText("0"); //$NON-NLS-1$
+									}
+
+									if (!item.getText(column).equals("")) { //$NON-NLS-1$
+										temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
+									} else {
+										temp = 0;
+									}
+
+									value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
+
+									if (temp != value) {
+										stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER);
+										stats.setInjuryDays(value);
+										try {
+											new PlayersManager().updatePlayerStatsInjury(stats);
+										} catch (SQLException e1) {
+											new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury1", e1);
+										}
+										if (value != 0) {
+											item.setText(column, String.valueOf(value));
+											PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
+											PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(
+																												   PlayerStatsTable.this
+																													   .getColumn(PlayerStatsComparator.INJURY)
+																													   .getWidth() + 15);
+										} else {
+											item.setText(column, ""); //$NON-NLS-1$
+											PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
+											PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(
+																												   PlayerStatsTable.this
+																													   .getColumn(PlayerStatsComparator.INJURY)
+																													   .getWidth() + 15);
+										}
+									}
+									text.dispose();
+									break;
+								case SWT.Traverse:
+									switch (e.detail) {
+									case SWT.TRAVERSE_RETURN:
 
 										if (text.getText().equals("")) { //$NON-NLS-1$
 											text.setText("0"); //$NON-NLS-1$
 										}
 
-										if(!item.getText(column).equals("")) { //$NON-NLS-1$
-											temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();	 //$NON-NLS-1$ //$NON-NLS-2$
+										if (!item.getText(column).equals("")) { //$NON-NLS-1$
+											temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 										} else {
 											temp = 0;
 										}
@@ -142,94 +186,62 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 										value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 
 										if (temp != value) {
-											stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER); 
+
+											stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER);
 											stats.setInjuryDays(value);
 											try {
 												new PlayersManager().updatePlayerStatsInjury(stats);
 											} catch (SQLException e1) {
-												new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury1", e1);
+												new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury2", e1);
 											}
-											if(value != 0) {
+											if (value != 0) {
 												item.setText(column, String.valueOf(value));
 												PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
-												PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
+												PlayerStatsTable.this
+													.getColumn(PlayerStatsComparator.INJURY)
+													.setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
 											} else {
 												item.setText(column, ""); //$NON-NLS-1$
 												PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
-												PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
+												PlayerStatsTable.this
+													.getColumn(PlayerStatsComparator.INJURY)
+													.setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
+
 											}
 										}
+										break;
+									// FALL THROUGH
+									case SWT.TRAVERSE_ESCAPE:
 										text.dispose();
-										break;
-									case SWT.Traverse:
-										switch (e.detail) {
-										case SWT.TRAVERSE_RETURN:
-
-											if (text.getText().equals("")) { //$NON-NLS-1$
-												text.setText("0"); //$NON-NLS-1$
-											}
-
-											if(!item.getText(column).equals("")) { //$NON-NLS-1$
-												temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();	 //$NON-NLS-1$ //$NON-NLS-2$
-											} else {
-												temp = 0;
-											}
-											
-											value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
-
-											if (temp != value) {
-
-												stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER); 
-												stats.setInjuryDays(value);
-												try {
-													new PlayersManager().updatePlayerStatsInjury(stats);
-												} catch (SQLException e1) {
-													new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury2", e1);
-												}
-												if(value != 0) {
-													item.setText(column, String.valueOf(value));
-													PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
-													PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
-												} else {
-													item.setText(column, ""); //$NON-NLS-1$
-													PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).pack();
-													PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).setWidth(PlayerStatsTable.this.getColumn(PlayerStatsComparator.INJURY).getWidth() + 15);
-													
-												}
-											}
-											break;
-										// FALL THROUGH
-										case SWT.TRAVERSE_ESCAPE:
-											text.dispose();
-											e.doit = false;
-											break;
-										}
-										break;
-									case SWT.Verify:
-										String string = e.text;
-										char[] chars = new char[string.length()];
-										string.getChars(0, chars.length, chars, 0);
-										for (int j = 0; j < chars.length; j++) {
-											if (!('0' <= chars[j] && chars[j] <= '9')) {
-												e.doit = false;
-												return;
-											}
-										}
+										e.doit = false;
 										break;
 									}
+									break;
+								case SWT.Verify:
+									String string = e.text;
+									char[] chars = new char[string.length()];
+									string.getChars(0, chars.length, chars, 0);
+									for (int j = 0; j < chars.length; j++) {
+										if (!('0' <= chars[j] && chars[j] <= '9')) {
+											e.doit = false;
+											return;
+										}
+									}
+									break;
 								}
-							};
-							text.addListener(SWT.FocusOut, textListener);
-							text.addListener(SWT.Traverse, textListener);
-							text.addListener(SWT.Verify, textListener);
+							}
+						};
+						text.addListener(SWT.FocusOut, textListener);
+						text.addListener(SWT.Traverse, textListener);
+						text.addListener(SWT.Verify, textListener);
 
-							text.selectAll();
-							text.setFocus();
-							return;
-						}
-						if (!visible && rect.intersects(clientArea)) {
-							visible = true;
-						}
+						text.selectAll();
+						text.setFocus();
+						return;
+					}
+					if (!visible && rect.intersects(clientArea)) {
+						visible = true;
+					}
 					if (!visible)
 						return;
 				}
@@ -252,7 +264,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			if (playerStats.getTimePlayed() > 0) {
 				Match match = playerStats.getMatch();
 				TableItem item = new TableItem(this, SWT.NONE);
-				item.setData(PaintStarListener.IDENTIFIER, playerStats.getRating()); 
+				item.setData(PaintStarListener.IDENTIFIER, playerStats.getRating());
 				item.setData(PlayerStats.IDENTIFIER, playerStats);
 				int i = 0;
 				if (match.getLeague() != null) {
@@ -313,13 +325,13 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 				item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 				item.setText(i, ""); //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == WINDOWS) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 					item.setBackground(i, this.getBackground());
 				}
 
 				if (playerStats.getIsInjured() == PlayerStats.INJURED) {
-					if(playerStats.getInjuryDays() != 0) {
-						item.setText(i, String.valueOf(playerStats.getInjuryDays()));	
+					if (playerStats.getInjuryDays() != 0) {
+						item.setText(i, String.valueOf(playerStats.getInjuryDays()));
 					}
 					item.setImage(i++, ImageResources.getImageResources("injury.png")); //$NON-NLS-1$
 				} else {
@@ -327,7 +339,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 				}
 
 				item.setText(i, ""); //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == WINDOWS) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 					item.setBackground(i, this.getBackground());
 				}
 				if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {
@@ -345,7 +357,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			}
 		}
 		for (int i = 1; i < this.getColumnCount() - 1; i++) {
-			if(i != PlayerStatsComparator.STARS) {
+			if (i != PlayerStatsComparator.STARS) {
 				this.getColumn(i).pack();
 				this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 15);
 			}

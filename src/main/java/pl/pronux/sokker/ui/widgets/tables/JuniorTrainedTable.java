@@ -5,13 +5,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 
 public class JuniorTrainedTable extends SVTable<Junior> {
 
@@ -35,7 +35,7 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 			column.setResizable(false);
 			column.setMoveable(false);
 			if (titles[j].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

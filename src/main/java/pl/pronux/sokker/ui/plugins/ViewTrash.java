@@ -32,6 +32,7 @@ import pl.pronux.sokker.comparators.PlayerTrashComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dao.JuniorsDao;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Coach;
@@ -305,7 +306,7 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setResizable(false);
 
 			if (titles[i].equals("")) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			}
@@ -414,7 +415,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 			if (titles[i].equals("")) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			}
@@ -529,7 +530,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 			if (title[i].equals("")) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			}

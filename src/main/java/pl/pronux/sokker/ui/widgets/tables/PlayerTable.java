@@ -6,8 +6,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerSkills;
@@ -21,7 +21,7 @@ import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
 
-public class PlayerTable extends SVTable<Player> implements SV {
+public class PlayerTable extends SVTable<Player> {
 
 	public PlayerTable(Composite parent, int style) {
 		super(parent, style);
@@ -60,7 +60,7 @@ public class PlayerTable extends SVTable<Player> implements SV {
 			column.setMoveable(false);
 			if (titles[j].equals("")) { //$NON-NLS-1$
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

@@ -11,10 +11,6 @@ public interface SV {
 
 	final public String SK_VERSION = "0.13"; //$NON-NLS-1$
 
-	final public int WINDOWS = 1;
-	final public int LINUX = 2;
-	final public int MAC = 3;
-
 }
 
 

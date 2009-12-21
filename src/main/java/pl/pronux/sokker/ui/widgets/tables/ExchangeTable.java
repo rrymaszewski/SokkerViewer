@@ -9,13 +9,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.ExchangeComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Exchange;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
@@ -59,7 +59,7 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 
 			if (titles[i].equals("")) { //$NON-NLS-1$
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

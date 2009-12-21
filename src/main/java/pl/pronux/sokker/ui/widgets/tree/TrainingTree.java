@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.SokkerDate;
@@ -15,7 +16,6 @@ import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
 
@@ -48,7 +48,7 @@ public class TrainingTree extends Tree {
 
 			if (j > 2) {
 				if (columns[j].equals("")) {
-					if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+					if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 						column.pack();
 					}
 				} else {

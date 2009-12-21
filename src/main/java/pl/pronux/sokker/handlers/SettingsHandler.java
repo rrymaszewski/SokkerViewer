@@ -3,20 +3,20 @@ package pl.pronux.sokker.handlers;
 import java.util.Properties;
 
 import pl.pronux.sokker.data.properties.SVProperties;
-import pl.pronux.sokker.interfaces.SV;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 
 public class SettingsHandler {
-	public static int OS_TYPE = SV.WINDOWS;
+	public static OperatingSystem OS_TYPE = OperatingSystem.WINDOWS;
 	
 	static {
 		String os = System.getProperty("os.name"); //$NON-NLS-1$
 		if(os.toLowerCase().startsWith("linux")) { //$NON-NLS-1$
-			OS_TYPE = SV.LINUX;
+			OS_TYPE = OperatingSystem.LINUX;
 		} else if(os.toLowerCase().startsWith("mac")) { //$NON-NLS-1$
-			OS_TYPE = SV.MAC;
+			OS_TYPE = OperatingSystem.MACOSX;
 		} else if(os.toLowerCase().startsWith("windows")) { //$NON-NLS-1$
-			OS_TYPE = SV.WINDOWS;
+			OS_TYPE = OperatingSystem.WINDOWS;
 		}
 	}
 	private static boolean logged;

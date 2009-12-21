@@ -10,14 +10,13 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.widgets.shells.TrainingEditShell;
 import pl.pronux.sokker.ui.widgets.shells.TrainingReportShell;
 
-public class TrainingsMenu extends Menu implements SV {
+public class TrainingsMenu extends Menu {
 
 	private TrainingsMenu menu;
 

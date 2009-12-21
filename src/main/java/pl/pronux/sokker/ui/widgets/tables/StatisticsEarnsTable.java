@@ -5,12 +5,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class StatisticsEarnsTable extends SVTable<Club> {
@@ -37,7 +37,7 @@ public class StatisticsEarnsTable extends SVTable<Club> {
 
 			if (columns2[i].equals("")) { //$NON-NLS-1$
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

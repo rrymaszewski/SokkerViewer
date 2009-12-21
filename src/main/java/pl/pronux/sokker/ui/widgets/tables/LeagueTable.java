@@ -8,8 +8,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.LeagueComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.model.LeagueTeam;
@@ -18,7 +18,7 @@ import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
-public class LeagueTable extends SVTable<LeagueRound> implements SV {
+public class LeagueTable extends SVTable<LeagueRound> {
 
 	private LeagueComparator leagueComparator;
 
@@ -57,7 +57,7 @@ public class LeagueTable extends SVTable<LeagueRound> implements SV {
 			column.setMoveable(false);
 
 			if (titles[i].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

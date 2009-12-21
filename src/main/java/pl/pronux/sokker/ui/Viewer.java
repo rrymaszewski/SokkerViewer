@@ -34,6 +34,7 @@ import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.downloader.Synchronizer;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -104,7 +105,7 @@ public class Viewer extends Shell {
 
 		this.display = display;
 
-		if (SettingsHandler.OS_TYPE == SV.LINUX) {
+		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 			splash = new Splash(display, SWT.TOOL);
 		} else {
 			splash = new Splash(display, SWT.ON_TOP);
@@ -145,12 +146,13 @@ public class Viewer extends Shell {
 
 		// settings mainShell ICO
 		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[32x32].png")); //$NON-NLS-1$
-		
+
 		if (SV.VERSION_TYPE == SV.TESTING) {
 			this.setText(this.getText() + " TESTING"); //$NON-NLS-1$
 		}
 		// adding listener for checking if window is close
 		this.addListener(SWT.Close, new Listener() {
+
 			public void handleEvent(Event event) {
 				if (settings.isInfoClose()) {
 					MessageBox messageBox = new MessageBox(Viewer.this, SWT.ICON_QUESTION | SWT.APPLICATION_MODAL | SWT.YES | SWT.NO);
@@ -160,7 +162,7 @@ public class Viewer extends Shell {
 				}
 			}
 		});
-		
+
 		// settings fonts
 		addFonts();
 
@@ -212,7 +214,7 @@ public class Viewer extends Shell {
 		String[] viewClass = pluginsProperties.getProperty("plugins").split(";"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		pluginsList = new ArrayList<IPlugin>();
-		
+
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.bottom = new FormAttachment(100, 0);
@@ -274,42 +276,43 @@ public class Viewer extends Shell {
 		this.addListener(IEvents.LOAD_DATA, new Listener() {
 
 			public void handleEvent(Event event) {
-					if (event instanceof UpdateEvent) {
-						UpdateEvent updateEvent = (UpdateEvent) event;
+				if (event instanceof UpdateEvent) {
+					UpdateEvent updateEvent = (UpdateEvent) event;
 
-						final ProgressBarDialog dialog = new ProgressBarDialog(Viewer.this, SWT.PRIMARY_MODAL | SWT.CLOSE);
-						try {
-							dialog.run(false, false, true, new CoreAction(updateEvent.isUpdate()));
-						} catch (InterruptedException e) {
-							new BugReporter(Viewer.this).openErrorMessage("Viewer", e);
-						} catch (InvocationTargetException e) {
-							new BugReporter(Viewer.this).openErrorMessage("Viewer", e);
-						}
+					final ProgressBarDialog dialog = new ProgressBarDialog(Viewer.this, SWT.PRIMARY_MODAL | SWT.CLOSE);
+					try {
+						dialog.run(false, false, true, new CoreAction(updateEvent.isUpdate()));
+					} catch (InterruptedException e) {
+						new BugReporter(Viewer.this).openErrorMessage("Viewer", e);
+					} catch (InvocationTargetException e) {
+						new BugReporter(Viewer.this).openErrorMessage("Viewer", e);
+					}
 
-						Thread monitorThread = new Thread(new Runnable() {
-							public void run() {
-								final pl.pronux.sokker.ui.widgets.custom.Monitor monitor = dialog.getProgressMonitor();
+					Thread monitorThread = new Thread(new Runnable() {
 
-								while (!monitor.isDone() && !monitor.isCanceled() && !monitor.isInterrupted()) {
-									try {
-										Thread.sleep(100);
-									} catch (InterruptedException e) {
-									}
-								}
+						public void run() {
+							final pl.pronux.sokker.ui.widgets.custom.Monitor monitor = dialog.getProgressMonitor();
 
-								if (monitor.isCanceled() || monitor.isInterrupted()) {
-									Viewer.this.clear();
+							while (!monitor.isDone() && !monitor.isCanceled() && !monitor.isInterrupted()) {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
 								}
 							}
-						});
-						monitorThread.start();
-					}
+
+							if (monitor.isCanceled() || monitor.isInterrupted()) {
+								Viewer.this.clear();
+							}
+						}
+					});
+					monitorThread.start();
 				}
+			}
 		});
 
 		splash.close();
 	}
-	
+
 	@Override
 	public void open() {
 		if (settings.isStartup()) {
@@ -325,7 +328,7 @@ public class Viewer extends Shell {
 			}
 		}
 		cb.dispose();
-		
+
 	}
 
 	private void addColors(Display display) {
@@ -359,10 +362,11 @@ public class Viewer extends Shell {
 		ConfigBean.setFontCurrent(this.getFont());
 		fontCurrent = ConfigBean.getFontCurrent();
 
-		if (SettingsHandler.OS_TYPE == SV.LINUX) {
+		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 			ConfigBean.setFontMain(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 
-			ConfigBean.setFontDescription(Fonts.getFont(display, "Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
+			ConfigBean.setFontDescription(Fonts.getFont(display,
+														"Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
 
 			ConfigBean.setFontTable(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 
@@ -389,6 +393,7 @@ public class Viewer extends Shell {
 		formData.left = new FormAttachment(0, 200);
 		_mainShellSashVertical.setLayoutData(formData);
 		_mainShellSashVertical.addSelectionListener(new SelectionAdapter() {
+
 			public void widgetSelected(SelectionEvent event) {
 				((FormData) _mainShellSashVertical.getLayoutData()).left = new FormAttachment(0, event.x);
 				_mainShellSashVertical.getParent().layout();
@@ -406,7 +411,7 @@ public class Viewer extends Shell {
 
 		statusBar = new StatusBar(parent, SWT.NONE);
 		statusBar.setLayoutData(statusBarFormData);
-		
+
 	}
 
 	private void addTrayItem(Shell parent) {
@@ -434,6 +439,7 @@ public class Viewer extends Shell {
 
 	public void clear() {
 		DisplayHandler.getDisplay().syncExec(new Runnable() {
+
 			public void run() {
 				for (int i = 0; i < pluginsList.size(); i++) {
 					pluginsList.get(i).clear();
@@ -445,7 +451,7 @@ public class Viewer extends Shell {
 			}
 		});
 	}
-	
+
 	public SVTree getTree() {
 		return this.treeGroup.getTree();
 	}
@@ -461,26 +467,29 @@ public class Viewer extends Shell {
 	private void getVersionInfo() {
 
 		new Thread() {
+
 			public void run() {
 				try {
 					final String version = new Synchronizer(settings).getVersion();
-					if(version != null && !version.equals(Synchronizer.NO_UPDATES)) {
+					if (version != null && !version.equals(Synchronizer.NO_UPDATES)) {
 						display.asyncExec(new Runnable() {
+
 							public void run() {
 								statusBar.setVersion(Messages.getString("statusBar.versionLabel.text") + version); //$NON-NLS-1$
 								statusBar.getVersionLabel().addListener(SWT.MouseDoubleClick, new Listener() {
+
 									public void handleEvent(Event event) {
 										new UpdaterWizard(Viewer.this).open();
 										statusBar.getVersionLabel().setData("listener", this); //$NON-NLS-1$
 									}
 								});
 
-								if (SettingsHandler.OS_TYPE == SV.WINDOWS) {
+								if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
 									if (trayItem != null) {
 										final ToolTip trayToolTip = new ToolTip(Viewer.this, SWT.BALLOON | SWT.ICON_INFORMATION);
 										trayItem.setToolTip(trayToolTip);
 										trayToolTip.setMessage(String.format(Messages.getString("message.update.info"), new Object[] { //$NON-NLS-1$
-												version }));
+																			 version }));
 										trayToolTip.setAutoHide(true);
 										trayToolTip.setVisible(true);
 									}
@@ -506,6 +515,7 @@ public class Viewer extends Shell {
 
 	public void setPlugin(final IPlugin plugin) {
 		DisplayHandler.getDisplay().syncExec(new Runnable() {
+
 			public void run() {
 				plugin.set();
 			}
@@ -514,6 +524,7 @@ public class Viewer extends Shell {
 
 	public void setView() {
 		this.getDisplay().syncExec(new Runnable() {
+
 			public void run() {
 				Viewer.this.getConfigurator().setView();
 				Viewer.this.update();
@@ -535,11 +546,12 @@ public class Viewer extends Shell {
 	public void setPluginsList(ArrayList<IPlugin> pluginsList) {
 		this.pluginsList = pluginsList;
 	}
-	
+
 	public void setLastUpdateDate(final String date) {
 		this.getDisplay().syncExec(new Runnable() {
+
 			public void run() {
-				statusBar.setLastDate(date);				
+				statusBar.setLastDate(date);
 			}
 		});
 	}

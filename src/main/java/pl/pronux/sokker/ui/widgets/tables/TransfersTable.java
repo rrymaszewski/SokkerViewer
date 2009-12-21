@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.TransferComparator;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Transfer;
@@ -66,7 +67,7 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 
 			if (j == columns.length - 1) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

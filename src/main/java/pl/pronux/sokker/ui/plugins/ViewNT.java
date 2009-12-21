@@ -58,6 +58,7 @@ import pl.pronux.sokker.downloader.xml.parsers.CountryXmlParser;
 import pl.pronux.sokker.downloader.xml.parsers.PlayersXmlParser;
 import pl.pronux.sokker.downloader.xml.parsers.TeamXmlParser;
 import pl.pronux.sokker.enums.Language;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -992,7 +993,7 @@ public class ViewNT implements IPlugin {
 			column.setMoveable(false);
 			if (j == columns.length - 1) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {

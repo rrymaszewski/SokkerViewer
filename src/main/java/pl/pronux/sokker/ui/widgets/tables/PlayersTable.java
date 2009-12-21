@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerComparator;
 import pl.pronux.sokker.data.cache.Cache;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Player;
@@ -22,7 +23,6 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.Fonts;
@@ -89,7 +89,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			// } else
 			if (titles[j].equals("")) { //$NON-NLS-1$
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
 			} else {
