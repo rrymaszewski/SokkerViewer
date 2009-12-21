@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
@@ -108,7 +109,7 @@ public class ViewGeneral implements IViewConfigure {
 		// formData.height = 15;
 
 		confShellLangTypeCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
-		confShellLangTypeCombo.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
+		confShellLangTypeCombo.setItems(Language.languageNames());
 		confShellLangTypeCombo.setLayoutData(formData);
 		confShellLangTypeCombo.pack();
 
@@ -127,7 +128,7 @@ public class ViewGeneral implements IViewConfigure {
 		startupButton.setSelection(settings.isStartup());
 		closeButton.setSelection(settings.isInfoClose());
 
-		String language = settings.getLanguage(settings.getLangCode());
+		String language = Language.valueOf(settings.getLangCode()).getLanguageName();
 		if (language != null) {
 			confShellLangTypeCombo.setText(language);
 			confShellLangTypeCombo.pack();
@@ -152,7 +153,7 @@ public class ViewGeneral implements IViewConfigure {
 		settings.setUpdate(downloadButton.getSelection());
 
 		String text = confShellLangTypeCombo.getItem(confShellLangTypeCombo.getSelectionIndex());
-		String langCode = settings.getLangCode(text);
+		String langCode = Language.getLanguageCode(text);
 
 		if (langCode != null) {
 			if (!langCode.equals(settings.getLangCode())) {

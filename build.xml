@@ -130,7 +130,7 @@
 		<delete dir="${build.classes.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 
-		<javac srcdir="${src.dir}/pl/pronux/sokker/interfaces/" destdir="${build.classes.dir}">
+		<javac srcdir="${src.dir}/pl/pronux/sokker/" destdir="${build.classes.dir}" includes="interfaces/**,enums/**">
 			<classpath>
 				<pathelement location="${lib.src.dir}${itext}" />
 				<pathelement location="${lib.src.dir}${jfreechart}" />
@@ -140,7 +140,6 @@
 				<pathelement location="${lib.src.dir}${htmlentities}" />
 			</classpath>
 		</javac>
-		<echo message="test" />
 		<jar destfile="${lib.dst.dir}/${headers}" basedir="${build.classes.dir}" />
 
 		<delete dir="${build.classes.dir}" />

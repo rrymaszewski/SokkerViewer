@@ -57,6 +57,7 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.CountryXmlParser;
 import pl.pronux.sokker.downloader.xml.parsers.PlayersXmlParser;
 import pl.pronux.sokker.downloader.xml.parsers.TeamXmlParser;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -81,6 +82,7 @@ import pl.pronux.sokker.utils.file.PropertiesChecker;
 import pl.pronux.sokker.utils.security.Crypto;
 
 public class ViewNT implements IPlugin {
+
 	private final String SECRET_KEY_128 = "vsXFsdVfeGFTyMdpOVhY4A==";
 
 	private final static String SYMMETRIC_KEY_TYPE = "Rijndael";
@@ -219,6 +221,7 @@ public class ViewNT implements IPlugin {
 		note.setLayoutData(formData);
 		note.setTextLimit(500);
 		note.addListener(SWT.Modify, new Listener() {
+
 			public void handleEvent(Event arg0) {
 				charLimit.setText(String.format("%s: %d", Messages.getString("viewnt.message.limit.label"), (note.getTextLimit() - note.getText().length())));
 			}
@@ -265,13 +268,15 @@ public class ViewNT implements IPlugin {
 						try {
 							SecretKeySpec skey = Crypto.convertByteArrayToSymmetricKey(Crypto.decodeBase64(SECRET_KEY_128), SYMMETRIC_KEY_TYPE);
 
-							parameters = Crypto.encodeBase64(Crypto.encryptSymmetric(
-									(player.getId() + ";;" + player.getCountryfrom() + ";;" + player.getName() + ";;" + player.getSurname() + ";;" + club.getId() + ";;"
-											+ club.getClubName().get(0).getName() + ";;" + player.getSkills()[0].getAge() + ";;" + player.getSkills()[0].getValue().toInt() + ";;"
-											+ player.getSkills()[0].getForm() + ";;" + player.getSkills()[0].getStamina() + ";;" + player.getSkills()[0].getPace() + ";;"
-											+ player.getSkills()[0].getTechnique() + ";;" + player.getSkills()[0].getPassing() + ";;" + player.getSkills()[0].getKeeper() + ";;"
-											+ player.getSkills()[0].getDefender() + ";;" + player.getSkills()[0].getPlaymaker() + ";;" + player.getSkills()[0].getScorer() + ";;" + training_type
-											+ ";;" + comment).getBytes("UTF-8"), skey, SYMMETRIC_KEY_SEQUENCE));
+							parameters = Crypto.encodeBase64(Crypto
+								.encryptSymmetric((player.getId() + ";;" + player.getCountryfrom() + ";;" + player.getName() + ";;" + player.getSurname()
+												   + ";;" + club.getId() + ";;" + club.getClubName().get(0).getName() + ";;" + player.getSkills()[0].getAge()
+												   + ";;" + player.getSkills()[0].getValue().toInt() + ";;" + player.getSkills()[0].getForm() + ";;"
+												   + player.getSkills()[0].getStamina() + ";;" + player.getSkills()[0].getPace() + ";;"
+												   + player.getSkills()[0].getTechnique() + ";;" + player.getSkills()[0].getPassing() + ";;"
+												   + player.getSkills()[0].getKeeper() + ";;" + player.getSkills()[0].getDefender() + ";;"
+												   + player.getSkills()[0].getPlaymaker() + ";;" + player.getSkills()[0].getScorer() + ";;" + training_type
+												   + ";;" + comment).getBytes("UTF-8"), skey, SYMMETRIC_KEY_SEQUENCE));
 							parameters = URLEncoder.encode(parameters, "UTF-8");
 						} catch (InvalidKeyException e2) {
 							new BugReporter(composite.getDisplay()).openErrorMessage("ViewNT", e2);
@@ -375,6 +380,7 @@ public class ViewNT implements IPlugin {
 		_treeItem.setText(Messages.getString("tree.ViewNT"));
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
+
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = _treeItem.getParent().getItem(pt);
@@ -430,10 +436,11 @@ public class ViewNT implements IPlugin {
 
 		_treeItem.setText(langResource.getString("tree.ViewNT"));
 
-		String[] columns = { "", langResource.getString("table.name"), langResource.getString("table.surname"), langResource.getString("table.value"), langResource.getString("table.salary"),
-				langResource.getString("table.age"), langResource.getString("table.form"), langResource.getString("table.stamina"), langResource.getString("table.pace"),
-				langResource.getString("table.technique"), langResource.getString("table.passing"), langResource.getString("table.keeper"), langResource.getString("table.defender"),
-				langResource.getString("table.playmaker"), langResource.getString("table.scorer") };
+		String[] columns = { "", langResource.getString("table.name"), langResource.getString("table.surname"), langResource.getString("table.value"),
+							langResource.getString("table.salary"), langResource.getString("table.age"), langResource.getString("table.form"),
+							langResource.getString("table.stamina"), langResource.getString("table.pace"), langResource.getString("table.technique"),
+							langResource.getString("table.passing"), langResource.getString("table.keeper"), langResource.getString("table.defender"),
+							langResource.getString("table.playmaker"), langResource.getString("table.scorer") };
 
 		for (int j = 0; j < columns.length; j++) {
 			table.getColumn(j).setText(columns[j]);
@@ -455,6 +462,7 @@ public class ViewNT implements IPlugin {
 		MenuItem menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.nt.export"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TableItem[] items = table.getSelection();
@@ -478,6 +486,7 @@ public class ViewNT implements IPlugin {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("viewnt.button.hide"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TableItem[] items = table.getSelection();
@@ -491,6 +500,7 @@ public class ViewNT implements IPlugin {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("viewnt.button.show"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TableItem[] items = table.getSelection();
@@ -506,6 +516,7 @@ public class ViewNT implements IPlugin {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("viewnt.button.info"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TableItem[] items = table.getSelection();
@@ -959,10 +970,11 @@ public class ViewNT implements IPlugin {
 		table.setHeaderVisible(true);
 		table.setFont(ConfigBean.getFontTable());
 
-		String[] columns = { "", Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.value"), Messages.getString("table.salary"),
-				Messages.getString("table.age"), Messages.getString("table.form"), Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
-				Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"), Messages.getString("table.playmaker"),
-				Messages.getString("table.scorer"), "" };
+		String[] columns = { "", Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.value"),
+							Messages.getString("table.salary"), Messages.getString("table.age"), Messages.getString("table.form"),
+							Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
+							Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"),
+							Messages.getString("table.playmaker"), Messages.getString("table.scorer"), "" };
 
 		// addTableEditor(table);
 
@@ -1121,9 +1133,10 @@ public class ViewNT implements IPlugin {
 		formData.height = 20;
 
 		Listener confShellLangComboListner = new Listener() {
+
 			public void handleEvent(Event event) {
 				String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
-				String[] table = settings.getLangCode(text).split("_");
+				String[] table = Language.getLanguageCode(text).split("_");
 				// langResource = Messages.getLangResources(new Locale(table[0],
 				// table[1]));
 				Messages.setDefault(new Locale(table[0], table[1]));
@@ -1132,8 +1145,8 @@ public class ViewNT implements IPlugin {
 		};
 
 		languageCombo = new Combo(pluginGroup, SWT.BORDER | SWT.READ_ONLY);
-		languageCombo.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
-		languageCombo.setText(settings.getLanguage(settings.getLangCode()));
+		languageCombo.setItems(Language.languageNames());
+		languageCombo.setText(Language.valueOf(settings.getLangCode()).getLanguageName());
 		languageCombo.setLayoutData(formData);
 		languageCombo.setFont(ConfigBean.getFontMain());
 		languageCombo.addListener(SWT.Selection, confShellLangComboListner);
@@ -1247,7 +1260,8 @@ public class ViewNT implements IPlugin {
 		if (System.getProperty("os.name").equals("Linux")) {
 			ConfigBean.setFontMain(Fonts.getFont(shell.getDisplay(), fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 
-			ConfigBean.setFontDescription(Fonts.getFont(shell.getDisplay(), "Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL));
+			ConfigBean.setFontDescription(Fonts.getFont(shell.getDisplay(), "Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L",
+														fontCurrent.getFontData()[0].height, SWT.NORMAL));
 
 			ConfigBean.setFontTable(Fonts.getFont(shell.getDisplay(), fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 		} else {

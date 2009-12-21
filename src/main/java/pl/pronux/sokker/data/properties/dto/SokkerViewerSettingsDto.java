@@ -1,8 +1,5 @@
 package pl.pronux.sokker.data.properties.dto;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import pl.pronux.sokker.data.properties.PropertiesSession;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -83,22 +80,6 @@ public class SokkerViewerSettingsDto extends SokkerViewerSettings {
 		} catch (Exception e) {
 			this.setUpdate(false);
 		} 
-		
-		String languages = properties.getProperty("lang.list"); //$NON-NLS-1$
-		if(languages != null) {
-			String[] langTable = languages.split(";"); //$NON-NLS-1$
-			this.setLanguages(Arrays.asList(langTable));
-		} else {
-			this.setLanguages(new ArrayList<String>());
-		}
-		
-		String langCodes = properties.getProperty("lang.codelist"); //$NON-NLS-1$
-		if(langCodes != null) {
-			String[] langCodesTable = langCodes.split(";"); //$NON-NLS-1$
-			this.setLangCodes(Arrays.asList(langCodesTable));
-		} else {
-			this.setLangCodes(new ArrayList<String>());
-		}
 	}
 
 }

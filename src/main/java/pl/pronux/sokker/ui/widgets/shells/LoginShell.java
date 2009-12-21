@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.ProxySettings;
@@ -145,7 +146,7 @@ public class LoginShell extends Shell {
 			public void handleEvent(Event event) {
 				try {
 					String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
-					String langCode = settings.getLangCode(text);
+					String langCode = Language.getLanguageCode(text);
 
 					if (langCode != null) {
 						settings.setLangCode(langCode);
@@ -166,8 +167,8 @@ public class LoginShell extends Shell {
 		};
 
 		langTypeCombo = new Combo(this, SWT.BORDER | SWT.READ_ONLY);
-		langTypeCombo.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
-		String language = settings.getLanguage(settings.getLangCode());
+		langTypeCombo.setItems(Language.languageNames());
+		String language = Language.valueOf(settings.getLangCode()).getLanguageName();
 		if (language != null) {
 			langTypeCombo.setText(language);
 		}

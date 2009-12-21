@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.comparators.StringLengthComparator;
 import pl.pronux.sokker.data.cache.Cache;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.PersonInterface;
@@ -131,7 +132,7 @@ public class ViewTranslator implements IPlugin {
 //						break;
 //					}
 //				}
-				langCode = settings.getLangCode(text);
+				langCode = Language.getLanguageCode(text);
 				String[] temp = langCode.split("_");
 				if(temp.length == 2) {
 					langTranslatePropertiesFrom = Messages.getLangResources(new Locale(temp[0], temp[1]));	
@@ -303,7 +304,7 @@ public class ViewTranslator implements IPlugin {
 //					}
 //				}
 				
-				langCode = settings.getLangCode(text);
+				langCode = Language.getLanguageCode(text);
 				
 				String[] temp = langCode.split("_");
 				if(temp.length > 1) {
@@ -408,8 +409,8 @@ public class ViewTranslator implements IPlugin {
 
 	private void addItems(Combo comboLang) {
 
-		comboLang.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
-		comboLang.setText(settings.getLanguage(settings.getLangCode()));
+		comboLang.setItems(Language.languageNames());
+		comboLang.setText(Language.valueOf(settings.getLangCode()).getLanguageName());
 
 	}
 

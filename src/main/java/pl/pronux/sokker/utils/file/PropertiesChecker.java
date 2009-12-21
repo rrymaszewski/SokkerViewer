@@ -87,13 +87,8 @@ public class PropertiesChecker {
 		hmValues.put("backup.dir", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("db.type", "HSQLDB"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("conf.savepass", "1"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues
-				.put(
-						"lang.list", "\u0411\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438;\u010Ce\u0161tina;Deutsch;Dansk;Eesti;English;Espa\u00F1ol;Fran\u00E7ais;Italiano;Polski;Portugu\u00EAs;Rom\u00e2n\u00e3;T\u00FCrk\u00E7e"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues.put("lang.codelist", "bg_BG;cs_CZ;de_DE;dk_DK;ee_EE;en_EN;es_ES;fr_FR;it_IT;pl_PL;pt_PT;ro_RO;tr_TR"); //$NON-NLS-1$ //$NON-NLS-2$
-		// hmValues.put("lang.type", "Polski");
 		hmValues.put("conf.getXML", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues.put("lang.code", "pl_PL"); //$NON-NLS-1$ //$NON-NLS-2$
+		hmValues.put("lang.code", "en_EN"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("check.properties", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("sv.startup", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("info.update", "1"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -109,9 +104,6 @@ public class PropertiesChecker {
 				sokkerProperties.setProperty(key, value);
 			}
 		}
-
-		sokkerProperties.setProperty("lang.list", hmValues.get("lang.list")); //$NON-NLS-1$ //$NON-NLS-2$
-		sokkerProperties.setProperty("lang.codelist", hmValues.get("lang.codelist")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (sokkerProperties.getProperty("backup.dir") == null || sokkerProperties.getProperty("backup.dir").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sokkerProperties.setProperty("backup.dir", System.getProperty("user.dir") + File.separator + "bak" + File.separator); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
