@@ -1147,7 +1147,7 @@ public class ViewNT implements IPlugin {
 
 		languageCombo = new Combo(pluginGroup, SWT.BORDER | SWT.READ_ONLY);
 		languageCombo.setItems(Language.languageNames());
-		languageCombo.setText(Language.valueOf(settings.getLangCode()).getLanguageName());
+		languageCombo.setText(Language.getLanguageName(settings.getLangCode()));
 		languageCombo.setLayoutData(formData);
 		languageCombo.setFont(ConfigBean.getFontMain());
 		languageCombo.addListener(SWT.Selection, confShellLangComboListner);

@@ -168,7 +168,7 @@ public class LoginShell extends Shell {
 
 		langTypeCombo = new Combo(this, SWT.BORDER | SWT.READ_ONLY);
 		langTypeCombo.setItems(Language.languageNames());
-		String language = Language.valueOf(settings.getLangCode()).getLanguageName();
+		String language = Language.getLanguageName(settings.getLangCode());
 		if (language != null) {
 			langTypeCombo.setText(language);
 		}

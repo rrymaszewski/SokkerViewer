@@ -128,7 +128,7 @@ public class ViewGeneral implements IViewConfigure {
 		startupButton.setSelection(settings.isStartup());
 		closeButton.setSelection(settings.isInfoClose());
 
-		String language = Language.valueOf(settings.getLangCode()).getLanguageName();
+		String language = Language.getLanguageName(settings.getLangCode());
 		if (language != null) {
 			confShellLangTypeCombo.setText(language);
 			confShellLangTypeCombo.pack();

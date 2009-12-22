@@ -410,7 +410,7 @@ public class ViewTranslator implements IPlugin {
 	private void addItems(Combo comboLang) {
 
 		comboLang.setItems(Language.languageNames());
-		comboLang.setText(Language.valueOf(settings.getLangCode()).getLanguageName());
+		comboLang.setText(Language.getLanguageName(settings.getLangCode()));
 
 	}
 

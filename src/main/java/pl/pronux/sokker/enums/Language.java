@@ -7,11 +7,11 @@ public enum Language {
 
 	bg_BG("\u0411\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438"),
 	cs_CZ("\u010Ce\u0161tina"),
+	da_DK("Dansk"),
 	de_DE("Deutsch"),
-	dk_DK("Dansk"),
-	ee_EE("Eesti"),
 	en_EN("English"),
 	es_ES("Espa\u00F1ol"),
+	et_EE("Eesti"),
 	fr_FR("Fran\u00E7ais"),
 	hu_HU("Magyar"),
 	it_IT("Italiano"),
@@ -24,6 +24,7 @@ public enum Language {
 	private static String[] languageCodes;
 	private static String[] languageNames;
 	private static Map<String, String> langCodes = new HashMap<String, String>();
+	private static Map<String, String> langNames = new HashMap<String, String>();
 	static {
 		languageCodes = new String[values().length];
 		languageNames = new String[values().length];
@@ -32,6 +33,7 @@ public enum Language {
 			languageCodes[i] = values()[i].name();
 			languageNames[i] = values()[i].languageName;
 			langCodes.put(languageNames[i], languageCodes[i]);
+			langNames.put(languageCodes[i], languageNames[i]);
 		}
 	}
 
@@ -54,6 +56,19 @@ public enum Language {
 	}
 
 	public static String getLanguageCode(String languageName) {
-		return langCodes.get(languageName);
+		String langCode = langCodes.get(languageName);
+		if (langCode == null) {
+			return en_EN.name();
+		}
+		return langCode;
 	}
+	
+	public static String getLanguageName(String languageCode) {
+		String langName = langNames.get(languageCode);
+		if (langName == null) {
+			return en_EN.name();
+		}
+		return langName;
+	}
+
 }
