@@ -142,7 +142,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>mac</id>
+			<id>macosx</id>
 			<activation>
 				<os>
 					<family>macosx</family>
