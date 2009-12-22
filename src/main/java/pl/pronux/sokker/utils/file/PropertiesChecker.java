@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -128,30 +129,30 @@ public class PropertiesChecker {
 				pluginsProperties.loadFile(pluginsFile.getAbsolutePath());
 
 				String[] plugins = { "pl.pronux.sokker.ui.plugins.ViewClub", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewPlayers", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniors", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCoaches", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTrainings", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewArena", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewPlayersHistory", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniorsTrained", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniorsFired", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCoachesFired", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewStatistics", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewExchange", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewAssistant", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewNotepad", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTranslator", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewNT", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTrash", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewBBCode", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCalendar", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTransfers", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewMatches", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewLeague", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewArchive", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewOffice", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewSpy", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewPlayers", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniors", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCoaches", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTrainings", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewArena", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewPlayersHistory", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniorsTrained", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniorsFired", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCoachesFired", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewStatistics", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewExchange", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewAssistant", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewNotepad", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTranslator", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewNT", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTrash", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewBBCode", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCalendar", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTransfers", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewMatches", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewLeague", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewArchive", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewOffice", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewSpy", //$NON-NLS-1$
 				};
 
 				String pluginsValue = pluginsProperties.getProperty("plugins"); //$NON-NLS-1$
@@ -159,8 +160,8 @@ public class PropertiesChecker {
 				Set<Object> keySet = pluginsProperties.keySet();
 				Iterator<Object> itr = keySet.iterator();
 				Map<String, String> newKeys = new HashMap<String, String>();
-				while(itr.hasNext()) {
-					String key = (String)itr.next();
+				while (itr.hasNext()) {
+					String key = (String) itr.next();
 					if (key.matches("pl.pronux.sokker.viewer.*")) { //$NON-NLS-1$
 						String value = pluginsProperties.getProperty(key);
 						key = key.replaceAll("pl.pronux.sokker.viewer.plugins", "pl.pronux.sokker.ui.plugins");//$NON-NLS-1$ //$NON-NLS-2$
@@ -168,8 +169,8 @@ public class PropertiesChecker {
 						itr.remove();
 					}
 				}
-				
-				for(String key : newKeys.keySet()) {
+
+				for (String key : newKeys.keySet()) {
 					pluginsProperties.put(key, newKeys.get(key));
 				}
 
@@ -194,11 +195,16 @@ public class PropertiesChecker {
 					}
 
 					if (!alPlugins.contains(plugins[i])) {
-						pluginsValue += plugins[i] + ";"; //$NON-NLS-1$
+						alPlugins.add(plugins[i]);
 					}
 				}
 
-				pluginsProperties.setProperty("plugins", pluginsValue); //$NON-NLS-1$
+				alPlugins.retainAll(Arrays.asList(plugins));
+				StringBuffer pluginList = new StringBuffer("");
+				for (String plugin : alPlugins) {
+					pluginList.append(plugin).append(";");
+				}
+				pluginsProperties.setProperty("plugins", pluginList.toString()); //$NON-NLS-1$
 				pluginsProperties.synchronize();
 
 			}
