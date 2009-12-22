@@ -13,11 +13,13 @@ public enum Language {
 	en_EN("English"),
 	es_ES("Espa\u00F1ol"),
 	fr_FR("Fran\u00E7ais"),
+	hu_HU("Magyar"),
 	it_IT("Italiano"),
 	pl_PL("Polski"),
 	pt_PT("Portugu\u00EAs"),
 	ro_RO("Rom\u00E2n\u00E3"),
-	tr_TR("T\u00FCrk\u00E7e");
+	tr_TR("T\u00FCrk\u00E7e"),
+	zh_CN("\u4e2d\u6587");
 
 	private static String[] languageCodes;
 	private static String[] languageNames;
@@ -32,7 +34,7 @@ public enum Language {
 			langCodes.put(languageNames[i], languageCodes[i]);
 		}
 	}
-	
+
 	private String languageName;
 
 	private Language(String languageName) {
