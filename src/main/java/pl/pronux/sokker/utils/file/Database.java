@@ -27,9 +27,10 @@ public class Database {
 			}
 
 			File dbFile = new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			File dbBakFile = new File(dbDir, filename);
-
-			OperationOnFile.copyFile(dbFile, dbBakFile);
+			if (dbFile.exists()) {
+				File dbBakFile = new File(dbDir, filename);
+				OperationOnFile.copyFile(dbFile, dbBakFile);
+			}
 			return true;
 		}
 		return false;
