@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -29,7 +28,7 @@ import pl.pronux.sokker.model.Rank;
 import pl.pronux.sokker.model.Stand;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.User;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class TeamXmlParser {
 
@@ -346,7 +345,7 @@ public class TeamXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error(TeamXmlParser.class, "Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

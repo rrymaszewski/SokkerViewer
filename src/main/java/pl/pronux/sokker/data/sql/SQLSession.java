@@ -4,11 +4,10 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 import pl.pronux.sokker.model.DatabaseSettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class SQLSession {
 	static Connection connection;
@@ -66,7 +65,7 @@ public class SQLSession {
 				SQLSession.databaseType = SQLSession.HSQLDB;
 			}
 		} catch (SQLException se) {
-			new SVLogger(Level.WARNING, "Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
+			Log.warning(SQLSession.class, "Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
 			throw se;
 		}
 		if (SQLSession.getConnection() != null) {
@@ -107,9 +106,9 @@ public class SQLSession {
 			}
 
 		} catch (ClassNotFoundException cnfe) {
-			new SVLogger(Level.WARNING, "Couldn't find the driver!"); //$NON-NLS-1$
-			new SVLogger(Level.WARNING, "Let's print a stack trace, and exit."); //$NON-NLS-1$
-			new SVLogger(Level.WARNING, "Sql Class", cnfe); //$NON-NLS-1$
+			Log.error(SQLSession.class, "Couldn't find the driver!"); //$NON-NLS-1$
+			Log.error(SQLSession.class, "Let's print a stack trace, and exit."); //$NON-NLS-1$
+			Log.error(SQLSession.class, "Sql Class", cnfe); //$NON-NLS-1$
 		}
 
 		// System.out.println("Registered the driver ok, so let's make a

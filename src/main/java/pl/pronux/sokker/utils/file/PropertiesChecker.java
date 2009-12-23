@@ -11,10 +11,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 
 import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.interfaces.SV;
+import pl.pronux.sokker.utils.Log;
 
 public class PropertiesChecker {
 
@@ -30,9 +30,9 @@ public class PropertiesChecker {
 			try {
 				sokkerProperties.loadFile(sokkerPropertiesFile);
 			} catch (FileNotFoundException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 			} catch (IOException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -113,9 +113,9 @@ public class PropertiesChecker {
 		try {
 			sokkerProperties.synchronize();
 		} catch (FileNotFoundException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 		}
 		return true;
 	}
@@ -209,9 +209,9 @@ public class PropertiesChecker {
 
 			}
 		} catch (FileNotFoundException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 		}
 
 		return true;
@@ -256,10 +256,10 @@ public class PropertiesChecker {
 				userProperties.synchronize();
 
 			} catch (FileNotFoundException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 				return false;
 			} catch (IOException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
 				return false;
 			}
 			return true;

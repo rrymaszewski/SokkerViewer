@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.data.sql.dao.AssistantDao;
@@ -18,8 +17,8 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.Transfer;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.OperationOnFile;
-import pl.pronux.sokker.utils.file.SVLogger;
 
 public class SQLQuery {
 	private static Statement batchStm;
@@ -65,9 +64,9 @@ public class SQLQuery {
 
 	private synchronized static void executeBatch() throws SQLException {
 		int[] batchArray = batchStm.executeBatch();
-		new SVLogger(Level.INFO, "Results"); //$NON-NLS-1$
+		Log.info(SQLQuery.class, "Results"); //$NON-NLS-1$
 		for (int i = 0; i < batchArray.length; i++) {
-			new SVLogger(Level.INFO, String.valueOf(batchArray[i]));
+			Log.info(SQLQuery.class, String.valueOf(batchArray[i]));
 		}
 
 	}
@@ -78,7 +77,7 @@ public class SQLQuery {
 			String sqlBatch;
 
 			createBatch();
-			new SVLogger(Level.INFO, "Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
+			Log.info(SQLQuery.class, "Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
 			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if (sqlBatch != null) {
@@ -129,7 +128,7 @@ public class SQLQuery {
 
 			createBatch();
 
-			new SVLogger(Level.INFO, "Update DB  " + dbVersion); //$NON-NLS-1$
+			Log.info(SQLQuery.class, "Update DB  " + dbVersion); //$NON-NLS-1$
 			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if (sqlBatch != null) {

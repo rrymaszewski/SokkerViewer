@@ -2,7 +2,6 @@ package pl.pronux.sokker.downloader.xml.parsers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -14,7 +13,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import pl.pronux.sokker.model.Region;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class RegionXmlParser {
 
@@ -115,7 +114,7 @@ public class RegionXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error(RegionXmlParser.class, "Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

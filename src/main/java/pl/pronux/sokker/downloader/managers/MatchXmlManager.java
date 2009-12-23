@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -20,7 +19,7 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.MatchXmlParser;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Match;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class MatchXmlManager extends XmlManager<Match> {
 
@@ -64,7 +63,7 @@ public class MatchXmlManager extends XmlManager<Match> {
 							download(matchID);
 							matches = parseXML(matchesMap.get(String.valueOf(matchID)));
 						} catch (Exception e) {
-							new SVLogger(Level.WARNING, this.toString(), e);
+							Log.warning(MatchXmlManager.class, this.toString(), e);
 							continue;
 						}
 						if (matches.size() > 0 && matches.get(0).getLeagueID() == match.getLeagueID() && matches.get(0).getSeason() == match.getSeason()) {

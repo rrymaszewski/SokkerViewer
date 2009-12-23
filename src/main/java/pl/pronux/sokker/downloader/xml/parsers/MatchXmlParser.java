@@ -3,7 +3,6 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -18,7 +17,7 @@ import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.TeamStats;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class MatchXmlParser {
 
@@ -488,7 +487,7 @@ public class MatchXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error(MatchXmlParser.class, "Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -61,7 +60,7 @@ import pl.pronux.sokker.ui.widgets.shells.Splash;
 import pl.pronux.sokker.ui.widgets.tray.SVTrayItem;
 import pl.pronux.sokker.ui.widgets.tree.SVTree;
 import pl.pronux.sokker.ui.widgets.wizards.updater.UpdaterWizard;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class Viewer extends Shell {
 
@@ -498,7 +497,7 @@ public class Viewer extends Shell {
 						});
 					}
 				} catch (Exception e) {
-					new SVLogger(Level.WARNING, "Version Info", e); //$NON-NLS-1$
+					Log.warning(Viewer.class, "Version Info", e); //$NON-NLS-1$
 				}
 			}
 		}.start();

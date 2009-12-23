@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -37,8 +36,8 @@ import pl.pronux.sokker.model.Report;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.OperationOnFile;
-import pl.pronux.sokker.utils.file.SVLogger;
 
 public class ImportXMLAction implements IRunnableWithProgress {
 
@@ -162,7 +161,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 						} catch (Exception e) {
 							pack.setImported(false);
 							SQLSession.rollback();
-							new SVLogger(Level.WARNING, "XML Importer ", e); //$NON-NLS-1$
+							Log.error(ImportXMLAction.class, "XML Importer ", e); //$NON-NLS-1$
 						}
 					}
 				} else if (child instanceof XMLpackOld) {
@@ -211,7 +210,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 					} catch (Exception e) {
 						pack.setImported(false);
 						SQLSession.rollback();
-						new SVLogger(Level.WARNING, "XML Importer ", e); //$NON-NLS-1$
+						Log.error(ImportXMLAction.class, "XML Importer ", e); //$NON-NLS-1$
 					}
 
 				}
@@ -226,9 +225,9 @@ public class ImportXMLAction implements IRunnableWithProgress {
 				SQLSession.rollback();
 				SQLSession.close();
 			} catch (SQLException e1) {
-				new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+				Log.error(ImportXMLAction.class, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 			}
-			new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing", e); //$NON-NLS-1$
+			Log.error(ImportXMLAction.class, "Synchronizer -> SQL Importing", e); //$NON-NLS-1$
 		} finally {
 			monitor.done();
 		}

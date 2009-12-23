@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -50,7 +49,7 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.updater.xml.UpdateXMLParser;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class Synchronizer implements IRunnableWithProgress {
 
@@ -156,20 +155,24 @@ public class Synchronizer implements IRunnableWithProgress {
 			ProxySettings proxySettings = settings.getProxySettings();
 			try {
 				if (proxySettings.isEnabled()) {
-					downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(), proxySettings.getPassword());
+					downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings
+						.getUsername(), proxySettings.getPassword());
 				} else {
 					downloader.login(settings.getUsername(), settings.getPassword());
 				}
 			} catch (SVException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(
+					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
 			} catch (IOException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(
+					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
 			}
 			if (downloader.getStatus().equals(SokkerAuthentication.OK)) {
 				try {
 					vars = downloader.getVars();
 				} catch (IOException e) {
-					throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
+					throw new InvocationTargetException(
+						new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
 				}
 			} else {
 				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + downloader.getErrorno()))); //$NON-NLS-1$
@@ -347,7 +350,7 @@ public class Synchronizer implements IRunnableWithProgress {
 				}
 
 				monitor.subTask(Messages.getString("synchronizer.data.complete")); //$NON-NLS-1$
-				
+
 				if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
 					new MatchXmlManager(destination, downloader, currentDay).completeMatches(teamID, 9);
 					playersXmlManager.completeYouthTeamId();
@@ -362,7 +365,7 @@ public class Synchronizer implements IRunnableWithProgress {
 				try {
 					SQLSession.rollback();
 				} catch (SQLException e1) {
-					new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+					Log.error(Synchronizer.class, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 				}
 				throw new InvocationTargetException(new SVSynchronizerCriticalException("Synchronizer -> SQL Importing", e)); //$NON-NLS-1$
 			} catch (IOException e) {

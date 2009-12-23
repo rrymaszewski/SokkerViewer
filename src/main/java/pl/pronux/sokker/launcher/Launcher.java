@@ -3,7 +3,6 @@ package pl.pronux.sokker.launcher;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -20,8 +19,8 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.ui.Viewer;
 import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.PropertiesChecker;
-import pl.pronux.sokker.utils.file.SVLogger;
 
 public class Launcher {
 
@@ -81,9 +80,9 @@ public class Launcher {
 			}
 
 		} catch (Exception e) {
-			new SVLogger(Level.WARNING, "Error Viewer", e); //$NON-NLS-1$
+			Log.error(Launcher.class, "Error Viewer", e); //$NON-NLS-1$
 		} finally {
-			SVLogger.dispose();
+			Log.close();
 			try {
 				if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
 					SQLSession.getConnection().close();
