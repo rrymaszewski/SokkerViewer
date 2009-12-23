@@ -68,15 +68,15 @@ public class Crypto {
 
 			return verifySignature(publicKey, signature, buffer);
 		} catch (FileNotFoundException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (InvalidKeyException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (SignatureException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (NoSuchAlgorithmException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		}
 
 		return false;
@@ -126,13 +126,13 @@ public class Crypto {
 			sig.update(buffer, 0, buffer.length);
 			return sig.sign();
 		} catch (SignatureException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (InvalidKeyException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (NoSuchAlgorithmException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			Log.warning(Crypto.class, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		}
 		return null;
 	}

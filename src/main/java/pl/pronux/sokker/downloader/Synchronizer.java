@@ -365,7 +365,7 @@ public class Synchronizer implements IRunnableWithProgress {
 				try {
 					SQLSession.rollback();
 				} catch (SQLException e1) {
-					Log.error(Synchronizer.class, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+					Log.error("Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 				}
 				throw new InvocationTargetException(new SVSynchronizerCriticalException("Synchronizer -> SQL Importing", e)); //$NON-NLS-1$
 			} catch (IOException e) {

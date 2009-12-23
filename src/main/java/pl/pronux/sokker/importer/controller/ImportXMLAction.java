@@ -161,7 +161,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 						} catch (Exception e) {
 							pack.setImported(false);
 							SQLSession.rollback();
-							Log.error(ImportXMLAction.class, "XML Importer ", e); //$NON-NLS-1$
+							Log.error("XML Importer ", e); //$NON-NLS-1$
 						}
 					}
 				} else if (child instanceof XMLpackOld) {
@@ -210,7 +210,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 					} catch (Exception e) {
 						pack.setImported(false);
 						SQLSession.rollback();
-						Log.error(ImportXMLAction.class, "XML Importer ", e); //$NON-NLS-1$
+						Log.error("XML Importer ", e); //$NON-NLS-1$
 					}
 
 				}
@@ -225,9 +225,9 @@ public class ImportXMLAction implements IRunnableWithProgress {
 				SQLSession.rollback();
 				SQLSession.close();
 			} catch (SQLException e1) {
-				Log.error(ImportXMLAction.class, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+				Log.error("Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 			}
-			Log.error(ImportXMLAction.class, "Synchronizer -> SQL Importing", e); //$NON-NLS-1$
+			Log.error("Synchronizer -> SQL Importing", e); //$NON-NLS-1$
 		} finally {
 			monitor.done();
 		}

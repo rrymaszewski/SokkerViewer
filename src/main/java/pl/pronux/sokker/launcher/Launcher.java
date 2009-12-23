@@ -80,7 +80,7 @@ public class Launcher {
 			}
 
 		} catch (Exception e) {
-			Log.error(Launcher.class, "Error Viewer", e); //$NON-NLS-1$
+			Log.error("Error Viewer", e); //$NON-NLS-1$
 		} finally {
 			Log.close();
 			try {

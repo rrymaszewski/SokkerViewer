@@ -11,41 +11,41 @@ public class Log {
 	private static boolean initialize = false;
 	private static FileHandler fileHandler;
 
-	public static void info(Class<?> cls, String msg) {
-		log(cls, Level.INFO, msg);
+	public static void info(String msg) {
+		log(Level.INFO, msg);
 	}
 
-	public static void warning(Class<?> cls, String msg) {
-		log(cls, Level.WARNING, msg);
+	public static void warning(String msg) {
+		log(Level.WARNING, msg);
 	}
 
-	public static void error(Class<?> cls, String msg) {
-		log(cls, Level.SEVERE, msg);
+	public static void error(String msg) {
+		log(Level.SEVERE, msg);
 	}
 
-	public static void info(Class<?> cls, String msg, Throwable t) {
-		log(cls, Level.INFO, msg, t);
+	public static void info(String msg, Throwable t) {
+		log(Level.INFO, msg, t);
 	}
 
-	public static void warning(Class<?> cls, String msg, Throwable t) {
-		log(cls, Level.WARNING, msg, t);
+	public static void warning(String msg, Throwable t) {
+		log(Level.WARNING, msg, t);
 	}
 
-	public static void error(Class<?> cls, String msg, Throwable t) {
-		log(cls, Level.SEVERE, msg, t);
+	public static void error(String msg, Throwable t) {
+		log(Level.SEVERE, msg, t);
 	}
 
-	private static void log(Class<?> cls, Level level, String msg, Throwable t) {
+	private static void log(Level level, String msg, Throwable t) {
 		if (!initialize) {
 			init();
 			initialize = true;
 		}
-		Logger logger = Logger.getLogger(cls.getCanonicalName());
+		Logger logger = Logger.getLogger("");
 		logger.log(level, msg, t);
 	}
 
-	private static void log(Class<?> cls, Level level, String msg) {
-		log(cls, level, msg, null);
+	private static void log(Level level, String msg) {
+		log(level, msg, null);
 	}
 
 	private static void init() {

@@ -168,7 +168,7 @@ public class BugReporter extends Shell {
 	}
 
 	public void openErrorMessage(final String message) {
-		Log.error(BugReporter.class, message);
+		Log.error(message);
 		messageLabel.setText(message);
 		detailButton.setEnabled(false);
 		detailText.setText("");
@@ -186,7 +186,7 @@ public class BugReporter extends Shell {
 	}
 
 	public void openErrorMessage(final String message, final Throwable e) {
-		Log.error(BugReporter.class, message, e);
+		Log.error(message, e);
 		messageLabel.setText(String.format("%s", message)); //$NON-NLS-1$
 
 		detailText.setText(String.format("%s\n%s", detailText.getText(), e.toString())); //$NON-NLS-1$

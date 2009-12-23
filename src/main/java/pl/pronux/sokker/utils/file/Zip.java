@@ -45,7 +45,7 @@ public class Zip {
 
 		out.close();
 		stream.close();
-		Log.info(Zip.class, "Adding completed OK"); //$NON-NLS-1$
+		Log.info("Adding completed OK"); //$NON-NLS-1$
 	}
 
 	public static void unzip(String filename) throws IOException {

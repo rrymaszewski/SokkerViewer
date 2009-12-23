@@ -64,9 +64,9 @@ public class SQLQuery {
 
 	private synchronized static void executeBatch() throws SQLException {
 		int[] batchArray = batchStm.executeBatch();
-		Log.info(SQLQuery.class, "Results"); //$NON-NLS-1$
+		Log.info("Results"); //$NON-NLS-1$
 		for (int i = 0; i < batchArray.length; i++) {
-			Log.info(SQLQuery.class, String.valueOf(batchArray[i]));
+			Log.info(String.valueOf(batchArray[i]));
 		}
 
 	}
@@ -77,7 +77,7 @@ public class SQLQuery {
 			String sqlBatch;
 
 			createBatch();
-			Log.info(SQLQuery.class, "Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
+			Log.info("Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
 			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if (sqlBatch != null) {
@@ -128,7 +128,7 @@ public class SQLQuery {
 
 			createBatch();
 
-			Log.info(SQLQuery.class, "Update DB  " + dbVersion); //$NON-NLS-1$
+			Log.info("Update DB  " + dbVersion); //$NON-NLS-1$
 			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			if (sqlBatch != null) {

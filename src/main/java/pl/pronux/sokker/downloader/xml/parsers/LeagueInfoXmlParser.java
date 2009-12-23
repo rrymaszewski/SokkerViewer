@@ -159,7 +159,7 @@ public class LeagueInfoXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error(LeagueInfoXmlParser.class, "Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

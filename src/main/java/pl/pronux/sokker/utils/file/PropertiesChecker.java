@@ -30,9 +30,9 @@ public class PropertiesChecker {
 			try {
 				sokkerProperties.loadFile(sokkerPropertiesFile);
 			} catch (FileNotFoundException e) {
-				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 			} catch (IOException e) {
-				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -113,9 +113,9 @@ public class PropertiesChecker {
 		try {
 			sokkerProperties.synchronize();
 		} catch (FileNotFoundException e) {
-			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		}
 		return true;
 	}
@@ -209,9 +209,9 @@ public class PropertiesChecker {
 
 			}
 		} catch (FileNotFoundException e) {
-			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		}
 
 		return true;
@@ -256,10 +256,10 @@ public class PropertiesChecker {
 				userProperties.synchronize();
 
 			} catch (FileNotFoundException e) {
-				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 				return false;
 			} catch (IOException e) {
-				Log.warning(PropertiesChecker.class, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 				return false;
 			}
 			return true;

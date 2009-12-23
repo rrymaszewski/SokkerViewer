@@ -497,7 +497,7 @@ public class Viewer extends Shell {
 						});
 					}
 				} catch (Exception e) {
-					Log.warning(Viewer.class, "Version Info", e); //$NON-NLS-1$
+					Log.warning("Version Info", e); //$NON-NLS-1$
 				}
 			}
 		}.start();

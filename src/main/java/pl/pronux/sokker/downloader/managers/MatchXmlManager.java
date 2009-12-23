@@ -63,7 +63,7 @@ public class MatchXmlManager extends XmlManager<Match> {
 							download(matchID);
 							matches = parseXML(matchesMap.get(String.valueOf(matchID)));
 						} catch (Exception e) {
-							Log.warning(MatchXmlManager.class, this.toString(), e);
+							Log.warning(this.toString(), e);
 							continue;
 						}
 						if (matches.size() > 0 && matches.get(0).getLeagueID() == match.getLeagueID() && matches.get(0).getSeason() == match.getSeason()) {

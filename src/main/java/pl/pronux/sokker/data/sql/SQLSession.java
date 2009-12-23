@@ -65,7 +65,7 @@ public class SQLSession {
 				SQLSession.databaseType = SQLSession.HSQLDB;
 			}
 		} catch (SQLException se) {
-			Log.warning(SQLSession.class, "Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
+			Log.warning("Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
 			throw se;
 		}
 		if (SQLSession.getConnection() != null) {
@@ -106,9 +106,9 @@ public class SQLSession {
 			}
 
 		} catch (ClassNotFoundException cnfe) {
-			Log.error(SQLSession.class, "Couldn't find the driver!"); //$NON-NLS-1$
-			Log.error(SQLSession.class, "Let's print a stack trace, and exit."); //$NON-NLS-1$
-			Log.error(SQLSession.class, "Sql Class", cnfe); //$NON-NLS-1$
+			Log.error("Couldn't find the driver!"); //$NON-NLS-1$
+			Log.error("Let's print a stack trace, and exit."); //$NON-NLS-1$
+			Log.error("Sql Class", cnfe); //$NON-NLS-1$
 		}
 
 		// System.out.println("Registered the driver ok, so let's make a
