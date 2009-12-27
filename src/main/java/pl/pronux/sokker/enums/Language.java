@@ -9,6 +9,7 @@ public enum Language {
 	cs_CZ("\u010Ce\u0161tina"),
 	da_DK("Dansk"),
 	de_DE("Deutsch"),
+	el_GR("\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac"),
 	en_EN("English"),
 	es_ES("Espa\u00F1ol"),
 	et_EE("Eesti"),
