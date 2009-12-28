@@ -212,7 +212,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 									switch (event.type) {
 										case SWT.FocusOut:
 
-											if (text.getText().equals("")) {
+											if (text.getText().isEmpty()) {
 												text.setText("0");
 											}
 
@@ -237,7 +237,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 										case SWT.Traverse:
 											switch (event.detail) {
 												case SWT.TRAVERSE_RETURN:
-													if (text.getText().equals("")) {
+													if (text.getText().isEmpty()) {
 														text.setText("0");
 													}
 

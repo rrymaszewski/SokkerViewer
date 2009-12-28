@@ -215,21 +215,18 @@ public class ViewPlugins implements IViewConfigure {
 
 	public void applyChanges() {
 
-		String pluginsDirection = ""; //$NON-NLS-1$
+		StringBuffer pluginsDirection = new StringBuffer();
 		for (int i = 0; i < pluginsTable.getItemCount(); i++) {
 			TableItem item = pluginsTable.getItem(i);
-
-			pluginsDirection += (String) item.getData("plugin") + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+			pluginsDirection.append((String) item.getData("plugin")).append(";"); //$NON-NLS-1$ //$NON-NLS-2$
 			if (item.getChecked() == true) {
 				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "1"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} else {
 				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-
 		}
-		
 
-		pluginsProperties.setProperty("plugins", pluginsDirection); //$NON-NLS-1$
+		pluginsProperties.setProperty("plugins", pluginsDirection.toString()); //$NON-NLS-1$
 
 		try {
 			pluginsProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties")), ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -238,11 +235,8 @@ public class ViewPlugins implements IViewConfigure {
 		} catch (IOException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite plugins", e);
 		}
-		
 	}
-
 	public void restoreDefaultChanges() {
 		fillTable(pluginsTable, plugins);
 	}
-
 }

@@ -746,8 +746,8 @@ public class ViewNT implements IPlugin {
 				new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
 			}
 
-			if (settings.getLangCode().equals("")) {
-				settings.setLangCode("en_EN");
+			if (settings.getLangCode().isEmpty()) {
+				settings.setLangCode(Language.en_EN.name());
 				new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
 			}
 			String[] table = settings.getLangCode().split("_");

@@ -57,7 +57,7 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 				column.setAlignment(SWT.LEFT);
 			}
 
-			if (titles[i].equals("")) { //$NON-NLS-1$
+			if (titles[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

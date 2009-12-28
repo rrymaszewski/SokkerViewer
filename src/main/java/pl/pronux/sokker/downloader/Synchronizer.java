@@ -98,7 +98,7 @@ public class Synchronizer implements IRunnableWithProgress {
 			osType = "/mac"; //$NON-NLS-1$
 		}
 
-		String query = ""; //$NON-NLS-1$
+		String query;
 		if (SV.VERSION_TYPE == SV.TESTING) {
 			query = "http://www.rymek.user.icpnet.pl/sv/updates/testing" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 		} else {

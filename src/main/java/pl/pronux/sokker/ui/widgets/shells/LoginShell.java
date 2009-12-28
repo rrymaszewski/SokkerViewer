@@ -178,7 +178,7 @@ public class LoginShell extends Shell {
 		Listener confShellOkListner = new Listener() {
 
 			public void handleEvent(Event event) {
-				if (skLoginText.getText().equals("") || skPasswordText.getText().equals("")) { //$NON-NLS-1$ //$NON-NLS-2$
+				if (skLoginText.getText().isEmpty() || skPasswordText.getText().isEmpty()) {
 					MessageBox msg = new MessageBox(LoginShell.this, SWT.OK | SWT.ICON_ERROR);
 					msg.setText(Messages.getString("message.confShell.title")); //$NON-NLS-1$
 					msg.setMessage(Messages.getString("message.confShell.text.nologin")); //$NON-NLS-1$
@@ -283,7 +283,7 @@ public class LoginShell extends Shell {
 				shellLogin.open();
 				String login = shellLogin.getLogin();
 				if (login != null) {
-					if (!login.equals("")) { //$NON-NLS-1$
+					if (!login.isEmpty()) {
 						skLoginText.setText(login);
 						skPasswordText.setFocus();
 					}

@@ -56,14 +56,6 @@ public class SokkerAuthentication {
 	}
 
 	private String getContent(String urlString) throws IOException {
-		// if (counter == 15) {
-		// init(login, password);
-		// counter = 0;
-		// } else {
-		// counter++;
-		// }
-
-		// String stringCache = "";
 		StringBuffer buffer = new StringBuffer();
 		URL url;
 		HttpURLConnection connection = null;
@@ -79,38 +71,20 @@ public class SokkerAuthentication {
 			connection.setReadTimeout(TIMEOUT_MS);
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Accept-Language", "en");
-			// connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
 			connection.setRequestProperty("Accept-Charset", "utf-8;q=0.7,*;q=0.7"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Cookie", cookies);
 			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Cookie", sessionID); //$NON-NLS-1$
 			if (this.proxyAuth != null) {
 				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			// for first request cookie doesn't exist
-			// if (!cookies.equals("")) {
-			// connection.setRequestProperty("Cookie", cookies);
-			// } else {
-			// cookies = getPHPSESSIONID(connection);
-			// }
-
-			// BufferedReader in = new BufferedReader(new
-			// InputStreamReader(connection.getInputStream()));
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
 			String line;
 			while ((line = in.readLine()) != null) {
-				// stringCache = stringCache + inputLine + "\n";
 				buffer.append(line);
 				buffer.append('\n');
 			}
-			// int c;
-			// while ((c = in.read()) != -1) {
-			// sb.append((char) c);
-			// }
-
 		} finally {
 			if (connection != null) {
 				connection.disconnect();
@@ -180,7 +154,7 @@ public class SokkerAuthentication {
 
 	protected String getXML(String urlString, int tries) throws IOException {
 		String response = ""; //$NON-NLS-1$
-		while (tries > 0) {
+		while (tries > 0 && response.isEmpty()) {
 			tries--;
 			try {
 				response = getContent(urlString);
@@ -188,9 +162,7 @@ public class SokkerAuthentication {
 				if (tries == 0) {
 					throw ioex;
 				}
-				continue;
 			}
-			break;
 		}
 		return response;
 	}
@@ -259,7 +231,7 @@ public class SokkerAuthentication {
 	}
 	
 	private String postDataToPage(String urlString, String parameters, String referer) throws IOException, SVException {
-		String line;// , stringCache = "";
+		String line;
 		StringBuffer buffer = new StringBuffer();
 		URL url;
 		DataOutputStream out = null;
@@ -277,11 +249,9 @@ public class SokkerAuthentication {
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Accept-Language", "pl"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
 			connection.setRequestProperty("Accept-Charset", "UTF-8,*"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
-			// connection.setRequestProperty("Cookie", cookies);
 			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
 			if (this.proxyAuth != null) {
 				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
@@ -295,23 +265,16 @@ public class SokkerAuthentication {
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setUseCaches(true);
-			// connection.connect();
 
 			out = new DataOutputStream(connection.getOutputStream());
 			out.writeBytes(parameters);
 			out.flush();
 
-			//
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
 			while ((line = in.readLine()) != null) {
-				// stringCache += inputLine.replaceAll("&", "&amp;") + '\n';
 				buffer.append(line.replaceAll("&", "&amp;")); //$NON-NLS-1$ //$NON-NLS-2$
 				buffer.append('\n');
-				// stringCache = stringCache.replaceAll("<", "&lt;");
-				// stringCache = stringCache.replaceAll(">", "&gt;");
-				// stringCache = stringCache.replaceAll("\"", "&quot;");
-				// stringCache = stringCache.replaceAll("'", "&apos;");
 			}
 
 			this.sessionID = connection.getHeaderField("Set-Cookie"); //$NON-NLS-1$

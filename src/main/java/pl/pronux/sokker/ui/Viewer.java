@@ -33,6 +33,7 @@ import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.downloader.Synchronizer;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
@@ -121,8 +122,8 @@ public class Viewer extends Shell {
 		_defaultProperties = new Properties();
 
 		// loading language properties
-		if (settings.getLangCode().equals("")) { //$NON-NLS-1$
-			settings.setLangCode("en_EN"); //$NON-NLS-1$
+		if (settings.getLangCode().isEmpty()) {
+			settings.setLangCode(Language.en_EN.name());
 			new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
 		}
 

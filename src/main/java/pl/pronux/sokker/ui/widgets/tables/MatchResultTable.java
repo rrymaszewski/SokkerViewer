@@ -95,7 +95,7 @@ public class MatchResultTable extends SVTable<Match> {
 				Player player = playerStats.getPlayer();
 				if (player != null && player.getExistsInSokker() != Player.EXISTS_IN_SOKKER_UNCHECKED) {
 					if(player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_TRUE || player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_COMPLETED) {
-						if (player.getName() == null || player.getSurname() == null || (player.getName().equals("") && player.getSurname().equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+						if (player.getName() == null || player.getSurname() == null || (player.getName().isEmpty() && player.getSurname().isEmpty())) {
 							sPlayer = playerStats.getPlayerID() + " (n/d)"; //$NON-NLS-1$
 						} else {
 							if (player.getName().length() > 0) {

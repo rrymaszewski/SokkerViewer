@@ -188,12 +188,7 @@ public class OldXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
-
 				message.append(new String(ch, start, length));
-
 				switch (current_tag) {
 				case TAG_players:
 					// TODO jezeli wchodzimy tutaj i sa jakies znaki to ladujemy exception
@@ -699,41 +694,10 @@ public class OldXmlParser {
 			SAXHandler handler = new SAXHandler();
 			parser.setContentHandler(handler);
 			parser.setErrorHandler(new MyErrorHandler());
-			// BufferedReader in = new BufferedReader(
-			// new InputStreamReader(new FileInputStream("infilename"), "UTF8"));
-			// String str = in.readLine();
-			// InputSource input = new InputSource(new FileReader(fileName));
-			// InputSource input = new InputSource(new InputStreamReader(new
-			// FileInputStream(fileName),"UTF-8"));
-			// InputSource input = new InputSource(new FileInputStream(fileName));
-			//
-
-			// new StringReader( );
-			// String str, input2 ="";
-			// BufferedReader in = new BufferedReader(new InputStreamReader(new
-			// FileInputStream(fileName),"UTF-8"));
-			// String out = "" , str;
-			// while((str=in.readLine())!=null)
-			// out += str + '\n';
-			//
-			// try {
-			// BufferedReader in = new BufferedReader(new FileReader(fileName));
-			//
-			// while ((str = in.readLine()) != null) {
-			// input2 += str + '\n';
-			// }
-			// in.close();
-			// } catch (IOException e) {
-			// }
-
 			parser.parse(input);
 		} catch (IOException e) {
 			throw e;
 		} catch (SAXException e) {
-//			new SokkerLogger(Level.WARNING, "Zly login/Zle haslo/Za duza liczba niepoprawnych logowan");
-			// SokkerBean.getLogger().getLogger().log(Level.WARNING,"Parser Class",e);
-			// new ErrorViewer().createErrorMessage("Podano zly login lub haslo do
-			// strony");
 			if (file != null) {
 				new File(file).delete();
 			}
@@ -744,7 +708,6 @@ public class OldXmlParser {
 	public Club getClub() {
 		return club;
 	}
-
 }
 
 class MyErrorHandler implements ErrorHandler {

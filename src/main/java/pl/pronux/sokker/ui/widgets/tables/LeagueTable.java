@@ -56,7 +56,7 @@ public class LeagueTable extends SVTable<LeagueRound> {
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[i].equals("")) { //$NON-NLS-1$
+			if (titles[i].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}

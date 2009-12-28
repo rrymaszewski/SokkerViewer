@@ -305,7 +305,7 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (titles[i].equals("")) {
+			if (titles[i].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
@@ -413,7 +413,7 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (titles[i].equals("")) {
+			if (titles[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
@@ -528,7 +528,7 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (title[i].equals("")) {
+			if (title[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

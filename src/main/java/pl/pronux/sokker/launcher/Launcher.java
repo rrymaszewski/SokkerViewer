@@ -84,9 +84,7 @@ public class Launcher {
 		} finally {
 			Log.close();
 			try {
-				if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
-					SQLSession.getConnection().close();
-				}
+				SQLSession.close();
 			} catch (SQLException e) {
 			}
 		}

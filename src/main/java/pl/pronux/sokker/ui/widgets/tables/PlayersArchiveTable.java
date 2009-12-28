@@ -101,7 +101,7 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			item.setText(c++, String.valueOf(player.getYouthTeamID()));
-			if (player.getNote().equals("")) { //$NON-NLS-1$
+			if (player.getNote().isEmpty()) {
 				c++;
 			} else {
 				item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -131,7 +131,7 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column == PlayerArchiveComparator.NOTE) {
 			PlayerArchive player = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER);
-			if (player.getNote() != null && !player.getNote().equals("")) { //$NON-NLS-1$
+			if (player.getNote() != null && !player.getNote().isEmpty()) {
 				label.setText(player.getNote());
 				int minSizeX = 200;
 				int minSizeY = 80;

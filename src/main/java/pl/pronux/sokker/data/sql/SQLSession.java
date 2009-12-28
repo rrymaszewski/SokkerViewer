@@ -10,6 +10,7 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.utils.Log;
 
 public class SQLSession {
+
 	static Connection connection;
 
 	public static int databaseType;
@@ -25,14 +26,12 @@ public class SQLSession {
 	}
 
 	public static void close() throws SQLException {
-		if (SQLSession.getConnection() != null) {
-			try {
-				if (!SQLSession.getConnection().isClosed()) {
-					SQLSession.getConnection().close();
-				}
-			} catch (SQLException e) {
-				throw e;
+		try {
+			if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+				SQLSession.getConnection().close();
 			}
+		} catch (SQLException e) {
+			throw e;
 		}
 	}
 
@@ -55,13 +54,15 @@ public class SQLSession {
 			DatabaseSettings databaseSettings = settings.getDatabaseSettings();
 			if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.POSTGRESQL)) {
 				SQLSession
-						.setConnection(DriverManager
-								.getConnection(
-										"jdbc:postgresql://" + databaseSettings.getServer() + "/" + databaseSettings.getName() + "", "" + databaseSettings.getUsername() + "", "" + databaseSettings.getPassword() + "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+					.setConnection(DriverManager
+						.getConnection(
+									   "jdbc:postgresql://" + databaseSettings.getServer() + "/" + databaseSettings.getName(), databaseSettings.getUsername(), databaseSettings.getPassword())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
 				SQLSession.databaseType = SQLSession.POSTGRESQL;
 			} else if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-				SQLSession.setConnection(DriverManager.getConnection(
-						"jdbc:hsqldb:" + settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+				SQLSession
+					.setConnection(DriverManager
+						.getConnection(
+									   "jdbc:hsqldb:"  + settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 				SQLSession.databaseType = SQLSession.HSQLDB;
 			}
 		} catch (SQLException se) {

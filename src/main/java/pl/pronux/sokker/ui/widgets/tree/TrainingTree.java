@@ -47,7 +47,7 @@ public class TrainingTree extends Tree {
 			column.setResizable(false);
 
 			if (j > 2) {
-				if (columns[j].equals("")) {
+				if (columns[j].isEmpty()) {
 					if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 						column.pack();
 					}

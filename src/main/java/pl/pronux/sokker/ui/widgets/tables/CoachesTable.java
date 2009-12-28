@@ -73,7 +73,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) { //$NON-NLS-1$
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}
@@ -141,7 +141,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			item.setText(c++, String.valueOf(coach.getScorers()));
 
 			if (coach.getNote() != null) {
-				if (coach.getNote().equals("")) { //$NON-NLS-1$
+				if (coach.getNote().isEmpty()) { 
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -214,7 +214,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 
 			Coach coach = (Coach) item.getData(Coach.IDENTIFIER);
 			if (coach.getNote() != null) {
-				if (!coach.getNote().equals("")) {
+				if (!coach.getNote().isEmpty()) {
 					label.setText(coach.getNote());
 
 					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);

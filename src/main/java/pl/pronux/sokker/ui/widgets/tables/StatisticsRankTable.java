@@ -40,7 +40,7 @@ public class StatisticsRankTable extends SVTable<Club> {
 
 			column.setAlignment(SWT.RIGHT);
 
-			if (columns3[i].equals("")) { //$NON-NLS-1$
+			if (columns3[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

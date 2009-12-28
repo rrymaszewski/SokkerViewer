@@ -78,7 +78,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			// {
 			// column.setWidth(50);
 			// } else
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 
 				// potrzebne do dopelnienia tabel w Linuxie
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
@@ -148,7 +148,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			
 			
 			if (junior.getNote() != null) {
-				if (junior.getNote().equals("")) { //$NON-NLS-1$
+				if (junior.getNote().isEmpty()) {
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -179,7 +179,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column == JuniorsComparator.NOTE) {
 			Junior junior = (Junior) item.getData(Junior.IDENTIFIER); 
-			if (junior.getNote() != null && !junior.getNote().equals("")) { //$NON-NLS-1$
+			if (junior.getNote() != null && !junior.getNote().isEmpty()) {
 				label.setText(junior.getNote());
 				int minSizeX = 200;
 				int minSizeY = 80;

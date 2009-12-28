@@ -46,7 +46,7 @@ public class StatisticsFansTable extends SVTable<Club> {
 //				column.setAlignment(SWT.RIGHT);
 //			}
 			
-			if (columns[i].equals("")) { //$NON-NLS-1$
+			if (columns[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

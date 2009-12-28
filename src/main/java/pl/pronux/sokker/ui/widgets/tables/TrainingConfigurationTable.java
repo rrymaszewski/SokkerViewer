@@ -58,7 +58,7 @@ public class TrainingConfigurationTable extends Table {
 				column.setAlignment(SWT.LEFT);
 			}
 
-			if (columns[i].equals("")) { //$NON-NLS-1$
+			if (columns[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
@@ -120,7 +120,7 @@ public class TrainingConfigurationTable extends Table {
 							final Text text = new Text(TrainingConfigurationTable.this, SWT.RIGHT);
 							text.setTextLimit(3);
 							text.setFont(ConfigBean.getFontTable());
-							if (item.getText(i).equals("")) {
+							if (item.getText(i).isEmpty()) {
 								text.setText("0");
 							} else {
 								text.setText(item.getText(i));
@@ -133,7 +133,7 @@ public class TrainingConfigurationTable extends Table {
 									switch (event.type) {
 										case SWT.FocusOut:
 											int value = 0;
-											if (!text.getText().equals("")) {
+											if (!text.getText().isEmpty()) {
 												value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
 											}
 											int previous = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();
@@ -153,7 +153,7 @@ public class TrainingConfigurationTable extends Table {
 											switch (event.detail) {
 												case SWT.TRAVERSE_RETURN:
 													value = 0;
-													if (!text.getText().equals("")) {
+													if (!text.getText().isEmpty()) {
 														value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue();
 													}
 													previous = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue();

@@ -114,10 +114,10 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			if (player != null && player.getExistsInSokker() != Player.EXISTS_IN_SOKKER_UNCHECKED) {
 				if (player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_TRUE || player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_COMPLETED) {
 					item.setImage(i, FlagsResources.getFlag(player.getCountryfrom()));
-					if (player.getName() == null || player.getSurname() == null || (player.getName().equals("") && player.getSurname().equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+					if (player.getName() == null || player.getSurname() == null || (player.getName().isEmpty() && player.getSurname().isEmpty())) {
 						item.setText(i++, String.valueOf(playerStats.getPlayerID()));
 					} else {
-						if (player.getName().equals("")) { //$NON-NLS-1$
+						if (player.getName().isEmpty()) {
 							item.setText(i++, String.format("%s", player.getSurname())); //$NON-NLS-1$
 						} else {
 							item.setText(i++, String.format("%s %s.", player.getSurname(), player.getName().substring(0, 1))); //$NON-NLS-1$

@@ -78,7 +78,7 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (title[i].equals("")) { //$NON-NLS-1$
+			if (title[i].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}

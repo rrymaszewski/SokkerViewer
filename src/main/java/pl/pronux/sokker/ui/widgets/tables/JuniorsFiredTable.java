@@ -55,7 +55,7 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// potrzebne do dopelnienia tabel w Linuxie
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

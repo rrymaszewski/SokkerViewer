@@ -70,7 +70,7 @@ abstract public class SVTable<T> extends Table {
 			noteShell.setPerson(person);
 			noteShell.open();
 			if ( person.getNote() != null) {
-				if (person.getNote().equals("")) {
+				if (person.getNote().isEmpty()) {
 					item.setImage(column, null);
 				} else {
 					item.setImage(column, ImageResources.getImageResources("note.png"));

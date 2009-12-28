@@ -139,14 +139,14 @@ public class OldXMLPage extends Page {
 	
 	@Override
 	public void onEnterPage() {
-		if(windowsText.getText() == null || windowsText.getText().equals("")) {
+		if(windowsText.getText() == null || windowsText.getText().isEmpty()) {
 			getWizard().getNextButton().setEnabled(false);	
 		}
 		super.onEnterPage();
 	}
 	
 	private void onChanged() {
-		if(windowsText.getText() == null || windowsText.getText().equals("") || linuxText.getText() == null || linuxText.getText().equals("") || macText.getText() == null || macText.getText().equals("")) {
+		if(windowsText.getText() == null || windowsText.getText().isEmpty() || linuxText.getText() == null || linuxText.getText().isEmpty() || macText.getText() == null || macText.getText().isEmpty()) {
 			getWizard().getNextButton().setEnabled(false);
 		} else {
 			getWizard().getNextButton().setEnabled(true);

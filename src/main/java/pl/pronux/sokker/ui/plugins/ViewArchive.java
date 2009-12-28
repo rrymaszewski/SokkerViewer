@@ -163,10 +163,10 @@ public class ViewArchive implements IPlugin, ISort {
 				if (archiveSearchGroup.getPlayerYouthTeamId() >= 0) {
 					search = search | youthTeamID;
 				}
-				if (!archiveSearchGroup.getPlayerName().equals("")) { //$NON-NLS-1$
+				if (!archiveSearchGroup.getPlayerName().isEmpty()) {
 					search = search | name;
 				}
-				if (!archiveSearchGroup.getPlayerSurname().equals("")) { //$NON-NLS-1$
+				if (!archiveSearchGroup.getPlayerSurname().isEmpty()) { 
 					search = search | surname;
 				}
 //				if (archiveSearchGroup.getPlayerCountryID() > 0 && archiveSearchGroup.getPlayerCountryID() < FlagsResources.EMPTY_FLAG) {
@@ -424,7 +424,7 @@ public class ViewArchive implements IPlugin, ISort {
 			playersArchiveTable.fill(players);
 		} else if (item instanceof TableItem) {
 			if (playerArchive.getNote() != null) {
-				if (playerArchive.getNote().equals("")) { //$NON-NLS-1$
+				if (playerArchive.getNote().isEmpty()) {
 					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, null);
 				} else {
 					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$

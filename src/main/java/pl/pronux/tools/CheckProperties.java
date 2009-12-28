@@ -44,7 +44,7 @@ public class CheckProperties {
 				String valueIn = (String) sokkerPropertiesIn.get(key);
 				String valueOut = (String) sokkerPropertiesOut.get(key);
 
-				if (valueOut == null || valueOut.equals("")) {
+				if (valueOut == null || valueOut.isEmpty()) {
 					System.out.println(key + "=" + valueIn);
 				}
 			}

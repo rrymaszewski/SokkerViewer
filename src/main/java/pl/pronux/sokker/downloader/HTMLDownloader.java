@@ -127,7 +127,7 @@ public class HTMLDownloader {
 				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			// for first request cookie doesn't exist
-			if (!cookies.equals("")) { //$NON-NLS-1$
+			if (!cookies.isEmpty()) { //$NON-NLS-1$
 				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
 			} else {
 				cookies = getPHPSESSIONID(connection);
@@ -150,7 +150,8 @@ public class HTMLDownloader {
 	}
 
 	public String getNormalPage(String urlString) throws IOException {
-		String content = "", line = ""; //$NON-NLS-1$ //$NON-NLS-2$
+		StringBuffer content = new StringBuffer();
+		String line;
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
 		URL url;
@@ -175,7 +176,7 @@ public class HTMLDownloader {
 				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			// for first request cookie doesn't exist
-			if (!cookies.equals("")) { //$NON-NLS-1$
+			if (!cookies.isEmpty()) { //$NON-NLS-1$
 				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
 			} else {
 				cookies = getPHPSESSIONID(connection);
@@ -184,7 +185,7 @@ public class HTMLDownloader {
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			while ((line = in.readLine()) != null) {
-				content = content + line + "\n"; //$NON-NLS-1$
+				content.append(line).append("\n"); //$NON-NLS-1$
 			}
 		} finally {
 			if (in != null) {
@@ -194,7 +195,7 @@ public class HTMLDownloader {
 				connection.disconnect();
 			}
 		}
-		return content;
+		return content.toString();
 	}
 
 	public void getInternetFile(String urlString, String filename, String destinationDirectory) throws IOException {
@@ -264,7 +265,7 @@ public class HTMLDownloader {
 
 	private String getPHPSESSIONID(HttpURLConnection conn) {
 		Cookie cookies = new Cookie();
-		String cookie = ""; //$NON-NLS-1$
+		StringBuffer cookie = new StringBuffer();
 		for (int i = 0;; i++) {
 			String headerName = conn.getHeaderFieldKey(i);
 			String headerValue = conn.getHeaderField(i);
@@ -301,7 +302,7 @@ public class HTMLDownloader {
 
 				// Save the cookie...
 
-				cookie = cookie + cookieValue + ";"; //$NON-NLS-1$
+				cookie.append(cookieValue).append(";"); //$NON-NLS-1$
 				cookies.setCookieValue(cookieValue);
 				cookies.setDomain(domain);
 				cookies.setExpires(expires);
@@ -309,11 +310,12 @@ public class HTMLDownloader {
 				cookies.setSecure(secure);
 			}
 		}
-		return cookie;
+		return cookie.toString();
 	}
 
 	public String postDataToPage(String urlString, String parameters, String referer) throws IOException {
-		String line, content = ""; //$NON-NLS-1$
+		String line;
+		StringBuffer content = new StringBuffer();
 		URL url = new URL(urlString);
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
@@ -356,7 +358,7 @@ public class HTMLDownloader {
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
 			while ((line = in.readLine()) != null) {
-				content += line.replaceAll("&", "&amp;") + '\n'; //$NON-NLS-1$ //$NON-NLS-2$
+				content.append(line.replaceAll("&", "&amp;")).append('\n'); //$NON-NLS-1$ //$NON-NLS-2$
 				// stringCache = stringCache.replaceAll("<", "&lt;");
 				// stringCache = stringCache.replaceAll(">", "&gt;");
 				// stringCache = stringCache.replaceAll("\"", "&quot;");
@@ -374,6 +376,6 @@ public class HTMLDownloader {
 				connection.disconnect();
 			}
 		}
-		return content;
+		return content.toString();
 	}
 }

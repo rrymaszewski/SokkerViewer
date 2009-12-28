@@ -35,7 +35,7 @@ public class StatisticsEarnsTable extends SVTable<Club> {
 
 			column.setAlignment(SWT.RIGHT);
 
-			if (columns2[i].equals("")) { //$NON-NLS-1$
+			if (columns2[i].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();

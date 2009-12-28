@@ -340,7 +340,7 @@ public class ViewArena implements IPlugin {
 		newArena.setStands(new ArrayList<Stand>(stands));
 		for (Stand stand : stands) {
 			groupMap.get(stand.getLocation()).setToolTipText(""); //$NON-NLS-1$
-			if (groupMap.get(stand.getLocation()).getCapacity().equals("")) { //$NON-NLS-1$
+			if (groupMap.get(stand.getLocation()).getCapacity().isEmpty()) { //$NON-NLS-1$
 				groupMap.get(stand.getLocation()).setCapacity("0"); //$NON-NLS-1$
 			}
 		}
@@ -495,7 +495,7 @@ public class ViewArena implements IPlugin {
 				if (browser != null) {
 					/* The Browser widget can be used */
 					//
-					StringBuffer request = new StringBuffer(""); //$NON-NLS-1$
+					StringBuffer request = new StringBuffer();
 					Map<Integer, Stand> standRequestMap = getStands();
 					Collection<Stand> standRequest = standRequestMap.values();
 					for (Stand stand : standRequest) {

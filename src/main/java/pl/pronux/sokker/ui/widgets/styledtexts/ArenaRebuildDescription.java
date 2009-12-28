@@ -24,7 +24,7 @@ public class ArenaRebuildDescription extends StyledText {
 	public void setInfo(Arena arena, Arena newArena) {
 		this.setRedraw(false);
 		this.setText(String.format("%s\r\n", Messages.getString("arena.buildCost")));
-		StringBuffer all = new StringBuffer(""); //$NON-NLS-1$
+		StringBuffer all = new StringBuffer();
 		ArenaProject arenaProject = arena.getCostOfRebuild(newArena);
 		String stringFormat = "%-30s %15s\r\n"; //$NON-NLS-1$
 		String[][] values;

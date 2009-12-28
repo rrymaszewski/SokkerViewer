@@ -49,14 +49,14 @@ public class ArchiveSearchGroup extends Group {
 	}
 	
 	public Integer getPlayerID() {
-		if(idText == null || idText.equals("") || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return -1;
 		}
 		return Integer.valueOf(idText.getText());
 	}
 	
 	public Integer getPlayerYouthTeamId() {
-		if(youthTeamIdText == null || youthTeamIdText.equals("") || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return -1;
 		}
 		return Integer.valueOf(youthTeamIdText.getText());

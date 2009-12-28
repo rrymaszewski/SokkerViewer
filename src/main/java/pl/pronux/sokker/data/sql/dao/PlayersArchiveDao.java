@@ -92,17 +92,17 @@ public class PlayersArchiveDao {
 	}
 
 	public String getPlayerArchiveNote(int playerID) throws SQLException {
-		String note = ""; //$NON-NLS-1$
+		StringBuffer note = new StringBuffer();
 		PreparedStatement ps;
 		ps = connection.prepareStatement("SELECT note FROM player_archive WHERE player_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, playerID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			note = rs.getString("note"); //$NON-NLS-1$
+			note.append(rs.getString("note")); //$NON-NLS-1$
 		}
 		rs.close();
 		ps.close();
-		return note;
+		return note.toString();
 	}
 
 	public ArrayList<Integer> getIdPlayersNotInArchive(int limit) throws SQLException {

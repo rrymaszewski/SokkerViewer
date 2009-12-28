@@ -91,7 +91,7 @@ public class ViewAssistant implements IPlugin, ISort {
 										switch (e.type) {
 										case SWT.FocusOut:
 											String temp = item.getText(column);
-											if(text.getText().equals("")) {
+											if(text.getText().isEmpty()) {
 												text.setText("0");
 											}
 											item.setText(column, text.getText());
@@ -109,7 +109,7 @@ public class ViewAssistant implements IPlugin, ISort {
 											case SWT.TRAVERSE_RETURN:
 
 												temp = item.getText(column);
-												if(text.getText().equals("")) {
+												if(text.getText().isEmpty()) {
 													text.setText("0");
 												}
 												item.setText(column, text.getText());

@@ -393,7 +393,7 @@ public class ViewNotepad implements IPlugin, ISort {
 			column.setMoveable(false);
 
 			column.setText(titles[i]);
-			if (titles[i].equals("")) { //$NON-NLS-1$
+			if (titles[i].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}

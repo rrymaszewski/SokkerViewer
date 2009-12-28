@@ -840,7 +840,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			juniorsTable.fill(juniors);
 		} else if (item instanceof TableItem) {
 			if (junior.getNote() != null) {
-				if (junior.getNote().equals("")) { //$NON-NLS-1$
+				if (junior.getNote().isEmpty()) {
 					((TableItem) item).setImage(JuniorsComparator.NOTE, null);
 				} else {
 					((TableItem) item).setImage(JuniorsComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$

@@ -287,7 +287,7 @@ public class JuniorsDao {
 	}
 
 	public String moveTrainedJuniors(String sTemp, int clubId) throws SQLException {
-		String movedJuniors = ""; //$NON-NLS-1$
+		StringBuffer movedJuniors = new StringBuffer(); //$NON-NLS-1$
 		PreparedStatement ps;
 		ps = connection
 				.prepareStatement("SELECT j.id_junior FROM junior j, junior_skills s WHERE status = 0 AND j.id_junior = s.id_junior_fk AND s.weeks = 0 AND s.weeks = (select min(weeks) from junior_skills WHERE id_junior_fk = j.id_junior) AND j.id_junior NOT IN " //$NON-NLS-1$
@@ -295,16 +295,16 @@ public class JuniorsDao {
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			movedJuniors = movedJuniors + rs.getInt(1) + '\n';
+			movedJuniors.append(rs.getInt(1)).append('\n');
 			this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 		}
 		rs.close();
 		ps.close();
-		return movedJuniors;
+		return movedJuniors.toString();
 	}
 
 	public String removeTrainedJuniors(int clubId) throws SQLException {
-		String deletedJuniors = ""; //$NON-NLS-1$
+		StringBuffer deletedJuniors = new StringBuffer(); //$NON-NLS-1$
 		PreparedStatement ps;
 		PlayersDao playersDao = new PlayersDao(connection);
 		ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0"); //$NON-NLS-1$
@@ -314,15 +314,14 @@ public class JuniorsDao {
 			if (playersDao.existsPlayer(rs.getString(2), rs.getString(3))) {
 				this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 			} else {
-				deletedJuniors = deletedJuniors + rs.getInt(1) + '\n';
+				deletedJuniors.append(rs.getInt(1)).append('\n');
 				// deleteJunior(rs.getInt(1));
 				this.moveJunior(rs.getInt(1), Junior.STATUS_SACKED, clubId);
 			}
-
 		}
 		rs.close();
 		ps.close();
-		return deletedJuniors;
+		return deletedJuniors.toString();
 	}
 
 	public String removeTrainedJuniors(String sTemp, int clubId) throws SQLException {

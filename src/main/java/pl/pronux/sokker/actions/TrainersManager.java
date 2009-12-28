@@ -61,19 +61,18 @@ public class TrainersManager {
 	
 	public void importTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		String sTemp = ""; //$NON-NLS-1$
-		sTemp += "("; //$NON-NLS-1$
+		StringBuffer sb = new StringBuffer("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
-				sTemp += trainers.get(i).getId();
+				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sTemp += trainers.get(i).getId() + ","; //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
 		}
-		sTemp += ")"; //$NON-NLS-1$
+		sb.append(")"); //$NON-NLS-1$
 		if (trainers.size() > 0) {
-			trainersDao.removeCoaches(sTemp);
+			trainersDao.removeCoaches(sb.toString());
 		} else {
 			trainersDao.removeCoaches();
 		}
@@ -99,19 +98,18 @@ public class TrainersManager {
 
 	public void importerTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		String sTemp = ""; //$NON-NLS-1$
-		sTemp += "("; //$NON-NLS-1$
+		StringBuffer sb = new StringBuffer("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
-				sTemp += trainers.get(i).getId();
+				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sTemp += trainers.get(i).getId() + ","; //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
 		}
-		sTemp += ")"; //$NON-NLS-1$
+		sb.append(")"); //$NON-NLS-1$
 		if (trainers.size() > 0) {
-			trainersDao.removeCoaches(sTemp);
+			trainersDao.removeCoaches(sb.toString());
 		} else {
 			trainersDao.removeCoaches();
 		}

@@ -198,7 +198,7 @@ public class LeagueDao {
 		// (goals_scored-goals_lost) DESC, goals_scored DESC,
 		// SUBSTRING(rank_total,LENGTH(rank_total)-1)");
 		ps = connection
-				.prepareStatement("" + //$NON-NLS-1$
+				.prepareStatement(
 						"SELECT l.*,m.home_team_name as team_name, (goals_scored-goals_lost) as distinction, SUBSTRING(rank_total,LENGTH(rank_total)-1) as begin_place FROM league_team as l join matches_team as m on (l.league_id = m.league_id and l.season = m.season and l.round = m.round and l.team_id = m.home_team_id ) WHERE  l.season = ? AND l.round = ? AND l.league_id = ? "//$NON-NLS-1$
 						+ 
 						"UNION " //$NON-NLS-1$

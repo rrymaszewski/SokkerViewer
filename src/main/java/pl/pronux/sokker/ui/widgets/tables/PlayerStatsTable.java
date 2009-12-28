@@ -131,11 +131,11 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 								switch (e.type) {
 								case SWT.FocusOut:
 
-									if (text.getText().equals("")) { //$NON-NLS-1$
+									if (text.getText().isEmpty()) {
 										text.setText("0"); //$NON-NLS-1$
 									}
 
-									if (!item.getText(column).equals("")) { //$NON-NLS-1$
+									if (!item.getText(column).isEmpty()) {
 										temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 									} else {
 										temp = 0;
@@ -173,11 +173,11 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 									switch (e.detail) {
 									case SWT.TRAVERSE_RETURN:
 
-										if (text.getText().equals("")) { //$NON-NLS-1$
+										if (text.getText().isEmpty()) {
 											text.setText("0"); //$NON-NLS-1$
 										}
 
-										if (!item.getText(column).equals("")) { //$NON-NLS-1$
+										if (!item.getText(column).isEmpty()) {
 											temp = Integer.valueOf(item.getText(column).replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 										} else {
 											temp = 0;

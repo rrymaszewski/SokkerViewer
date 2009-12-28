@@ -976,7 +976,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		if (item instanceof TreeItem) {
 			playersTable.fill(players);
 		} else if (item instanceof TableItem && player.getNote() != null) {
-			if (player.getNote().equals("")) {
+			if (player.getNote().isEmpty()) {
 				((TableItem) item).setImage(PlayerComparator.NOTE, null);
 			} else {
 				((TableItem) item).setImage(PlayerComparator.NOTE, ImageResources.getImageResources("note.png"));

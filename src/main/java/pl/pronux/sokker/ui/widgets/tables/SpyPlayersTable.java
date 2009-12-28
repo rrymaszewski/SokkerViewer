@@ -245,7 +245,7 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 
 			Player player = (Player) item.getData(Player.IDENTIFIER);
 			if (player.getNote() != null) {
-				if (!player.getNote().equals("")) {
+				if (!player.getNote().isEmpty()) {
 					label.setText(player.getNote());
 
 					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);

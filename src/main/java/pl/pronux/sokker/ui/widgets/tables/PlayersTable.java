@@ -87,7 +87,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			// } else if (titles[j].equals(Messages.getString("table.salary"))) {
 			// column.setWidth(70);
 			// } else
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
@@ -156,7 +156,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			}
 			
 			if (player.getNote() != null) {
-				if (player.getNote().equals("")) { //$NON-NLS-1$
+				if (player.getNote().isEmpty()) {
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -309,7 +309,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 
 			Player player = (Player) item.getData(Player.IDENTIFIER);
 			if (player.getNote() != null) {
-				if (!player.getNote().equals("")) {
+				if (!player.getNote().isEmpty()) {
 					label.setText(player.getNote());
 
 					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);

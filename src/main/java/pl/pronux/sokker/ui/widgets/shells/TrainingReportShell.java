@@ -198,7 +198,7 @@ public class TrainingReportShell extends Shell {
 
 			if (j > 2) {
 				column.setAlignment(SWT.RIGHT);
-				if (columns[j].equals("")) { //$NON-NLS-1$
+				if (columns[j].isEmpty()) {
 					// column.setWidth(70);
 					if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 						column.pack();

@@ -227,7 +227,7 @@ public class ViewCoaches implements IPlugin, ISort {
 		noteShell.open();
 
 		if (coach.getNote() != null) {
-			if (coach.getNote().equals("")) { //$NON-NLS-1$
+			if (coach.getNote().isEmpty()) {
 				item.setImage(CoachComparator.NOTE, null);
 			} else {
 				item.setImage(CoachComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$

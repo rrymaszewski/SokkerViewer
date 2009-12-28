@@ -41,7 +41,7 @@ public class JuniorTable extends SVTable<Junior> {
 				column.setWidth(50);
 			} else if (titles[j].equals(Messages.getString("table.week"))) { //$NON-NLS-1$
 				column.setWidth(50);
-			} else if (titles[j].equals("")) { //$NON-NLS-1$
+			} else if (titles[j].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}

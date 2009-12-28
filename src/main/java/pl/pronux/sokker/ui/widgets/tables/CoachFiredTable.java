@@ -66,7 +66,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
 				}

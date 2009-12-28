@@ -106,7 +106,7 @@ public class PropertiesChecker {
 			}
 		}
 
-		if (sokkerProperties.getProperty("backup.dir") == null || sokkerProperties.getProperty("backup.dir").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (sokkerProperties.getProperty("backup.dir") == null || sokkerProperties.getProperty("backup.dir").isEmpty()) { //$NON-NLS-1$ //$NON-NLS-2$ 
 			sokkerProperties.setProperty("backup.dir", System.getProperty("user.dir") + File.separator + "bak" + File.separator); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
@@ -200,7 +200,7 @@ public class PropertiesChecker {
 				}
 
 				alPlugins.retainAll(Arrays.asList(plugins));
-				StringBuffer pluginList = new StringBuffer("");
+				StringBuffer pluginList = new StringBuffer();
 				for (String plugin : alPlugins) {
 					pluginList.append(plugin).append(";");
 				}

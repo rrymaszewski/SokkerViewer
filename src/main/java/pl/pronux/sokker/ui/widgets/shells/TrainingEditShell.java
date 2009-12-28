@@ -229,7 +229,7 @@ public class TrainingEditShell extends Shell {
 			column.setText(columns[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (columns[j].equals("")) { //$NON-NLS-1$
+			if (columns[j].isEmpty()) { 
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
@@ -268,7 +268,7 @@ public class TrainingEditShell extends Shell {
 			column.setText(columns_coaches[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (columns[j].equals("")) { //$NON-NLS-1$
+			if (columns[j].isEmpty()) {
 				// column.setWidth(70);
 				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
 					column.pack();
