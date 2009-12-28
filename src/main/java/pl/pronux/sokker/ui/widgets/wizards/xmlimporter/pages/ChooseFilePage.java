@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.importer.controller.PackagesManager;
 import pl.pronux.sokker.importer.controller.SOPackagesManager;
@@ -72,7 +71,7 @@ public class ChooseFilePage extends Page {
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			if (i == table.getColumnCount() - 1) {
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					table.getColumn(i).pack();
 				}
 			} else {

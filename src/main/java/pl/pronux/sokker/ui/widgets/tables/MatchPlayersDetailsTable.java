@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.MatchPlayersComparator;
 import pl.pronux.sokker.comparators.MatchPlayersDetailsComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -55,7 +54,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			if (i == 0) {
 				column.setWidth(25);
 			} else if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else if (i == MatchPlayersDetailsComparator.STARS) {
@@ -163,7 +162,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 
@@ -174,7 +173,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			}
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 			if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {

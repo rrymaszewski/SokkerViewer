@@ -23,7 +23,6 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Coach;
@@ -226,7 +225,7 @@ public class PDFexport {
 
   		mapper.insertDirectory(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "fonts" + File.separator); //$NON-NLS-1$
   		DefaultFontMapper.BaseFontParameters pp;
-  		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+  		if (SettingsHandler.IS_LINUX) {
   			pp = mapper.getBaseFontParameters("Free Monospaced"); //$NON-NLS-1$
   		} else {
   			pp = mapper.getBaseFontParameters("Courier New"); //$NON-NLS-1$
@@ -576,7 +575,7 @@ public class PDFexport {
 		JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		java.awt.Font font;
-		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+		if (SettingsHandler.IS_LINUX) {
 			font = new java.awt.Font("Free Monospaced", java.awt.Font.PLAIN, 14); //$NON-NLS-1$
 		} else {
 			font = new java.awt.Font("Courier New", java.awt.Font.TRUETYPE_FONT, 14); //$NON-NLS-1$

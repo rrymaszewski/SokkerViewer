@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.MatchPlayersComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -54,7 +53,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			column.setMoveable(false);
 
 			if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -151,7 +150,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 
@@ -162,7 +161,7 @@ public class MatchPlayersTable extends SVTable<PlayerStats> implements IViewSort
 			}
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 			if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {

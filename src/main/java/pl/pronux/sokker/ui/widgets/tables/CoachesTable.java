@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.CoachComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Coach;
@@ -74,7 +73,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			column.setMoveable(false);
 
 			if (titles[j].isEmpty()) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.actions.TeamManager;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Date;
@@ -231,7 +230,7 @@ public class TrainingEditShell extends Shell {
 			column.setMoveable(false);
 			if (columns[j].isEmpty()) { 
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -270,7 +269,7 @@ public class TrainingEditShell extends Shell {
 			column.setMoveable(false);
 			if (columns[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

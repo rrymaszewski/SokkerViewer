@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Player;
@@ -89,7 +88,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			// } else
 			if (titles[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
@@ -42,7 +41,7 @@ public class JuniorTable extends SVTable<Junior> {
 			} else if (titles[j].equals(Messages.getString("table.week"))) { //$NON-NLS-1$
 				column.setWidth(50);
 			} else if (titles[j].isEmpty()) {
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

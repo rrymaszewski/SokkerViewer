@@ -5,7 +5,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.SVNumberFormat;
@@ -48,7 +47,7 @@ public class StatisticsFansTable extends SVTable<Club> {
 			
 			if (columns[i].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

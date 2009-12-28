@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.JuniorsTrainedComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Junior;
@@ -74,7 +73,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 			column.setMoveable(false);
 			if (j == titles.length - 1) {
 				// potrzebne do dopelnienia tabel w Linuxie
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

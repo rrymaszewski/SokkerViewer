@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerStatsComparator;
 import pl.pronux.sokker.comparators.SpyPlayersComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
@@ -85,7 +84,7 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			// } else
 			if (j == titles.length - 1) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else if ( j == SpyPlayersComparator.INJURY) {

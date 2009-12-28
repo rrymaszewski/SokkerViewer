@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
@@ -200,7 +199,7 @@ public class TrainingReportShell extends Shell {
 				column.setAlignment(SWT.RIGHT);
 				if (columns[j].isEmpty()) {
 					// column.setWidth(70);
-					if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+					if (SettingsHandler.IS_LINUX) {
 						column.pack();
 					}
 				} else {

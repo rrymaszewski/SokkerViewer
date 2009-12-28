@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.LeagueComparator;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.LeagueRound;
@@ -57,7 +56,7 @@ public class LeagueTable extends SVTable<LeagueRound> {
 			column.setMoveable(false);
 
 			if (titles[i].isEmpty()) {
-				if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

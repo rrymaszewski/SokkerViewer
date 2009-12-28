@@ -34,7 +34,6 @@ import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.enums.Language;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -105,7 +104,7 @@ public class Viewer extends Shell {
 
 		this.display = display;
 
-		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+		if (SettingsHandler.IS_LINUX) {
 			splash = new Splash(display, SWT.TOOL);
 		} else {
 			splash = new Splash(display, SWT.ON_TOP);
@@ -362,7 +361,7 @@ public class Viewer extends Shell {
 		ConfigBean.setFontCurrent(this.getFont());
 		fontCurrent = ConfigBean.getFontCurrent();
 
-		if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+		if (SettingsHandler.IS_WINDOWS) {
 			ConfigBean.setFontMain(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 
 			ConfigBean.setFontDescription(Fonts.getFont(display,
@@ -484,7 +483,7 @@ public class Viewer extends Shell {
 									}
 								});
 
-								if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+								if (SettingsHandler.IS_WINDOWS) {
 									if (trayItem != null) {
 										final ToolTip trayToolTip = new ToolTip(Viewer.this, SWT.BALLOON | SWT.ICON_INFORMATION);
 										trayItem.setToolTip(trayToolTip);

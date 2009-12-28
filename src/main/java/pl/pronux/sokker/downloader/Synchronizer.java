@@ -34,7 +34,6 @@ import pl.pronux.sokker.downloader.managers.TransfersXmlManager;
 import pl.pronux.sokker.downloader.managers.XmlManagerUtils;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.VarsXmlParser;
-import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.exceptions.SVSynchronizerCriticalException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -90,11 +89,11 @@ public class Synchronizer implements IRunnableWithProgress {
 		String xml;
 		String osType = "/windows"; //$NON-NLS-1$
 		String version = NO_UPDATES;
-		if (SettingsHandler.OS_TYPE == OperatingSystem.WINDOWS) {
+		if (SettingsHandler.IS_WINDOWS) {
 			osType = "/windows"; //$NON-NLS-1$
-		} else if (SettingsHandler.OS_TYPE == OperatingSystem.LINUX) {
+		} else if (SettingsHandler.IS_LINUX) {
 			osType = "/linux"; //$NON-NLS-1$
-		} else if (SettingsHandler.OS_TYPE == OperatingSystem.MACOSX) {
+		} else if (SettingsHandler.IS_MACOSX) {
 			osType = "/mac"; //$NON-NLS-1$
 		}
 
