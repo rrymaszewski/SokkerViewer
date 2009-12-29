@@ -162,7 +162,7 @@ public class ViewPlayers implements IPlugin, ISort {
 							((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, -1);
 						} else if (currentDesc instanceof DescriptionSingleComposite) {
 							int index = item.getParent().indexOf(item);
-							universalJuniorComposite.setStatsJuniorInfo((Junior) item.getParent().getData(Junior.IDENTIFIER), index);
+							universalJuniorComposite.setStatsJuniorInfo((Junior) item.getParent().getData(Junior.class.getName()), index);
 							showDescription(universalJuniorComposite);
 						}
 					}
@@ -251,7 +251,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 		for (int i = 0; i < players.size(); i++) {
 			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
-			item.setData(Player.IDENTIFIER, players.get(i));
+			item.setData(Player.class.getName(), players.get(i));
 			item.setText(players.get(i).getSurname() + " " + players.get(i).getName());
 			item.setImage(FlagsResources.getFlag(players.get(i).getCountryfrom()));
 
@@ -314,8 +314,8 @@ public class ViewPlayers implements IPlugin, ISort {
 						showMainView(vComposite);
 						comboFilter.setVisible(false);
 						// int id = ((PersonInterface)
-						// item.getData(Player.IDENTIFIER)).getId();
-						Player player = (Player) item.getData(Player.IDENTIFIER);
+						// item.getData(Player.class.getName())).getId();
+						Player player = (Player) item.getData(Player.class.getName());
 
 						if (event.type == SWT.MouseDown && event.button == 3) {
 							setCbData(player);
@@ -405,7 +405,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 		playerView = new PlayerTable(vComposite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 		playerView.setLayoutData(viewFormData);
-		playerView.setData(Player.IDENTIFIER, player);
+		playerView.setData(Player.class.getName(), player);
 
 		playerView.addListener(SWT.MouseDoubleClick, new Listener() {
 			public void handleEvent(Event event) {
@@ -425,13 +425,13 @@ public class ViewPlayers implements IPlugin, ISort {
 		playerView.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event event) {
-				if (event != null && event.item != null && event.widget.getData(Player.IDENTIFIER) != null) {
+				if (event != null && event.item != null && event.widget.getData(Player.class.getName()) != null) {
 					TableItem item = (TableItem) event.item;
 					if (currentDesc instanceof ChartDateComposite) {
 						((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(((ChartDateComposite) currentDesc).getColumn()).replaceAll("[^0-9-]", "")));
 					} else if (currentDesc instanceof PlayerDescriptionComposite) {
 						int index = item.getParent().indexOf(item);
-						playerDescription.setStatsPlayerInfo((Player) item.getParent().getData(Player.IDENTIFIER), index);
+						playerDescription.setStatsPlayerInfo((Player) item.getParent().getData(Player.class.getName()), index);
 						showDescription(playerDescription);
 					}
 				}
@@ -493,7 +493,7 @@ public class ViewPlayers implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
-					if (item.getData(Player.IDENTIFIER) != null) {
+					if (item.getData(Player.class.getName()) != null) {
 						openNote(item);
 					}
 				}
@@ -524,8 +524,8 @@ public class ViewPlayers implements IPlugin, ISort {
 			public void handleEvent(Event e) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
-					if (item.getData(Player.IDENTIFIER) != null && item.getData(Player.IDENTIFIER) instanceof Player) {
-						Player player = (Player) item.getData(Player.IDENTIFIER);
+					if (item.getData(Player.class.getName()) != null && item.getData(Player.class.getName()) instanceof Player) {
+						Player player = (Player) item.getData(Player.class.getName());
 						ViewerHandler.getViewer().notifyListeners(IEvents.TRANSLATE_PLAYER, new TranslateEvent(player));
 					}
 				}
@@ -569,8 +569,8 @@ public class ViewPlayers implements IPlugin, ISort {
 					if (player != null) {
 						if (menuPopUp.getData("item") != null) {
 							TableItem item = (TableItem) menuPopUp.getData("item");
-							if (item.getData(Player.IDENTIFIER) != null) {
-								Player currentPlayer = (Player) item.getData(Player.IDENTIFIER);
+							if (item.getData(Player.class.getName()) != null) {
+								Player currentPlayer = (Player) item.getData(Player.class.getName());
 
 								if (player.getId() == currentPlayer.getId()) {
 									try {
@@ -604,8 +604,8 @@ public class ViewPlayers implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
-					if (item.getData(Player.IDENTIFIER) != null) {
-						Player currentPlayer = (Player) item.getData(Player.IDENTIFIER);
+					if (item.getData(Player.class.getName()) != null) {
+						Player currentPlayer = (Player) item.getData(Player.class.getName());
 						String[] extensions = {
 							"*.pdf"
 						};
@@ -743,8 +743,8 @@ public class ViewPlayers implements IPlugin, ISort {
 
 			public void handleEvent(Event event) {
 				if (event != null) {
-					// showDescription((Player) event.item.getData(Player.IDENTIFIER));
-					playerDescription.setStatsPlayerInfo((Player) event.item.getData(Player.IDENTIFIER));
+					// showDescription((Player) event.item.getData(Player.class.getName()));
+					playerDescription.setStatsPlayerInfo((Player) event.item.getData(Player.class.getName()));
 					showDescription(playerDescription);
 				}
 			}
@@ -759,7 +759,7 @@ public class ViewPlayers implements IPlugin, ISort {
 					Point pt = new Point(event.x, event.y);
 					TableItem item = playersTable.getItem(pt);
 					if (item != null) {
-						Player player = (Player) item.getData(Player.IDENTIFIER);
+						Player player = (Player) item.getData(Player.class.getName());
 
 						menuPopUp.setData("item", item);
 						setCbData(player);
@@ -787,13 +787,13 @@ public class ViewPlayers implements IPlugin, ISort {
 						Rectangle rect = item.getBounds(i);
 						if (rect.contains(pt) && i != PlayerComparator.NOTE) {
 							_treeItem.getParent().setSelection(new TreeItem[] {
-								(TreeItem) itemMap.get(((PersonInterface) item.getData(Player.IDENTIFIER)).getId())
+								(TreeItem) itemMap.get(((PersonInterface) item.getData(Player.class.getName())).getId())
 							});
 
 							comboFilter.setVisible(false);
 
-							showView((Player) item.getData(Player.IDENTIFIER));
-							showDescription((Player) item.getData(Player.IDENTIFIER));
+							showView((Player) item.getData(Player.class.getName()));
+							showDescription((Player) item.getData(Player.class.getName()));
 						} else if (rect.contains(pt) && i == PlayerComparator.NOTE) {
 							openNote(item);
 						}
@@ -968,7 +968,7 @@ public class ViewPlayers implements IPlugin, ISort {
 	}
 
 	private void openNote(Item item) {
-		Player player = (Player) item.getData(Player.IDENTIFIER);
+		Player player = (Player) item.getData(Player.class.getName());
 		final NoteShell noteShell = new NoteShell(vComposite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(player);
 		noteShell.open();

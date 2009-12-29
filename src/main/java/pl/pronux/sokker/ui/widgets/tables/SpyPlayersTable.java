@@ -125,8 +125,8 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			max = player.getSkills().length - 1;
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
-			item.setData(PaintStarListener.IDENTIFIER, player.getAvgRating());
+			item.setData(Player.class.getName(), player);
+			item.setData(PaintStarListener.class.getName(), player.getAvgRating());
 
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 
@@ -213,7 +213,7 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= SpyPlayersComparator.FORM && column <= SpyPlayersComparator.TEAMWORK || column == SpyPlayersComparator.RANKING_AVG) {
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			PlayerSkills skills = player.getSkills()[0];
 			switch (column) {
 			case SpyPlayersComparator.FORM:
@@ -242,7 +242,7 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			int maxSizeX = 400;
 			int maxSizeY = 200;
 
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			if (player.getNote() != null) {
 				if (!player.getNote().isEmpty()) {
 					label.setText(player.getNote());

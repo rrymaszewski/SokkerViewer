@@ -113,7 +113,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			tableItemMap.put(player.getId(), item);
 
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
+			item.setData(Player.class.getName(), player);
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
@@ -157,7 +157,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= PlayerHistoryComparator.FORM && column <= PlayerHistoryComparator.SCORER) {
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			int maxSkill = player.getSkills().length - 1;
 			int[] skills = player.getSkills()[maxSkill].getStatsTable();
 			label.setText(Messages.getString("skill.a" + skills[column - 3]));

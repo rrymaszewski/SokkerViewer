@@ -4,7 +4,6 @@ import java.util.GregorianCalendar;
 
 public class Note {
 	
-	public static final String IDENTIFIER = "NOTE"; //$NON-NLS-1$
 	private Date alertDate;
 
 	private Date date;

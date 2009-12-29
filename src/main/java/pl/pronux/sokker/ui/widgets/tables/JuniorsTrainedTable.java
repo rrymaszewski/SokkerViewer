@@ -109,7 +109,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 			Player player = junior.getPlayer();
 
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior); 
+			item.setData(Junior.class.getName(), junior); 
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));

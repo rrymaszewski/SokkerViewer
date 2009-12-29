@@ -162,8 +162,8 @@ public class ViewMatches implements IPlugin {
 						switch (event.type) {
 						case SWT.MouseDoubleClick:
 
-							if (item.getData(Match.IDENTIFIER) != null && item.getData(Match.IDENTIFIER) instanceof Match) {
-								Match match = (Match) item.getData(Match.IDENTIFIER);
+							if (item.getData(Match.class.getName()) != null && item.getData(Match.class.getName()) instanceof Match) {
+								Match match = (Match) item.getData(Match.class.getName());
 								if (match.getAwayTeamScore() >= 0 || match.getHomeTeamScore() >= 0) {
 									matchComposite.fill(match);
 									show(matchComposite);
@@ -209,9 +209,9 @@ public class ViewMatches implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null) {
+						if (item.getData(Match.class.getName()) != null) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							if (match != null) {
 								matchComposite.fill(match);
 							}
@@ -248,9 +248,9 @@ public class ViewMatches implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null && item.getData(Match.IDENTIFIER) instanceof Match) {
+						if (item.getData(Match.class.getName()) != null && item.getData(Match.class.getName()) instanceof Match) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							matchComposite.fill(match);
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
@@ -332,7 +332,7 @@ public class ViewMatches implements IPlugin {
 
 				if (treeItemSeason != null) {
 					treeItemMatch = new TreeItem(treeItemSeason, SWT.NONE);
-					treeItemMatch.setData(Match.IDENTIFIER, match);
+					treeItemMatch.setData(Match.class.getName(), match);
 
 					hmTreeItemMatch.put(match, treeItemMatch);
 

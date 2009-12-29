@@ -72,7 +72,7 @@ public class MatchesTable extends SVTable<Match> {
 			if (match.getIsFinished() == Match.FINISHED) {
 
 				TableItem item = new TableItem(this, SWT.NONE);
-				item.setData(Match.IDENTIFIER, match);
+				item.setData(Match.class.getName(), match);
 				if (match.getLeague() != null) {
 					League league = match.getLeague();
 					if (league.getIsOfficial() == League.OFFICIAL) {

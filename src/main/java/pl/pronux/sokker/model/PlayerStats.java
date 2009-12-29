@@ -1,10 +1,7 @@
 package pl.pronux.sokker.model;
 
 public class PlayerStats {
-	
-	
-	
-	public static final String IDENTIFIER = "PLAYER_STATS";//$NON-NLS-1$
+
 	public static final int GK = 0;
 
 	public static final int DEF = 1;
@@ -18,9 +15,9 @@ public class PlayerStats {
 	public static final int NOT_INJURED = 0;
 
 	private int playerID;
-	
+
 	private int matchID;
-	
+
 	private int teamID;
 
 	private int number;

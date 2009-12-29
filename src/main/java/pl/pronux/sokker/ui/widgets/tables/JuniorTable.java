@@ -54,7 +54,7 @@ public class JuniorTable extends SVTable<Junior> {
 		this.setRedraw(false);
 		this.removeAll();
 
-		this.setData(Junior.IDENTIFIER, junior); 
+		this.setData(Junior.class.getName(), junior); 
 
 		int maxSkill = 0;
 		maxSkill = junior.getSkills().length;

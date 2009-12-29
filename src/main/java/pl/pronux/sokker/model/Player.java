@@ -14,8 +14,6 @@ public class Player extends Person implements Serializable, PlayerInterface {
 	 */
 	private static final long serialVersionUID = 1525870309479485957L;
 
-	public static final String IDENTIFIER = "PLAYER"; //$NON-NLS-1$
-	
 	public static final int STATUS_INCLUB = 0;
 
 	public static final int STATUS_HISTORY = 1;

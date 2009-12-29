@@ -25,8 +25,6 @@ public class Training {
 	final public static int UPDATE_TRAINING = 1 << 3;
 	final public static int UPDATE_PLAYERS = 1 << 4;
 
-	final public static String IDENTIFIER = "TRAINING"; //$NON-NLS-1$
-
 	private Date date;
 
 	private int formation;

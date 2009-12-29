@@ -82,7 +82,7 @@ public class ReportsTable extends SVTable<Report> implements IViewSort<Report> {
 		for (Report report : reports) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Report.IDENTIFIER, report); 
+			item.setData(Report.class.getName(), report); 
 			item.setImage(c++, ImageResources.getImageResources("report_" + report.getType() + ".png" ));
 			item.setText(c++, report.getDate().toDateString());
 			item.setText(c++, report.getMessage());

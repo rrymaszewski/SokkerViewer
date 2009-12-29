@@ -100,7 +100,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 			TableItem item = new TableItem(this, SWT.NONE);
 			
 			int c = 0;
-			item.setData(Coach.IDENTIFIER, coach); //$NON-NLS-1$
+			item.setData(Coach.class.getName(), coach); //$NON-NLS-1$
 			item.setImage(c++, FlagsResources.getFlag(coach.getCountryfrom()));
 			item.setText(c++, coach.getName());
 			item.setText(c++, coach.getSurname());
@@ -139,7 +139,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= CoachComparator.GENERAL_SKILL && column <= CoachComparator.SCORERS) {
-			Coach coach = (Coach) item.getData(Coach.IDENTIFIER);
+			Coach coach = (Coach) item.getData(Coach.class.getName());
 			switch(column) {
 			case CoachComparator.GENERAL_SKILL:
 				label.setText(Messages.getString("skill.a" + coach.getGeneralskill()));

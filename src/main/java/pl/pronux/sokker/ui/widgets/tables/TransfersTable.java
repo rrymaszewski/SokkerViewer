@@ -93,7 +93,7 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 		for (Transfer transfer : alTransfers) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Transfer.IDENTIFIER, transfer);
+			item.setData(Transfer.class.getName(), transfer);
 			if (idClub == transfer.getSellerTeamID()) {
 				item.setImage(c++, ImageResources.getImageResources("outcoming.png")); //$NON-NLS-1$
 			} else {

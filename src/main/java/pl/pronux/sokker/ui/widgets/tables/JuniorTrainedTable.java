@@ -51,7 +51,7 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 
 	public void fill(Junior junior) {
 		this.setRedraw(false);
-		this.setData(Junior.IDENTIFIER, junior); 
+		this.setData(Junior.class.getName(), junior); 
 
 		this.remove(0, this.getItemCount()-1);
 		int maxSkill = 0;

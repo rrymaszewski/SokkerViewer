@@ -107,7 +107,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			maxSkill = junior.getSkills().length - 1;
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior);
+			item.setData(Junior.class.getName(), junior);
 			// item.setData("id", junior.getId());
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 			item.setText(c++, junior.getName());
@@ -177,7 +177,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column == JuniorsComparator.NOTE) {
-			Junior junior = (Junior) item.getData(Junior.IDENTIFIER); 
+			Junior junior = (Junior) item.getData(Junior.class.getName()); 
 			if (junior.getNote() != null && !junior.getNote().isEmpty()) {
 				label.setText(junior.getNote());
 				int minSizeX = 200;

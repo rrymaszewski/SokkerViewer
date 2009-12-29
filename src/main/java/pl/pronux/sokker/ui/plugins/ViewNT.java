@@ -254,8 +254,8 @@ public class ViewNT implements IPlugin {
 				if (note.getText().length() > 500) {
 					return;
 				}
-				if (noteShell.getData(Player.IDENTIFIER) instanceof Player) {
-					Player player = (Player) noteShell.getData(Player.IDENTIFIER);
+				if (noteShell.getData(Player.class.getName()) instanceof Player) {
+					Player player = (Player) noteShell.getData(Player.class.getName());
 
 					if (player != null) {
 						int training_type = trainingCombo.getSelectionIndex();
@@ -469,11 +469,11 @@ public class ViewNT implements IPlugin {
 
 				if (items.length == 1) {
 
-					Player player = (Player) items[0].getData(Player.IDENTIFIER);
+					Player player = (Player) items[0].getData(Player.class.getName());
 					player.setNt(true);
 
 					noteShell.setText(player.getSurname() + " " + player.getName());
-					noteShell.setData(Player.IDENTIFIER, player);
+					noteShell.setData(Player.class.getName(), player);
 					noteShell.open();
 
 				}
@@ -491,7 +491,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.IDENTIFIER);
+					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
 					hidePlayer(player);
 				}
 			}
@@ -505,7 +505,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.IDENTIFIER);
+					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
 					showPlayer(player);
 				}
 			}
@@ -521,7 +521,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.IDENTIFIER);
+					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
 					infoPlayer(player);
 				}
 			}
@@ -682,14 +682,14 @@ public class ViewNT implements IPlugin {
 	// public void handleEvent(final Event e) {
 	// switch (e.type) {
 	// case SWT.FocusOut:
-	// ((Player) item.getData(Player.IDENTIFIER)).setNote(text.getText());
+	// ((Player) item.getData(Player.class.getName())).setNote(text.getText());
 	// fillTable(table, players, comparator);
 	// text.dispose();
 	// break;
 	// case SWT.Traverse:
 	// switch (e.detail) {
 	// case SWT.TRAVERSE_RETURN:
-	// ((Player) item.getData(Player.IDENTIFIER)).setNote(text.getText());
+	// ((Player) item.getData(Player.class.getName())).setNote(text.getText());
 	// fillTable(table, players, comparator);
 	//
 	// // FALL THROUGH
@@ -1022,12 +1022,12 @@ public class ViewNT implements IPlugin {
 				//
 				// if (item != null) {
 				// // note.setEnabled(true);
-				// // note.setData(Player.IDENTIFIER, (Player)item.getData(Player.IDENTIFIER));
+				// // note.setData(Player.class.getName(), (Player)item.getData(Player.class.getName()));
 				// // note.setData("item" , item);
-				// // if(((Player)item.getData(Player.IDENTIFIER)).getNote() == null) {
+				// // if(((Player)item.getData(Player.class.getName())).getNote() == null) {
 				// // note.setText("");
 				// // } else {
-				// // note.setText(((Player)item.getData(Player.IDENTIFIER)).getNote());
+				// // note.setText(((Player)item.getData(Player.class.getName())).getNote());
 				// // }
 				//
 				// } else {
@@ -1178,8 +1178,8 @@ public class ViewNT implements IPlugin {
 		// note.addListener(SWT.Modify, new Listener() {
 		//
 		// public void handleEvent(Event arg0) {
-		// if(note.getData(Player.IDENTIFIER) != null) {
-		// Player player = (Player)note.getData(Player.IDENTIFIER);
+		// if(note.getData(Player.class.getName()) != null) {
+		// Player player = (Player)note.getData(Player.class.getName());
 		// player.setNote(note.getText());
 		// if(note.getData("item") != null) {
 		// ((TableItem)note.getData("item")).setText(table.getColumnCount()-1,
@@ -1209,7 +1209,7 @@ public class ViewNT implements IPlugin {
 			maxSkill = player.getSkills().length - 1;
 			TableItem item = new TableItem(table, SWT.NONE);
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
+			item.setData(Player.class.getName(), player);
 			if (player.getNational() > 0) {
 				item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			} else {

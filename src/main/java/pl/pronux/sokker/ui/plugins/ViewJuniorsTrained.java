@@ -270,7 +270,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 		juniorsTrainedTable.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if (event != null) {
-					Junior junior = (Junior) event.item.getData(Junior.IDENTIFIER);
+					Junior junior = (Junior) event.item.getData(Junior.class.getName());
 					juniorDesc.setStatsJuniorInfo(junior);
 					showDescription(juniorDesc);
 //					setCbData(juniorDesc);
@@ -286,7 +286,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 					Point pt = new Point(event.x, event.y);
 					TableItem item = juniorsTrainedTable.getItem(pt);
 					if (item != null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						currentJunior = junior;
 						juniorsTrainedTable.setMenu(menuPopUp);
 						juniorsTrainedTable.getMenu().setVisible(true);
@@ -338,7 +338,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 				TreeItem item = _treeItem.getParent().getItem(point);
 
 				if (item != null && item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-					Junior junior = ((Junior) item.getData(Junior.IDENTIFIER));
+					Junior junior = ((Junior) item.getData(Junior.class.getName()));
 
 					juniorDesc.setStatsJuniorInfo(junior);
 					juniorTrainedTable.fill(junior);
@@ -373,7 +373,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 				if (item != null && item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
 
 					if (item != null && item.getParentItem() == null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						juniorDesc.setStatsJuniorInfo(junior, 0);
 						juniorTrainedTable.fill(junior);
 
@@ -382,7 +382,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 					}
 
 					if (item != null && item.getParentItem() != null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						juniorDesc.setStatsJuniorInfo(junior, 0);
 						juniorTrainedTable.fill(junior);
 
@@ -422,7 +422,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 
 		for (int i = 0; i < junior.size(); i++) {
 			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
-			item.setData(Junior.IDENTIFIER, junior.get(i));
+			item.setData(Junior.class.getName(), junior.get(i));
 			item.setText(junior.get(i).getSurname() + " " + junior.get(i).getName());
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 
@@ -544,7 +544,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 							// TreeItem[] items =
 							// {treeItem.getParent().getItem(currentIndex).getItem(((Integer)item.getData("id")).intValue())};
 							// treeItem.getParent().setSelection(items);
-							Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+							Junior junior = (Junior) item.getData(Junior.class.getName());
 							_treeItem.getParent().setSelection(new TreeItem[] { (TreeItem) treeItemMap.get(junior.getId()) });
 							
 							juniorDesc.setStatsJuniorInfo(junior, 0);
@@ -653,7 +653,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 						if (currentDesc instanceof ChartDateComposite) {
 							((ChartDateComposite) currentDesc).setMarkers((Date)item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(1)));
 						} else if (currentDesc instanceof DescriptionSingleComposite) {
-							Junior junior = (Junior) item.getParent().getData(Junior.IDENTIFIER);
+							Junior junior = (Junior) item.getParent().getData(Junior.class.getName());
 							int index = item.getParent().indexOf(item);
 							setStatsJuniorInfo(junior, universalDescription, index);
 							showDescription(universalDescription);

@@ -157,7 +157,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 				messageBox.setText(Messages.getString("message.juniorMove.title"));
 
 				if (messageBox.open() == SWT.YES) {
-					// Player player = (Player)currentItem.getData(Player.IDENTIFIER);
+					// Player player = (Player)currentItem.getData(Player.class.getName());
 					Junior junior = currentJunior;
 					// SqlQuery.dropPlayer(junior.getId());
 					try {
@@ -266,7 +266,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 
 			public void handleEvent(Event event) {
 				if (event != null) {
-					Junior junior = (Junior) event.item.getData(Junior.IDENTIFIER);
+					Junior junior = (Junior) event.item.getData(Junior.class.getName());
 					setStatsJuniorInfo(junior, juniorDesc, 0);
 					showDescription(juniorDesc);
 					setCbData(juniorDesc);
@@ -283,7 +283,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 					Point pt = new Point(event.x, event.y);
 					TableItem item = juniorsTable.getItem(pt);
 					if (item != null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						currentJunior = junior;
 						juniorsTable.setMenu(menuPopUp);
 						juniorsTable.getMenu().setVisible(true);
@@ -335,7 +335,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 				TreeItem item = _treeItem.getParent().getItem(point);
 
 				if (item != null && item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-					Junior junior = ((Junior) item.getData(Junior.IDENTIFIER));
+					Junior junior = ((Junior) item.getData(Junior.class.getName()));
 					juniorTable.fill(junior);
 					setStatsJuniorInfo(junior, juniorDesc, 0);
 					showDescription(juniorDesc);
@@ -368,7 +368,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 				if (item != null && item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
 
 					if (item != null && item.getParentItem() == null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						juniorTable.fill(junior);
 						setStatsJuniorInfo(junior, juniorDesc, 0);
 						showDescription(juniorDesc);
@@ -376,7 +376,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 					}
 
 					if (item != null && item.getParentItem() != null) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 						juniorTable.fill(junior);
 						setStatsJuniorInfo(junior, juniorDesc, 0);
 						showDescription(juniorDesc);
@@ -420,7 +420,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 			item.setText(junior.get(i).getSurname() + " " + junior.get(i).getName());
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 
-			item.setData(Junior.IDENTIFIER, junior.get(i));
+			item.setData(Junior.class.getName(), junior.get(i));
 
 			treeItemMap.put(junior.get(i).getId(), item);
 		}
@@ -529,7 +529,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 									.setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(((ChartDateComposite) currentDesc).getColumn())));
 						} else if (currentDesc instanceof DescriptionSingleComposite) {
 							int index = item.getParent().indexOf(item);
-							Junior junior = (Junior) item.getParent().getData(Junior.IDENTIFIER);
+							Junior junior = (Junior) item.getParent().getData(Junior.class.getName());
 							setStatsJuniorInfo(junior, universalDescription, index);
 							showDescription(universalDescription);
 						}
@@ -675,7 +675,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 							// TreeItem[] items =
 							// {treeItem.getParent().getItem(currentIndex).getItem(((Integer)item.getData("id")).intValue())};
 							// treeItem.getParent().setSelection(items);
-							Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+							Junior junior = (Junior) item.getData(Junior.class.getName());
 							_treeItem.getParent().setSelection(new TreeItem[] { (TreeItem) treeItemMap.get(junior.getId()) });
 							
 							juniorTable.fill(junior);

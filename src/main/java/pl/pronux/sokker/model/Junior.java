@@ -27,8 +27,6 @@ public class Junior extends Person {
 
 	public static final int STATUS_TRASH_TRAINED = STATUS_TRAINED + 10;
 	
-	public static final String IDENTIFIER = "JUNIOR"; //$NON-NLS-1$
-
 	private Money allMoneyToSpend;
 
 	private Double averagePops;

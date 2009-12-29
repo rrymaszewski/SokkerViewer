@@ -4,8 +4,6 @@ import java.util.List;
 
 public class LeagueRound {
 	
-	final public static String IDENTIFIER = "LeagueRound"; //$NON-NLS-1$
-	
 	private LeagueSeason leagueSeason;
 
 	private List<LeagueTeam> leagueTeams;

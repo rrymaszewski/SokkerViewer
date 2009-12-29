@@ -85,7 +85,7 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			TableItem item = new TableItem(this, SWT.NONE);
 
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior); 
+			item.setData(Junior.class.getName(), junior); 
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));

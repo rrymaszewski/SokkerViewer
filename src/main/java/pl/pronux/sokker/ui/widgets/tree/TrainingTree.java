@@ -71,7 +71,7 @@ public class TrainingTree extends Tree {
 		for (Training training : trainings) {
 			TreeItem item = new TreeItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Training.IDENTIFIER, training);
+			item.setData(Training.class.getName(), training);
 
 			item.setText(c++, training.getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());
 			if (training.getType() == Training.TYPE_PACE || training.getType() == Training.TYPE_STAMINA) {
@@ -132,7 +132,7 @@ public class TrainingTree extends Tree {
 	private void fillTreeItemVirtualColumns(TreeItem item) {
 		int c = 0;
 
-		item.setData(Coach.IDENTIFIER, null);
+		item.setData(Coach.class.getName(), null);
 		item.setText(c++, Messages.getString("table.job"));
 		item.setText(c++, Messages.getString("table.name"));
 		item.setText(c++, Messages.getString("table.surname"));
@@ -163,7 +163,7 @@ public class TrainingTree extends Tree {
 		default:
 			return;
 		}
-		item.setData(Coach.IDENTIFIER, coach);
+		item.setData(Coach.class.getName(), coach);
 		item.setText(c++, coach.getName());
 		item.setText(c++, coach.getSurname());
 		item.setText(c++, String.valueOf(coach.getGeneralskill()));

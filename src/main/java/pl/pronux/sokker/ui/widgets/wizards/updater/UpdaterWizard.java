@@ -30,24 +30,12 @@ public class UpdaterWizard extends Wizard {
 			versionType = "stable"; //$NON-NLS-1$
 		}
 
-		String osName = System.getProperty("os.name"); //$NON-NLS-1$
-		if (osName != null) {
-			if (osName.toLowerCase().contains("mac")) { //$NON-NLS-1$
-				osType = "/mac"; //$NON-NLS-1$
-			} else if (osName.toLowerCase().contains("linux")) { //$NON-NLS-1$
-				osType = "/linux"; //$NON-NLS-1$
-			} else {
-				osType = "/windows"; //$NON-NLS-1$
-			}
-
-		} else {
-			if (SettingsHandler.IS_WINDOWS) {
-				osType = "/windows"; //$NON-NLS-1$
-			} else if (SettingsHandler.IS_LINUX) {
-				osType = "/linux"; //$NON-NLS-1$
-			} else if (SettingsHandler.IS_MACOSX) {
-				osType = "/mac"; //$NON-NLS-1$
-			}
+		if (SettingsHandler.IS_WINDOWS) {
+			osType = "/windows"; //$NON-NLS-1$
+		} else if (SettingsHandler.IS_LINUX) {
+			osType = "/linux"; //$NON-NLS-1$
+		} else if (SettingsHandler.IS_MACOSX) {
+			osType = "/mac"; //$NON-NLS-1$
 		}
 	}
 

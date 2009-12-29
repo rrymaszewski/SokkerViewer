@@ -373,7 +373,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 			public void handleEvent(Event event) {
 				if (event != null) {
-					Coach coach = (Coach) event.item.getData(Coach.IDENTIFIER); 
+					Coach coach = (Coach) event.item.getData(Coach.class.getName()); 
 					setStatsCoachInfo(coach, coachView);
 					showDescriptionView(coachView);
 					currentCoach = coach;

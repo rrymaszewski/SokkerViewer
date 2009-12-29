@@ -221,7 +221,7 @@ public class ViewCoaches implements IPlugin, ISort {
 	}
 
 	private void openNote(TableItem item) {
-		Coach coach = (Coach) item.getData(Coach.IDENTIFIER); 
+		Coach coach = (Coach) item.getData(Coach.class.getName()); 
 		final NoteShell noteShell = new NoteShell(composite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(coach);
 		noteShell.open();
@@ -247,7 +247,7 @@ public class ViewCoaches implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
 					TableItem item = (TableItem) menuPopUp.getData("item"); //$NON-NLS-1$
-					if (item.getData(Coach.IDENTIFIER) != null) { 
+					if (item.getData(Coach.class.getName()) != null) { 
 						openNote(item);
 					}
 				}
@@ -302,7 +302,7 @@ public class ViewCoaches implements IPlugin, ISort {
 		coachesTable.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if (event != null) {
-					showDescriptionView(((Coach) event.item.getData(Coach.IDENTIFIER)).getId());
+					showDescriptionView(((Coach) event.item.getData(Coach.class.getName())).getId());
 				}
 			}
 		});
@@ -315,7 +315,7 @@ public class ViewCoaches implements IPlugin, ISort {
 					Point pt = new Point(event.x, event.y);
 					TableItem item = coachesTable.getItem(pt);
 					if (item != null) {
-						Coach coach = (Coach) item.getData(Coach.IDENTIFIER); 
+						Coach coach = (Coach) item.getData(Coach.class.getName()); 
 
 						setCbData(coach);
 						menuPopUp.setData("item", item); //$NON-NLS-1$

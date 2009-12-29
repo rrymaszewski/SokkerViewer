@@ -93,7 +93,7 @@ public class ViewArchive implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
 					Item item = (Item) menuPopUp.getData("item"); //$NON-NLS-1$
-					if (item.getData(PlayerArchive.IDENTIFIER) != null) { //$NON-NLS-1$
+					if (item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
 						openNote(item);
 					}
 				}
@@ -384,8 +384,8 @@ public class ViewArchive implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TableItem item = playersArchiveTable.getItem(pt);
-				if (item != null && item.getData(PlayerArchive.IDENTIFIER) != null) { //$NON-NLS-1$
-					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER); //$NON-NLS-1$
+				if (item != null && item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
+					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
 					archiveInformationGroup.fill(playerArchive);
 				}
 
@@ -415,7 +415,7 @@ public class ViewArchive implements IPlugin, ISort {
 	}
 
 	private void openNote(Item item) {
-		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER); //$NON-NLS-1$
+		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
 		final NoteShell noteShell = new NoteShell(composite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(playerArchive);
 		noteShell.open();

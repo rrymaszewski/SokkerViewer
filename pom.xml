@@ -38,12 +38,6 @@
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>8.1-405.jdbc3</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

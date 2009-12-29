@@ -113,7 +113,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			max = player.getSkills().length - 1;
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
+			item.setData(Player.class.getName(), player);
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			
 			if(!player.getSkills()[max].isPassTraining()) {
@@ -264,7 +264,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= PlayerComparator.VALUE &&  column <= PlayerComparator.TEAMWORK) {
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			int maxSkill = player.getSkills().length - 1;
 			int[] temp1 = player.getSkills()[maxSkill].getStatsTable();
 			if (maxSkill > 0) {
@@ -306,7 +306,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			int maxSizeX = 400;
 			int maxSizeY = 200;
 
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			if (player.getNote() != null) {
 				if (!player.getNote().isEmpty()) {
 					label.setText(player.getNote());

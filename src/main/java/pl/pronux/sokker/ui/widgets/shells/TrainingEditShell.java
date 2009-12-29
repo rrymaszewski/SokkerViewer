@@ -306,7 +306,7 @@ public class TrainingEditShell extends Shell {
 				if (items.length != 1) {
 					return;
 				}
-				Coach coach = (Coach) items[0].getData(Coach.IDENTIFIER);
+				Coach coach = (Coach) items[0].getData(Coach.class.getName());
 
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_HEAD) {
 					if (tempTraining.getHeadCoach() != null) {
@@ -354,7 +354,7 @@ public class TrainingEditShell extends Shell {
 				if (items.length != 1) {
 					return;
 				}
-				Coach coach = (Coach) items[0].getData(Coach.IDENTIFIER); 
+				Coach coach = (Coach) items[0].getData(Coach.class.getName()); 
 
 				if (coach.equals(tempTraining.getHeadCoach())) {
 					tempTraining.setHeadCoach(null);
@@ -438,7 +438,7 @@ public class TrainingEditShell extends Shell {
 		for (Coach coach : coaches) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach);
+			item.setData(Coach.class.getName(), coach);
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 		}
 		for (int i = 0; i < table.getColumnCount() - 1; i++) {
@@ -462,7 +462,7 @@ public class TrainingEditShell extends Shell {
 		if (coach != null) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach); 
+			item.setData(Coach.class.getName(), coach); 
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_HEAD)); //$NON-NLS-1$
 		}
@@ -471,7 +471,7 @@ public class TrainingEditShell extends Shell {
 		if (coach != null) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach); 
+			item.setData(Coach.class.getName(), coach); 
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_JUNIORS)); //$NON-NLS-1$
 		}
@@ -482,7 +482,7 @@ public class TrainingEditShell extends Shell {
 		for (Coach assistant : training.getAssistants()) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, assistant); 
+			item.setData(Coach.class.getName(), assistant); 
 			item.setText(c++, assistant.getSurname() + " " + assistant.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); //$NON-NLS-1$
 		}

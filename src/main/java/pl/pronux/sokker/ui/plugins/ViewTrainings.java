@@ -178,17 +178,17 @@ public class ViewTrainings implements IPlugin {
 				TreeItem item = trainingTree.getItem(pt);
 
 				if (item != null) {
-					if (item.getData(Coach.IDENTIFIER) != null) {
-						descriptionComposite.setInfo((Coach) item.getData(Coach.IDENTIFIER));
-					} else if (item.getData(Training.IDENTIFIER) != null) {
-						descriptionComposite.setInfo((Training) item.getData(Training.IDENTIFIER));
+					if (item.getData(Coach.class.getName()) != null) {
+						descriptionComposite.setInfo((Coach) item.getData(Coach.class.getName()));
+					} else if (item.getData(Training.class.getName()) != null) {
+						descriptionComposite.setInfo((Training) item.getData(Training.class.getName()));
 						if (event.button == 3) {
 							treeItem.getParent().setMenu(menuPopUp);
-							treeItem.getParent().getMenu().setData(Training.IDENTIFIER, (Training) item.getData(Training.IDENTIFIER));
+							treeItem.getParent().getMenu().setData(Training.class.getName(), (Training) item.getData(Training.class.getName()));
 							treeItem.getParent().getMenu().setVisible(true);
 						} else {
 							treeItem.getParent().setMenu(menuClear);
-							treeItem.getParent().getMenu().setData(Training.IDENTIFIER, null);
+							treeItem.getParent().getMenu().setData(Training.class.getName(), null);
 							treeItem.getParent().getMenu().setVisible(true);
 						}
 					} else {
@@ -207,17 +207,17 @@ public class ViewTrainings implements IPlugin {
 				}
 
 				if (item != null) {
-					if (item.getData(Coach.IDENTIFIER) != null) {
-						descriptionComposite.setInfo((Coach) item.getData(Coach.IDENTIFIER));
-					} else if (item.getData(Training.IDENTIFIER) != null) {
-						descriptionComposite.setInfo((Training) item.getData(Training.IDENTIFIER));
+					if (item.getData(Coach.class.getName()) != null) {
+						descriptionComposite.setInfo((Coach) item.getData(Coach.class.getName()));
+					} else if (item.getData(Training.class.getName()) != null) {
+						descriptionComposite.setInfo((Training) item.getData(Training.class.getName()));
 						if (event.button == 3) {
 							treeItem.getParent().setMenu(menuPopUp);
-							treeItem.getParent().getMenu().setData(Training.IDENTIFIER, (Training) item.getData(Training.IDENTIFIER));
+							treeItem.getParent().getMenu().setData(Training.class.getName(), (Training) item.getData(Training.class.getName()));
 							treeItem.getParent().getMenu().setVisible(true);
 						} else {
 							treeItem.getParent().setMenu(menuClear);
-							treeItem.getParent().getMenu().setData(Training.IDENTIFIER, null);
+							treeItem.getParent().getMenu().setData(Training.class.getName(), null);
 							treeItem.getParent().getMenu().setVisible(true);
 						}
 					} else {
@@ -233,8 +233,8 @@ public class ViewTrainings implements IPlugin {
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = trainingTree.getItem(pt);
 				if (item != null) {
-					if (item.getData(Training.IDENTIFIER) != null) {
-						new TrainingReportShell(trainingTree.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL, (Training) item.getData(Training.IDENTIFIER)).open();
+					if (item.getData(Training.class.getName()) != null) {
+						new TrainingReportShell(trainingTree.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL, (Training) item.getData(Training.class.getName())).open();
 					}
 				}
 			}

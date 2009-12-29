@@ -38,8 +38,8 @@ public class TrainingsMenu extends Menu {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				if (menu.getData(Training.IDENTIFIER) != null && menu.getData(Training.IDENTIFIER) instanceof Training) {
-					Training training = (Training) menu.getData(Training.IDENTIFIER); 
+				if (menu.getData(Training.class.getName()) != null && menu.getData(Training.class.getName()) instanceof Training) {
+					Training training = (Training) menu.getData(Training.class.getName()); 
 					new TrainingReportShell(parent.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL, training).open();
 				}
 			}
@@ -53,8 +53,8 @@ public class TrainingsMenu extends Menu {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				if (menu.getData(Training.IDENTIFIER) != null && menu.getData(Training.IDENTIFIER) instanceof Training) {
-					Training training = (Training) menu.getData(Training.IDENTIFIER);
+				if (menu.getData(Training.class.getName()) != null && menu.getData(Training.class.getName()) instanceof Training) {
+					Training training = (Training) menu.getData(Training.class.getName());
 					ArrayList<Coach> coaches = new ArrayList<Coach>();
 					coaches.addAll(Cache.getCoaches());
 					coaches.addAll(Cache.getCoachesFired());

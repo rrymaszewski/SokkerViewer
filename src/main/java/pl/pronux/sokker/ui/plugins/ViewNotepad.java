@@ -97,7 +97,7 @@ public class ViewNotepad implements IPlugin, ISort {
 				TableItem[] items = viewTableNote.getSelection();
 				if (items.length == 1) {
 
-					Note note = (Note) items[0].getData(Note.IDENTIFIER);
+					Note note = (Note) items[0].getData(Note.class.getName());
 					viewTitle.setText(note.getTitle());
 					viewText.setText(note.getText());
 
@@ -173,7 +173,7 @@ public class ViewNotepad implements IPlugin, ISort {
 					TableItem[] items = viewTableNote.getSelection();
 					if (items.length == 1) {
 						boolean check = false;
-						Note note = (Note) items[0].getData(Note.IDENTIFIER); 
+						Note note = (Note) items[0].getData(Note.class.getName()); 
 
 						if (note.getAlertDate() != null && alertButton.getSelection()) {
 							Calendar cal = Calendar.getInstance();
@@ -255,7 +255,7 @@ public class ViewNotepad implements IPlugin, ISort {
 					msg.setMessage(Messages.getString("message.note.delete.text")); //$NON-NLS-1$
 					if (msg.open() == SWT.YES) {
 						for (int i = 0; i < items.length; i++) {
-							Note note = (Note) items[i].getData(Note.IDENTIFIER);
+							Note note = (Note) items[i].getData(Note.class.getName());
 							try {
 								SchedulerManager.dropNote(note.getId());
 								notes.remove(note);
@@ -334,7 +334,7 @@ public class ViewNotepad implements IPlugin, ISort {
 		} else {
 			TableItem[] items = viewTableNote.getSelection();
 			if (items.length == 1) {
-				Note note = (Note) items[0].getData(Note.IDENTIFIER); 
+				Note note = (Note) items[0].getData(Note.class.getName()); 
 				note.setText(viewText.getText());
 				note.setTitle(viewTitle.getText());
 				if (alertButton.getSelection()) {
@@ -440,7 +440,7 @@ public class ViewNotepad implements IPlugin, ISort {
 
 			public void handleEvent(Event arg0) {
 				TableItem item = (TableItem) arg0.item;
-				Note note = (Note) item.getData(Note.IDENTIFIER); 
+				Note note = (Note) item.getData(Note.class.getName()); 
 				boolean check = arg0.detail == SWT.CHECK ? true : false;
 				if (check) {
 					note.setChecked(item.getChecked());
@@ -724,7 +724,7 @@ public class ViewNotepad implements IPlugin, ISort {
 			TableItem item = new TableItem(viewTableNote, SWT.NONE);
 
 			int c = 0;
-			item.setData(Note.IDENTIFIER, note); 
+			item.setData(Note.class.getName(), note); 
 			item.setChecked(note.isChecked());
 
 			if (note.getDate() != null) {

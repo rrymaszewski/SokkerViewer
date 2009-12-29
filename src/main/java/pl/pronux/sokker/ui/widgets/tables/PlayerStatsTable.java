@@ -102,7 +102,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 				Point pt = new Point(event.x, event.y);
 				final TableItem item = PlayerStatsTable.this.getItem(pt);
 				if (item != null) {
-					if (((PlayerStats) item.getData(PlayerStats.IDENTIFIER)).getIsInjured() == PlayerStats.NOT_INJURED) {
+					if (((PlayerStats) item.getData(PlayerStats.class.getName())).getIsInjured() == PlayerStats.NOT_INJURED) {
 						return;
 					}
 					boolean visible = false;
@@ -114,8 +114,8 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 						text.setFont(ConfigBean.getFontTable());
 
 						editor.setEditor(text, item, PlayerStatsComparator.INJURY);
-						if (item.getData(PlayerStats.IDENTIFIER) != null && item.getData(PlayerStats.IDENTIFIER) instanceof PlayerStats) {
-							text.setText(String.valueOf(((PlayerStats) item.getData(PlayerStats.IDENTIFIER)).getInjuryDays()));
+						if (item.getData(PlayerStats.class.getName()) != null && item.getData(PlayerStats.class.getName()) instanceof PlayerStats) {
+							text.setText(String.valueOf(((PlayerStats) item.getData(PlayerStats.class.getName())).getInjuryDays()));
 						} else {
 							text.setText(item.getText(PlayerStatsComparator.INJURY));
 						}
@@ -143,7 +143,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 									value = Integer.valueOf(text.getText().replaceAll("[^0-9]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 
 									if (temp != value) {
-										stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER);
+										stats = (PlayerStats) item.getData(PlayerStats.class.getName());
 										stats.setInjuryDays(value);
 										try {
 											new PlayersManager().updatePlayerStatsInjury(stats);
@@ -186,7 +186,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 
 										if (temp != value) {
 
-											stats = (PlayerStats) item.getData(PlayerStats.IDENTIFIER);
+											stats = (PlayerStats) item.getData(PlayerStats.class.getName());
 											stats.setInjuryDays(value);
 											try {
 												new PlayersManager().updatePlayerStatsInjury(stats);
@@ -263,8 +263,8 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			if (playerStats.getTimePlayed() > 0) {
 				Match match = playerStats.getMatch();
 				TableItem item = new TableItem(this, SWT.NONE);
-				item.setData(PaintStarListener.IDENTIFIER, playerStats.getRating());
-				item.setData(PlayerStats.IDENTIFIER, playerStats);
+				item.setData(PaintStarListener.class.getName(), playerStats.getRating());
+				item.setData(PlayerStats.class.getName(), playerStats);
 				int i = 0;
 				if (match.getLeague() != null) {
 					League league = match.getLeague();
