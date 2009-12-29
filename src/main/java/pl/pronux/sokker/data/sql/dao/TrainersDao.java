@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dto.CoachDto;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Person;
@@ -313,8 +312,7 @@ public class TrainersDao {
 	}
 
 	public void repairCoach(Coach coach) throws SQLException {
-		PreparedStatement ps;
-		ps = SQLSession.getConnection().prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); //$NON-NLS-1$
 
 		if (coach.getKeepers() >= 0) {
 			ps.setInt(1, coach.getKeepers());
@@ -325,6 +323,5 @@ public class TrainersDao {
 
 		ps.executeUpdate();
 		ps.close();
-
 	}
 }

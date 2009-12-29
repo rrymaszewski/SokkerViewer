@@ -51,24 +51,13 @@ public class JuniorsDao {
 	}
 
 	public void updateJuniorSkills(int id, JuniorSkills jSkills, Date date) throws SQLException {
-		PreparedStatement ps = null;
 
-		if (SQLSession.databaseType == SQLSession.POSTGRESQL) {
-			ps = connection
-					.prepareStatement("UPDATE junior_skills SET " //$NON-NLS-1$
-							+ "weeks = ?, " //$NON-NLS-1$
-							+ "skill = ?, " //$NON-NLS-1$
-							+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
-							+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
-							+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(j.day) from junior_skills j where j.week = junior_skills.week AND j.id_junior_fk = ?)"); //$NON-NLS-1$
-		} else if (SQLSession.databaseType == SQLSession.HSQLDB) {
-			ps = connection.prepareStatement("UPDATE junior_skills j SET " //$NON-NLS-1$
-					+ "weeks = ?, " //$NON-NLS-1$
-					+ "skill = ?, " //$NON-NLS-1$
-					+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
-					+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
-					+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(day) from junior_skills where week = j.week AND id_junior_fk = ?)"); //$NON-NLS-1$
-		}
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior_skills j SET " //$NON-NLS-1$
+				+ "weeks = ?, " //$NON-NLS-1$
+				+ "skill = ?, " //$NON-NLS-1$
+				+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
+				+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
+				+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(day) from junior_skills where week = j.week AND id_junior_fk = ?)"); //$NON-NLS-1$
 
 		ps.setInt(1, jSkills.getWeeks());
 		ps.setInt(2, jSkills.getSkill());
@@ -359,7 +348,7 @@ public class JuniorsDao {
 		ps.executeUpdate();
 		ps.close();
 
-		ps = SQLSession.getConnection().prepareStatement(
+		ps = connection.prepareStatement(
 				"UPDATE player SET id_junior_fk = ? WHERE name = (SELECT name FROM junior WHERE id_junior = ?) AND surname = (SELECT surname FROM junior WHERE id_junior = ? ) AND youth_team_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, id);
 		ps.setInt(2, id);
@@ -370,9 +359,8 @@ public class JuniorsDao {
 
 	}
 
-	public static void updateJuniorNote(Person junior) throws SQLException {
-		PreparedStatement ps;
-		ps = SQLSession.getConnection().prepareStatement("UPDATE junior SET " + "note = ? " + "WHERE id_junior = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	public void updateJuniorNote(Person junior) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior SET " + "note = ? " + "WHERE id_junior = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		ps.setString(1, junior.getNote());
 		ps.setLong(2, junior.getId());

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.data.sql.dao.AssistantDao;
 import pl.pronux.sokker.interfaces.SV;
-import pl.pronux.sokker.model.DatabaseSettings;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -46,20 +45,13 @@ public class SQLQuery {
 	}
 
 	public static boolean dbExist() {
-		if (settings.getDatabaseSettings().getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-			String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			return new File(file).exists();
-		}
-		return true;
+		String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return new File(file).exists();
 	}
 
 	public static boolean dbPropertiesExist() {
-		if (settings.getDatabaseSettings().getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-			String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			return new File(file).exists();
-		}
-		return true;
-
+		String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return new File(file).exists();
 	}
 
 	private synchronized static void executeBatch() throws SQLException {
@@ -72,36 +64,20 @@ public class SQLQuery {
 	}
 
 	public static void initDB() throws SQLException, IOException {
+		createBatch();
+		Log.info("Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
+		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if (settings.getDatabaseSettings().getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-			String sqlBatch;
-
-			createBatch();
-			Log.info("Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
-			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql"); //$NON-NLS-1$ //$NON-NLS-2$
-
-			if (sqlBatch != null) {
-				String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
-				for (int i = 0; i < SQLBatchArray.length; i++) {
-					addBatch(SQLBatchArray[i]);
-				}
-				// addBatch("INSERT INTO system (version) VALUES (" +
-				// SV.DB_VERSION +
-				// ")");
-				addBatch("UPDATE system SET version = " + SV.DB_VERSION); //$NON-NLS-1$
-				// executeBatch(SQLBatch);
-				// update(SQLBatch);
-				executeBatch();
-				clearBatch();
+		if (sqlBatch != null) {
+			String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
+			for (int i = 0; i < SQLBatchArray.length; i++) {
+				addBatch(SQLBatchArray[i]);
 			}
-
-			closeBatch();
-
-		} else if (settings.getDatabaseSettings().getType().equalsIgnoreCase(DatabaseSettings.POSTGRESQL)) {
-
-		} else {
-			throw new SQLException("Wrong SQL database type"); //$NON-NLS-1$
+			addBatch("UPDATE system SET version = " + SV.DB_VERSION); //$NON-NLS-1$
+			executeBatch();
+			clearBatch();
 		}
+		closeBatch();
 	}
 
 	public static void setConnection(Connection connection) {
@@ -113,8 +89,7 @@ public class SQLQuery {
 		Statement stm = null;
 		try {
 			stm = SQLSession.getConnection().createStatement();
-			int rs = stm.executeUpdate(expression);
-			System.out.println(rs);
+			stm.executeUpdate(expression);
 			stm.close();
 		} catch (SQLException e) {
 			throw e;
@@ -122,50 +97,41 @@ public class SQLQuery {
 	} 
 
 	public static void updateDB(Connection connection, int dbVersion) throws ClassNotFoundException, SQLException, IOException {
-		if (settings.getDatabaseSettings().getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-
-			String sqlBatch;
-
-			createBatch();
-
-			Log.info("Update DB  " + dbVersion); //$NON-NLS-1$
-			sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql"); //$NON-NLS-1$ //$NON-NLS-2$
-
-			if (sqlBatch != null) {
-				String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
-				for (int i = 0; i < SQLBatchArray.length; i++) {
-					addBatch(SQLBatchArray[i]);
-				}
-				// executeBatch(SQLBatch);
-				// update(SQLBatch);
-				executeBatch();
-				clearBatch();
+		createBatch();
+		Log.info("Update DB  " + dbVersion); //$NON-NLS-1$
+		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (sqlBatch != null) {
+			String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
+			for (int i = 0; i < SQLBatchArray.length; i++) {
+				addBatch(SQLBatchArray[i]);
 			}
-
-			switch (dbVersion) {
-			case 1:
-				ArrayList<Player> players = new PlayersManager().getPlayers(null, new HashMap<Integer, Junior>(), new HashMap<Integer, Training>(), new HashMap<Integer, Transfer>(),
-						new HashMap<Integer, Transfer>());
-				int[][] data = AssistantDao.getAssistantData();
-				for (Player player : players) {
-					player.setPositionTable(PlayersManager.calculatePosition(player, data));
-					player.setPosition(player.getBestPosition());
-				}
-				new PlayersManager().updatePlayersPositions(players);
-				break;
-			case 4:
-				try {
-					SQLQuery.update("ALTER TABLE player_skills DROP COLUMN training;"); //$NON-NLS-1$
-				} catch (SQLException e) {
-				}
-				break;
-			default:
-				break;
-			}
-
-			closeBatch();
+			// executeBatch(SQLBatch);
+			// update(SQLBatch);
+			executeBatch();
+			clearBatch();
 		}
 
+		switch (dbVersion) {
+		case 1:
+			ArrayList<Player> players = new PlayersManager().getPlayers(null, new HashMap<Integer, Junior>(), new HashMap<Integer, Training>(), new HashMap<Integer, Transfer>(),
+					new HashMap<Integer, Transfer>());
+			int[][] data = AssistantDao.getAssistantData();
+			for (Player player : players) {
+				player.setPositionTable(PlayersManager.calculatePosition(player, data));
+				player.setPosition(player.getBestPosition());
+			}
+			new PlayersManager().updatePlayersPositions(players);
+			break;
+		case 4:
+			try {
+				SQLQuery.update("ALTER TABLE player_skills DROP COLUMN training;"); //$NON-NLS-1$
+			} catch (SQLException e) {
+			}
+			break;
+		default:
+			break;
+		}
+		closeBatch();
 	}
 
 	/**

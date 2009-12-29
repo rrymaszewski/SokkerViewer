@@ -15,7 +15,6 @@ public class SokkerViewerSettings {
 	private boolean infoClose;
 	private boolean infoUpdate;
 	private ProxySettings proxySettings;
-	private DatabaseSettings databaseSettings;
 
 	public boolean isSavePassword() {
 		return savePassword;
@@ -111,13 +110,5 @@ public class SokkerViewerSettings {
 
 	public void setProxySettings(ProxySettings proxySettings) {
 		this.proxySettings = proxySettings;
-	}
-
-	public DatabaseSettings getDatabaseSettings() {
-		return databaseSettings;
-	}
-
-	public void setDatabaseSettings(DatabaseSettings databaseSettings) {
-		this.databaseSettings = databaseSettings;
 	}
 }

@@ -44,22 +44,16 @@ public class JuniorsManager {
 
 		if (juniors.size() > 0) {
 			juniorsDao.moveTrainedJuniors(sTemp, clubId);
-
 			juniorsDao.removeTrainedJuniors(sTemp, clubId);
-
 		} else {
 			juniorsDao.moveTrainedJuniors(clubId);
-
 			juniorsDao.removeTrainedJuniors(clubId);
 		}
-
 	}
 
 	public void importJuniors(List<Junior> juniors, Training training, int clubId) throws SQLException {
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 
-		
-		
 		for (Junior junior : juniors) {
 
 			if (!juniorsDao.existsJunior(junior.getId())) {
@@ -69,12 +63,10 @@ public class JuniorsManager {
 				if (juniorsDao.existsJuniorHistory(junior.getId())) {
 					juniorsDao.moveJunior(junior.getId(), Junior.STATUS_IN_SCHOOL, clubId);
 				}
-
 				if ((training.getStatus() & Training.NEW_TRAINING) != 0 || juniorsDao.getJuniorSkills(junior,training) == null) {
 					juniorsDao.addJuniorSkills(junior.getId(), junior.getSkills()[0], training);
 				} 
 			}
 		}
 	}
-
 }

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.DbProperties;
 import pl.pronux.sokker.model.SokkerDate;
@@ -124,7 +123,6 @@ public class DatabaseConfigurationDao {
 		ps.setInt(1, teamID);
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public void setJuniorMinimumPop(double pop) throws SQLException {
@@ -134,7 +132,6 @@ public class DatabaseConfigurationDao {
 		ps.setDouble(1, pop);
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public double getJuniorMinimumPop() throws SQLException {
@@ -151,18 +148,14 @@ public class DatabaseConfigurationDao {
 	}
 
 	public int checkDBVersion() throws SQLException {
-		PreparedStatement ps;
 		int version = 0;
-		ps = SQLSession.getConnection().prepareStatement("SELECT version FROM system"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT version FROM system"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			version = rs.getInt(1);
 		}
 		rs.close();
 		ps.close();
-
 		return version;
-
 	}
-
 }

@@ -21,7 +21,6 @@ public class SokkerViewerSettingsDao {
 	public SokkerViewerSettings getSokkerViewerSettings() {
 		SokkerViewerSettings settings = new SokkerViewerSettingsDto(properties);
 		settings.setProxySettings(new ProxyDao(properties).getProxySettings());
-		settings.setDatabaseSettings(new DatabaseSettingsDao(properties).getDatabaseSettings());
 		return settings;
 	}
 
@@ -68,7 +67,6 @@ public class SokkerViewerSettingsDao {
 
 		PropertiesDatabase.getSession().save();
 		
-		new DatabaseSettingsDao(PropertiesDatabase.getSession()).updateDatabaseSettings(sokkerViewerSettings.getDatabaseSettings());
 		new ProxyDao(PropertiesDatabase.getSession()).updateProxySettings(sokkerViewerSettings.getProxySettings());
 	}
 }

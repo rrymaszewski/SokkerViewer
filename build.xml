@@ -13,11 +13,6 @@
 
 	<property name="resources" value="src/main/resources/" />
 
-	<!-- libraries -->
-	<!-- property name="pgsql" value="postgresql-8.1-405.jdbc3.jar"  -->
-	<!-- <property name="pgsql" value="postgresql-8.1-405.jdbc3.jar" /> -->
-	<!-- property name="pgsql.path" value="postgresql-8.1-405.jdbc3.jar"  -->
-
 	<property name="itext" value="itext-1.4.2.jar" />
 	<property name="htmlentities" value="htmlentities-1.0.0.jar" />
 	<property name="jfreechart" value="jfreechart-1.0.1.jar" />

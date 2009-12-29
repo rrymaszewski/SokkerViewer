@@ -134,7 +134,7 @@ public class PersonsManager {
 			if (person instanceof Player) {
 				new PlayersDao(SQLSession.getConnection()).updatePlayerNote(person);
 			} else if (person instanceof Junior) {
-				JuniorsDao.updateJuniorNote(person);
+				new JuniorsDao(SQLSession.getConnection()).updateJuniorNote(person);
 			} else if (person instanceof Coach) {
 				new TrainersDao(SQLSession.getConnection()).updateCoachNote(person);
 			} else if (person instanceof PlayerArchive) {
