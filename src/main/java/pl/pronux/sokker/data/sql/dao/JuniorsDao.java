@@ -276,7 +276,7 @@ public class JuniorsDao {
 	}
 
 	public String moveTrainedJuniors(String sTemp, int clubId) throws SQLException {
-		StringBuffer movedJuniors = new StringBuffer(); //$NON-NLS-1$
+		StringBuilder movedJuniors = new StringBuilder(); //$NON-NLS-1$
 		PreparedStatement ps;
 		ps = connection
 				.prepareStatement("SELECT j.id_junior FROM junior j, junior_skills s WHERE status = 0 AND j.id_junior = s.id_junior_fk AND s.weeks = 0 AND s.weeks = (select min(weeks) from junior_skills WHERE id_junior_fk = j.id_junior) AND j.id_junior NOT IN " //$NON-NLS-1$
@@ -293,7 +293,7 @@ public class JuniorsDao {
 	}
 
 	public String removeTrainedJuniors(int clubId) throws SQLException {
-		StringBuffer deletedJuniors = new StringBuffer(); //$NON-NLS-1$
+		StringBuilder deletedJuniors = new StringBuilder(); //$NON-NLS-1$
 		PreparedStatement ps;
 		PlayersDao playersDao = new PlayersDao(connection);
 		ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0"); //$NON-NLS-1$

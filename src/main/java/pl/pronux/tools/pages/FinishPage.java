@@ -95,7 +95,7 @@ public class FinishPage extends Page {
 	}
 
 	private String buildXML(String os) {
-		StringBuffer xml = new StringBuffer();
+		StringBuilder xml = new StringBuilder();
 		Map<String, WidgetsCollection> map = ((ConfigurationPage) getWizard().getPage(ConfigurationPage.PAGE_NAME)).getWidgetsMap();
 		byte[] sig;
 		WidgetsCollection collection;

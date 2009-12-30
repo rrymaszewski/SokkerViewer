@@ -172,11 +172,11 @@ public class LeagueIDXmlParser {
 
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("teams")) { //$NON-NLS-1$
 					TAG_switch = TAG_TEAMS;

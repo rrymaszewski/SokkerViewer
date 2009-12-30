@@ -40,7 +40,7 @@ public class CountriesXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuffer message;
+			StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
@@ -83,7 +83,7 @@ public class CountriesXmlParser {
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 				if (localName.equals("countries")) { //$NON-NLS-1$
 				}
 

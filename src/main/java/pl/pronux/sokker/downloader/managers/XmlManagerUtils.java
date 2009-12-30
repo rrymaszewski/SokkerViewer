@@ -24,7 +24,7 @@ public class XmlManagerUtils {
 
 	public static String filterCharacters(String xml) {
 		char[] array = xml.toCharArray();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < array.length; i++) {
 			if (xml.charAt(i) < 0x9 || (xml.charAt(i) > 0xa && xml.charAt(i) < 0xf)) {
 			} else {

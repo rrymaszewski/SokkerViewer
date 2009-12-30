@@ -495,7 +495,7 @@ public class ViewArena implements IPlugin {
 				if (browser != null) {
 					/* The Browser widget can be used */
 					//
-					StringBuffer request = new StringBuffer();
+					StringBuilder request = new StringBuilder();
 					Map<Integer, Stand> standRequestMap = getStands();
 					Collection<Stand> standRequest = standRequestMap.values();
 					for (Stand stand : standRequest) {

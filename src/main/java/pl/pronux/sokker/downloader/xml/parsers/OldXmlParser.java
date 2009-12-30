@@ -418,11 +418,11 @@ public class OldXmlParser {
 				alStand = new ArrayList<Stand>();
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("sokkerdata")) { //$NON-NLS-1$
 					TAG_switch = 6;

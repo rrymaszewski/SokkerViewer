@@ -61,7 +61,7 @@ public class TrainersManager {
 	
 	public void importTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		StringBuffer sb = new StringBuffer("("); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
@@ -98,7 +98,7 @@ public class TrainersManager {
 
 	public void importerTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		StringBuffer sb = new StringBuffer("("); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {

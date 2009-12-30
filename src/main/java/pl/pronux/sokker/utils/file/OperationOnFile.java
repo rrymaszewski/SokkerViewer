@@ -148,7 +148,7 @@ public class OperationOnFile {
 	}
 
 	public static String readFromFile(File file, String encoding) throws IOException {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		InputStreamReader in = null;
 		int c;
 		try {

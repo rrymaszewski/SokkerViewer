@@ -17,10 +17,10 @@ public class Password {
 	
 	private String generatePassword() {
 		SecureRandom random = new SecureRandom();
-		StringBuffer password;
+		StringBuilder password;
 		
 		do {
-			password = new StringBuffer();
+			password = new StringBuilder();
 			
 			String pass = Crypto.encodeBase64(String.valueOf(random.nextLong()).getBytes());
 			pass = pass.replaceAll("=", ""); //$NON-NLS-1$ //$NON-NLS-2$

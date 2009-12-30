@@ -344,11 +344,11 @@ public class MatchXmlParser {
 				awayTeam = new TeamStats();
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("match")) { //$NON-NLS-1$
 					TAG_switch = TAG_MATCH;

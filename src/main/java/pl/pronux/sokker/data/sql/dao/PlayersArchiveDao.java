@@ -92,7 +92,7 @@ public class PlayersArchiveDao {
 	}
 
 	public String getPlayerArchiveNote(int playerID) throws SQLException {
-		StringBuffer note = new StringBuffer();
+		StringBuilder note = new StringBuilder();
 		PreparedStatement ps;
 		ps = connection.prepareStatement("SELECT note FROM player_archive WHERE player_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, playerID);

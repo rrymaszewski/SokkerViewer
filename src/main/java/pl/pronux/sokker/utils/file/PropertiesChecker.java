@@ -200,7 +200,7 @@ public class PropertiesChecker {
 				}
 
 				alPlugins.retainAll(Arrays.asList(plugins));
-				StringBuffer pluginList = new StringBuffer();
+				StringBuilder pluginList = new StringBuilder();
 				for (String plugin : alPlugins) {
 					pluginList.append(plugin).append(";");
 				}

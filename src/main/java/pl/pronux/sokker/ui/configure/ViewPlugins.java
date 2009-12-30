@@ -215,7 +215,7 @@ public class ViewPlugins implements IViewConfigure {
 
 	public void applyChanges() {
 
-		StringBuffer pluginsDirection = new StringBuffer();
+		StringBuilder pluginsDirection = new StringBuilder();
 		for (int i = 0; i < pluginsTable.getItemCount(); i++) {
 			TableItem item = pluginsTable.getItem(i);
 			pluginsDirection.append((String) item.getData("plugin")).append(";"); //$NON-NLS-1$ //$NON-NLS-2$

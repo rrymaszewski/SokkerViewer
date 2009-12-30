@@ -57,7 +57,7 @@ public class Crypto {
 		try {
 			in = new FileInputStream(file);
 			int c;
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			while ((c = in.read()) != -1) {
 				sb.append(c);
 			}
@@ -112,7 +112,7 @@ public class Crypto {
 		try {
 			FileInputStream in = new FileInputStream(file);
 			int c;
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			while ((c = in.read()) != -1) {
 				sb.append(c);
 			}

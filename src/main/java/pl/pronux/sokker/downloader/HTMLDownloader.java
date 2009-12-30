@@ -105,7 +105,7 @@ public class HTMLDownloader {
 		int len;
 		BufferedInputStream in = null;
 		HttpURLConnection connection = null;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		try {
 			url = new URL(urlString);
 
@@ -150,7 +150,7 @@ public class HTMLDownloader {
 	}
 
 	public String getNormalPage(String urlString) throws IOException {
-		StringBuffer content = new StringBuffer();
+		StringBuilder content = new StringBuilder();
 		String line;
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
@@ -265,7 +265,7 @@ public class HTMLDownloader {
 
 	private String getPHPSESSIONID(HttpURLConnection conn) {
 		Cookie cookies = new Cookie();
-		StringBuffer cookie = new StringBuffer();
+		StringBuilder cookie = new StringBuilder();
 		for (int i = 0;; i++) {
 			String headerName = conn.getHeaderFieldKey(i);
 			String headerValue = conn.getHeaderField(i);
@@ -315,7 +315,7 @@ public class HTMLDownloader {
 
 	public String postDataToPage(String urlString, String parameters, String referer) throws IOException {
 		String line;
-		StringBuffer content = new StringBuffer();
+		StringBuilder content = new StringBuilder();
 		URL url = new URL(urlString);
 		HttpURLConnection connection = null;
 		BufferedReader in = null;

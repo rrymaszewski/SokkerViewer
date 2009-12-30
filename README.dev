@@ -4,6 +4,5 @@ kroki do wykonania przed wydaniem rewizji
 * sql.0 sprowadzic do aktualnej wersji
 * zmiana w interfejsie z testowej na stabilna
 * zmiana wersji w ant (lacznie z bibliotekami)
-* zmiana OS w ant
 * zmiana wersji w instalatorze
 * uaktualnienie packages.xml

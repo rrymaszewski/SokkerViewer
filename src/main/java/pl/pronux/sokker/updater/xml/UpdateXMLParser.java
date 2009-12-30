@@ -103,7 +103,7 @@ public class UpdateXMLParser {
 
 		class SAXHandler extends DefaultHandler {
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
 				// System.out.print("Ciag znakow: ");
@@ -176,7 +176,7 @@ public class UpdateXMLParser {
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("sokkerviewer")) { //$NON-NLS-1$
 					tagSwitch = TAG_SOKKERVIEWER;

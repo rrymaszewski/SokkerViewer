@@ -56,7 +56,7 @@ public class SokkerAuthentication {
 	}
 
 	private String getContent(String urlString) throws IOException {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		URL url;
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
@@ -232,7 +232,7 @@ public class SokkerAuthentication {
 	
 	private String postDataToPage(String urlString, String parameters, String referer) throws IOException, SVException {
 		String line;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		URL url;
 		DataOutputStream out = null;
 		BufferedReader in = null;

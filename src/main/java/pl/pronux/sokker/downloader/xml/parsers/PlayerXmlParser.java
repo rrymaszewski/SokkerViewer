@@ -225,11 +225,11 @@ public class PlayerXmlParser {
 			public void startDocument() {
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equals("player")) { //$NON-NLS-1$
 
