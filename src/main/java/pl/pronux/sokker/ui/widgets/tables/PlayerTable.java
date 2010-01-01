@@ -186,7 +186,7 @@ public class PlayerTable extends SVTable<Player> {
 
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();
-			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 5);
+//			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 5);
 		}
 
 		if (this.getColumn(18).getWidth() < this.getColumn(19).getWidth()) {
