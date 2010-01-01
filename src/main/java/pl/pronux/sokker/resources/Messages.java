@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import pl.pronux.sokker.utils.Log;
+
 public class Messages {
 	private static String bundleName = "lang.sokker"; //$NON-NLS-1$
 
@@ -27,6 +29,7 @@ public class Messages {
 		try {
 			return resourceBundle.getString(key);
 		} catch (MissingResourceException e) {
+			Log.warning("Missing translation key: " + key);
 			return '!' + key + '!';
 		}
 	}
