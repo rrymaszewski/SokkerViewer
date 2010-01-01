@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.SocketAddress;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,8 +16,8 @@ import java.util.regex.Pattern;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.utils.security.Base64Coder;
 
-public class SokkerAuthentication {
-	
+public class SokkerAuthentication extends AbstractDownloader {
+
 	final private static int TIMEOUT_MS = 15000;
 
 	private String errorno;
@@ -34,19 +33,19 @@ public class SokkerAuthentication {
 	private String status;
 
 	private String teamID;
-	
+
 	final public static String OK = "OK"; //$NON-NLS-1$
 	final public static String FAILED = "FAILED"; //$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 * 
-	 * @param login -
-	 *            sokker login
-	 * @param password -
-	 *            sokker password
-	 * @throws IOException 
-	 * @throws SVException 
+	 * @param login
+	 *        - sokker login
+	 * @param password
+	 *        - sokker password
+	 * @throws IOException
+	 * @throws SVException
 	 */
 	public void login(String login, String password) throws SVException, IOException {
 		login(login, password, null, 0, null, null);
@@ -57,27 +56,13 @@ public class SokkerAuthentication {
 
 	private String getContent(String urlString) throws IOException {
 		StringBuilder buffer = new StringBuilder();
-		URL url;
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
 		try {
-			url = new URL(urlString);
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
+			connection = getDefaultConnection(urlString, GET, proxy, urlString);
 			connection.setConnectTimeout(TIMEOUT_MS);
 			connection.setReadTimeout(TIMEOUT_MS);
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept-Charset", "utf-8;q=0.7,*;q=0.7"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
 			connection.setRequestProperty("Cookie", sessionID); //$NON-NLS-1$
-			if (this.proxyAuth != null) {
-				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
 			String line;
@@ -86,12 +71,8 @@ public class SokkerAuthentication {
 				buffer.append('\n');
 			}
 		} finally {
-			if (connection != null) {
-				connection.disconnect();
-			}
-			if(in != null) {
-				in.close();
-			}
+			if (connection != null) connection.disconnect();
+			if (in != null) in.close();
 		}
 
 		return buffer.toString();
@@ -131,8 +112,8 @@ public class SokkerAuthentication {
 	 * 
 	 * @return status<BR>
 	 *         <ul>
-	 *         <li> FAILED - not logged
-	 *         <li> OK - logged
+	 *         <li>FAILED - not logged
+	 *         <li>OK - logged
 	 *         </ul>
 	 */
 	public String getStatus() {
@@ -167,7 +148,7 @@ public class SokkerAuthentication {
 		return response;
 	}
 
-	public void login(String login, String password, String proxyHost, Integer proxyPort, String proxyUser, String proxyPass) throws SVException, IOException  {
+	public void login(String login, String password, String proxyHost, Integer proxyPort, String proxyUser, String proxyPass) throws SVException, IOException {
 
 		if ((proxyHost != null) && (proxyHost.length() > 0) && (proxyPort != null) && (proxyPort.intValue() > 0)) {
 			SocketAddress address = new InetSocketAddress(proxyHost, proxyPort.intValue());
@@ -183,23 +164,24 @@ public class SokkerAuthentication {
 		}
 
 		try {
-			this.message = postDataToPage("http://217.17.40.90/start.php?session=xml", "ilogin=" + URLEncoder.encode(login, "UTF-8") + "&ipassword=" + URLEncoder.encode(password, "UTF-8"), "http://online.sokker.org/xmlinfo.php"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			this.message = postDataToPage(
+										  "http://217.17.40.90/start.php?session=xml", "ilogin=" + URLEncoder.encode(login, "UTF-8") + "&ipassword=" + URLEncoder.encode(password, "UTF-8"), "http://online.sokker.org/xmlinfo.php"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		} catch (UnsupportedEncodingException e) {
-			this.status = SokkerAuthentication.FAILED; 
+			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
 			throw e;
 		} catch (IOException e) {
-			this.status = SokkerAuthentication.FAILED; 
+			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
 			throw e;
 		} catch (SVException e) {
-			this.status = SokkerAuthentication.FAILED; 
+			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
 			throw e;
 		}
 
 		if (this.message == null) {
-			this.status = SokkerAuthentication.FAILED; 
+			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
 		} else {
 			Pattern p1 = Pattern.compile("^OK teamID=[0-9]+\n$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
@@ -221,7 +203,7 @@ public class SokkerAuthentication {
 
 				} else {
 					this.status = SokkerAuthentication.FAILED;
-					this.errorno = Synchronizer.ERROR_RESPONSE_UNKNOWN; 
+					this.errorno = Synchronizer.ERROR_RESPONSE_UNKNOWN;
 				}
 			} else {
 				this.status = SokkerAuthentication.FAILED;
@@ -229,39 +211,21 @@ public class SokkerAuthentication {
 			}
 		}
 	}
-	
+
 	private String postDataToPage(String urlString, String parameters, String referer) throws IOException, SVException {
-		String line;
 		StringBuilder buffer = new StringBuilder();
-		URL url;
 		DataOutputStream out = null;
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
 		try {
-			url = new URL(urlString);
+			connection = getDefaultConnection(urlString, POST, proxy, proxyAuth);
 			
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
-			connection.setRequestMethod("POST"); //$NON-NLS-1$
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept-Language", "pl"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept-Charset", "UTF-8,*"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (this.proxyAuth != null) {
-				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// helping with loggin into the page
 			// connection.setInstanceFollowRedirects(false);
 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setUseCaches(true);
@@ -272,6 +236,7 @@ public class SokkerAuthentication {
 
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
+			String line;
 			while ((line = in.readLine()) != null) {
 				buffer.append(line.replaceAll("&", "&amp;")); //$NON-NLS-1$ //$NON-NLS-2$
 				buffer.append('\n');
@@ -282,15 +247,9 @@ public class SokkerAuthentication {
 		} catch (NullPointerException e) {
 			throw new SVException("Error connecting"); //$NON-NLS-1$
 		} finally {
-			if(in != null) {
-				in.close();
-			}
-			if(out != null) {
-				out.close();
-			}
-			if(connection != null) {
-				connection.disconnect();
-			}
+			if (in != null) in.close();
+			if (out != null) out.close();
+			if (connection != null) connection.disconnect();
 		}
 		return buffer.toString();
 	}

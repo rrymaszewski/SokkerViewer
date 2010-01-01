@@ -22,7 +22,7 @@ import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.utils.security.Base64Coder;
 
-public class HTMLDownloader {
+public class HTMLDownloader extends AbstractDownloader {
 
 	private String cookies = ""; //$NON-NLS-1$
 	private Proxy proxy;
@@ -55,13 +55,7 @@ public class HTMLDownloader {
 		int counter;
 		URL url = null;
 		try {
-			url = new URL(srcFile);
-			URLConnection con ;
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				con = (HttpURLConnection) url.openConnection();
-			} else {
-				con = (HttpURLConnection) url.openConnection(this.proxy);
-			}
+			URLConnection con = getDefaultConnection(srcFile, proxy);
 			length = con.getContentLength();
 		} catch (MalformedURLException e1) {
 			length = -1;
@@ -101,31 +95,12 @@ public class HTMLDownloader {
 	}
 
 	public String getPageInBytes(String urlString) throws IOException {
-		URL url;
-		int len;
 		BufferedInputStream in = null;
 		HttpURLConnection connection = null;
 		StringBuilder buffer = new StringBuilder();
 		try {
-			url = new URL(urlString);
-
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
-
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Accept-Language", "en");
-			// connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			connection.setRequestProperty("Accept-Charset", "utf-8;q=0.7,*;q=0.7"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
+			connection = getDefaultConnection(urlString, GET, proxy, urlString);
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (this.proxyAuth != null) {
-				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			// for first request cookie doesn't exist
 			if (!cookies.isEmpty()) { //$NON-NLS-1$
 				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
@@ -133,6 +108,7 @@ public class HTMLDownloader {
 				cookies = getPHPSESSIONID(connection);
 			}
 
+			int len;
 			in = new BufferedInputStream(new URL(urlString).openStream());
 			while ((len = in.read()) > 0) {
 				buffer.append((char) len);
@@ -154,27 +130,9 @@ public class HTMLDownloader {
 		String line;
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
-		URL url;
 		try {
-			url = new URL(urlString);
-
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
-
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Accept-Language", "en");
-			// connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			connection.setRequestProperty("Accept-Charset", "utf-8;q=0.7,*;q=0.7"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
+			connection = getDefaultConnection(urlString, GET, proxy, proxyAuth);
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (this.proxyAuth != null) {
-				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			// for first request cookie doesn't exist
 			if (!cookies.isEmpty()) { //$NON-NLS-1$
 				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
@@ -205,12 +163,7 @@ public class HTMLDownloader {
 		FileOutputStream out = null;
 		HttpURLConnection connection = null;
 		try {
-			URL url = new URL(urlString);
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
+			connection = getDefaultConnection(urlString, proxy);
 			in = new BufferedInputStream(connection.getInputStream());
 			out = new FileOutputStream(destinationDirectory + File.separator + filename);
 			while ((len = in.read(buf)) > 0) {
@@ -240,12 +193,7 @@ public class HTMLDownloader {
 
 			ByteBuffer byteBuffer = ByteBuffer.wrap(buf);
 
-			URL url = new URL(urlString);
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
+			connection = getDefaultConnection(urlString, proxy);
 
 			in = new BufferedInputStream(connection.getInputStream());
 			while ((len = in.read(buf)) > 0) {
@@ -314,32 +262,14 @@ public class HTMLDownloader {
 	}
 
 	public String postDataToPage(String urlString, String parameters, String referer) throws IOException {
-		String line;
 		StringBuilder content = new StringBuilder();
-		URL url = new URL(urlString);
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
 		DataOutputStream out = null;
 		try {
-			if (Proxy.NO_PROXY.equals(this.proxy)) {
-				connection = (HttpURLConnection) url.openConnection();
-			} else {
-				connection = (HttpURLConnection) url.openConnection(this.proxy);
-			}
-
-			connection.setRequestMethod("POST"); //$NON-NLS-1$
-			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8) Gecko/20051224 Debian/1.5.dfsg-3 Firefox/1.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept", "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Accept-Language", "pl"); //$NON-NLS-1$ //$NON-NLS-2$
-			// connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			connection.setRequestProperty("Accept-Charset", "UTF-8,*"); //$NON-NLS-1$ //$NON-NLS-2$
-			connection.setRequestProperty("Keep-Alive", "300"); //$NON-NLS-1$ //$NON-NLS-2$
+			connection = getDefaultConnection(urlString, POST, proxy, proxyAuth);
 			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (this.proxyAuth != null) {
-				connection.setRequestProperty("Proxy-Authorization", "Basic " + this.proxyAuth); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// helping with loggin into the page
 			// connection.setInstanceFollowRedirects(false);
@@ -357,6 +287,7 @@ public class HTMLDownloader {
 
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
 
+			String line;
 			while ((line = in.readLine()) != null) {
 				content.append(line.replaceAll("&", "&amp;")).append('\n'); //$NON-NLS-1$ //$NON-NLS-2$
 				// stringCache = stringCache.replaceAll("<", "&lt;");
