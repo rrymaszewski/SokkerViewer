@@ -11,6 +11,15 @@ import pl.pronux.sokker.model.Region;
 
 public class CountriesManager {
 
+	private static final CountriesManager _instance = new CountriesManager();
+	
+	private CountriesManager() {
+	}
+	
+	public static CountriesManager instance() {
+		return _instance;
+	}
+	
 	public void importCountries(List<Country> countries) throws SQLException {
 		CountriesDao countriesDao = new CountriesDao(SQLSession.getConnection());
 		for (Country country : countries) {

@@ -61,7 +61,9 @@ public class ViewAssistant implements IPlugin, ISort {
 		private TreeItem treeItem;
 
 		private boolean changed;
-
+		
+		private AssistantManager assistantManager = AssistantManager.instance();
+		
 		private void addTableEditor(final Table table) {
 			final TableEditor editor = new TableEditor(table);
 			editor.horizontalAlignment = SWT.LEFT;
@@ -388,7 +390,7 @@ public class ViewAssistant implements IPlugin, ISort {
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_WAIT));
 
 					SQLSession.connect();
-					int[][] data = AssistantManager.getAssistantData();
+					int[][] data = assistantManager.getAssistantData();
 
 					Cache.setAssistant(data);
 					PlayersManager.calculatePositionForAllPlayer(players, data);

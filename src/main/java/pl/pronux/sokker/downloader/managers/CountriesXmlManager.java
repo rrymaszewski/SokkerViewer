@@ -19,6 +19,8 @@ import pl.pronux.sokker.model.Date;
 public class CountriesXmlManager extends XmlManager<Country> {
 
 	private ArrayList<Country> alCountries;
+	
+	private CountriesManager countriesManager = CountriesManager.instance();
 
 	public CountriesXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -40,7 +42,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new CountriesManager().importCountries(this.alCountries);
+		countriesManager.importCountries(this.alCountries);
 	}
 
 	public List<Country> parseXML() throws SAXException {

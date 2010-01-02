@@ -55,7 +55,9 @@ public class CoreAction implements IRunnableWithProgress {
 	public static boolean lock = UNLOCK;
 
 	private MatchesManager matchesManager = MatchesManager.instance();
-	
+	private AssistantManager assistantManager = AssistantManager.instance();
+	private CountriesManager countriesManager = CountriesManager.instance();
+
 	public boolean isUpdate() {
 		return update;
 	}
@@ -104,7 +106,8 @@ public class CoreAction implements IRunnableWithProgress {
 			if (!SQLQuery.dbExist()) {
 				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); //$NON-NLS-1$
 				String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				String fileProperties = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String fileProperties = settings.getBaseDirectory() + File.separator
+										+ "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				try {
 					SQLSession.beginTransaction();
 					SQLQuery.initDB();
@@ -149,7 +152,8 @@ public class CoreAction implements IRunnableWithProgress {
 						if (counter % 30 == 0) {
 							File file = new File(directory);
 							if (file.exists() && file.listFiles().length > 10000) {
-								file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_" + Calendar.getInstance().getTimeInMillis()));
+								file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_"
+													   + Calendar.getInstance().getTimeInMillis()));
 								new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername()).mkdir();
 							}
 						}
@@ -198,7 +202,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getCountries")); //$NON-NLS-1$
 
-			Cache.setCountries(new CountriesManager().getCountries());
+			Cache.setCountries(countriesManager.getCountries());
 			SVComparator<Country> countryComparator = new CountryComparator();
 			countryComparator.setColumn(CountryComparator.NAME);
 			countryComparator.setDirection(CountryComparator.ASCENDING);
@@ -304,8 +308,10 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); //$NON-NLS-1$
 
-			Cache.setPlayersHistory(playerManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
-			Cache.setPlayersTrash(playerManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
+			Cache.setPlayersHistory(playerManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
+																		transfersBuyMap));
+			Cache.setPlayersTrash(playerManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
+																		transfersBuyMap));
 
 			ArrayList<Player> alPlayers = new ArrayList<Player>();
 			alPlayers.addAll(Cache.getPlayers());
@@ -332,7 +338,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getAssistantData")); //$NON-NLS-1$
 
-			Cache.setAssistant(AssistantManager.getAssistantData());
+			Cache.setAssistant(assistantManager.getAssistantData());
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getLeaguesData")); //$NON-NLS-1$
@@ -351,7 +357,8 @@ public class CoreAction implements IRunnableWithProgress {
 				Cache.getPlayersMap().put(player.getId(), player);
 			}
 
-			Cache.setMatches(matchesManager.getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache.getPlayersArchiveMap()));
+			Cache.setMatches(matchesManager.getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache
+				.getPlayersArchiveMap()));
 
 			PlayersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
 

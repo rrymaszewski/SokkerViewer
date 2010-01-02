@@ -34,13 +34,13 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class MatchesManager {
 
-	private static final MatchesManager _theInstance = new MatchesManager();
+	private static final MatchesManager _instance = new MatchesManager();
 
 	private MatchesManager() {
 	}
 
 	public static MatchesManager instance() {
-		return _theInstance;
+		return _instance;
 	}
 
 	public void importMatches(List<Match> matches) throws SQLException {
