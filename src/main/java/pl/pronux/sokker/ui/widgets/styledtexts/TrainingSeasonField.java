@@ -26,7 +26,7 @@ public class TrainingSeasonField extends StyledText implements IDescription {
 		this.setFont(ConfigBean.getFontDescription());
 		this.setEnabled(false);
 	}
-
+	
 	public void setInfo(Training training, int week) {
 		String formation;
 		String description;
@@ -50,7 +50,7 @@ public class TrainingSeasonField extends StyledText implements IDescription {
 
 				this.append(String.format("%-30s", description));
 
-				trainers = String.format("%4s", String.format("[%d]", training.getHeadCoach().getGeneralskill()));
+				trainers = String.format("%4s", String.format("[%d]", training.getHeadCoachTrainedSkill()));
 				assistants = "";
 				if (training.getAssistants().size() > 0) {
 					for (int i = 0; i < training.getAssistants().size(); i++) {

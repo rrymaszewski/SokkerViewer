@@ -7,6 +7,8 @@ public class TrainingSummary {
 	private int allSkillsFalls;
 	private int staminaPops;
 	private int staminaFalls;
+	private int juniorsPops;
+	private int juniorsFalls;
 
 	public int getTrainedSkillsPops() {
 		return trainedSkillsPops;
@@ -62,5 +64,25 @@ public class TrainingSummary {
 
 	public void setStaminaFalls(int staminaFalls) {
 		this.staminaFalls = staminaFalls;
+	}
+
+	
+	public int getJuniorsPops() {
+		return juniorsPops;
+	}
+
+	
+	public void setJuniorsPops(int juniorsPops) {
+		this.juniorsPops = juniorsPops;
+	}
+
+	
+	public int getJuniorsFalls() {
+		return juniorsFalls;
+	}
+
+	
+	public void setJuniorsFalls(int juniorsFalls) {
+		this.juniorsFalls = juniorsFalls;
 	}
 }
