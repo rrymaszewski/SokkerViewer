@@ -54,6 +54,8 @@ public class CoreAction implements IRunnableWithProgress {
 	public final static boolean UNLOCK = true;
 	public static boolean lock = UNLOCK;
 
+	private MatchesManager matchesManager = MatchesManager.instance();
+	
 	public boolean isUpdate() {
 		return update;
 	}
@@ -349,7 +351,7 @@ public class CoreAction implements IRunnableWithProgress {
 				Cache.getPlayersMap().put(player.getId(), player);
 			}
 
-			Cache.setMatches(new MatchesManager().getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache.getPlayersArchiveMap()));
+			Cache.setMatches(matchesManager.getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache.getPlayersArchiveMap()));
 
 			PlayersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
 

@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.actions.MatchesManager;
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
-import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.SvBean;
@@ -62,6 +62,8 @@ public class ViewMatches implements IPlugin {
 	private MatchesComposite seasonComposite;
 
 	private HashMap<Match, TreeItem> hmTreeItemMatch;
+	
+	private MatchesManager matchesManager = MatchesManager.instance(); 
 
 	public void clear() {
 
@@ -124,18 +126,15 @@ public class ViewMatches implements IPlugin {
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
-
 	}
 
 	public void setSvBean(SvBean svBean) {
-
 	}
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
 		this.treeItem.setText(Messages.getString("tree.ViewMatches")); //$NON-NLS-1$
 		this.treeItem.setImage(ImageResources.getImageResources("match.png")); //$NON-NLS-1$
-
 	}
 
 	public void set() {
@@ -337,23 +336,9 @@ public class ViewMatches implements IPlugin {
 					hmTreeItemMatch.put(match, treeItemMatch);
 
 					if (match.getLeague() != null) {
-						League league = match.getLeague();
-						if (league.getIsOfficial() == League.OFFICIAL) {
-							if (league.getType() == League.TYPE_LEAGUE) {
-								treeItemMatch.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
-								treeItemMatch.setImage(ImageResources.getImageResources("playoff.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
-								treeItemMatch.setImage(ImageResources.getImageResources("cup.png")); //$NON-NLS-1$
-							}
-						} else {
-							if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
-								treeItemMatch.setImage(ImageResources.getImageResources("friendly_match.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_LEAGUE) {
-								treeItemMatch.setImage(ImageResources.getImageResources("friendly_league.png")); //$NON-NLS-1$
-							}
-						}
+						treeItemMatch.setImage(matchesManager.getMatchImage(match.getLeague()));	
 					}
+					
 					if (match.getIsFinished() == Match.FINISHED) {
 						treeItemMatch.setText(match.getHomeTeamName() + " - " + match.getAwayTeamName()); //$NON-NLS-1$
 					} else {

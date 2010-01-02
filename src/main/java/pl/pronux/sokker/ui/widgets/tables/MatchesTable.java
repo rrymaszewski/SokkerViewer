@@ -73,6 +73,10 @@ public class MatchesTable extends SVTable<Match> {
 
 				TableItem item = new TableItem(this, SWT.NONE);
 				item.setData(Match.class.getName(), match);
+
+				item.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
+				item.setBackground(Colors.getLeagueMatch());
+
 				if (match.getLeague() != null) {
 					League league = match.getLeague();
 					if (league.getIsOfficial() == League.OFFICIAL) {

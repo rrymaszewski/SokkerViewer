@@ -24,7 +24,7 @@
 	<property name="ui" value="ui-${version}.jar" />
 	<property name="headers" value="headers-${version}.jar" />
 	<property name="flags" value="flags-0.13.jar" />
-	<property name="images" value="images-0.12.jar" />
+	<property name="images" value="images-0.13.jar" />
 	<property name="lang" value="lang-${version}.jar" />
 	<property name="properties" value="properties-0.10.jar" />
 	<property name="sql" value="sql-0.13.zip" />

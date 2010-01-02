@@ -64,6 +64,10 @@ public class Colors {
 	public static Color getFriendlyMatch() {
 		return ColorResources.getColor(252, 242, 242);
 	}
+	
+	public static Color getJuniorsLeague() {
+		return ColorResources.getColor(234, 242, 250);
+	}
 
 	public static Color getFriendlyLeague() {
 		return ColorResources.getColor(242, 252, 250);

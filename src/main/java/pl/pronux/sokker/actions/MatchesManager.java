@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.xml.sax.SAXException;
 
 import pl.pronux.sokker.data.cache.Cache;
@@ -27,8 +29,20 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
+import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class MatchesManager {
+
+	private static final MatchesManager _theInstance = new MatchesManager();
+
+	private MatchesManager() {
+	}
+
+	public static MatchesManager instance() {
+		return _theInstance;
+	}
+
 	public void importMatches(List<Match> matches) throws SQLException {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		for (Match match : matches) {
@@ -71,7 +85,8 @@ public class MatchesManager {
 		return filteredMatches;
 	}
 
-	public List<Match> getMatches(Club club, Map<Integer, Player> playersMap, Map<Integer, League> hmLeague, Map<Integer, Club> clubMap, Map<Integer, PlayerArchive> archivePlayerMap) throws SQLException {
+	public List<Match> getMatches(Club club, Map<Integer, Player> playersMap, Map<Integer, League> hmLeague, Map<Integer, Club> clubMap,
+		Map<Integer, PlayerArchive> archivePlayerMap) throws SQLException {
 		List<Match> matches = new ArrayList<Match>();
 		boolean newConnection = SQLQuery.connect();
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
@@ -94,17 +109,18 @@ public class MatchesManager {
 	}
 
 	public int importMatch(String matchID) throws SQLException, IOException, SAXException, SVException {
-		XMLDownloader downloader = new XMLDownloader();				
+		XMLDownloader downloader = new XMLDownloader();
 		Match match;
 		League league;
 		String value;
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
 		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
-		if(proxySettings.isEnabled()) {
-			downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(), proxySettings.getPassword());
+		if (proxySettings.isEnabled()) {
+			downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(),
+							 proxySettings.getPassword());
 		} else {
-			downloader.login(settings.getUsername(), settings.getPassword());	
+			downloader.login(settings.getUsername(), settings.getPassword());
 		}
 
 		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
@@ -122,7 +138,9 @@ public class MatchesManager {
 					List<Match> matches = manager.parseXML();
 					if (matches.get(0) != null) {
 						match = matches.get(0);
-						if ((match.getAwayTeamID() == Integer.valueOf(downloader.getTeamID()) || match.getHomeTeamID() == Integer.valueOf(downloader.getTeamID())) && match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1 ) {
+						if ((match.getAwayTeamID() == Integer.valueOf(downloader.getTeamID()) || match.getHomeTeamID() == Integer.valueOf(downloader
+							.getTeamID()))
+							&& match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1) {
 							manager.write();
 							// if(!SQLQuery.ifExistsLeague(manager.getMatch().getLeagueID())) {
 							if (Cache.getLeaguesMap().get(match.getLeagueID()) == null) {
@@ -132,7 +150,7 @@ public class MatchesManager {
 								leagueManager.importToSQL();
 								for (int i = 0; i < leagues.size(); i++) {
 									league = leagues.get(i);
-//									Cache.getLeagues().add(league);
+									// Cache.getLeagues().add(league);
 									Cache.getLeaguesMap().put(league.getLeagueID(), league);
 								}
 							} else {
@@ -166,9 +184,9 @@ public class MatchesManager {
 							return 2;
 						}
 					} else {
-						return 3;	
+						return 3;
 					}
-					
+
 				}
 			} else {
 				throw new SVException(Messages.getString("login.error." + value)); //$NON-NLS-1$
@@ -177,6 +195,52 @@ public class MatchesManager {
 			SQLSession.close();
 		}
 		return 2;
-
 	}
+
+	public Image getMatchImage(League league) {
+		if (league != null) {
+			if (league.getIsOfficial() == League.OFFICIAL) {
+				if (league.getType() == League.TYPE_LEAGUE) {
+					return ImageResources.getImageResources("league_match.png"); //$NON-NLS-1$
+				} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
+					return ImageResources.getImageResources("playoff.png"); //$NON-NLS-1$
+				} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
+					return ImageResources.getImageResources("cup.png"); //$NON-NLS-1$
+				} else if (league.getType() == League.TYPE_JUNIOR_LEAGUE) {
+					return ImageResources.getImageResources("juniors_league.png"); //$NON-NLS-1$
+				}
+			} else {
+				if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
+					return ImageResources.getImageResources("friendly_match.png"); //$NON-NLS-1$
+				} else if (league.getType() == League.TYPE_LEAGUE) {
+					return ImageResources.getImageResources("friendly_league.png"); //$NON-NLS-1$
+				}
+			}
+		}
+		return null;
+	}
+
+	public Color getMatchColor(League league) {
+		if (league != null) {
+			if (league.getIsOfficial() == League.OFFICIAL) {
+				if (league.getType() == League.TYPE_LEAGUE) {
+					return Colors.getLeagueMatch();
+				} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
+					return Colors.getPlayoff();
+				} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
+					return Colors.getCup();
+				} else if (league.getType() == League.TYPE_JUNIOR_LEAGUE) {
+					return Colors.getJuniorsLeague();
+				}
+			} else {
+				if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
+					return Colors.getFriendlyMatch();
+				} else if (league.getType() == League.TYPE_LEAGUE) {
+					return Colors.getFriendlyLeague();
+				}
+			}
+		}
+		return null;
+	}
+
 }

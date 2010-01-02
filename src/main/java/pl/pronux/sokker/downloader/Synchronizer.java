@@ -58,6 +58,8 @@ public class Synchronizer implements IRunnableWithProgress {
 
 	private int params;
 
+	private MatchesManager matchesManager = MatchesManager.instance();
+	
 	final public static int DOWNLOAD_BASE = 1 << 0;
 
 	final public static int DOWNLOAD_COUNTRIES = 1 << 1;
@@ -277,7 +279,7 @@ public class Synchronizer implements IRunnableWithProgress {
 					List<Match> leagueMatches = leagueMatchesXmlManager.parseXML();
 					teamMatches.addAll(leagueMatches);
 
-					List<Match> alNotFinishedMatches = new MatchesManager().getNotFinishedMatches(teamMatches);
+					List<Match> alNotFinishedMatches = matchesManager.getNotFinishedMatches(teamMatches);
 					monitor.worked(1);
 					monitor.subTask(Messages.getString("synchronizer.download.matches")); //$NON-NLS-1$
 					matchXmlManager.download(alNotFinishedMatches);
