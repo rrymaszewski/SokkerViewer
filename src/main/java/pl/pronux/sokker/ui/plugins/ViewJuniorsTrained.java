@@ -56,6 +56,8 @@ import pl.pronux.sokker.ui.widgets.tables.JuniorsTrainedTable;
 
 public class ViewJuniorsTrained implements IPlugin, ISort {
 
+	private PersonsManager personsManager = PersonsManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private Clipboard cb;
@@ -160,7 +162,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 					if (messageBox.open() == SWT.YES) {
 						Junior junior = currentJunior;
 						try {
-							PersonsManager.movePersonToTrash(junior);
+							personsManager.movePersonToTrash(junior);
 							juniorsTrainedTable.fill(juniors);
 
 							_treeItem.getParent().setSelection(new TreeItem[] { _treeItem });
@@ -229,7 +231,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 							Junior junior = itr.next();
 							itr.remove();
 							
-							PersonsManager.movePersonToTrash(junior);
+							personsManager.movePersonToTrash(junior);
 
 							treeItemMap.get(junior.getId()).dispose();
 						}

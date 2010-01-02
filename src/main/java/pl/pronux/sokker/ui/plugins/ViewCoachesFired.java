@@ -44,6 +44,8 @@ import pl.pronux.sokker.ui.widgets.tables.CoachFiredTable;
 
 public class ViewCoachesFired implements IPlugin, ISort {
 
+	private PersonsManager personsManager = PersonsManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private CoachFiredTable coachesTable;
@@ -63,7 +65,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 	private Composite currentView;
 
 	private DescriptionSingleComposite descriptionComposite;
-
+	
 	// public ViewCoach(Composite parent, int style) {
 	// super(parent, style);
 	// }
@@ -269,7 +271,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 					Coach coach = currentCoach;
 
 					try {
-						PersonsManager.movePersonToTrash(coach);
+						personsManager.movePersonToTrash(coach);
 						coachesTable.fill(coaches);
 
 						setDescriptionComposite(coaches);
@@ -330,7 +332,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 							Coach coach = itr.next();
 							itr.remove();
-							PersonsManager.movePersonToTrash(coach);
+							personsManager.movePersonToTrash(coach);
 
 						}
 

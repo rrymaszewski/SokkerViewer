@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.actions.MatchesManager;
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
@@ -30,6 +29,7 @@ import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
+import pl.pronux.sokker.ui.managers.MatchUIManager;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.MatchesComposite;
@@ -63,7 +63,7 @@ public class ViewMatches implements IPlugin {
 
 	private HashMap<Match, TreeItem> hmTreeItemMatch;
 	
-	private MatchesManager matchesManager = MatchesManager.instance(); 
+	private MatchUIManager matchesManager = MatchUIManager.instance(); 
 
 	public void clear() {
 

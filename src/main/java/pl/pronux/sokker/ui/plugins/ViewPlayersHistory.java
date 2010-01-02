@@ -71,6 +71,8 @@ import pl.pronux.sokker.utils.pdf.PDFexport;
 
 public class ViewPlayersHistory implements IPlugin, ISort {
 
+	private PersonsManager personsManager = PersonsManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private PlayersHistoryTable allPlayersTable;
@@ -649,7 +651,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						if (messageBox.open() == SWT.YES) {
 							// Player player = (Player)currentItem.getData("");
 							try {
-								PersonsManager.movePersonToTrash(player);
+								personsManager.movePersonToTrash(player);
 								tableItemMap = allPlayersTable.fill(players);
 
 								_treeItem.getParent().setSelection(new TreeItem[] {
@@ -756,7 +758,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							Player player = itr.next();
 							itr.remove();
 
-							PersonsManager.movePersonToTrash(player);
+							personsManager.movePersonToTrash(player);
 
 							treeItemMap.get(player.getId()).dispose();
 							tableItemMap.get(player.getId()).dispose();

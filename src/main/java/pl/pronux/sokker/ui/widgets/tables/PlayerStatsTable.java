@@ -24,10 +24,10 @@ import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
+import pl.pronux.sokker.ui.managers.MatchUIManager;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
@@ -38,6 +38,8 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 	private PlayerStatsComparator comparator;
 
 	private List<PlayerStats> alPlayerStats = new ArrayList<PlayerStats>();
+
+	private MatchUIManager matchUIManager = MatchUIManager.instance();
 
 	public PlayerStatsTable(Composite parent, int style) {
 		super(parent, style);
@@ -241,8 +243,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 					if (!visible && rect.intersects(clientArea)) {
 						visible = true;
 					}
-					if (!visible)
-						return;
+					if (!visible) return;
 				}
 
 			}
@@ -268,26 +269,8 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 				int i = 0;
 				if (match.getLeague() != null) {
 					League league = match.getLeague();
-					if (league.getIsOfficial() == League.OFFICIAL) {
-						if (league.getType() == League.TYPE_LEAGUE) {
-							item.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
-							item.setBackground(Colors.getLeagueMatch());
-						} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
-							item.setImage(ImageResources.getImageResources("playoff.png")); //$NON-NLS-1$
-							item.setBackground(Colors.getPlayoff());
-						} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
-							item.setImage(ImageResources.getImageResources("cup.png")); //$NON-NLS-1$
-							item.setBackground(Colors.getCup());
-						}
-					} else {
-						if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
-							item.setImage(ImageResources.getImageResources("friendly_match.png")); //$NON-NLS-1$
-							item.setBackground(Colors.getFriendlyMatch());
-						} else if (league.getType() == League.TYPE_LEAGUE) {
-							item.setImage(ImageResources.getImageResources("friendly_league.png")); //$NON-NLS-1$
-							item.setBackground(Colors.getFriendlyLeague());
-						}
-					}
+					item.setImage(matchUIManager.getMatchImage(league));
+					item.setBackground(matchUIManager.getMatchColor(league));
 				}
 
 				i++;
