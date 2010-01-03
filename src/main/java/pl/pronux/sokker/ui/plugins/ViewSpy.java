@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.events.TeamEvent;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;

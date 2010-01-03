@@ -19,16 +19,17 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class StatisticsRankTable extends SVTable<Club> {
 
+	public static final int RANK = 1;
+
 	public StatisticsRankTable(Composite parent, int style) {
 		super(parent, style);
 		this.setFont(ConfigBean.getFontTable());
-		
+
 		this.setHeaderVisible(true);
 		this.setLinesVisible(true);
-		String[] columns3 = {
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("statistics.rank"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+		String[] columns3 = { Messages.getString("table.date"), //$NON-NLS-1$
+							 Messages.getString("statistics.rank"), //$NON-NLS-1$
+							 "" //$NON-NLS-1$
 		};
 
 		for (int i = 0; i < columns3.length; i++) {
@@ -52,9 +53,7 @@ public class StatisticsRankTable extends SVTable<Club> {
 	}
 
 	public void fill(Club club) {
-		int[] columns = {
-			1
-		};
+		int[] columns = { 1 };
 		ArrayList<Double> alDouble = new ArrayList<Double>();
 
 		for (Rank rank : club.getRank()) {
@@ -64,14 +63,14 @@ public class StatisticsRankTable extends SVTable<Club> {
 			item.setText(0, date.getTrainingDate(date.getSokkerDate().getDay()).toDateString());
 			item.setText(1, SVNumberFormat.formatDouble(rank.getRank()));
 			alDouble.add(rank.getRank());
-			if(rank.getDate().getSokkerDate().getSeason() % 2 == 0) {
+			if (rank.getDate().getSokkerDate().getSeason() % 2 == 0) {
 				item.setBackground(0, ColorResources.getColor(240, 240, 240));
 			} else {
 				item.setBackground(0, ColorResources.getWhite());
 			}
 		}
 		Collections.reverse(alDouble);
-		
+
 		this.getColumn(1).setData("data", alDouble); //$NON-NLS-1$
 
 		this.getChanges(columns);

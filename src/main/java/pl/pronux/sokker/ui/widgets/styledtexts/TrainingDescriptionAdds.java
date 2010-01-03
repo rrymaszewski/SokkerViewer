@@ -6,9 +6,9 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
+import pl.pronux.sokker.bean.TrainingSummary;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.model.Training;
-import pl.pronux.sokker.model.TrainingSummary;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;

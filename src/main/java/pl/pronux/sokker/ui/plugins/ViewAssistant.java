@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.AssistantManager;
 import pl.pronux.sokker.actions.PlayersManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -34,7 +35,6 @@ import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;

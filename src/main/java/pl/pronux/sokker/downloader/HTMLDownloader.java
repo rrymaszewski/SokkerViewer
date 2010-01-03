@@ -16,8 +16,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
 
+import pl.pronux.sokker.bean.Cookie;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.model.Cookie;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.utils.security.Base64Coder;

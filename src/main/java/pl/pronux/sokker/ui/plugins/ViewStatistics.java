@@ -18,12 +18,11 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.StatisticsTable;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
@@ -63,11 +62,10 @@ public class ViewStatistics implements IPlugin {
 	private void addViewComposite() {
 
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0,0);
-		formData.left = new FormAttachment(0,0);
-		formData.right = new FormAttachment(100,0);
-		formData.bottom = new FormAttachment(100,0);
-
+		formData.top = new FormAttachment(0, 0);
+		formData.left = new FormAttachment(0, 0);
+		formData.right = new FormAttachment(100, 0);
+		formData.bottom = new FormAttachment(100, 0);
 
 		viewFolder = new CTabFolder(composite, SWT.BORDER);
 		viewFolder.setLayoutData(formData);
@@ -78,49 +76,49 @@ public class ViewStatistics implements IPlugin {
 		viewFolder.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event event) {
-				currentComposite = (TabComposite)((CTabItem)event.item).getControl();
+				currentComposite = (TabComposite) ((CTabItem) event.item).getControl();
 			}
 		});
 
-		cTabItemFans = new CTabItem(viewFolder,SWT.NONE);
+		cTabItemFans = new CTabItem(viewFolder, SWT.NONE);
 		cTabItemFans.setText(Messages.getString("statistics.fans")); //$NON-NLS-1$
 		cTabItemFans.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData();
-		formData.top = new FormAttachment(0,0);
-		formData.left = new FormAttachment(0,0);
-		formData.right = new FormAttachment(100,0);
-		formData.bottom = new FormAttachment(100,0);
+		formData.top = new FormAttachment(0, 0);
+		formData.left = new FormAttachment(0, 0);
+		formData.right = new FormAttachment(100, 0);
+		formData.bottom = new FormAttachment(100, 0);
 
 		TabComposite tabComposite = new TabComposite(viewFolder, SWT.NONE);
 		tabComposite.setLayoutData(formData);
-	
+
 		statisticsFansTable = new StatisticsFansTable(tabComposite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		statisticsFansTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setViewTable(statisticsFansTable);
 
-		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_COUNT).addListener(SWT.Selection, graphList);
-		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_MOOD).addListener(SWT.Selection, graphList);
-		statisticsFansTable.getColumn(StatisticsTable.FANCLUB_DIFF).addListener(SWT.Selection, graphList);
+		statisticsFansTable.getColumn(StatisticsFansTable.FANCLUB_COUNT).addListener(SWT.Selection, graphList);
+		statisticsFansTable.getColumn(StatisticsFansTable.FANCLUB_MOOD).addListener(SWT.Selection, graphList);
+		statisticsFansTable.getColumn(StatisticsFansTable.FANCLUB_DIFF).addListener(SWT.Selection, graphList);
 
 		cTabItemFans.setControl(tabComposite);
 
-		cTabItemEarns = new CTabItem(viewFolder,SWT.NONE);
+		cTabItemEarns = new CTabItem(viewFolder, SWT.NONE);
 		cTabItemEarns.setText(Messages.getString("statistics.earns")); //$NON-NLS-1$
 		cTabItemEarns.setFont(ConfigBean.getFontMain());
 
 		tabComposite = new TabComposite(viewFolder, SWT.NONE);
 		tabComposite.setLayoutData(formData);
-		
+
 		statisticsEarnsTable = new StatisticsEarnsTable(tabComposite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		statisticsEarnsTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setViewTable(statisticsEarnsTable);
 
-		statisticsEarnsTable.getColumn(StatisticsTable.CLUB_MONEY).addListener(SWT.Selection, graphList);
+		statisticsEarnsTable.getColumn(StatisticsEarnsTable.CLUB_MONEY).addListener(SWT.Selection, graphList);
 
 		cTabItemEarns.setControl(tabComposite);
 
-		cTabItemRank = new CTabItem(viewFolder,SWT.NONE);
+		cTabItemRank = new CTabItem(viewFolder, SWT.NONE);
 		cTabItemRank.setText(Messages.getString("statistics.rank")); //$NON-NLS-1$
 		cTabItemRank.setFont(ConfigBean.getFontMain());
 
@@ -131,12 +129,12 @@ public class ViewStatistics implements IPlugin {
 		statisticsRankTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setViewTable(statisticsRankTable);
 
-		statisticsRankTable.getColumn(StatisticsTable.RANK).addListener(SWT.Selection, graphList);
+		statisticsRankTable.getColumn(StatisticsRankTable.RANK).addListener(SWT.Selection, graphList);
 
 		cTabItemRank.setControl(tabComposite);
 
 		viewFolder.setSelection(cTabItemFans);
-		currentComposite = (TabComposite)cTabItemFans.getControl();
+		currentComposite = (TabComposite) cTabItemFans.getControl();
 	}
 
 	public void clear() {
@@ -147,49 +145,37 @@ public class ViewStatistics implements IPlugin {
 
 	public void set() {
 		club = Cache.getClub();
-		
-/*		Listener listener = new Listener() {
 
-			public void handleEvent(Event event) {
-				if(event.button == 1) {
-					Point point = new Point(event.x, event.y);
-					TableItem item = currentComposite.getViewTable().getItem(point);
-					if (item != null) {
-						if ( currentComposite.getGraphComposite().getVisible() == true) {
-							currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", "")));
-						}  else if(currentComposite.getDescriptionComposite().getVisible() == true) {
-//							int index = item.getParent().indexOf(item);
-//							setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
-//							showDescription(universalJuniorComposite);
-						}
-					}
-				} else if(event.button == 3) {
-//					showDescription(previousDesc);
-				}
-			}
-
-		};*/
+		/*
+		 * Listener listener = new Listener() { public void handleEvent(Event event) { if(event.button == 1) { Point point = new Point(event.x, event.y);
+		 * TableItem item = currentComposite.getViewTable().getItem(point); if (item != null) { if ( currentComposite.getGraphComposite().getVisible() == true)
+		 * { currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), Calendar.MONDAY,
+		 * Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); } else
+		 * if(currentComposite.getDescriptionComposite().getVisible() == true) { // int index = item.getParent().indexOf(item); //
+		 * setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index); // showDescription(universalJuniorComposite);
+		 * } } } else if(event.button == 3) { // showDescription(previousDesc); } } };
+		 */
 
 		statisticsRankTable.addListener(SWT.MouseDown, new Listener() {
 
 			public void handleEvent(Event event) {
-				if(event.button == 1) {
+				if (event.button == 1) {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if ( currentComposite.getGraphComposite().getVisible() == true) {
+						if (currentComposite.getGraphComposite().getVisible() == true) {
 							TableColumn tableColumn = item.getParent().getColumn(currentComposite.getGraphComposite().getColumn());
-							ArrayList<?> al = (ArrayList<?>)tableColumn.getData("data"); //$NON-NLS-1$
-							Object object = al.get( al.size() - 1 - item.getParent().indexOf(item));
-							currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), -1,object); //$NON-NLS-1$
-						}  else if(currentComposite.getDescriptionComposite().getVisible() == true) {
-//							int index = item.getParent().indexOf(item);
-//							setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
-//							showDescription(universalJuniorComposite);
+							ArrayList<?> al = (ArrayList<?>) tableColumn.getData("data"); //$NON-NLS-1$
+							Object object = al.get(al.size() - 1 - item.getParent().indexOf(item));
+							currentComposite.getGraphComposite().setMarkers((Date) item.getData("date"), -1, object); //$NON-NLS-1$
+						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+							// int index = item.getParent().indexOf(item);
+							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
+							// showDescription(universalJuniorComposite);
 						}
 					}
-				} else if(event.button == 3) {
-//					showDescription(previousDesc);
+				} else if (event.button == 3) {
+					// showDescription(previousDesc);
 				}
 			}
 
@@ -198,20 +184,23 @@ public class ViewStatistics implements IPlugin {
 		statisticsFansTable.addListener(SWT.MouseDown, new Listener() {
 
 			public void handleEvent(Event event) {
-				if(event.button == 1) {
+				if (event.button == 1) {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if ( currentComposite.getGraphComposite().getVisible() == true) {
-							currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						}  else if(currentComposite.getDescriptionComposite().getVisible() == true) {
-//							int index = item.getParent().indexOf(item);
-//							setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
-//							showDescription(universalJuniorComposite);
+						if (currentComposite.getGraphComposite().getVisible() == true) {
+							currentComposite
+								.getGraphComposite()
+								.setMarkers(
+											(Date) item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+							// int index = item.getParent().indexOf(item);
+							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
+							// showDescription(universalJuniorComposite);
 						}
 					}
-				} else if(event.button == 3) {
-//					showDescription(previousDesc);
+				} else if (event.button == 3) {
+					// showDescription(previousDesc);
 				}
 			}
 
@@ -219,28 +208,31 @@ public class ViewStatistics implements IPlugin {
 		statisticsEarnsTable.addListener(SWT.MouseDown, new Listener() {
 
 			public void handleEvent(Event event) {
-				if(event.button == 1) {
+				if (event.button == 1) {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if ( currentComposite.getGraphComposite().getVisible() == true) {
-							currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), Calendar.SATURDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						}  else if(currentComposite.getDescriptionComposite().getVisible() == true) {
-//							int index = item.getParent().indexOf(item);
-//							setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
-//							showDescription(universalJuniorComposite);
+						if (currentComposite.getGraphComposite().getVisible() == true) {
+							currentComposite
+								.getGraphComposite()
+								.setMarkers(
+											(Date) item.getData("date"), Calendar.SATURDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+							// int index = item.getParent().indexOf(item);
+							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
+							// showDescription(universalJuniorComposite);
 						}
 					}
-				} else if(event.button == 3) {
-//					showDescription(previousDesc);
+				} else if (event.button == 3) {
+					// showDescription(previousDesc);
 				}
 			}
 
 		});
 		statisticsFansTable.fill(club);
-		statisticsEarnsTable.fill(club);		
+		statisticsEarnsTable.fill(club);
 		statisticsRankTable.fill(club);
-		
+
 	}
 
 	public String getInfo() {
@@ -274,37 +266,37 @@ public class ViewStatistics implements IPlugin {
 
 	private void addListeners() {
 		graphList = new Listener() {
-			@SuppressWarnings("unchecked") //$NON-NLS-1$
+
+			@SuppressWarnings("unchecked")//$NON-NLS-1$
 			public void handleEvent(Event event) {
 
 				TableColumn tempColumn = (TableColumn) event.widget;
 				Table tempTable = tempColumn.getParent();
-				
 
 				int[] tempIntTable = new int[tempTable.getItemCount()];
 				String[] tempDateTable = new String[tempTable.getItemCount()];
 				// sprawdzamy czy tabela zawiera elementy
 				int k = tempTable.indexOf(tempColumn);
 				for (int x = 0; x < tempTable.getItemCount(); x++) {
-					tempIntTable[x] = Double.valueOf(tempTable.getItem(x).getText(k).replaceAll("[^0-9-]","")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
+					tempIntTable[x] = Double.valueOf(tempTable.getItem(x).getText(k).replaceAll("[^0-9-]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
 					tempDateTable[x] = tempTable.getItem(x).getText(0);
 				}
-				
-//				graphComposite.setGraph(tempIntTable, 17);
+
+				// graphComposite.setGraph(tempIntTable, 17);
 
 				currentComposite.getGraphComposite().setColumn(k);
 
-				if(viewFolder.getSelection().equals(cTabItemFans)) {
-//					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { //$NON-NLS-1$
-						currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,false, -1);
-//					} else {
-//						currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,true, -1);
-//					}
-				} else if(viewFolder.getSelection().equals(cTabItemEarns)){
-					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.SATURDAY,true, -1);
-				} else if(viewFolder.getSelection().equals(cTabItemRank)){
-					ArrayList<Number> al = (ArrayList<Number>)tempColumn.getData("data"); //$NON-NLS-1$
-					currentComposite.getGraphComposite().fillGraph(al, tempDateTable,-1,false, -1);
+				if (viewFolder.getSelection().equals(cTabItemFans)) {
+					//					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { //$NON-NLS-1$
+					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable, Calendar.MONDAY, false, -1);
+					// } else {
+					// currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,true, -1);
+					// }
+				} else if (viewFolder.getSelection().equals(cTabItemEarns)) {
+					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable, Calendar.SATURDAY, true, -1);
+				} else if (viewFolder.getSelection().equals(cTabItemRank)) {
+					ArrayList<Number> al = (ArrayList<Number>) tempColumn.getData("data"); //$NON-NLS-1$
+					currentComposite.getGraphComposite().fillGraph(al, tempDateTable, -1, false, -1);
 				}
 
 				currentComposite.getGraphComposite().setVisible(true);
@@ -312,9 +304,9 @@ public class ViewStatistics implements IPlugin {
 			}
 		};
 	}
-	
+
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
-//		this.confProperties = confProperties;
+		// this.confProperties = confProperties;
 	}
 
 	public TreeItem getTreeItem() {

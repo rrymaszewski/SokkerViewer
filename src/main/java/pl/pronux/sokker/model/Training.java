@@ -3,6 +3,8 @@ package pl.pronux.sokker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.pronux.sokker.bean.TrainingSummary;
+
 public class Training {
 
 	final public static int FORMATION_GK = 0;

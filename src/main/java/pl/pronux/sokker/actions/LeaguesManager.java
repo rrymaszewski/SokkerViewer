@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.pronux.sokker.bean.LeagueStats;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dao.LeagueDao;
@@ -13,7 +14,6 @@ import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.model.LeagueSeason;
-import pl.pronux.sokker.model.LeagueStats;
 import pl.pronux.sokker.model.LeagueTeam;
 import pl.pronux.sokker.model.Match;
 

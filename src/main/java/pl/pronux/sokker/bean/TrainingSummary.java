@@ -1,4 +1,4 @@
-package pl.pronux.sokker.model;
+package pl.pronux.sokker.bean;
 
 public class TrainingSummary {
 	private int trainedSkillsPops;

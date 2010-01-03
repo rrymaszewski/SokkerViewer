@@ -3,8 +3,8 @@ package pl.pronux.sokker.ui.widgets.styledtexts;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 
+import pl.pronux.sokker.bean.ArenaProject;
 import pl.pronux.sokker.model.Arena;
-import pl.pronux.sokker.model.ArenaProject;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;

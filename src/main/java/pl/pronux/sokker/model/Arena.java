@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import pl.pronux.sokker.bean.ArenaPlaceCapacity;
+import pl.pronux.sokker.bean.ArenaProject;
+
 public class Arena {
 
 	public Arena() {

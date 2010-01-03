@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.PersonsManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.CoachTrashComparator;
 import pl.pronux.sokker.comparators.JuniorTrashComparator;
 import pl.pronux.sokker.comparators.PlayerTrashComparator;
@@ -40,7 +41,6 @@ import pl.pronux.sokker.model.Person;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
