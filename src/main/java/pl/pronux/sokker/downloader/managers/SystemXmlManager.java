@@ -12,7 +12,7 @@ import pl.pronux.sokker.model.Date;
 
 public class SystemXmlManager extends XmlManager<Object> {
 	
-	private ConfigurationManager databaseConfigurationManager = new ConfigurationManager();
+	private ConfigurationManager databaseConfigurationManager = ConfigurationManager.instance();
 	
 	public SystemXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);

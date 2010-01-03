@@ -20,7 +20,9 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	private List<Coach> alTrainers;
 
-	private TrainersManager trainersManager = new TrainersManager();
+	private TrainersManager trainersManager = TrainersManager.instance();
+	
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
 
 	public TrainersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -49,7 +51,7 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	public void repairCoaches() throws SQLException {
 		trainersManager.repairCoaches(this.alTrainers);
-		new ConfigurationManager().updateDbRepairCoaches(false);
+		configurationManager.updateDbRepairCoaches(false);
 	}
 
 	@Override

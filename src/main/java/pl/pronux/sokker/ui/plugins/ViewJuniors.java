@@ -66,16 +66,18 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
+		private ConfigurationManager configurationManager = ConfigurationManager.instance();
+		
 		private Composite composite;
 
 		private Spinner spinner;
 
 		private TreeItem treeItem;
-
+		
 		public void applyChanges() {
 			if (SQLSession.getConnection() != null) {
 				try {
-					new ConfigurationManager().setJuniorMinimumPop(spinner.getSelection() / 10.0);
+					configurationManager.setJuniorMinimumPop(spinner.getSelection() / 10.0);
 					Junior.minimumPop = spinner.getSelection() / 10.0;
 					for (int i = 0; i < juniors.size(); i++) {
 						juniors.get(i).reload();

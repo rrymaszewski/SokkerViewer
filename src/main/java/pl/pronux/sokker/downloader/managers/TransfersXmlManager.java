@@ -16,9 +16,12 @@ import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Transfer;
 
 public class TransfersXmlManager extends XmlManager<Transfer> {
+
 	private TransfersXmlParser transfersXmlParser = null;
 
 	private List<Transfer> alTransfers = new ArrayList<Transfer>();
+	
+	private TeamManager teamManager = TeamManager.instance();
 
 	public TransfersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -27,7 +30,7 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 	public TransfersXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
 		super("transfers", destination, downloader, currentDay); //$NON-NLS-1$
 	}
-	
+
 	public TransfersXmlManager(String content, Date currentDay, int teamID) {
 		super(content, currentDay, teamID);
 	}
@@ -39,7 +42,7 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new TeamManager().importTransfers(this.alTransfers);
+		teamManager.importTransfers(this.alTransfers);
 	}
 
 	public List<Transfer> parseXML() throws SAXException {

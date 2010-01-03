@@ -21,6 +21,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 	private ArrayList<Country> alCountries;
 	
 	private CountriesManager countriesManager = CountriesManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
 
 	public CountriesXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -50,7 +51,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 	}
 
 	public void updateDbCountries(boolean b) throws SQLException {
-		new ConfigurationManager().updateDbCountry(b);
+		configurationManager.updateDbCountry(b);
 	}
 
 	@Override

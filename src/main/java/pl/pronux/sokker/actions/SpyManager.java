@@ -31,6 +31,18 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 
 public class SpyManager {
+	
+	private PlayersManager playersManager = PlayersManager.instance();
+	
+	private final static SpyManager _instance = new SpyManager();
+	
+	private SpyManager() {
+	}
+	
+	public static SpyManager instance() {
+		return _instance;
+	}
+	
 	public Club getTeam(int teamID) throws SVException, IOException, SQLException, SAXException {
 		XMLDownloader downloader = new XMLDownloader();
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
@@ -61,7 +73,6 @@ public class SpyManager {
 			List<Match> matches = matchesTeamXmlManager.parseXML(teamID);
 			try {
 				SQLSession.connect();
-				PlayersManager playersManager = new PlayersManager();
 				Map<Integer, Player> playersMap = new HashMap<Integer, Player>();
 				for (Player player : players ) {
 					PlayerArchive playerArchive = new PlayerArchive(player);

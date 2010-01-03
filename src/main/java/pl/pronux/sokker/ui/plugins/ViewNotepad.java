@@ -48,6 +48,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewNotepad implements IPlugin, ISort {
 
+	private SchedulerManager schedulerManager = SchedulerManager.instance();
+	
 	private Listener clearListener;
 
 	private Composite composite;
@@ -257,7 +259,7 @@ public class ViewNotepad implements IPlugin, ISort {
 						for (int i = 0; i < items.length; i++) {
 							Note note = (Note) items[i].getData(Note.class.getName());
 							try {
-								SchedulerManager.dropNote(note.getId());
+								schedulerManager.dropNote(note.getId());
 								notes.remove(note);
 								items[i].dispose();
 							} catch (SQLException e) {
@@ -327,7 +329,7 @@ public class ViewNotepad implements IPlugin, ISort {
 			notes.add(note);
 			fillTable(viewTableNote, notes);
 			try {
-				SchedulerManager.insertNote(note);
+				schedulerManager.insertNote(note);
 			} catch (SQLException e) {
 				new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 			}
@@ -356,7 +358,7 @@ public class ViewNotepad implements IPlugin, ISort {
 
 				fillTable(viewTableNote, notes);
 				try {
-					SchedulerManager.updateNote(note);
+					schedulerManager.updateNote(note);
 				} catch (SQLException e) {
 					new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 				}
@@ -445,7 +447,7 @@ public class ViewNotepad implements IPlugin, ISort {
 				if (check) {
 					note.setChecked(item.getChecked());
 					try {
-						SchedulerManager.updateNote(note);
+						schedulerManager.updateNote(note);
 					} catch (SQLException e) {
 						new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 					}

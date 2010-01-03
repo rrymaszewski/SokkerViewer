@@ -50,6 +50,8 @@ public class ViewAssistant implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
+		private PlayersManager playersManager = PlayersManager.instance();
+		
 		private Composite composite;
 
 		private Table confTable;
@@ -171,9 +173,9 @@ public class ViewAssistant implements IPlugin, ISort {
 				try {
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_WAIT));
 					Cache.setAssistant(getConfigurationTableData(confTable));
-					PlayersManager.updateAssistantData(Cache.getAssistant());
-					PlayersManager.calculatePositionForAllPlayer(players, Cache.getAssistant());
-					new PlayersManager().updatePlayersPositions(players);
+					playersManager.updateAssistantData(Cache.getAssistant());
+					playersManager.calculatePositionForAllPlayer(players, Cache.getAssistant());
+					playersManager.updatePlayersPositions(players);
 					playersTable.fill(players);
 //					composite.getShell().notifyListeners(IEvents.REFRESH_PLAYERS_DESCRIPTION, new Event());
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_ARROW));
@@ -361,9 +363,9 @@ public class ViewAssistant implements IPlugin, ISort {
 
 						try {
 							Cache.setAssistant(data);
-							PlayersManager.updateAssistantData(data);
-							PlayersManager.calculatePositionForAllPlayer(players, data);
-							new PlayersManager().updatePlayersPositions(players);
+							playersManager.updateAssistantData(data);
+							playersManager.calculatePositionForAllPlayer(players, data);
+							playersManager.updatePlayersPositions(players);
 							fillConfigurationTable(confTable, data);
 
 							playersTable.fill(players);
@@ -393,8 +395,8 @@ public class ViewAssistant implements IPlugin, ISort {
 					int[][] data = assistantManager.getAssistantData();
 
 					Cache.setAssistant(data);
-					PlayersManager.calculatePositionForAllPlayer(players, data);
-					new PlayersManager().updatePlayersPositions(players);
+					playersManager.calculatePositionForAllPlayer(players, data);
+					playersManager.updatePlayersPositions(players);
 					fillConfigurationTable(confTable, data);
 
 					playersTable.fill(players);

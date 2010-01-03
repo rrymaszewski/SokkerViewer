@@ -24,6 +24,15 @@ import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 
 public class ConfigurationManager {
+	
+	private final static ConfigurationManager _instance = new ConfigurationManager();
+	
+	private ConfigurationManager() {
+	}
+	
+	public static ConfigurationManager instance() {
+		return _instance;
+	}
 
 	public void updateDbRepairCoaches(boolean b) throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());

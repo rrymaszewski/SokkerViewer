@@ -59,6 +59,8 @@ public class Synchronizer implements IRunnableWithProgress {
 	private int params;
 
 	private MatchesManager matchesManager = MatchesManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private LeaguesManager leaguesManager = LeaguesManager.instance();
 	
 	final public static int DOWNLOAD_BASE = 1 << 0;
 
@@ -310,7 +312,7 @@ public class Synchronizer implements IRunnableWithProgress {
 				monitor.subTask(Messages.getString("synchronizer.sql.update")); //$NON-NLS-1$
 				SQLSession.beginTransaction();
 
-				teamID = new ConfigurationManager().getTeamID();
+				teamID = configurationManager.getTeamID();
 				if (teamID == 0) {
 					systemXmlManager.updateDbTeamID(Integer.valueOf(downloader.getTeamID()));
 				} else if (Integer.valueOf(downloader.getTeamID()) != teamID) {
@@ -319,7 +321,7 @@ public class Synchronizer implements IRunnableWithProgress {
 
 				if ((params & Synchronizer.REPAIR_DB) != 0) {
 					trainersXmlManager.repairCoaches();
-					new ConfigurationManager().repairDatabase();
+					configurationManager.repairDatabase();
 				}
 
 				if ((params & Synchronizer.DOWNLOAD_COUNTRIES) != 0) {
@@ -357,7 +359,7 @@ public class Synchronizer implements IRunnableWithProgress {
 					playersXmlManager.completeYouthTeamId();
 					playerXmlManager.completePlayersArchive(50);
 					teamsXmlManager.completeClubs();
-					new LeaguesManager().completeLeagueRounds();
+					leaguesManager.completeLeagueRounds();
 				}
 
 				SQLSession.commit();

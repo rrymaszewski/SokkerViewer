@@ -35,11 +35,13 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<PlayerStats> {
 
+	private PlayersManager playersManager = PlayersManager.instance();
+
+	private MatchUIManager matchUIManager = MatchUIManager.instance();
+
 	private PlayerStatsComparator comparator;
 
 	private List<PlayerStats> alPlayerStats = new ArrayList<PlayerStats>();
-
-	private MatchUIManager matchUIManager = MatchUIManager.instance();
 
 	public PlayerStatsTable(Composite parent, int style) {
 		super(parent, style);
@@ -148,7 +150,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 										stats = (PlayerStats) item.getData(PlayerStats.class.getName());
 										stats.setInjuryDays(value);
 										try {
-											new PlayersManager().updatePlayerStatsInjury(stats);
+											playersManager.updatePlayerStatsInjury(stats);
 										} catch (SQLException e1) {
 											new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury1", e1);
 										}
@@ -191,7 +193,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 											stats = (PlayerStats) item.getData(PlayerStats.class.getName());
 											stats.setInjuryDays(value);
 											try {
-												new PlayersManager().updatePlayerStatsInjury(stats);
+												playersManager.updatePlayerStatsInjury(stats);
 											} catch (SQLException e1) {
 												new BugReporter(PlayerStatsTable.this.getDisplay()).openErrorMessage("PlayerStatsTable -> injury2", e1);
 											}

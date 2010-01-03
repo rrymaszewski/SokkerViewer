@@ -18,6 +18,16 @@ import pl.pronux.sokker.model.LeagueTeam;
 import pl.pronux.sokker.model.Match;
 
 public class LeaguesManager {
+
+	private final static LeaguesManager _instance = new LeaguesManager();
+
+	private LeaguesManager() {
+	}
+
+	public static LeaguesManager instance() {
+		return _instance;
+	}
+
 	public void importLeagues(List<League> leagues) throws SQLException {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		for (League league : leagues) {
@@ -33,14 +43,14 @@ public class LeaguesManager {
 
 	}
 
-//	public ArrayList<League> getLeagues(Map<Integer, Club> clubMap) throws SQLException {
-//		ArrayList<League> alLeagues = new ArrayList<League>();
-//		boolean newConnection = SQLQuery.connect();
-//		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
-//		alLeagues = leagueDao.getLeagues(clubMap);
-//		SQLSession.close(newConnection);
-//		return alLeagues;
-//	}
+	// public ArrayList<League> getLeagues(Map<Integer, Club> clubMap) throws SQLException {
+	// ArrayList<League> alLeagues = new ArrayList<League>();
+	// boolean newConnection = SQLQuery.connect();
+	// LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
+	// alLeagues = leagueDao.getLeagues(clubMap);
+	// SQLSession.close(newConnection);
+	// return alLeagues;
+	// }
 
 	public Map<Integer, League> getLeagues() throws SQLException {
 		Map<Integer, League> leaguesMap = new HashMap<Integer, League>();
@@ -50,7 +60,7 @@ public class LeaguesManager {
 		SQLSession.close(newConnection);
 		return leaguesMap;
 	}
-	
+
 	public List<LeagueSeason> getLeagueSeasons(Map<Integer, League> leaguesMap, Map<Integer, Club> clubsMap) throws SQLException {
 		List<LeagueSeason> leagueSeasons = new ArrayList<LeagueSeason>();
 		boolean newConnection = SQLQuery.connect();
@@ -59,7 +69,7 @@ public class LeaguesManager {
 		SQLSession.close(newConnection);
 		return leagueSeasons;
 	}
-	
+
 	public LeagueStats getLeagueStats(LeagueRound leagueRound) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
@@ -133,14 +143,26 @@ public class LeaguesManager {
 					homeLeagueTeam.setBeginPlace(place - 1);
 					awayLeagueTeam.setBeginPlace(place);
 					if (homeLeagueTeam.getPoints() > 0) {
-						homeLeagueTeam.setRankTotal(String.format("%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+						homeLeagueTeam
+							.setRankTotal(String
+								.format(
+										"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 					} else {
-						homeLeagueTeam.setRankTotal(String.format("%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+						homeLeagueTeam
+							.setRankTotal(String
+								.format(
+										"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 					}
 					if (awayLeagueTeam.getPoints() > 0) {
-						awayLeagueTeam.setRankTotal(String.format("%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+						awayLeagueTeam
+							.setRankTotal(String
+								.format(
+										"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 					} else {
-						awayLeagueTeam.setRankTotal(String.format("%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+						awayLeagueTeam
+							.setRankTotal(String
+								.format(
+										"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 					}
 					round.getLeagueTeams().add(homeLeagueTeam);
 					round.getLeagueTeams().add(awayLeagueTeam);
@@ -148,23 +170,23 @@ public class LeaguesManager {
 				}
 				leagueTeamToComplete.addAll(round.getLeagueTeams());
 			} else {
-				
+
 				boolean completed = true;
 				LeagueRound previousRound = rounds.get(leagueSeason.getRound() - 2);
 				List<Match> matches = round.getMatches();
-				for(Match match : matches) {
-					if(match.getIsFinished() == Match.NOT_FINISHED) {
+				for (Match match : matches) {
+					if (match.getIsFinished() == Match.NOT_FINISHED) {
 						completed = false;
 						break;
 					}
 				}
-				
-				if(completed && previousRound.getLeagueTeams().size() == 8) {
-					Map<Integer, LeagueTeam> previousRoundMap = new HashMap<Integer, LeagueTeam>();	
+
+				if (completed && previousRound.getLeagueTeams().size() == 8) {
+					Map<Integer, LeagueTeam> previousRoundMap = new HashMap<Integer, LeagueTeam>();
 					for (LeagueTeam leagueTeam : previousRound.getLeagueTeams()) {
 						previousRoundMap.put(leagueTeam.getTeamID(), leagueTeam);
 					}
-					
+
 					for (Match match : matches) {
 						LeagueTeam homeLeagueTeam = new LeagueTeam();
 						LeagueTeam awayLeagueTeam = new LeagueTeam();
@@ -210,14 +232,26 @@ public class LeaguesManager {
 						homeLeagueTeam.setBeginPlace(previousHomeLeagueTeam.getBeginPlace());
 						awayLeagueTeam.setBeginPlace(previousAwayLeagueTeam.getBeginPlace());
 						if (homeLeagueTeam.getPoints() > 0) {
-							homeLeagueTeam.setRankTotal(String.format("%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+							homeLeagueTeam
+								.setRankTotal(String
+									.format(
+											"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 						} else {
-							homeLeagueTeam.setRankTotal(String.format("%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+							homeLeagueTeam
+								.setRankTotal(String
+									.format(
+											"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 						}
 						if (awayLeagueTeam.getPoints() > 0) {
-							awayLeagueTeam.setRankTotal(String.format("%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+							awayLeagueTeam
+								.setRankTotal(String
+									.format(
+											"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 						} else {
-							awayLeagueTeam.setRankTotal(String.format("%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+							awayLeagueTeam
+								.setRankTotal(String
+									.format(
+											"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
 						}
 						round.getLeagueTeams().add(homeLeagueTeam);
 						round.getLeagueTeams().add(awayLeagueTeam);

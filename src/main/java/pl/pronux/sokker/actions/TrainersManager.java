@@ -13,6 +13,16 @@ import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Training;
 
 public class TrainersManager {
+	
+	private final static TrainersManager _instance = new TrainersManager();
+	
+	private TrainersManager(){
+	}
+	
+	public static TrainersManager instance() {
+		return _instance;
+	}
+	
 	public void repairCoaches(List<Coach> coaches) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 		for (Coach coach : coaches) {
@@ -142,7 +152,7 @@ public class TrainersManager {
 	}
 
 	
-	public static ArrayList<Coach> getCoachesData() throws SQLException {
+	public ArrayList<Coach> getCoachesData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -151,7 +161,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesFiredData() throws SQLException {
+	public ArrayList<Coach> getCoachesFiredData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -160,7 +170,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesDeletedData() throws SQLException {
+	public ArrayList<Coach> getCoachesDeletedData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -169,7 +179,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesFromTrashData() throws SQLException {
+	public ArrayList<Coach> getCoachesFromTrashData() throws SQLException {
 		ArrayList<Coach> coaches;
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie graczy

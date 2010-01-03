@@ -21,6 +21,9 @@ import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
 
 public class LeagueXmlManager extends XmlManager<League> {
+	
+	private LeaguesManager leaguesManager = LeaguesManager.instance();
+	
 	private List<League> leagues = new ArrayList<League>();
 	private Map<String, String> leaguesMap = new HashMap<String, String>();
 	private Set<String> leagueIDSet = new HashSet<String>();
@@ -53,7 +56,7 @@ public class LeagueXmlManager extends XmlManager<League> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new LeaguesManager().importLeagues(leagues);
+		leaguesManager.importLeagues(leagues);
 	}
 	
 	@Override

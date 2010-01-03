@@ -44,6 +44,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewClub implements IPlugin {
 
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private Composite composite;
@@ -242,7 +244,7 @@ public class ViewClub implements IPlugin {
 			if(init) {
 				club.setImagePath(imagePathText.getText());
 				try {
-					new TeamManager().updateClubImagePath(club);
+					teamManager.updateClubImagePath(club);
 				} catch (SQLException e) {
 					new BugReporter(composite.getDisplay()).openErrorMessage("ViewClub -> update logo", e);
 				}

@@ -35,6 +35,9 @@ import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.resources.Fonts;
 
 public class TrainingEditShell extends Shell {
+	
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private Combo typeCombo;
 
 	private Combo formationCombo;
@@ -396,7 +399,7 @@ public class TrainingEditShell extends Shell {
 				training.copy(tempTraining);
 				if (tempTraining != null) {
 					try {
-						TeamManager.updateTraining(tempTraining);
+						teamManager.updateTraining(tempTraining);
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_TRAININGS, new Event());
 					} catch (SQLException e) {
 						new BugReporter(TrainingEditShell.this.getDisplay()).openErrorMessage("Training edit shell -> update training", e);

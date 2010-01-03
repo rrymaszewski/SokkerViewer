@@ -75,6 +75,8 @@ import pl.pronux.sokker.utils.pdf.PDFexport;
 
 public class ViewPlayers implements IPlugin, ISort {
 
+	private PlayersManager playersManager = PlayersManager.instance();
+
 	private TreeItem _treeItem;
 
 	private Clipboard cb;
@@ -145,7 +147,6 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private PlayerTrainingsComposite playerTrainingsComposite;
 
-
 	private void addJuniorTrainedView() {
 		juniorTrainedTable = new JuniorTrainedTable(vComposite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 		juniorTrainedTable.setLayoutData(viewFormData);
@@ -180,6 +181,7 @@ public class ViewPlayers implements IPlugin, ISort {
 	private void addListener() {
 
 		comboFilterListner = new Listener() {
+
 			public void handleEvent(Event event) {
 				String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
 				if (text.equalsIgnoreCase(Messages.getString("view.all"))) {
@@ -202,6 +204,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		};
 
 		graphList = new Listener() {
+
 			public void handleEvent(Event event) {
 
 				TableColumn tempColumn = (TableColumn) event.widget;
@@ -259,7 +262,8 @@ public class ViewPlayers implements IPlugin, ISort {
 				item.setForeground(ConfigBean.getColorNewTreeObject());
 			}
 
-			if (players.get(i).getSkills()[players.get(i).getSkills().length - 1].getCards() > 2 || players.get(i).getSkills()[players.get(i).getSkills().length - 1].getInjurydays() > 0) {
+			if (players.get(i).getSkills()[players.get(i).getSkills().length - 1].getCards() > 2
+				|| players.get(i).getSkills()[players.get(i).getSkills().length - 1].getInjurydays() > 0) {
 				item.setForeground(ColorResources.getRed());
 			}
 
@@ -286,30 +290,31 @@ public class ViewPlayers implements IPlugin, ISort {
 			statisticsItem.setText(Messages.getString("matches"));
 			statisticsItem.setData("playerStatistics", players.get(i));
 			statisticsItem.setImage(ImageResources.getImageResources("player_history.png"));
-			
+
 			TreeItem trainingHistoryItem = new TreeItem(item, SWT.NONE);
 			trainingHistoryItem.setText(Messages.getString("trainings"));
 			trainingHistoryItem.setData("playerTrainingsHistory", players.get(i));
 			trainingHistoryItem.setImage(ImageResources.getImageResources("player_training_history.png"));
 
 		}
-		
+
 		Listener listener = new Listener() {
+
 			public void handleEvent(Event event) {
 				TreeItem item = null;
-				switch(event.type) {
-					case SWT.MouseDown:
-						Point point = new Point(event.x, event.y);
-						item = _treeItem.getParent().getItem(point);
-						break;
-					case SWT.KeyUp:
-						for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
-							item = _treeItem.getParent().getSelection()[i];
-						}
-						break;
+				switch (event.type) {
+				case SWT.MouseDown:
+					Point point = new Point(event.x, event.y);
+					item = _treeItem.getParent().getItem(point);
+					break;
+				case SWT.KeyUp:
+					for (int i = 0; i < _treeItem.getParent().getSelection().length; i++) {
+						item = _treeItem.getParent().getSelection()[i];
+					}
+					break;
 				}
-				
-				if(item != null) {
+
+				if (item != null) {
 					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
 						showMainView(vComposite);
 						comboFilter.setVisible(false);
@@ -384,7 +389,8 @@ public class ViewPlayers implements IPlugin, ISort {
 						}
 					} else if (item.getData("juniorCharts") != null) {
 
-						if (item.getParentItem().getData("idJunior") != null && item.getParentItem().getParentItem().getParentItem() != null && item.getParentItem().getParentItem().getParentItem().equals(_treeItem)) {
+						if (item.getParentItem().getData("idJunior") != null && item.getParentItem().getParentItem().getParentItem() != null
+							&& item.getParentItem().getParentItem().getParentItem().equals(_treeItem)) {
 							if (item.getData("juniorCharts") instanceof Junior) {
 								Junior junior = (Junior) item.getData("juniorCharts");
 								juniorGraphsComposite.fill(junior);
@@ -395,7 +401,7 @@ public class ViewPlayers implements IPlugin, ISort {
 				}
 			}
 		};
-		
+
 		_treeItem.getParent().addListener(SWT.MouseDown, listener);
 		_treeItem.getParent().addListener(SWT.KeyUp, listener);
 
@@ -408,14 +414,13 @@ public class ViewPlayers implements IPlugin, ISort {
 		playerView.setData(Player.class.getName(), player);
 
 		playerView.addListener(SWT.MouseDoubleClick, new Listener() {
+
 			public void handleEvent(Event event) {
 				if (event.button == 1) {
 
 					comboFilter.setVisible(true);
 
-					_treeItem.getParent().setSelection(new TreeItem[] {
-						_treeItem
-					});
+					_treeItem.getParent().setSelection(new TreeItem[] { _treeItem });
 					showView(playersTable);
 					showDescription(playersDescription);
 				}
@@ -428,7 +433,9 @@ public class ViewPlayers implements IPlugin, ISort {
 				if (event != null && event.item != null && event.widget.getData(Player.class.getName()) != null) {
 					TableItem item = (TableItem) event.item;
 					if (currentDesc instanceof ChartDateComposite) {
-						((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(((ChartDateComposite) currentDesc).getColumn()).replaceAll("[^0-9-]", "")));
+						((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item
+							.getText(((ChartDateComposite) currentDesc).getColumn())
+							.replaceAll("[^0-9-]", "")));
 					} else if (currentDesc instanceof PlayerDescriptionComposite) {
 						int index = item.getParent().indexOf(item);
 						playerDescription.setStatsPlayerInfo((Player) item.getParent().getData(Player.class.getName()), index);
@@ -490,6 +497,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.note.open"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
@@ -505,14 +513,11 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.clipboard"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] {
-					cbData
-				}, new Transfer[] {
-					textTransfer
-				});
+				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
 			}
 		});
 
@@ -521,6 +526,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.translate.player"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
@@ -545,11 +551,10 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem.setEnabled(false);
 		menuItem.setText(Messages.getString("popup.import.player"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				// FIXME
-				String[] extensions = {
-					"*.sv_"
-				};
+				String[] extensions = { "*.sv_" };
 				FileDialog fileDialog = new FileDialog(vComposite.getShell(), SWT.OPEN);
 
 				fileDialog.setText(Messages.getString("confShell.chooser.title"));
@@ -574,7 +579,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 								if (player.getId() == currentPlayer.getId()) {
 									try {
-										new PlayersManager().importPlayer(player);
+										playersManager.importPlayer(player);
 									} catch (SQLException e1) {
 										new BugReporter(composite.getDisplay()).openErrorMessage("ViewPlayer", e1);
 									}
@@ -601,14 +606,13 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.generateToPDF"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) {
 					Item item = (Item) menuPopUp.getData("item");
 					if (item.getData(Player.class.getName()) != null) {
 						Player currentPlayer = (Player) item.getData(Player.class.getName());
-						String[] extensions = {
-							"*.pdf"
-						};
+						String[] extensions = { "*.pdf" };
 						FileDialog fileDialog = new FileDialog(vComposite.getShell(), SWT.SAVE);
 						fileDialog.setText(Messages.getString("confShell.chooser.title"));
 						fileDialog.setFilterExtensions(extensions);
@@ -643,20 +647,18 @@ public class ViewPlayers implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpHistory, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.clipboard"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] {
-					playerDescription.getText()
-				}, new Transfer[] {
-					textTransfer
-				});
+				cb.setContents(new Object[] { playerDescription.getText() }, new Transfer[] { textTransfer });
 			}
 		});
 
 		menuItem = new MenuItem(menuPopUpHistory, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.training.unpassed"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event event) {
 				if (event.widget instanceof MenuItem) {
 					Object o = ((MenuItem) event.widget).getParent().getData("item");
@@ -665,7 +667,7 @@ public class ViewPlayers implements IPlugin, ISort {
 						if (item.getData("player_skill") != null && item.getData("player_skill") instanceof PlayerSkills) {
 							PlayerSkills pSkills = (PlayerSkills) item.getData("player_skill");
 							try {
-								new PlayersManager().changePlayerPassTraining(pSkills);
+								playersManager.changePlayerPassTraining(pSkills);
 								if (pSkills.isPassTraining()) {
 									item.setForeground(ColorResources.getBlack());
 								} else {
@@ -674,7 +676,7 @@ public class ViewPlayers implements IPlugin, ISort {
 							} catch (SQLException e) {
 								new BugReporter(composite.getDisplay()).openErrorMessage("ViewPlayer", e);
 							}
-	
+
 						}
 
 					}
@@ -690,14 +692,11 @@ public class ViewPlayers implements IPlugin, ISort {
 		MenuItem menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.clipboard"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] {
-					cbData
-				}, new Transfer[] {
-					textTransfer
-				});
+				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
 			}
 		});
 	}
@@ -775,6 +774,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		});
 
 		playersTable.addListener(SWT.MouseDoubleClick, new Listener() {
+
 			public void handleEvent(Event event) {
 				Rectangle clientArea = playersTable.getClientArea();
 				Point pt = new Point(event.x, event.y);
@@ -786,9 +786,9 @@ public class ViewPlayers implements IPlugin, ISort {
 					for (int i = 0; i < playersTable.getColumnCount(); i++) {
 						Rectangle rect = item.getBounds(i);
 						if (rect.contains(pt) && i != PlayerComparator.NOTE) {
-							_treeItem.getParent().setSelection(new TreeItem[] {
-								(TreeItem) itemMap.get(((PersonInterface) item.getData(Player.class.getName())).getId())
-							});
+							_treeItem.getParent().setSelection(
+															   new TreeItem[] { (TreeItem) itemMap.get(((PersonInterface) item.getData(Player.class.getName()))
+																   .getId()) });
 
 							comboFilter.setVisible(false);
 
@@ -822,17 +822,33 @@ public class ViewPlayers implements IPlugin, ISort {
 
 					if (column != comparator.getColumn()) {
 						if (comparator.getDirection() == 0) {
-							playersTable.getColumn(comparator.getColumn()).setText(playersTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_UP, ""));
+							playersTable.getColumn(comparator.getColumn()).setText(
+																				   playersTable
+																					   .getColumn(comparator.getColumn())
+																					   .getText()
+																					   .replaceAll(ARROW_UP, ""));
 						} else {
-							playersTable.getColumn(comparator.getColumn()).setText(playersTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_DOWN, ""));
+							playersTable.getColumn(comparator.getColumn()).setText(
+																				   playersTable
+																					   .getColumn(comparator.getColumn())
+																					   .getText()
+																					   .replaceAll(ARROW_DOWN, ""));
 						}
 						comparator.setDirection(0);
 						playersTable.getColumn(column).setText(playersTable.getColumn(column).getText() + ARROW_UP);
 					} else {
 						if (comparator.getDirection() == 0) {
-							playersTable.getColumn(comparator.getColumn()).setText(playersTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_UP, ARROW_DOWN));
+							playersTable.getColumn(comparator.getColumn()).setText(
+																				   playersTable
+																					   .getColumn(comparator.getColumn())
+																					   .getText()
+																					   .replaceAll(ARROW_UP, ARROW_DOWN));
 						} else {
-							playersTable.getColumn(comparator.getColumn()).setText(playersTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_DOWN, ARROW_UP));
+							playersTable.getColumn(comparator.getColumn()).setText(
+																				   playersTable
+																					   .getColumn(comparator.getColumn())
+																					   .getText()
+																					   .replaceAll(ARROW_DOWN, ARROW_UP));
 						}
 						comparator.reverseDirection();
 					}
@@ -920,7 +936,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		playerTrainingsComposite = new PlayerTrainingsComposite(this.composite, SWT.BORDER);
 		playerTrainingsComposite.setLayoutData(formData);
 		playerTrainingsComposite.setVisible(false);
-		
+
 		showMainView(vComposite);
 
 		cb = ViewerHandler.getClipboard();
@@ -933,7 +949,7 @@ public class ViewPlayers implements IPlugin, ISort {
 		addListener();
 
 		addViewComposite();
-		
+
 		playersDescription = new PlayersDescriptionComposite(vComposite, SWT.BORDER);
 		playersDescription.setLayoutData(descriptionFormData);
 		playersDescription.setVisible(false);
@@ -949,9 +965,9 @@ public class ViewPlayers implements IPlugin, ISort {
 		universalJuniorComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
 		universalJuniorComposite.setLayoutData(descriptionFormData);
 		universalJuniorComposite.setVisible(false);
-		
+
 		addJuniorTrainedView();
-		
+
 		juniorTrainedComposite = new JuniorTrainedDescriptionComposite(vComposite, SWT.BORDER);
 		juniorTrainedComposite.setLayoutData(descriptionFormData);
 		juniorTrainedComposite.setVisible(false);
@@ -992,10 +1008,8 @@ public class ViewPlayers implements IPlugin, ISort {
 	private void setCbData(Player player) {
 		// TODO do poprawy !!!!!!!!
 		// FIXME: uzyc narzedzia do raportowania pilkarzy
-		cbData = String.format("%-20s%-15s\r\n", new Object[] {
-				Messages.getString("club"),
-				Cache.getClub().getClubName().get(Cache.getClub().getClubName().size() - 1).getName()
-		});
+		cbData = String.format("%-20s%-15s\r\n", new Object[] { Messages.getString("club"),
+															   Cache.getClub().getClubName().get(Cache.getClub().getClubName().size() - 1).getName() });
 		// cbData += ((DescriptionDoubleComposite)
 		// descMap.get(player.getId())).getLeftText();
 		// cbData += ((DescriptionDoubleComposite)
@@ -1004,30 +1018,17 @@ public class ViewPlayers implements IPlugin, ISort {
 
 			Junior junior = player.getJunior();
 			cbData += "====================================\r\n";
-			cbData += String.format("%-35s\r\n", new Object[] {
-				Messages.getString("junior")
-			});
+			cbData += String.format("%-35s\r\n", new Object[] { Messages.getString("junior") });
 			cbData += "====================================\r\n";
-			cbData += String.format("%-20s%-15s\r\n", new Object[] {
-					Messages.getString("junior.id"),
-					junior.getId()
-			});
-			cbData += String.format("%-20s%-15s\r\n", new Object[] {
-					Messages.getString("junior.skill"),
-					Messages.getString("skill.a" + junior.getSkills()[junior.getSkills().length - 1].getSkill()) + "[" + junior.getSkills()[junior.getSkills().length - 1].getSkill() + "]"
-			});
-			cbData += String.format("%-20s%-15s\r\n", new Object[] {
-					Messages.getString("junior.weeksAll"),
-					junior.getSkills()[0].getWeeks()
-			});
-			cbData += String.format("%-20s%-15s\r\n", new Object[] {
-					Messages.getString("junior.numberOfJumps"),
-					junior.getPops()
-			});
-			cbData += String.format("%-20s%-15s\r\n", new Object[] {
-					Messages.getString("junior.averageJumps"),
-					junior.getAveragePops()
-			});
+			cbData += String.format("%-20s%-15s\r\n", new Object[] { Messages.getString("junior.id"), junior.getId() });
+			cbData += String.format("%-20s%-15s\r\n",
+									new Object[] {
+												  Messages.getString("junior.skill"),
+												  Messages.getString("skill.a" + junior.getSkills()[junior.getSkills().length - 1].getSkill()) + "["
+																  + junior.getSkills()[junior.getSkills().length - 1].getSkill() + "]" });
+			cbData += String.format("%-20s%-15s\r\n", new Object[] { Messages.getString("junior.weeksAll"), junior.getSkills()[0].getWeeks() });
+			cbData += String.format("%-20s%-15s\r\n", new Object[] { Messages.getString("junior.numberOfJumps"), junior.getPops() });
+			cbData += String.format("%-20s%-15s\r\n", new Object[] { Messages.getString("junior.averageJumps"), junior.getAveragePops() });
 		}
 	}
 
@@ -1098,9 +1099,7 @@ public class ViewPlayers implements IPlugin, ISort {
 	private void showView(Player player) {
 		if (viewMap.get(player.getId()) == null) {
 			addPlayerView(player);
-			vComposite.layout(new Control[] {
-				viewMap.get(player.getId())
-			});
+			vComposite.layout(new Control[] { viewMap.get(player.getId()) });
 		}
 		showView(player.getId());
 	}

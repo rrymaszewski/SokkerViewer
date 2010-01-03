@@ -9,6 +9,16 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Training;
 
 public class JuniorsManager {
+
+	private final static JuniorsManager _instance = new JuniorsManager();
+
+	private JuniorsManager() {
+	}
+
+	public static JuniorsManager instance() {
+		return _instance;
+	}
+
 	public void addJuniors(List<Junior> juniors, Training training, int clubId) throws SQLException {
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 		String sTemp;
@@ -63,9 +73,9 @@ public class JuniorsManager {
 				if (juniorsDao.existsJuniorHistory(junior.getId())) {
 					juniorsDao.moveJunior(junior.getId(), Junior.STATUS_IN_SCHOOL, clubId);
 				}
-				if ((training.getStatus() & Training.NEW_TRAINING) != 0 || juniorsDao.getJuniorSkills(junior,training) == null) {
+				if ((training.getStatus() & Training.NEW_TRAINING) != 0 || juniorsDao.getJuniorSkills(junior, training) == null) {
 					juniorsDao.addJuniorSkills(junior.getId(), junior.getSkills()[0], training);
-				} 
+				}
 			}
 		}
 	}

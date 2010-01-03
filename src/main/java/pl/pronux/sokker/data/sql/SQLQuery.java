@@ -22,6 +22,8 @@ import pl.pronux.sokker.utils.file.OperationOnFile;
 public class SQLQuery {
 	private static Statement batchStm;
 	private static SokkerViewerSettings settings;
+	
+	private static PlayersManager playersManager = PlayersManager.instance();
 
 	private synchronized static void addBatch(String expression) throws SQLException {
 		batchStm.addBatch(expression);
@@ -113,14 +115,14 @@ public class SQLQuery {
 
 		switch (dbVersion) {
 		case 1:
-			ArrayList<Player> players = new PlayersManager().getPlayers(null, new HashMap<Integer, Junior>(), new HashMap<Integer, Training>(), new HashMap<Integer, Transfer>(),
+			ArrayList<Player> players = playersManager.getPlayers(null, new HashMap<Integer, Junior>(), new HashMap<Integer, Training>(), new HashMap<Integer, Transfer>(),
 					new HashMap<Integer, Transfer>());
 			int[][] data = AssistantDao.getAssistantData();
 			for (Player player : players) {
-				player.setPositionTable(PlayersManager.calculatePosition(player, data));
+				player.setPositionTable(playersManager.calculatePosition(player, data));
 				player.setPosition(player.getBestPosition());
 			}
-			new PlayersManager().updatePlayersPositions(players);
+			playersManager.updatePlayersPositions(players);
 			break;
 		case 4:
 			try {

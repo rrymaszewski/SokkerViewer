@@ -37,6 +37,8 @@ import pl.pronux.sokker.ui.widgets.tree.TrainingTree;
 
 public class ViewTrainings implements IPlugin {
 
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private Composite composite;
 
 	private TreeItem treeItem;
@@ -152,7 +154,7 @@ public class ViewTrainings implements IPlugin {
 					public void run() {
 						new TrainingReportShell(composite.getShell(), SWT.CLOSE | SWT.PRIMARY_MODAL, training).open();
 						try {
-							new TeamManager().updateReportedTrainings(training);
+							teamManager.updateReportedTrainings(training);
 						} catch (SQLException e) {
 							new BugReporter(composite.getDisplay()).openErrorMessage("ViewTraining -> update reported training", e);
 						}

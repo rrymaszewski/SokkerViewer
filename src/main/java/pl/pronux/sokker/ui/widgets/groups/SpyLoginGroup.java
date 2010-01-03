@@ -35,6 +35,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class SpyLoginGroup extends Group {
 
+	private SpyManager spyManager = SpyManager.instance();
+	
 	private Button buttonGet;
 	private Label idLabel;
 	private Combo idCombo;
@@ -95,7 +97,7 @@ public class SpyLoginGroup extends Group {
 				if(teamID > 0) {
 					try {
 						
-						Club team = new SpyManager().getTeam(teamID);
+						Club team = spyManager.getTeam(teamID);
 						if(team != null) {
 							ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_SPY, new TeamEvent(team));
 						}

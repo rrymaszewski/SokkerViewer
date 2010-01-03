@@ -28,6 +28,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ArchiveInformationGroup extends Group {
 
+	private PlayersManager playersManager = PlayersManager.instance();
+
 	private FormData formData;
 	private Label idLabel;
 	private Label nameLabel;
@@ -118,7 +120,6 @@ public class ArchiveInformationGroup extends Group {
 		nameLabel.setLayoutData(formData);
 		nameLabel.setText(Messages.getString("player.name")); //$NON-NLS-1$
 		nameLabel.setFont(this.getFont());
-		
 
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData);
@@ -170,7 +171,7 @@ public class ArchiveInformationGroup extends Group {
 		countryLabel.setLayoutData(formData);
 		countryLabel.setText(Messages.getString("player.country")); //$NON-NLS-1$
 		countryLabel.setFont(this.getFont());
-		
+
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.CENTER;
 		gridData.widthHint = 20;
@@ -199,21 +200,21 @@ public class ArchiveInformationGroup extends Group {
 
 			public void handleEvent(Event arg0) {
 				if (playerArchive != null) {
-					 int countryID = (Integer) countryImageLabel.getData("id");//$NON-NLS-1$
-					if (nameText.getText().length() == 0 || surnameText.getText().length() == 0 || countryID == FlagsResources.EMPTY_FLAG) { 
-						if(nameText.getText().length() == 0) {
+					int countryID = (Integer) countryImageLabel.getData("id");//$NON-NLS-1$
+					if (nameText.getText().length() == 0 || surnameText.getText().length() == 0 || countryID == FlagsResources.EMPTY_FLAG) {
+						if (nameText.getText().length() == 0) {
 							nameWarningLabel.setVisible(true);
 						} else {
 							nameWarningLabel.setVisible(false);
 						}
-						
-						if(surnameText.getText().length() == 0) {
+
+						if (surnameText.getText().length() == 0) {
 							surnameWarningLabel.setVisible(true);
 						} else {
 							surnameWarningLabel.setVisible(false);
 						}
-						
-						if(countryID == FlagsResources.EMPTY_FLAG) { 
+
+						if (countryID == FlagsResources.EMPTY_FLAG) {
 							countryWarningLabel.setVisible(true);
 						} else {
 							countryWarningLabel.setVisible(false);
@@ -230,7 +231,7 @@ public class ArchiveInformationGroup extends Group {
 						}
 						playerArchive.setExistsInSokker(PlayerArchive.EXISTS_IN_SOKKER_COMPLETED);
 						try {
-							PlayersManager.updatePlayerArchive(playerArchive);
+							playersManager.updatePlayerArchive(playerArchive);
 							MessageDialog.openInformationMessage(ArchiveInformationGroup.this.getShell(), Messages.getString("saved"));//$NON-NLS-1$
 						} catch (SQLException e) {
 							new BugReporter(ArchiveInformationGroup.this.getDisplay()).openErrorMessage("Update Player", e);
@@ -249,10 +250,10 @@ public class ArchiveInformationGroup extends Group {
 					CountryChooser countryChooser = new CountryChooser(ArchiveInformationGroup.this.getShell(), SWT.TOOL | SWT.PRIMARY_MODAL);
 					countryChooser.open(Cache.getCountries());
 					int id = countryChooser.getId();
-//					if (id >= 0 && id < FlagsResources.EMPTY_FLAG) {
-						countryImageLabel.setImage(FlagsResources.getFlag(id));
-						countryImageLabel.setData("id", id); //$NON-NLS-1$
-//					}
+					// if (id >= 0 && id < FlagsResources.EMPTY_FLAG) {
+					countryImageLabel.setImage(FlagsResources.getFlag(id));
+					countryImageLabel.setData("id", id); //$NON-NLS-1$
+					// }
 					break;
 				default:
 					break;
@@ -270,16 +271,16 @@ public class ArchiveInformationGroup extends Group {
 		nameText.setText(playerArchive.getName());
 		surnameText.setText(playerArchive.getSurname());
 		youthTeamIdText.setText(String.valueOf(playerArchive.getYouthTeamID()));
-		if(playerArchive.getCountryID() == 0) {
+		if (playerArchive.getCountryID() == 0) {
 			countryImageLabel.setImage(FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
 			countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); //$NON-NLS-1$
 		} else {
 			countryImageLabel.setImage(FlagsResources.getFlag(playerArchive.getCountryID()));
 			countryImageLabel.setData("id", playerArchive.getCountryID()); //$NON-NLS-1$
 		}
-		
 
-		if (playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_FALSE || playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_COMPLETED) {
+		if (playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_FALSE
+			|| playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_COMPLETED) {
 			saveButton.setEnabled(true);
 			surnameText.setEditable(true);
 			nameText.setEditable(true);

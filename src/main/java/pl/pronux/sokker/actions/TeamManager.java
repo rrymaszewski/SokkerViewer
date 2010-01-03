@@ -38,6 +38,15 @@ import pl.pronux.sokker.resources.Messages;
 
 public class TeamManager {
 
+	private final static TeamManager _instance = new TeamManager();
+
+	private TeamManager() {
+	}
+
+	public static TeamManager instance() {
+		return _instance;
+	}
+
 	public void importReports(List<Report> reports) throws SQLException {
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
 		for (Report report : reports) {
@@ -48,7 +57,7 @@ public class TeamManager {
 			}
 		}
 	}
-	
+
 	public void importerReports(List<Report> reports) throws SQLException {
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
 		for (Report report : reports) {
@@ -68,7 +77,7 @@ public class TeamManager {
 			}
 		}
 	}
-	
+
 	public void importerTransfers(List<Transfer> transfers) throws SQLException {
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		for (Transfer transfer : transfers) {
@@ -91,15 +100,15 @@ public class TeamManager {
 		if (lastTraining != null) {
 			isTraining = checkIsTraining(lastTraining.getDate().getSokkerDate(), training.getDate().getSokkerDate());
 		}
-		
+
 		if (isTraining) {
 			teamsDao.addTraining(training);
 			training.setId(teamsDao.getTrainingId(training));
 			training.setStatus(Training.NEW_TRAINING);
 		} else {
 			training.setId(lastTraining.getId());
-			if(lastTraining.getType() == Training.TYPE_UNKNOWN) {
-				TeamManager.updateTraining(training);
+			if (lastTraining.getType() == Training.TYPE_UNKNOWN) {
+				this.updateTraining(training);
 				training.setStatus(Training.UPDATE_TRAINING);
 			} else {
 				training.setStatus(Training.NO_TRAINING);
@@ -108,7 +117,7 @@ public class TeamManager {
 			}
 		}
 	}
-	
+
 	public void importerTraining(Training training) throws SQLException {
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		Training trainingDB = teamsDao.getTrainingForDay(training.getDate());
@@ -117,17 +126,17 @@ public class TeamManager {
 			teamsDao.addTraining(training);
 			training.setId(teamsDao.getTrainingId(training));
 			training.setStatus(Training.NEW_TRAINING);
-		} else  {
+		} else {
 			training.setId(trainingDB.getId());
-			if(trainingDB.getType() == Training.TYPE_UNKNOWN) {
-				TeamManager.updateTraining(training);
+			if (trainingDB.getType() == Training.TYPE_UNKNOWN) {
+				this.updateTraining(training);
 				training.setStatus(Training.UPDATE_TRAINING);
 			} else {
 				training.setStatus(Training.NO_TRAINING);
 				training.setType(trainingDB.getType());
 				training.setFormation(trainingDB.getFormation());
 			}
-			if(checkIsTraining(trainingDB.getDate().getSokkerDate(), training.getDate().getSokkerDate())) {
+			if (checkIsTraining(trainingDB.getDate().getSokkerDate(), training.getDate().getSokkerDate())) {
 				training.setStatus(training.getStatus() | Training.UPDATE_PLAYERS);
 			}
 		}
@@ -137,12 +146,13 @@ public class TeamManager {
 		if (sokkerDateBefore == null || sokkerDateNow == null) {
 			return false;
 		}
-		if ((sokkerDateNow.getWeek() == sokkerDateBefore.getWeek() && sokkerDateNow.getDay() >= SokkerDate.THURSDAY && sokkerDateBefore.getDay() < SokkerDate.THURSDAY) || (sokkerDateNow.getWeek() - sokkerDateBefore.getWeek() == 1 && (sokkerDateBefore.getDay() < SokkerDate.THURSDAY || sokkerDateNow.getDay() >= SokkerDate.THURSDAY)) || (sokkerDateNow.getWeek() - sokkerDateBefore.getWeek() > 1)) {
+		if ((sokkerDateNow.getWeek() == sokkerDateBefore.getWeek() && sokkerDateNow.getDay() >= SokkerDate.THURSDAY && sokkerDateBefore.getDay() < SokkerDate.THURSDAY)
+			|| (sokkerDateNow.getWeek() - sokkerDateBefore.getWeek() == 1 && (sokkerDateBefore.getDay() < SokkerDate.THURSDAY || sokkerDateNow.getDay() >= SokkerDate.THURSDAY))
+			|| (sokkerDateNow.getWeek() - sokkerDateBefore.getWeek() > 1)) {
 			return true;
 		}
 		return false;
 	}
-
 
 	public void importForeignClub(Club club, Date currentDay) throws SQLException {
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
@@ -153,7 +163,7 @@ public class TeamManager {
 			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
 			teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);
 		} else {
-			
+
 			teamsDao.updateClubName(club, currentDay);
 			teamsDao.updateClubArenaName(club, currentDay);
 
@@ -173,16 +183,16 @@ public class TeamManager {
 
 		if (arena != null) {
 			List<Stand> stands = arena.getStands();
-//			for (int i = Stand.N; i <= Stand.SE; i++) {
-//				if (stands.get(i) == null) {
-//					if (!teamsDao.existsStand(i, club.getId())) {
-//						teamsDao.addStand(new Stand(i, 0, 100, 0, 0.0), currentDay, club.getId());
-//					}
-//				}
-//			}
+			// for (int i = Stand.N; i <= Stand.SE; i++) {
+			// if (stands.get(i) == null) {
+			// if (!teamsDao.existsStand(i, club.getId())) {
+			// teamsDao.addStand(new Stand(i, 0, 100, 0, 0.0), currentDay, club.getId());
+			// }
+			// }
+			// }
 
 			for (Stand stand : stands) {
-				if(stand.getConstructionDays() == null) {
+				if (stand.getConstructionDays() == null) {
 					stand.setConstructionDays(0.0);
 				}
 				if (teamsDao.getStandChanges(stand, club.getId())) {
@@ -191,7 +201,7 @@ public class TeamManager {
 			}
 		}
 	}
-	
+
 	public void importerTeam(Club club, Date currentDay) throws SQLException {
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 
@@ -201,34 +211,42 @@ public class TeamManager {
 			teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
 			teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
 			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
-			if(club.getRank().size() > 0 ) {
-				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);	
+			if (club.getRank().size() > 0) {
+				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);
 			}
 		} else {
-			if(club.getRank().size() > 0  ) {
+			if (club.getRank().size() > 0) {
 				Rank rank = teamsDao.getRankForDay(club.getId(), currentDay);
 				if (rank == null) {
-					teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);	
+					teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);
 				} else {
 					teamsDao.updateRank(club.getRank().get(0), currentDay, rank.getId());
 				}
-				
+
 			}
 
 			// insert budget
 			ClubBudget clubBudget = teamsDao.getBudgetForDay(club.getId(), currentDay);
 
-			if(clubBudget == null) {
+			if (clubBudget == null) {
 				teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
-			} else if ((currentDay.getSokkerDate().getWeek() > clubBudget.getDate().getSokkerDate().getWeek()) || (currentDay.getSokkerDate().getWeek() == clubBudget.getDate().getSokkerDate().getWeek() && currentDay.getSokkerDate().getDay() > clubBudget.getDate().getSokkerDate().getDay())) {
+			} else if ((currentDay.getSokkerDate().getWeek() > clubBudget.getDate().getSokkerDate().getWeek())
+					   || (currentDay.getSokkerDate().getWeek() == clubBudget.getDate().getSokkerDate().getWeek() && currentDay.getSokkerDate().getDay() > clubBudget
+						   .getDate()
+						   .getSokkerDate()
+						   .getDay())) {
 				teamsDao.updateClubDataMoney(club.getId(), club.getClubBudget().get(0), clubBudget);
 			}
 
 			// insert fanclub
-			ClubSupporters clubSupporters  = teamsDao.getSupportersForDay(club.getId(), currentDay);
-			if(clubSupporters == null) {
+			ClubSupporters clubSupporters = teamsDao.getSupportersForDay(club.getId(), currentDay);
+			if (clubSupporters == null) {
 				teamsDao.addClubDataFanclub(club.getId(), club.getClubSupporters().get(0), currentDay);
-			} else if ((currentDay.getSokkerDate().getWeek() > clubSupporters.getDate().getSokkerDate().getWeek()) || (currentDay.getSokkerDate().getWeek() == clubSupporters.getDate().getSokkerDate().getWeek() && currentDay.getSokkerDate().getDay() > clubSupporters.getDate().getSokkerDate().getDay())) {
+			} else if ((currentDay.getSokkerDate().getWeek() > clubSupporters.getDate().getSokkerDate().getWeek())
+					   || (currentDay.getSokkerDate().getWeek() == clubSupporters.getDate().getSokkerDate().getWeek() && currentDay.getSokkerDate().getDay() > clubSupporters
+						   .getDate()
+						   .getSokkerDate()
+						   .getDay())) {
 				teamsDao.updateClubDataFanclubForDay(club.getId(), club.getClubSupporters().get(0), clubSupporters);
 			}
 		}
@@ -236,7 +254,7 @@ public class TeamManager {
 		if (club.getTraining() != null) {
 			club.getTraining().setDate(currentDay);
 			importerTraining(club.getTraining());
-//			club.getTraining().setId(trainingID);
+			// club.getTraining().setId(trainingID);
 		}
 
 	}
@@ -250,8 +268,8 @@ public class TeamManager {
 			teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
 			teamsDao.addClubName(club.getId(), club.getClubName().get(0), currentDay);
 			teamsDao.addClubArenaName(club.getId(), club.getArena().getArenaNames().get(0), currentDay);
-			if(club.getRank().size() > 0 ) {
-				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);	
+			if (club.getRank().size() > 0) {
+				teamsDao.addRank(club.getId(), club.getRank().get(0), currentDay);
 			}
 		} else {
 			if (!teamsDao.getLastClubName(club.getId()).equals(club.getClubName().get(0).getName())) {
@@ -269,8 +287,11 @@ public class TeamManager {
 			SokkerDate lastMoney = teamsDao.getLastMoneySokkerDate();
 
 			if (lastMoney != null) {
-				if ((currentDay.getSokkerDate().getWeek() == lastMoney.getWeek() && currentDay.getSokkerDate().getDay() >= SokkerDate.SATURDAY && lastMoney.getDay() < SokkerDate.SATURDAY) || (currentDay.getSokkerDate().getWeek() - lastMoney.getWeek() == 1 && (lastMoney.getDay() < SokkerDate.SATURDAY || currentDay.getSokkerDate().getDay() >= SokkerDate.SATURDAY))
-						|| (currentDay.getSokkerDate().getWeek() - lastMoney.getWeek() > 1)) {
+				if ((currentDay.getSokkerDate().getWeek() == lastMoney.getWeek() && currentDay.getSokkerDate().getDay() >= SokkerDate.SATURDAY && lastMoney
+					.getDay() < SokkerDate.SATURDAY)
+					|| (currentDay.getSokkerDate().getWeek() - lastMoney.getWeek() == 1 && (lastMoney.getDay() < SokkerDate.SATURDAY || currentDay
+						.getSokkerDate()
+						.getDay() >= SokkerDate.SATURDAY)) || (currentDay.getSokkerDate().getWeek() - lastMoney.getWeek() > 1)) {
 					teamsDao.addClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
 				} else {
 					teamsDao.updateClubDataMoney(club.getId(), club.getClubBudget().get(0), currentDay);
@@ -294,8 +315,11 @@ public class TeamManager {
 			SokkerDate lastFanclub = teamsDao.getLastFanclubSokkerDate();
 
 			if (lastFanclub != null) {
-				if ((currentDay.getSokkerDate().getWeek() == lastFanclub.getWeek() && currentDay.getSokkerDate().getDay() >= SokkerDate.MONDAY && lastFanclub.getDay() < SokkerDate.MONDAY) || (currentDay.getSokkerDate().getWeek() - lastFanclub.getWeek() == 1 && (lastFanclub.getDay() < SokkerDate.MONDAY || currentDay.getSokkerDate().getDay() >= SokkerDate.MONDAY))
-						|| (currentDay.getSokkerDate().getWeek() - lastFanclub.getWeek() > 1)) {
+				if ((currentDay.getSokkerDate().getWeek() == lastFanclub.getWeek() && currentDay.getSokkerDate().getDay() >= SokkerDate.MONDAY && lastFanclub
+					.getDay() < SokkerDate.MONDAY)
+					|| (currentDay.getSokkerDate().getWeek() - lastFanclub.getWeek() == 1 && (lastFanclub.getDay() < SokkerDate.MONDAY || currentDay
+						.getSokkerDate()
+						.getDay() >= SokkerDate.MONDAY)) || (currentDay.getSokkerDate().getWeek() - lastFanclub.getWeek() > 1)) {
 					teamsDao.addClubDataFanclub(club.getId(), club.getClubSupporters().get(0), currentDay);
 				} else {
 					teamsDao.updateClubDataFanclub(club.getId(), club.getClubSupporters().get(0), currentDay);
@@ -339,11 +363,11 @@ public class TeamManager {
 		if (club.getTraining() != null) {
 			club.getTraining().setDate(currentDay);
 			importTraining(club.getTraining());
-//			club.getTraining().setId(trainingID);
+			// club.getTraining().setId(trainingID);
 		}
 
 	}
-	
+
 	public Map<Integer, Club> getTeams() throws SQLException {
 		Map<Integer, Club> clubMap = new HashMap<Integer, Club>();
 		ArrayList<ClubName> clubName;
@@ -379,9 +403,9 @@ public class TeamManager {
 			club.setArena(arena);
 			clubMap.put(club.getId(), club);
 		}
-		
+
 		SQLSession.close(newConnection);
-		
+
 		return clubMap;
 	}
 
@@ -398,7 +422,7 @@ public class TeamManager {
 		// pobieranie informacji o klubie
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		CountriesDao countriesDao = new CountriesDao(SQLSession.getConnection());
-		
+
 		Club club = teamsDao.getClub(teamID);
 
 		clubDataMoney = teamsDao.getClubDataMoney(teamID);
@@ -423,9 +447,9 @@ public class TeamManager {
 		arena.setArenaNames(clubArenaName);
 
 		club.setArena(arena);
-		
+
 		club.setVisitedCountries(teamsDao.getVisitedCountries(teamID));
-		
+
 		club.setInvitedCountries(teamsDao.getInvitedCountries(teamID));
 
 		SQLSession.close(newConnection);
@@ -447,9 +471,9 @@ public class TeamManager {
 		boolean newConnection = SQLQuery.connect();
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		
+
 		ArrayList<Training> alTraining = teamsDao.getTrainings();
-	
+
 		for (Training training : alTraining) {
 			training.setJuniors(new ArrayList<Junior>());
 			training.setPlayers(new ArrayList<Player>());
@@ -459,22 +483,22 @@ public class TeamManager {
 		SQLSession.close(newConnection);
 		return alTraining;
 	}
-	
+
 	public List<Report> getReports(Map<Integer, PlayerArchive> playersMap, HashMap<Integer, Coach> coachMap) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
-		
+
 		ArrayList<Report> reports = reportsDao.getReports();
-	
+
 		for (Report report : reports) {
-			if(report.getPersonID() > 0) {
-				if(report.getType() == 216) {
-					report.setPerson(coachMap.get(report.getPersonID()));	
-				} else if(report.getType() != 212) {
-					report.setPerson(playersMap.get(report.getPersonID()));	
+			if (report.getPersonID() > 0) {
+				if (report.getType() == 216) {
+					report.setPerson(coachMap.get(report.getPersonID()));
+				} else if (report.getType() != 212) {
+					report.setPerson(playersMap.get(report.getPersonID()));
 				}
 			}
-			
+
 			List<String> params = new ArrayList<String>();
 
 			if ((report.getType() < 200 && report.getType() != 1 && report.getType() != 101) || report.getType() == 212) {
@@ -501,16 +525,16 @@ public class TeamManager {
 			}
 
 			report.setMessage(String.format(Messages.getString("report." + report.getType()), params.toArray(new Object[params.size()])));//$NON-NLS-1$
-			
-			if(report.getType() > 0 && report.getType() < 100) {
+
+			if (report.getType() > 0 && report.getType() < 100) {
 				report.setStatus(Report.INCOME);
-			} else if(report.getType() >= 100 && report.getType() < 200) {
+			} else if (report.getType() >= 100 && report.getType() < 200) {
 				report.setStatus(Report.COST);
-			} else if(report.getType() >= 200) {
+			} else if (report.getType() >= 200) {
 				report.setStatus(Report.INFO);
 			}
 		}
-		
+
 		reportsDao.checkReports();
 		SQLSession.close(newConnection);
 		return reports;
@@ -528,14 +552,14 @@ public class TeamManager {
 		}
 	}
 
-	public static List<Junior> getJuniors(HashMap<Integer, Training> trainingMap) throws SQLException {
+	public List<Junior> getJuniors(HashMap<Integer, Training> trainingMap) throws SQLException {
 		JuniorSkills[] juniorSkills;
 		List<Junior> juniors;
-	
+
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 		juniors = juniorsDao.getJuniors(Junior.STATUS_IN_SCHOOL);
-	
+
 		for (Junior junior : juniors) {
 			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
@@ -544,31 +568,31 @@ public class TeamManager {
 		return juniors;
 	}
 
-	public static List<Junior> getJuniorsFired(HashMap<Integer, Training> trainingMap) throws SQLException {
+	public List<Junior> getJuniorsFired(HashMap<Integer, Training> trainingMap) throws SQLException {
 		JuniorSkills[] juniorSkills;
 		List<Junior> juniorsFired;
-	
+
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 		juniorsFired = juniorsDao.getJuniors(Junior.STATUS_SACKED);
-	
+
 		for (Junior junior : juniorsFired) {
 			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
-	
+
 		SQLQuery.close(newConnection);
 		return juniorsFired;
 	}
 
-	public static List<Junior> getJuniorsFromTrash(Map<Integer, Training> trainingMap) throws SQLException {
+	public List<Junior> getJuniorsFromTrash(Map<Integer, Training> trainingMap) throws SQLException {
 		JuniorSkills[] juniorSkills;
 		List<Junior> juniors;
-	
+
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 		juniors = juniorsDao.getJuniorsFromTrash();
-	
+
 		for (Junior junior : juniors) {
 			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
@@ -577,40 +601,40 @@ public class TeamManager {
 		return juniors;
 	}
 
-	public static List<Junior> getJuniorsTrained(Map<Integer, Training> trainingMap) throws SQLException {
+	public List<Junior> getJuniorsTrained(Map<Integer, Training> trainingMap) throws SQLException {
 		JuniorSkills[] juniorSkills;
 		List<Junior> juniorsTrained;
-	
+
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 		juniorsTrained = juniorsDao.getJuniors(Junior.STATUS_TRAINED);
-	
+
 		for (Junior junior : juniorsTrained) {
 			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
-	
+
 		SQLQuery.close(newConnection);
 		return juniorsTrained;
 	}
 
-	public static ArrayList<Transfer> getTransfers(Club club) throws SQLException {
+	public ArrayList<Transfer> getTransfers(Club club) throws SQLException {
 		ArrayList<Transfer> alTransfers;
-	
+
 		boolean newConnection = SQLQuery.connect();
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		alTransfers = transfersDao.getTransfers(club);
-	
+
 		SQLQuery.close(newConnection);
 		return alTransfers;
 	}
 
-	public static void updateTraining(Training training) throws SQLException {
+	public void updateTraining(Training training) throws SQLException {
 		try {
 			boolean newConnection = SQLQuery.connect();
 			TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 			TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-			
+
 			teamsDao.updateTraining(training);
 			trainersDao.deleteCoachesAtTraining(training);
 			trainersDao.addCoachesAtTraining(training);
@@ -619,5 +643,5 @@ public class TeamManager {
 			throw e;
 		}
 	}
-	
+
 }

@@ -27,10 +27,16 @@ import pl.pronux.sokker.model.Transfer;
 
 public class PlayersManager {
 
-	PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-	PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
+	private final static PlayersManager _instance = new PlayersManager();
 
-	public static void updatePlayerArchive(PlayerArchive playerArchive) throws SQLException {
+	private PlayersManager() {
+	}
+
+	public static PlayersManager instance() {
+		return _instance;
+	}
+
+	public void updatePlayerArchive(PlayerArchive playerArchive) throws SQLException {
 		try {
 			SQLSession.connect();
 			new PlayersArchiveDao(SQLSession.getConnection()).updatePlayerArchive(playerArchive);
@@ -40,11 +46,11 @@ public class PlayersManager {
 			SQLSession.close();
 		}
 	}
-	
+
 	public void addPlayerArchive(PlayerArchive playerArchive) throws SQLException {
 		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
-		
-		if(playersArchiveDao.getPlayerArchive(playerArchive.getId()) == null) {
+
+		if (playersArchiveDao.getPlayerArchive(playerArchive.getId()) == null) {
 			playersArchiveDao.addPlayer(playerArchive);
 		} else {
 			playersArchiveDao.updatePlayerArchive(playerArchive);
@@ -62,9 +68,9 @@ public class PlayersManager {
 				if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
 					playersDao.addNtPlayerSkills(player.getId(), player.getNtSkills()[0], training.getDate());
 				}
-				player.setPositionTable(PlayersManager.calculatePosition(player, AssistantDao.getAssistantData()));
+				player.setPositionTable(this.calculatePosition(player, AssistantDao.getAssistantData()));
 				player.setPosition(player.getBestPosition());
-				new PlayersManager().updatePlayersPositions(player);
+				this.updatePlayersPositions(player);
 
 			} else {
 
@@ -115,9 +121,9 @@ public class PlayersManager {
 				if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
 					playersDao.addNtPlayerSkills(player.getId(), player.getNtSkills()[0], training.getDate());
 				}
-				player.setPositionTable(PlayersManager.calculatePosition(player, AssistantDao.getAssistantData()));
+				player.setPositionTable(this.calculatePosition(player, AssistantDao.getAssistantData()));
 				player.setPosition(player.getBestPosition());
-				new PlayersManager().updatePlayersPositions(player);
+				this.updatePlayersPositions(player);
 
 			} else {
 
@@ -125,15 +131,16 @@ public class PlayersManager {
 					playersDao.movePlayer(player.getId(), Player.STATUS_INCLUB);
 				}
 
-				if ((training.getStatus() & Training.NEW_TRAINING) != 0 || playersDao.getPlayerSkills(player,training) == null) {
+				if ((training.getStatus() & Training.NEW_TRAINING) != 0 || playersDao.getPlayerSkills(player, training) == null) {
 					playersDao.addPlayerSkills(player.getId(), player.getSkills()[0], training.getDate(), training.getId());
 				} else {
 					playersDao.updatePlayerSkills(player.getId(), player.getSkills()[0], training.getDate());
 				}
-				
+
 				playersDao.updatePlayer(player);
-				
-				if (player.getNtSkills() != null && player.getNtSkills().length > 0 && playersDao.getNumberOfNtMatch(player.getId()) < player.getNtSkills()[0].getNtMatches()) {
+
+				if (player.getNtSkills() != null && player.getNtSkills().length > 0
+					&& playersDao.getNumberOfNtMatch(player.getId()) < player.getNtSkills()[0].getNtMatches()) {
 					playersDao.addNtPlayerSkills(player.getId(), player.getNtSkills()[0], training.getDate());
 				}
 			}
@@ -167,7 +174,7 @@ public class PlayersManager {
 			PlayerSkills[] skills = player.getSkills();
 			Calendar cal = Calendar.getInstance();
 			SQLSession.connect();
-
+			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 			ArrayList<Long> alMillis = playersDao.getTrainingDates(player.getId());
 
 			for (int i = 0; i < skills.length; i++) {
@@ -216,18 +223,20 @@ public class PlayersManager {
 		}
 
 	}
-	
-	public ArrayList<Player> getPlayers(int status, Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap, HashMap<Integer, Transfer> transfersSellMap,
-			HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+
+	public ArrayList<Player> getPlayers(int status, Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
+		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
 		ArrayList<Player> players;
 		PlayerSkills[] skills;
 		NtSkills[] ntSkills;
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie graczy
+		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
+
 		players = playersDao.getPlayers(status, juniorTrainedMap);
 
 		for (Player player : players) {
-			
+
 			player.setTeam(team);
 
 			if (transfersBuyMap.get(player.getId()) != null) {
@@ -240,11 +249,11 @@ public class PlayersManager {
 			}
 
 			skills = playersDao.getPlayerSkills(player, trainingMap);
-			if(status == Player.STATUS_INCLUB) {
-				ntSkills = playersDao.getPlayerNtSkills(player);				
+			if (status == Player.STATUS_INCLUB) {
+				ntSkills = playersDao.getPlayerNtSkills(player);
 				player.setNtSkills(ntSkills);
 			}
-			
+
 			Junior junior = juniorTrainedMap.get(player.getIdJuniorFK());
 			player.setJunior(junior);
 			if (junior != null) {
@@ -259,39 +268,40 @@ public class PlayersManager {
 
 	}
 
-	public ArrayList<Player> getPlayers(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap, HashMap<Integer, Transfer> transfersSellMap,
-			HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public ArrayList<Player> getPlayers(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
+		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_INCLUB, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
 	public HashMap<Integer, PlayerArchive> getPlayersArchive() throws SQLException {
 		HashMap<Integer, PlayerArchive> players;
 		boolean newConnection = SQLQuery.connect();
+		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
 		players = playersArchiveDao.getPlayers();
 		SQLSession.close(newConnection);
 		return players;
 	}
 
 	public String getPlayerArchiveNote(int playerID) throws SQLException {
+		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
 		String note = playersArchiveDao.getPlayerArchiveNote(playerID);
 		return note;
 	}
 
-	
-	public ArrayList<Player> getPlayersFromTrashData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap, HashMap<Integer, Transfer> transfersSellMap,
-			HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public ArrayList<Player> getPlayersFromTrashData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
+		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_TRASH, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
-	public ArrayList<Player> getPlayersHistoryData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap, HashMap<Integer, Transfer> transfersSellMap,
-			HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public ArrayList<Player> getPlayersHistoryData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
+		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_HISTORY, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
 	public void updatePlayerStatsInjury(PlayerStats stats) throws SQLException {
 		try {
-		SQLSession.connect();
-		new PlayersDao(SQLSession.getConnection()).updatePlayerStatsInjuryDays(stats);
+			SQLSession.connect();
+			new PlayersDao(SQLSession.getConnection()).updatePlayerStatsInjuryDays(stats);
 		} finally {
 			SQLSession.close();
 		}
@@ -373,14 +383,14 @@ public class PlayersManager {
 		}
 	}
 
-	public static void calculatePositionForAllPlayer(ArrayList<Player> players, int[][] data) {
+	public void calculatePositionForAllPlayer(ArrayList<Player> players, int[][] data) {
 		for (Player player : players) {
 			player.setPositionTable(calculatePosition(player, data));
 			player.setPosition(player.getBestPosition());
 		}
 	}
 
-	public static double[] calculatePosition(Player player, int[][] data) {
+	public double[] calculatePosition(Player player, int[][] data) {
 		double sum = 0.0;
 		double[] table = new double[data.length];
 
@@ -395,7 +405,7 @@ public class PlayersManager {
 		return table;
 	}
 
-	public static void updateAssistantData(int[][] data) throws SQLException {
+	public void updateAssistantData(int[][] data) throws SQLException {
 		try {
 			SQLSession.connect();
 			AssistantDao.updateAssistantData(data);
