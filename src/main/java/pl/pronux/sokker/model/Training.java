@@ -210,10 +210,10 @@ public class Training {
 						if (this.equals(skills[i].getTraining())) {
 							if (skills[i].getSkill() - skills[i - 1].getSkill() > 0) {
 								trainingSummary.setJuniorsPops(trainingSummary.getJuniorsPops() + 1);
-								break;
-							} else if (skills[i].getSkill() - skills[i - 1].getSkill() > 0) {
+							} else if (skills[i].getSkill() - skills[i - 1].getSkill() < 0) {
 								trainingSummary.setJuniorsFalls(trainingSummary.getJuniorsFalls() + 1);
 							}
+							break;
 						}
 					}
 				}
