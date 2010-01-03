@@ -64,7 +64,9 @@ public class ProgressBarCustom extends Composite {
 
 		this.addListener(SWT.Dispose, new Listener() {
 			public void handleEvent(Event arg0) {
-				ProgressBarCustom.this.runnable.onFinish();
+				if (ProgressBarCustom.this.runnable != null) {
+					ProgressBarCustom.this.runnable.onFinish();	
+				}
 			}
 		});
 	}
