@@ -16,7 +16,6 @@ import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.managers.MatchUIManager;
 import pl.pronux.sokker.ui.resources.Fonts;
-import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class MatchesTable extends SVTable<Match> {
 
@@ -76,9 +75,6 @@ public class MatchesTable extends SVTable<Match> {
 
 				TableItem item = new TableItem(this, SWT.NONE);
 				item.setData(Match.class.getName(), match);
-
-				item.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
-				item.setBackground(Colors.getLeagueMatch());
 
 				if (match.getLeague() != null) {
 					League league = match.getLeague();
