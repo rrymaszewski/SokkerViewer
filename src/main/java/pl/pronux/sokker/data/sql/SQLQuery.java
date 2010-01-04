@@ -47,8 +47,9 @@ public class SQLQuery {
 	}
 
 	public static boolean dbExist() {
-		String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		return new File(file).exists();
+		String db = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String log = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return new File(db).exists() || new File(log).exists();
 	}
 
 	public static boolean dbPropertiesExist() {

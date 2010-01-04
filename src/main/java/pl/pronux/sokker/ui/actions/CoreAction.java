@@ -106,26 +106,30 @@ public class CoreAction implements IRunnableWithProgress {
 			SQLQuery.setSettings(settings);
 			DbProperties dbProperties = null;
 			monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
-			SQLSession.connect();
+			
 			// String value = "-4"; //$NON-NLS-1$
 			if (!SQLQuery.dbExist()) {
 				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); //$NON-NLS-1$
-				String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				String fileProperties = settings.getBaseDirectory() + File.separator
+				String dbFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String dbLogFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String dbPropertiesFile = settings.getBaseDirectory() + File.separator
 										+ "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				try {
+					SQLSession.connect();
 					SQLSession.beginTransaction();
 					SQLQuery.initDB();
 					SQLSession.commit();
 				} catch (SQLException e) {
 					SQLSession.rollback();
-					new File(file).delete();
-					new File(fileProperties).delete();
+					new File(dbFile).delete();
+					new File(dbPropertiesFile).delete();
+					new File(dbLogFile).delete();
 					throw new SVException("DB file error: deleted", e);
 				}
 
 				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(monitor);
 			} else {
+				SQLSession.connect();
 				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
 				if (SQLQuery.dbPropertiesExist()) {
 
