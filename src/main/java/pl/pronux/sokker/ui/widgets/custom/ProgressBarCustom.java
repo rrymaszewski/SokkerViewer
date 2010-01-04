@@ -82,6 +82,10 @@ public class ProgressBarCustom extends Composite {
 	public synchronized int getRunningThreads() {
 		return running;
 	}
+	
+	public synchronized boolean isRunning() {
+		return running > 0;
+	}
 
 	public void run(boolean fork, boolean cancellable, final IRunnableWithProgress runnable) throws InterruptedException, InvocationTargetException {
 		monitor = new Monitor();
