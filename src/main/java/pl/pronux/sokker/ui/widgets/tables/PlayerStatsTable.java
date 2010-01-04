@@ -75,7 +75,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			column.setText(columns[i]);
 
 			if (i == columns.length - 1) {
-				if (SettingsHandler.IS_WINDOWS) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else if (i == PlayerStatsComparator.STARS) {

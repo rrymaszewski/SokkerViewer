@@ -63,7 +63,6 @@ import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
 import pl.pronux.sokker.ui.widgets.composites.views.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.views.PlayerChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.views.PlayerStatsComposite;
-import pl.pronux.sokker.ui.widgets.composites.views.PlayerTrainingsComposite;
 import pl.pronux.sokker.ui.widgets.dialogs.MessageDialog;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
@@ -145,7 +144,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private JuniorChartsComposite juniorGraphsComposite;
 
-	private PlayerTrainingsComposite playerTrainingsComposite;
+//	private PlayerTrainingsComposite playerTrainingsComposite;
 
 	private void addJuniorTrainedView() {
 		juniorTrainedTable = new JuniorTrainedTable(vComposite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
@@ -291,10 +290,10 @@ public class ViewPlayers implements IPlugin, ISort {
 			statisticsItem.setData("playerStatistics", players.get(i));
 			statisticsItem.setImage(ImageResources.getImageResources("player_history.png"));
 
-			TreeItem trainingHistoryItem = new TreeItem(item, SWT.NONE);
-			trainingHistoryItem.setText(Messages.getString("trainings"));
-			trainingHistoryItem.setData("playerTrainingsHistory", players.get(i));
-			trainingHistoryItem.setImage(ImageResources.getImageResources("player_training_history.png"));
+//			TreeItem trainingHistoryItem = new TreeItem(item, SWT.NONE);
+//			trainingHistoryItem.setText(Messages.getString("trainings"));
+//			trainingHistoryItem.setData("playerTrainingsHistory", players.get(i));
+//			trainingHistoryItem.setImage(ImageResources.getImageResources("player_training_history.png"));
 
 		}
 
@@ -379,14 +378,14 @@ public class ViewPlayers implements IPlugin, ISort {
 								showMainView(playerStatsComposite);
 							}
 						}
-					} else if (item.getData("playerTrainingsHistory") != null) {
-						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-							if (item.getData("playerTrainingsHistory") instanceof Player) {
-								Player player = (Player) item.getData("playerTrainingsHistory");
-								playerTrainingsComposite.fill(player);
-								showMainView(playerTrainingsComposite);
-							}
-						}
+//					} else if (item.getData("playerTrainingsHistory") != null) {
+//						if (item.getParentItem().getParentItem().equals(_treeItem)) {
+//							if (item.getData("playerTrainingsHistory") instanceof Player) {
+//								Player player = (Player) item.getData("playerTrainingsHistory");
+//								playerTrainingsComposite.fill(player);
+//								showMainView(playerTrainingsComposite);
+//							}
+//						}
 					} else if (item.getData("juniorCharts") != null) {
 
 						if (item.getParentItem().getData("idJunior") != null && item.getParentItem().getParentItem().getParentItem() != null
@@ -933,9 +932,9 @@ public class ViewPlayers implements IPlugin, ISort {
 		playerStatsComposite.setLayoutData(formData);
 		playerStatsComposite.setVisible(false);
 
-		playerTrainingsComposite = new PlayerTrainingsComposite(this.composite, SWT.BORDER);
-		playerTrainingsComposite.setLayoutData(formData);
-		playerTrainingsComposite.setVisible(false);
+//		playerTrainingsComposite = new PlayerTrainingsComposite(this.composite, SWT.BORDER);
+//		playerTrainingsComposite.setLayoutData(formData);
+//		playerTrainingsComposite.setVisible(false);
 
 		showMainView(vComposite);
 
