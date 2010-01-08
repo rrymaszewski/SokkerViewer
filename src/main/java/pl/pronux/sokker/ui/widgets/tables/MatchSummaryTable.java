@@ -92,19 +92,6 @@ public class MatchSummaryTable extends SVTable<Match> {
 		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
 															homeTeamStats.getTacticName(), Messages.getString("match.tactic"), //$NON-NLS-1$
 															awayTeamStats.getTacticName() });
-		// new TableItem(this, SWT.NONE).setText(new String[] {
-		// "",
-		// String.valueOf(homeTeamStats.getOffsides()),
-		// Messages.getString("Spalone"),
-		// String.valueOf(awayTeamStats.getOffsides())
-		// });
-		//		
-		// new TableItem(this, SWT.NONE).setText(new String[] {
-		// "",
-		// String.valueOf(homeTeamStats.getOffsides()),
-		// Messages.getString("match.offsides"),
-		// String.valueOf(awayTeamStats.getOffsides())
-		// });
 
 		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
 															String.valueOf(homeTeamStats.getShoots()), Messages.getString("match.shoots"), //$NON-NLS-1$
