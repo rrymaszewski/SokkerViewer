@@ -32,6 +32,7 @@ class UpdateErrorHandler implements ErrorHandler {
 	}
 }
 
+
 public class UpdateXMLParser {
 
 	final static int TAG_SOKKERDATA = 100;
@@ -94,7 +95,7 @@ public class UpdateXMLParser {
 					}
 				}
 			}
-			
+
 		}
 		return downloadedPackages;
 	}
@@ -106,9 +107,6 @@ public class UpdateXMLParser {
 			StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 

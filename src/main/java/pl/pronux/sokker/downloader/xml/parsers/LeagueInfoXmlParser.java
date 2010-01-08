@@ -52,9 +52,6 @@ public class LeagueInfoXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 
@@ -113,8 +110,6 @@ public class LeagueInfoXmlParser {
 
 				message = new StringBuilder();
 
-
-
 				if (localName.equalsIgnoreCase("league")) { //$NON-NLS-1$
 					TAG_switch = TAG_LEAGUE;
 				}
@@ -170,7 +165,9 @@ public class LeagueInfoXmlParser {
 
 }
 
+
 class LeagueInfoErrorHandler implements ErrorHandler {
+
 	public void warning(SAXParseException e) throws SAXException {
 		// throw new SAXException();
 	}

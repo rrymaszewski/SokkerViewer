@@ -154,9 +154,6 @@ public class MatchXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 
@@ -497,7 +494,9 @@ public class MatchXmlParser {
 	}
 }
 
+
 class MatchErrorHandler implements ErrorHandler {
+
 	public void warning(SAXParseException e) throws SAXException {
 		// throw new SAXException();
 	}

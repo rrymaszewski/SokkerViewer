@@ -39,10 +39,8 @@ public class PackageSigner {
 	 */
 	public static void main(String[] args) throws IOException {
 
-//		byte[] pubk = new BASE64Decoder().decodeBuffer(SERVER_PUBLIC_KEY);
-//		byte[] prvk = new BASE64Decoder().decodeBuffer(SERVER_PRIVATE_KEY);
-//		System.out.println(Base64Coder.encode(pubk));
-//		System.out.println(Base64Coder.encode(prvk));
+		// byte[] pubk = new BASE64Decoder().decodeBuffer(SERVER_PUBLIC_KEY);
+		// byte[] prvk = new BASE64Decoder().decodeBuffer(SERVER_PRIVATE_KEY);
 		Display display = new Display();
 		try {
 			new PackageSigner(display);
@@ -80,18 +78,29 @@ public class PackageSigner {
 
 	protected String directory;
 
-//	final static String SERVER_PUBLIC_KEY = "" + "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVI2+8Sj++dr68S59468aGTKBbDuwXr3+akNYB\n" + "yea8ZtzIWuT4eFolC78jJCVZuAJzbJvcDy4iu0RhLKXNo+CujtrtLiM9rhfQvMtpyMSEcx1LVL82\n" + "4aEMpA0k/Lh+kEZ54uCQwTaVvpOj6GDvnZli9M49ZIOJamd86vkwhI/AJwIDAQAB";
+	// final static String SERVER_PUBLIC_KEY = "" + "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVI2+8Sj++dr68S59468aGTKBbDuwXr3+akNYB\n" +
+	// "yea8ZtzIWuT4eFolC78jJCVZuAJzbJvcDy4iu0RhLKXNo+CujtrtLiM9rhfQvMtpyMSEcx1LVL82\n" + "4aEMpA0k/Lh+kEZ54uCQwTaVvpOj6GDvnZli9M49ZIOJamd86vkwhI/AJwIDAQAB";
 	private final static String SERVER_PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKMjwf/S2GfaPBEf+FY4Z4rduwIOgHtMn0fIqVlPaMPy8D/8I9yi7hQ8KTwcs8NWVu/loRN7nva37DPkSfqTbjASOw7gflxCJxndo8zm1gNzUBufRSy21nsMm8KodCpM/bGu41nguy1gebVZAbwJ9PRoNSwrXQyWXLRmJKWZW6eFAgMBAAECgYAjQ1ltyM+KMzwEn5p4WJzZAXCo0yWmgTt0ssUYTvfgUyTnT8MYsAcyTIbFPZcFxCXqmQImSfRkdAEUfmYXScLpO/UfaPzq/as5L+sgdi2f2coXaeJNpPLhvqvX5kWpCQK5iC8PTI5LQtUCbzflJATA+d1TrUWiC36/xMdfBT7riQJBAOq5vnPuzHvTtU7s5vJGVoDn+kGYqvJ458e8VWhQDC+8D1L57986D7wmYddNB/c9LVi0m1wpolJmGbnr50IZ0k8CQQCx7QgHI1Bn2CqQTI8d1bhObXUugzRBDIfInvlEFq9cQfxf4HXCXr9J5CC4yBsLtUQIDSIzi8K5DUdxuM0l9ZfrAkApGiVzf5lnBYd2Lp2yRwbWw8havDUTCIDtxNjfz0STB0dXrFSIrk4bEE2Juf9vF9Nc+SNLXC8EZsSSffCc7pCZAkEAgWT9GpvPBMZLJgfXaP4dfEPUHZBjdw8SzI74flD1FOYUEPHfEgzvlmAmf9te9+PKZwSOI+h3IzcKByU7ZGi4IwJBANlm8P0KU0Ra9wQnmm9zs7PhY9OCuo5MeDEv+sOolGZtViR1C/WjeacBymWWNYHar6qEZ6c5XZD+kDi+aOs4XFY=";
-//
-//	final static String SERVER_PRIVATE_KEY = "" + "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANUjb7xKP752vrxLn3jrxoZMoFsO\n" + "7Bevf5qQ1gHJ5rxm3Mha5Ph4WiULvyMkJVm4AnNsm9wPLiK7RGEspc2j4K6O2u0uIz2uF9C8y2nI\n" + "xIRzHUtUvzbhoQykDST8uH6QRnni4JDBNpW+k6PoYO+dmWL0zj1kg4lqZ3zq+TCEj8AnAgMBAAEC\n" + "gYBFPFqqlo/4Zgh1kDdAh46Yx8F7cvB8jTTtV8k9EYITh3KG3wfsMuRNjnBLkQ1VBLI/HnPO21uI\n"
-//			+ "Sr7etisyDt8IHPfyXWQvEdoufHw49UwqFKjdpFdr7MwYaLnfkbazmt5ugKNBaFkBuxZFmn7p4jH7\n" + "JvI4lZWiVnDLo+Rxl+o+IQJBAP2Z9/tC+BKeC/GXTXziN6hfZJbgvAHNk8PMyFHl+XFddiA/p39f\n" + "vi6aDTzAk8TolTk9nDagc/c6qLLvy4+7xVcCQQDXJ380md9AC/C/xXOE+icq+nrHYUvwKvOUxGSP\n" + "hbl+pxnr5rc2xXDhQHeyY+eTVQZVzhU8GROxf8CZDaU2rcmxAkAbxKgqkwKmxzd3lKGfcwW1IfzZ\n"
-//			+ "qHHtoJz1a47jqNLPXvR4Q4ALqmggoi2g4VVM0krEocJhGOCZyYp/TVJ0wpKxAkEAjYmdJBRpii+Q\n" + "tAeHxB3wMFTQ+mKmWxtWXDKKWORGr+vroIWJV42xgW0wkPkp+YFAhqfozj1M+EKrh8QzQHI5MQJB\n" + "AJTc+Vl21elGs2ies9pg4udGXOKkgh4wZllrjzvGWyqaAyqHnU/DBB2BCINSGvwbhECWXU2oqr9E\n" + "+K+tsU8m4bk=";
+	//
+	// final static String SERVER_PRIVATE_KEY = "" + "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANUjb7xKP752vrxLn3jrxoZMoFsO\n" +
+	// "7Bevf5qQ1gHJ5rxm3Mha5Ph4WiULvyMkJVm4AnNsm9wPLiK7RGEspc2j4K6O2u0uIz2uF9C8y2nI\n" +
+	// "xIRzHUtUvzbhoQykDST8uH6QRnni4JDBNpW+k6PoYO+dmWL0zj1kg4lqZ3zq+TCEj8AnAgMBAAEC\n" +
+	// "gYBFPFqqlo/4Zgh1kDdAh46Yx8F7cvB8jTTtV8k9EYITh3KG3wfsMuRNjnBLkQ1VBLI/HnPO21uI\n"
+	// + "Sr7etisyDt8IHPfyXWQvEdoufHw49UwqFKjdpFdr7MwYaLnfkbazmt5ugKNBaFkBuxZFmn7p4jH7\n" +
+	// "JvI4lZWiVnDLo+Rxl+o+IQJBAP2Z9/tC+BKeC/GXTXziN6hfZJbgvAHNk8PMyFHl+XFddiA/p39f\n" +
+	// "vi6aDTzAk8TolTk9nDagc/c6qLLvy4+7xVcCQQDXJ380md9AC/C/xXOE+icq+nrHYUvwKvOUxGSP\n" +
+	// "hbl+pxnr5rc2xXDhQHeyY+eTVQZVzhU8GROxf8CZDaU2rcmxAkAbxKgqkwKmxzd3lKGfcwW1IfzZ\n"
+	// + "qHHtoJz1a47jqNLPXvR4Q4ALqmggoi2g4VVM0krEocJhGOCZyYp/TVJ0wpKxAkEAjYmdJBRpii+Q\n" +
+	// "tAeHxB3wMFTQ+mKmWxtWXDKKWORGr+vroIWJV42xgW0wkPkp+YFAhqfozj1M+EKrh8QzQHI5MQJB\n" +
+	// "AJTc+Vl21elGs2ies9pg4udGXOKkgh4wZllrjzvGWyqaAyqHnU/DBB2BCINSGvwbhECWXU2oqr9E\n" + "+K+tsU8m4bk=";
 
-//	final static String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVI2+8Sj++dr68S59468aGTKBbDuwXr3+akNYByea8ZtzIWuT4eFolC78jJCVZuAJzbJvcDy4iu0RhLKXNo+CujtrtLiM9rhfQvMtpyMSEcx1LVL824aEMpA0k/Lh+kEZ54uCQwTaVvpOj6GDvnZli9M49ZIOJamd86vkwhI/AJwIDAQAB";
+	// final static String SERVER_PUBLIC_KEY =
+	// "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVI2+8Sj++dr68S59468aGTKBbDuwXr3+akNYByea8ZtzIWuT4eFolC78jJCVZuAJzbJvcDy4iu0RhLKXNo+CujtrtLiM9rhfQvMtpyMSEcx1LVL824aEMpA0k/Lh+kEZ54uCQwTaVvpOj6GDvnZli9M49ZIOJamd86vkwhI/AJwIDAQAB";
 	private final static String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjI8H/0thn2jwRH/hWOGeK3bsCDoB7TJ9HyKlZT2jD8vA//CPcou4UPCk8HLPDVlbv5aETe572t+wz5En6k24wEjsO4H5cQicZ3aPM5tYDc1Abn0UsttZ7DJvCqHQqTP2xruNZ4LstYHm1WQG8CfT0aDUsK10Mlly0ZiSlmVunhQIDAQAB";
+
 	public PackageSigner(Display display) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, BadArgumentException {
 
-//		pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(SERVER_PUBLIC_KEY), "RSA");
+		// pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(SERVER_PUBLIC_KEY), "RSA");
 		pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(SERVER_PUBLIC_KEY), "RSA");
 
 		prvk = Crypto.convertByteArrayToPrivateKey(Crypto.decodeBase64(SERVER_PRIVATE_KEY), "RSA");
@@ -116,7 +125,7 @@ public class PackageSigner {
 		formData.right = new FormAttachment(100, -100);
 		formData.bottom = new FormAttachment(50, 0);
 
-		table = new Table(shell, SWT.MULTI | SWT.FULL_SELECTION| SWT.BORDER);
+		table = new Table(shell, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
 		table.setBackground(shell.getBackground());
 		table.setLayoutData(formData);
 
@@ -127,7 +136,7 @@ public class PackageSigner {
 		formData.top = new FormAttachment(0, 20);
 		formData.left = new FormAttachment(table, 5);
 		formData.height = 25;
-		formData.right = new FormAttachment(100,-5);
+		formData.right = new FormAttachment(100, -5);
 
 		Button button = new Button(shell, SWT.BORDER | SWT.PUSH);
 		button.setText("add");
@@ -136,9 +145,7 @@ public class PackageSigner {
 		button.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
-				String[] extensions = {
-					"*.xml;*.jar;*.zip;*.png;*.jpg;*.gif"
-				};
+				String[] extensions = { "*.xml;*.jar;*.zip;*.png;*.jpg;*.gif" };
 				String defaultPath = "";
 				FileDialog fileDialog = new FileDialog(shell, SWT.OPEN | SWT.MULTI);
 				if (new File(defaultPath).exists()) {
@@ -150,56 +157,55 @@ public class PackageSigner {
 				fileDialog.open();
 				filenames = fileDialog.getFileNames();
 				directory = fileDialog.getFilterPath() + File.separator;
-// if(filenames.length > 1) {
-// // for(int i = 0; i < filenames.length; i++) {
-// // filenames = filenames[i];
-// // if (filename != null) {
-// //// table.setText(propsInputFile);
-// // file = propsInputFile;
-// // signButton.setEnabled(true);
-// // verifyButton.setEnabled(true);
-// // }
-// // }
-// } else
-//				table.removeAll();
-				if(filenames != null ) {
-					if( filenames.length > 0) {
-						for(int i = 0; i < filenames.length; i++) {
+				// if(filenames.length > 1) {
+				// // for(int i = 0; i < filenames.length; i++) {
+				// // filenames = filenames[i];
+				// // if (filename != null) {
+				// //// table.setText(propsInputFile);
+				// // file = propsInputFile;
+				// // signButton.setEnabled(true);
+				// // verifyButton.setEnabled(true);
+				// // }
+				// // }
+				// } else
+				// table.removeAll();
+				if (filenames != null) {
+					if (filenames.length > 0) {
+						for (int i = 0; i < filenames.length; i++) {
 							new TableItem(table, SWT.NONE).setText(directory + filenames[i]);
 						}
 						table.getColumn(0).pack();
 						signButton.setEnabled(true);
 						verifyButton.setEnabled(true);
-				}
+					}
 
 				}
 			}
 
 		});
-		
+
 		formData = new FormData();
 		formData.top = new FormAttachment(button, 20);
 		formData.left = new FormAttachment(table, 5);
 		formData.height = 25;
-		formData.right = new FormAttachment(100,-5);
-		
+		formData.right = new FormAttachment(100, -5);
+
 		button = new Button(shell, SWT.BORDER | SWT.PUSH);
 		button.setText("remove");
 		button.setLayoutData(formData);
-		
+
 		button.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
-				
-				
+
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				table.remove(table.getSelectionIndices());
-				
+
 			}
-			
+
 		});
 
 		formData = new FormData();
@@ -224,14 +230,15 @@ public class PackageSigner {
 
 			public void handleEvent(Event arg0) {
 				signatureText.setText("");
-				for(int i = 0 ; i < table.getItemCount(); i++) {
+				for (int i = 0; i < table.getItemCount(); i++) {
 					sig = Crypto.createSignature(prvk, new File(table.getItem(i).getText()));
 					try {
 						OperationOnFile.writeToFile(table.getItem(i).getText() + ".md5", Crypto.encodeBase64(sig));
 					} catch (IOException e) {
 						MessageDialog.openErrorMessage(shell, e.getMessage());
 					}
-					signatureText.setText(signatureText.getText() + directory + table.getItem(i).getText() + "\r\n\r\n<signature>" + Crypto.encodeBase64(sig) + "</signature>\r\n\r\n" );
+					signatureText.setText(signatureText.getText() + directory + table.getItem(i).getText() + "\r\n\r\n<signature>" + Crypto.encodeBase64(sig)
+										  + "</signature>\r\n\r\n");
 				}
 			}
 
@@ -250,14 +257,13 @@ public class PackageSigner {
 
 			public void handleEvent(Event arg0) {
 				boolean verify = Crypto.verifySignature(pubk, sig, new File(file));
-				if(verify) {
+				if (verify) {
 					shell.setText("OK!");
 				} else {
 					shell.setText("WRONG!");
 				}
 			}
 		});
-
 
 		shell.open();
 		while (!shell.isDisposed()) {

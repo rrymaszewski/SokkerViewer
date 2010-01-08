@@ -123,75 +123,72 @@ public class TeamXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
-					case TAG_stand_size:
-						stand.setCapacity(Integer.valueOf(message.toString()).intValue());
-						break;
-					case TAG_stand_type:
-						stand.setType(Integer.valueOf(message.toString()).intValue());
-						break;
-					case TAG_stand_days:
-						stand.setConstructionDays(Double.valueOf(message.toString()).doubleValue());
-						break;
-					case TAG_stand_is_roof:
-						stand.setIsRoof(Integer.valueOf(message.toString()).intValue());
-						break;
-					case TAG_stand_location:
-						stand.setLocation(Integer.valueOf(message.toString()).intValue());
-						break;
-					case TAG_login:
-						user.setLogin(message.toString());
-						break;
-					case TAG_userID:
-						user.setUserID(Integer.valueOf(message.toString()));
-						break;
-					case TAG_training_formation:
-						training.setFormation(Integer.valueOf(message.toString()));
-						break;
-					case TAG_training_type:
-						training.setType(Integer.valueOf(message.toString()));
-						break;
-					case TAG_arena_name:
-						clubArenaName.setArenaName(message.toString());
-						break;
-					case TAG_teamID:
-						club.setId(Integer.valueOf(message.toString()));
-						break;
-					case TAG_name:
-						clubName.setName(message.toString());
-						break;
-					case TAG_countryID:
-						club.setCountry(Integer.valueOf(message.toString()));
-						break;
-					case TAG_regionID:
-						club.setRegionID(Integer.valueOf(message.toString()));
-						break;
-					case TAG_money:
-						clubMoney.setMoney(new Money(Integer.valueOf(message.toString())));
-						break;
-					case TAG_fanclubCount:
-						clubFanclub.setFanclubcount(Integer.valueOf(message.toString()));
-						break;
-					case TAG_fanclubMood:
-						clubFanclub.setFanclubmood(Integer.valueOf(message.toString()).byteValue());
-						break;
-					case TAG_juniorsMax:
-						club.setJuniorsMax(Integer.valueOf(message.toString()).byteValue());
-						break;
-					case TAG_date_created:
-						club.setDateCreated(new Date(message.toString()));
-						break;
-					case TAG_rank:
-						rank.setRank(Double.valueOf(message.toString()));
-						break;
-					default:
-						break;
+				case TAG_stand_size:
+					stand.setCapacity(Integer.valueOf(message.toString()).intValue());
+					break;
+				case TAG_stand_type:
+					stand.setType(Integer.valueOf(message.toString()).intValue());
+					break;
+				case TAG_stand_days:
+					stand.setConstructionDays(Double.valueOf(message.toString()).doubleValue());
+					break;
+				case TAG_stand_is_roof:
+					stand.setIsRoof(Integer.valueOf(message.toString()).intValue());
+					break;
+				case TAG_stand_location:
+					stand.setLocation(Integer.valueOf(message.toString()).intValue());
+					break;
+				case TAG_login:
+					user.setLogin(message.toString());
+					break;
+				case TAG_userID:
+					user.setUserID(Integer.valueOf(message.toString()));
+					break;
+				case TAG_training_formation:
+					training.setFormation(Integer.valueOf(message.toString()));
+					break;
+				case TAG_training_type:
+					training.setType(Integer.valueOf(message.toString()));
+					break;
+				case TAG_arena_name:
+					clubArenaName.setArenaName(message.toString());
+					break;
+				case TAG_teamID:
+					club.setId(Integer.valueOf(message.toString()));
+					break;
+				case TAG_name:
+					clubName.setName(message.toString());
+					break;
+				case TAG_countryID:
+					club.setCountry(Integer.valueOf(message.toString()));
+					break;
+				case TAG_regionID:
+					club.setRegionID(Integer.valueOf(message.toString()));
+					break;
+				case TAG_money:
+					clubMoney.setMoney(new Money(Integer.valueOf(message.toString())));
+					break;
+				case TAG_fanclubCount:
+					clubFanclub.setFanclubcount(Integer.valueOf(message.toString()));
+					break;
+				case TAG_fanclubMood:
+					clubFanclub.setFanclubmood(Integer.valueOf(message.toString()).byteValue());
+					break;
+				case TAG_juniorsMax:
+					club.setJuniorsMax(Integer.valueOf(message.toString()).byteValue());
+					break;
+				case TAG_date_created:
+					club.setDateCreated(new Date(message.toString()));
+					break;
+				case TAG_rank:
+					rank.setRank(Double.valueOf(message.toString()));
+					break;
+				default:
+					break;
 				}
 			}
 
@@ -356,7 +353,6 @@ public class TeamXmlParser {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see pl.pronux.sokker.downloader.xml.parsers.TeamXmlParserInterface#getClub()
 	 */
 	public Club getClub() {
@@ -365,7 +361,9 @@ public class TeamXmlParser {
 
 }
 
+
 class TeamErrorHandler implements ErrorHandler {
+
 	public void warning(SAXParseException e) throws SAXException {
 		// throw new SAXException();
 	}

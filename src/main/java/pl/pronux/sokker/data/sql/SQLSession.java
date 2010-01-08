@@ -52,10 +52,7 @@ public class SQLSession {
 			Log.warning("Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
 			throw se;
 		}
-		if (SQLSession.getConnection() != null) {
-		}
-		// System.out.println("Hooray! We connected to the database!");
-		else {
+		if (SQLSession.getConnection() == null) {
 			throw new SQLException("We should never get here."); //$NON-NLS-1$
 		}
 		return SQLSession.getConnection();

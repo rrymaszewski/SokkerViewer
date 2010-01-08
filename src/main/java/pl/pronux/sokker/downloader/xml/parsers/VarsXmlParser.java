@@ -30,16 +30,12 @@ public class VarsXmlParser {
 	public void parseXmlSax(final InputSource input) throws SAXException {
 		parseXmlSax(input, null);
 	}
-	
+
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
-
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
@@ -108,7 +104,9 @@ public class VarsXmlParser {
 
 }
 
+
 class VarsErrorHandler implements ErrorHandler {
+
 	public void warning(SAXParseException e) throws SAXException {
 		// throw new SAXException();
 	}

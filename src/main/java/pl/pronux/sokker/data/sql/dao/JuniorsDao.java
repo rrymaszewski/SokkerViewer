@@ -323,9 +323,6 @@ public class JuniorsDao {
 		while (rs.next()) {
 
 			if (playersDao.existsPlayer(rs.getString(2), rs.getString(3))) {
-				// System.out.println("Przenosze juniora do
-				// wytrenowanych = " +
-				// rs.getInt(1));
 				this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 			} else {
 				deletedJuniors = deletedJuniors + rs.getInt(1) + '\n';
