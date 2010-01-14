@@ -367,7 +367,7 @@ public class TrainingReportShell extends Shell {
 		// 1].getSkill()));
 		if (junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill() > 0) {
 			item.setBackground(c, ConfigBean.getColorIncrease());	
-		} else {
+		} else if(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill() < 0) {
 			item.setBackground(c, ConfigBean.getColorDecrease());
 		}
 		
