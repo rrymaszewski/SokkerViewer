@@ -57,6 +57,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		try {
 			URLConnection con = getDefaultConnection(srcFile, proxy);
 			length = con.getContentLength();
+			url = con.getURL();
 		} catch (MalformedURLException e1) {
 			length = -1;
 		} catch (IOException e) {
