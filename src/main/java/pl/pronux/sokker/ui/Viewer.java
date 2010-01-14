@@ -146,9 +146,6 @@ public class Viewer extends Shell {
 		// settings mainShell ICO
 		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[32x32].png")); //$NON-NLS-1$
 
-		if (SV.VERSION_TYPE == SV.TESTING) {
-			this.setText(this.getText() + " TESTING"); //$NON-NLS-1$
-		}
 		// adding listener for checking if window is close
 		this.addListener(SWT.Close, new Listener() {
 

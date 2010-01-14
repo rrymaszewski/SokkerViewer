@@ -153,7 +153,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			}
 			item.setText(i++, playerStats.getTimePlayed() + "'"); //$NON-NLS-1$
 
-			item.setData(PaintStarListener.IDENTIFIER, playerStats.getRating());
+			item.setData(PaintStarListener.class.getName(), playerStats.getRating());
 			i++;
 			// item.setText(i++, playerStats.getRating() + "%"); //$NON-NLS-1$
 			item.setText(i++, String.valueOf(playerStats.getGoals()));

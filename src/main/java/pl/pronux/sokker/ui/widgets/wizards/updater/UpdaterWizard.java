@@ -10,7 +10,6 @@ import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.PropertiesSession;
 import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.wizards.Wizard;
@@ -20,15 +19,12 @@ import pl.pronux.sokker.ui.widgets.wizards.updater.pages.PackagesPage;
 import pl.pronux.sokker.ui.widgets.wizards.updater.pages.XMLPage;
 
 public class UpdaterWizard extends Wizard {
+
 	private String versionType;
 	private String osType;
 
 	private void init() {
-		if (SV.VERSION_TYPE == SV.TESTING) {
-			versionType = "testing"; //$NON-NLS-1$
-		} else {
-			versionType = "stable"; //$NON-NLS-1$
-		}
+		versionType = "stable"; //$NON-NLS-1$
 
 		if (SettingsHandler.IS_WINDOWS) {
 			osType = "/windows"; //$NON-NLS-1$
@@ -71,7 +67,6 @@ public class UpdaterWizard extends Wizard {
 			// base directory settings
 			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
 
-			
 			UpdaterWizard wizard = new UpdaterWizard(display);
 			wizard.open();
 		} catch (FileNotFoundException e) {

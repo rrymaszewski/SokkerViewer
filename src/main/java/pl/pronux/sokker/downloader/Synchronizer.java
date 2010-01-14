@@ -39,7 +39,6 @@ import pl.pronux.sokker.exceptions.SVSynchronizerCriticalException;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
 import pl.pronux.sokker.interfaces.IRunnableWithProgress;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
@@ -61,7 +60,7 @@ public class Synchronizer implements IRunnableWithProgress {
 	private MatchesManager matchesManager = MatchesManager.instance();
 	private ConfigurationManager configurationManager = ConfigurationManager.instance();
 	private LeaguesManager leaguesManager = LeaguesManager.instance();
-	
+
 	final public static int DOWNLOAD_BASE = 1 << 0;
 
 	final public static int DOWNLOAD_COUNTRIES = 1 << 1;
@@ -101,12 +100,7 @@ public class Synchronizer implements IRunnableWithProgress {
 			osType = "/mac"; //$NON-NLS-1$
 		}
 
-		String query;
-		if (SV.VERSION_TYPE == SV.TESTING) {
-			query = "http://www.rymek.user.icpnet.pl/sv/updates/testing" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-		} else {
-			query = "http://www.rymek.user.icpnet.pl/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
+		String query = "http://www.rymek.user.icpnet.pl/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		ProxySettings proxySettings = settings.getProxySettings();
 		xml = new HTMLDownloader(proxySettings).getNormalPage(query);
