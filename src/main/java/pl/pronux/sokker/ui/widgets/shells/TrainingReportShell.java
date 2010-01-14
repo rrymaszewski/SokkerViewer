@@ -304,6 +304,9 @@ public class TrainingReportShell extends Shell {
 							if (skills[i].getSkill() - skills[i - 1].getSkill() > 0) {
 								item = new TreeItem(treeItem, SWT.NONE);
 								fillJuniorTreeItem(item, junior, i);
+							} else if (skills[i].getSkill() - skills[i - 1].getSkill() < 0) {
+								item = new TreeItem(treeItem, SWT.NONE);
+								fillJuniorTreeItem(item, junior, i);
 							}
 						}
 					}
@@ -362,8 +365,12 @@ public class TrainingReportShell extends Shell {
 		c++;
 		// item.setText(c++, String.valueOf(junior.getSkills()[max -
 		// 1].getSkill()));
-
-		item.setBackground(c, ConfigBean.getColorIncrease());
+		if (junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill() > 0) {
+			item.setBackground(c, ConfigBean.getColorIncrease());	
+		} else {
+			item.setBackground(c, ConfigBean.getColorDecrease());
+		}
+		
 		item.setText(c++, junior.getSkills()[index].getSkill() + "  " + SVNumberFormat.formatIntegerWithSignZero(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill())); //$NON-NLS-1$
 		item.setText(c++, String.valueOf(junior.getSkills()[index].getWeeks()));
 	}
