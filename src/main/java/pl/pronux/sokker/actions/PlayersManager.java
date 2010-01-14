@@ -249,10 +249,8 @@ public class PlayersManager {
 			}
 
 			skills = playersDao.getPlayerSkills(player, trainingMap);
-			if (status == Player.STATUS_INCLUB) {
-				ntSkills = playersDao.getPlayerNtSkills(player);
-				player.setNtSkills(ntSkills);
-			}
+			ntSkills = playersDao.getPlayerNtSkills(player);
+			player.setNtSkills(ntSkills);
 
 			Junior junior = juniorTrainedMap.get(player.getIdJuniorFK());
 			player.setJunior(junior);

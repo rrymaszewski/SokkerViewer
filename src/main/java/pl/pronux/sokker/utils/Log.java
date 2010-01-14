@@ -63,7 +63,9 @@ public class Log {
 	}
 
 	public static void close() {
-		Logger.getLogger("").removeHandler(fileHandler);
-		fileHandler.close();
+		if (fileHandler != null) {
+			Logger.getLogger("").removeHandler(fileHandler);
+			fileHandler.close();
+		}
 	}
 }

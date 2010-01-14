@@ -153,8 +153,6 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 		
 		if (player.getNational() > 0 || (player.getNtSkills() != null && player.getNtSkills().length > 0 && player.getNtSkills()[player.getNtSkills().length - 1].getNtMatches() > 0)) {
 
-			int maxNT = player.getNtSkills().length - 1;
-
 			this.addText(imageText);
 
 			if (player.getNational() > 0) {
@@ -173,6 +171,7 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 			// }
 
 			if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
+				int maxNT = player.getNtSkills().length - 1;
 				this.addText(String.format("%s: %d, %s: %d, %s: %d", Messages.getString("player.matches.short"), player.getNtSkills()[maxNT].getNtMatches(), Messages.getString("player.goals.short"), player.getNtSkills()[maxNT].getNtGoals(), Messages.getString("player.assists.short"), player.getNtSkills()[maxNT].getNtAssists())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			} else {
 				this.addText(String.format("%s: -, %s: -, %s: -", Messages.getString("player.matches.short"), Messages.getString("player.goals.short"), Messages.getString("player.assists.short"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$

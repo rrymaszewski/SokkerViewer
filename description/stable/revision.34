@@ -1,0 +1,12 @@
+
+!!!IMPORTANT!!! ONLY FOR SokkerViewer 0.12 
+=============================
+If You update SokkerViewer from * 0.12 *please download file
+http://www.sokkerviewer.net/sv/patches/core-0.12.jar first! Then paste it into SokkerViewer/lib directory.
+Restart SokkerViewer and update to newest version.
+Otherwise there will no possibility to update.
+If you have any problems with it, please inform us. "
+=============================
+
+* bugfix: open notes available
+* bugfix: in some cases there were no possibility to check match

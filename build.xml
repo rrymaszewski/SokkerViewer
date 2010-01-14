@@ -5,7 +5,7 @@
     </description>
 
 	<property name="user.name" value="Radoslaw Rymaszewski" />
-	<property name="version" value="0.13" />
+	<property name="version" value="0.13.1" />
 	<!-- windows; linux; mac -->
 	<property name="os.name.value" value="linux" />
 	<!-- testing or stable -->
@@ -18,16 +18,15 @@
 	<property name="jfreechart" value="jfreechart-1.0.1.jar" />
 	<property name="jcommon" value="jcommon-1.0.0.jar" />
 	<property name="hsqldb" value="hsqldb-1.8.0.10.jar" />
-	<property name="swt" value="swt3.3.jar" />
 
 	<property name="core" value="core-${version}.jar" />
 	<property name="ui" value="ui-${version}.jar" />
 	<property name="headers" value="headers-${version}.jar" />
 	<property name="flags" value="flags-0.13.jar" />
 	<property name="images" value="images-0.13.jar" />
-	<property name="lang" value="lang-${version}.jar" />
+	<property name="lang" value="lang-0.13.jar" />
 	<property name="properties" value="properties-0.10.jar" />
-	<property name="sql" value="sql-0.13.zip" />
+	<property name="sql" value="sql-0.12.zip" />
 	<property name="fonts" value="fonts-0.12.zip" />
 
 	<property name="build.classes.dir" location="packages/classes/" />
@@ -36,6 +35,7 @@
 	<property name="root.dir" location="" />
 	<property name="sokker.dir" location="packages/${os.name.value}/sokker" />
 	<property name="packages.dir" location="packages" />
+	<property name="release.dir" location="${packages.dir}/release" />
 	<property name="temp.dir" location="packages/temp" />
 
 	<!-- source directories -->
@@ -59,6 +59,7 @@
 	<property name="packages.dst.dir" location="packages/${software.type}/packages/" />
 	<property name="os.packages.dst.dir" location="packages/${software.type}/packages/${os.name.value}/" />
 	<property name="tmp.dst.dir" location="${sokker.dir}/tmp" />
+	
 	<target name="pre_clean">
 		<delete dir="${build.classes.dir}" />
 		<delete dir="${sokker.dir}" />
@@ -77,6 +78,7 @@
 		<mkdir dir="${resources.dst.dir}" />
 		<mkdir dir="${packages.dst.dir}" />
 		<mkdir dir="packages/${software.type}/${os.name.value}" />
+		<mkdir dir="${release.dir}/${software.type}/${os.name.value}" />
 		<mkdir dir="${tmp.dst.dir}" />
 	</target>
 
@@ -240,16 +242,16 @@
 			</fileset>
 		</copy>
 
-		<copy file="${lib.dst.dir}/swt.jar" todir="${packages.dir}/${software.type}/${os.name.value}/" />
+		<copy file="${lib.dst.dir}/swt.jar" todir="${packages.dst.dir}/${os.name.value}/" />
 	</target>
 
 	<target name="compress" depends="packages">
-		<zip destfile="${packages.dir}/${software.type}/${os.name.value}/sokker-${version}.zip" basedir="${sokker.dir}" />
+		<zip destfile="${release.dir}/${software.type}/${os.name.value}/sokker-${version}.zip" basedir="${sokker.dir}" />
 	</target>
 
 	<target name="checksum" depends="compress">
-		<checksum file="${packages.dir}/${software.type}/${os.name.value}/sokker-${version}.zip" forceOverwrite="yes" algorithm="MD5" />
-		<echo file="${packages.dir}/${software.type}/${os.name.value}/sokker-${version}.zip.MD5" append="true">  sokker-${version}.zip</echo>
+		<checksum file="${release.dir}/${software.type}/${os.name.value}/sokker-${version}.zip" forceOverwrite="yes" algorithm="MD5" />
+		<echo file="${release.dir}/${software.type}/${os.name.value}/sokker-${version}.zip.MD5" append="true">  sokker-${version}.zip</echo>
 	</target>
 
 	<target name="post_clean" depends="checksum">
