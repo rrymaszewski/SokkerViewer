@@ -1,6 +1,13 @@
 package pl.pronux.sokker.model;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
+
+import pl.pronux.sokker.utils.security.Base64Coder;
+
 public class ProxySettings {
+
 	private int port;
 	private String hostname;
 	private String username;
@@ -45,5 +52,32 @@ public class ProxySettings {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean isProxyWithAuthentication() {
+		return username != null && !username.isEmpty() && password != null && !password.isEmpty();
+	}
+
+	public String getProxyAuthentication() {
+		String proxyAuth = null;
+		if (isProxyEnabled() && isProxyWithAuthentication()) {
+			proxyAuth = Base64Coder.encodeString(this.username + ":" + this.password);
+		}
+		return proxyAuth;
+	}
+
+	public boolean isProxyEnabled() {
+		return isEnabled() && hostname != null && !hostname.isEmpty() && port > 0;
+	}
+
+	public Proxy getProxy() {
+		Proxy proxy = null;
+		if (isProxyEnabled()) {
+			SocketAddress address = new InetSocketAddress(hostname, port);
+			proxy = new Proxy(Proxy.Type.HTTP, address);
+		} else {
+			proxy = Proxy.NO_PROXY;
+		}
+		return proxy;
 	}
 }

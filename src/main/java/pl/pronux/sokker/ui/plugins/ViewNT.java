@@ -305,8 +305,7 @@ public class ViewNT implements IPlugin {
 
 						try {
 							ProxySettings proxySettings = settings.getProxySettings();
-							HTMLDownloader htmlDownloader;
-							htmlDownloader = new HTMLDownloader(proxySettings);
+							HTMLDownloader htmlDownloader = new HTMLDownloader(proxySettings);
 							String value = htmlDownloader.postDataToPage(url, params, referer).replaceAll("[^0-9]", "");
 							if (value.equals("1")) {
 								status.setText(Messages.getString("viewnt.status.added") + " " + player.getName() + " " + player.getSurname());
@@ -588,8 +587,7 @@ public class ViewNT implements IPlugin {
 		try {
 
 			ProxySettings proxySettings = settings.getProxySettings();
-			HTMLDownloader htmlDownloader;
-			htmlDownloader = new HTMLDownloader(proxySettings);
+			HTMLDownloader htmlDownloader = new HTMLDownloader(proxySettings);
 
 			SecretKeySpec skey = Crypto.convertByteArrayToSymmetricKey(Crypto.decodeBase64(SECRET_KEY_128), SYMMETRIC_KEY_TYPE);
 

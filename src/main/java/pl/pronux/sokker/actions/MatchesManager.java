@@ -112,12 +112,7 @@ public class MatchesManager {
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
 		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
-		if (proxySettings.isEnabled()) {
-			downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(),
-							 proxySettings.getPassword());
-		} else {
-			downloader.login(settings.getUsername(), settings.getPassword());
-		}
+		downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 
 		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
 			value = "0"; //$NON-NLS-1$

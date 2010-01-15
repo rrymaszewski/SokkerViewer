@@ -151,12 +151,7 @@ public class Synchronizer implements IRunnableWithProgress {
 			XMLDownloader downloader = new XMLDownloader();
 			ProxySettings proxySettings = settings.getProxySettings();
 			try {
-				if (proxySettings.isEnabled()) {
-					downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings
-						.getUsername(), proxySettings.getPassword());
-				} else {
-					downloader.login(settings.getUsername(), settings.getPassword());
-				}
+				downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 			} catch (SVException e) {
 				throw new InvocationTargetException(
 					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$

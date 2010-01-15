@@ -8,10 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
@@ -20,41 +17,22 @@ import pl.pronux.sokker.bean.Cookie;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.utils.security.Base64Coder;
 
 public class HTMLDownloader extends AbstractDownloader {
 
 	private String cookies = ""; //$NON-NLS-1$
-	private Proxy proxy;
-	private String proxyAuth;
 
 	public HTMLDownloader(ProxySettings proxySettings) {
-		if (proxySettings.isEnabled()) {
-			init(proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(), proxySettings.getPassword());
-		} else {
-			init(null, 0, null, null);
-		}
+		super.setProxy(proxySettings.getProxy());
+		super.setProxyAuth(proxySettings.getProxyAuthentication());
 	}
 
-	private void init(String proxyHost, Integer proxyPort, String proxyUser, String proxyPass) {
-		if ((proxyHost != null) && (proxyHost.length() > 0) && (proxyPort != null) && (proxyPort.intValue() > 0)) {
-			SocketAddress address = new InetSocketAddress(proxyHost, proxyPort.intValue());
-			this.proxy = new Proxy(Proxy.Type.HTTP, address);
-		} else {
-			this.proxy = Proxy.NO_PROXY;
-		}
-
-		if ((proxyUser != null) && (proxyUser.length() > 0) && (proxyPass != null) && (proxyPass.length() > 0)) {
-			this.proxyAuth = Base64Coder.encodeString(proxyUser + ":" + proxyPass);
-		}
-	}
-	
 	public void downloadPackage(final String srcFile, String dstDirectory, String dstFile, IProgressMonitor monitor) throws IOException {
 		int length;
 		int counter;
 		URL url = null;
 		try {
-			URLConnection con = getDefaultConnection(srcFile, proxy, this.proxyAuth);
+			URLConnection con = getDefaultConnection(srcFile);
 			length = con.getContentLength();
 			url = con.getURL();
 		} catch (MalformedURLException e1) {
@@ -99,7 +77,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		HttpURLConnection connection = null;
 		StringBuilder buffer = new StringBuilder();
 		try {
-			connection = getDefaultConnection(urlString, GET, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString, GET);
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
 			// for first request cookie doesn't exist
 			if (!cookies.isEmpty()) { //$NON-NLS-1$
@@ -131,7 +109,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
 		try {
-			connection = getDefaultConnection(urlString, GET, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString, GET);
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
 			// for first request cookie doesn't exist
 			if (!cookies.isEmpty()) { //$NON-NLS-1$
@@ -163,7 +141,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		FileOutputStream out = null;
 		HttpURLConnection connection = null;
 		try {
-			connection = getDefaultConnection(urlString, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString);
 			in = new BufferedInputStream(connection.getInputStream());
 			out = new FileOutputStream(destinationDirectory + File.separator + filename);
 			while ((len = in.read(buf)) > 0) {
@@ -193,7 +171,7 @@ public class HTMLDownloader extends AbstractDownloader {
 
 			ByteBuffer byteBuffer = ByteBuffer.wrap(buf);
 
-			connection = getDefaultConnection(urlString, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString);
 
 			in = new BufferedInputStream(connection.getInputStream());
 			while ((len = in.read(buf)) > 0) {
@@ -267,7 +245,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		BufferedReader in = null;
 		DataOutputStream out = null;
 		try {
-			connection = getDefaultConnection(urlString, POST, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString, POST);
 			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
 			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

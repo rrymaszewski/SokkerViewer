@@ -6,15 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pl.pronux.sokker.exceptions.SVException;
-import pl.pronux.sokker.utils.security.Base64Coder;
+import pl.pronux.sokker.model.ProxySettings;
 
 public class SokkerAuthentication extends AbstractDownloader {
 
@@ -23,10 +20,6 @@ public class SokkerAuthentication extends AbstractDownloader {
 	private String errorno;
 
 	private String message;
-
-	private Proxy proxy;
-
-	private String proxyAuth;
 
 	private String sessionID;
 
@@ -48,7 +41,7 @@ public class SokkerAuthentication extends AbstractDownloader {
 	 * @throws SVException
 	 */
 	public void login(String login, String password) throws SVException, IOException {
-		login(login, password, null, 0, null, null);
+		login(login, password, null);
 	}
 
 	public SokkerAuthentication() {
@@ -59,7 +52,7 @@ public class SokkerAuthentication extends AbstractDownloader {
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
 		try {
-			connection = getDefaultConnection(urlString, GET, proxy, this.proxyAuth);
+			connection = getDefaultConnection(urlString, GET);
 			connection.setConnectTimeout(TIMEOUT_MS);
 			connection.setReadTimeout(TIMEOUT_MS);
 			connection.setRequestProperty("Cookie", sessionID); //$NON-NLS-1$
@@ -148,19 +141,10 @@ public class SokkerAuthentication extends AbstractDownloader {
 		return response;
 	}
 
-	public void login(String login, String password, String proxyHost, Integer proxyPort, String proxyUser, String proxyPass) throws SVException, IOException {
-
-		if ((proxyHost != null) && (proxyHost.length() > 0) && (proxyPort != null) && (proxyPort.intValue() > 0)) {
-			SocketAddress address = new InetSocketAddress(proxyHost, proxyPort.intValue());
-			this.proxy = new Proxy(Proxy.Type.HTTP, address);
-		} else {
-			this.proxy = Proxy.NO_PROXY;
-		}
-
-		if ((proxyUser != null) && (proxyUser.length() > 0) && (proxyPass != null) && (proxyPass.length() > 0)) {
-			final String pw = proxyUser + ":" + proxyPass; //$NON-NLS-1$
-			// this.proxyAuth = (new BASE64Encoder()).encode(pw.getBytes());
-			this.proxyAuth = Base64Coder.encodeString(pw);
+	public void login(String login, String password, ProxySettings proxySettings) throws SVException, IOException {
+		if (proxySettings != null) {
+			super.setProxy(proxySettings.getProxy());
+			super.setProxyAuth(proxySettings.getProxyAuthentication());
 		}
 
 		try {
@@ -218,8 +202,8 @@ public class SokkerAuthentication extends AbstractDownloader {
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
 		try {
-			connection = getDefaultConnection(urlString, POST, proxy, proxyAuth);
-			
+			connection = getDefaultConnection(urlString, POST);
+
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// helping with loggin into the page
 			// connection.setInstanceFollowRedirects(false);
