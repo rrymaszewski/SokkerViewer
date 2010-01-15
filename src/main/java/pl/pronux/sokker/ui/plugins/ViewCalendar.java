@@ -486,6 +486,9 @@ public class ViewCalendar implements IPlugin {
 		textDayTuesday.setText(Messages.getString("calendar.day." + Calendar.TUESDAY) + " " + "(" + formatDate(cal) + ")");
 
 		new TableItem(text5, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.26"));
+		if (season.getSeasonWeek() > 0 && season.getSeasonWeek() < 15) {
+			new TableItem(text5, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.30"));	
+		}
 
 		text5.getColumn(0).pack();
 		text6.removeAll();
@@ -501,6 +504,7 @@ public class ViewCalendar implements IPlugin {
 
 		new TableItem(text6, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.14"));
 		new TableItem(text6, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.22"));
+		new TableItem(text6, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.31"));
 
 		text6.getColumn(0).pack();
 		text7.removeAll();
@@ -519,6 +523,7 @@ public class ViewCalendar implements IPlugin {
 		new TableItem(text7, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.16"));
 		new TableItem(text7, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.17"));
 		new TableItem(text7, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.18"));
+		new TableItem(text7, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.32"));
 
 		text7.getColumn(0).pack();
 		text8.removeAll();
@@ -534,9 +539,9 @@ public class ViewCalendar implements IPlugin {
 
 		if (season.getSeasonWeek() == 15) {
 			new TableItem(text8, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.19"));
-		} else {
-			new TableItem(text8, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.6"));
 		}
+		new TableItem(text8, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.33"));
+		new TableItem(text8, SWT.NONE).setText("- " + Messages.getString("calendar.day.event.34"));
 
 		text8.getColumn(0).pack();
 
