@@ -59,7 +59,7 @@ public class SokkerAuthentication extends AbstractDownloader {
 		HttpURLConnection connection = null;
 		BufferedReader in = null;
 		try {
-			connection = getDefaultConnection(urlString, GET, proxy, urlString);
+			connection = getDefaultConnection(urlString, GET, proxy, this.proxyAuth);
 			connection.setConnectTimeout(TIMEOUT_MS);
 			connection.setReadTimeout(TIMEOUT_MS);
 			connection.setRequestProperty("Cookie", sessionID); //$NON-NLS-1$
