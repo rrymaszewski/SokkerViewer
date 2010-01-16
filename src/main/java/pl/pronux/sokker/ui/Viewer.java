@@ -63,6 +63,8 @@ import pl.pronux.sokker.utils.Log;
 
 public class Viewer extends Shell {
 
+	private SettingsManager settingsManager = SettingsManager.instance();
+	
 	private Properties _defaultProperties;
 
 	private Display display;
@@ -95,8 +97,6 @@ public class Viewer extends Shell {
 
 	private Group viewGroup;
 
-	private SettingsManager settingsManager = SettingsManager.instance();
-
 	public Viewer(Display display, int style) throws Exception {
 		super(display, style);
 		_monitor = display.getPrimaryMonitor();
@@ -115,7 +115,6 @@ public class Viewer extends Shell {
 
 		ViewerHandler.setClipboard(cb);
 		settings = SettingsHandler.getSokkerViewerSettings();
-		_defaultProperties = new Properties();
 
 		// loading language properties
 		if (settings.getLangCode().isEmpty()) {
@@ -227,21 +226,14 @@ public class Viewer extends Shell {
 						view = (IPlugin) constructors[j].newInstance();
 					}
 				}
-
 				splash.setStatus(view.getClass().getSimpleName());
-
 				view.setSettings(settings);
-
 				view.init(new Composite(viewGroup, SWT.NONE));
 				view.getComposite().setLayoutData(formData);
 				view.setTreeItem(new TreeItem(Viewer.this.getTree(), SWT.NONE));
-
 				view.getInfo();
-
 				view.getTreeItem().setData(IPlugin.IDENTIFIER, view.getComposite());
-
 				view.getComposite().setVisible(false);
-
 				pluginsList.add(view);
 			} catch (IllegalArgumentException e) {
 				new BugReporter(display).openErrorMessage("Viewer", e);
@@ -321,32 +313,20 @@ public class Viewer extends Shell {
 			}
 		}
 		cb.dispose();
-
 	}
 
 	private void addColors(Display display) {
 		ConfigBean.setColorDecrease(ColorResources.getColor(255, 210, 210));
-
 		ConfigBean.setColorDecreaseDescription(ColorResources.getColor(255, 0, 0));
-
 		ConfigBean.setColorError(ColorResources.getColor(255, 0, 0));
-
 		ConfigBean.setColorFont(ColorResources.getColor(255, 0, 0));
-
 		ConfigBean.setColorIncrease(ColorResources.getColor(233, 252, 224));
-
 		ConfigBean.setColorIncreaseDescription(ColorResources.getColor(10, 150, 0));
-
 		ConfigBean.setColorInjuryBg(ColorResources.getColor(255, 255, 255));
-
 		ConfigBean.setColorInjuryFg(ColorResources.getColor(255, 0, 0));
-
 		ConfigBean.setColorNewTableObject(ColorResources.getColor(220, 222, 245));
-
 		ConfigBean.setColorNewTreeObject(ColorResources.getColor(0, 0, 255));
-
 		ConfigBean.setColorTrainedJunior(ColorResources.getColor(10, 150, 0));
-
 		ConfigBean.setColorTransferList(ColorResources.getColor(221, 255, 255));
 	}
 
@@ -357,25 +337,16 @@ public class Viewer extends Shell {
 
 		if (SettingsHandler.IS_WINDOWS) {
 			ConfigBean.setFontMain(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
-
 			ConfigBean.setFontDescription(Fonts.getFont(display,
 														"Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
-
 			ConfigBean.setFontTable(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
-
 			ConfigBean.setFontItalic(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.ITALIC));
-
 		} else {
-			ConfigBean.setFontMain(Fonts.getFont(display, "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
-
-			ConfigBean.setFontDescription(Fonts.getFont(display, "Courier New", fontCurrent.getFontData()[0].height + 1, SWT.NORMAL)); //$NON-NLS-1$
-
-			ConfigBean.setFontTable(Fonts.getFont(display, "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
-
-			ConfigBean.setFontItalic(Fonts.getFont(display, "Courier New", fontCurrent.getFontData()[0].height + 1, SWT.ITALIC)); //$NON-NLS-1$
-
+			ConfigBean.setFontMain(Fonts.getFont(display, "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL));
+			ConfigBean.setFontDescription(Fonts.getFont(display, "Courier New", fontCurrent.getFontData()[0].height + 1, SWT.NORMAL));
+			ConfigBean.setFontTable(Fonts.getFont(display, "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL));
+			ConfigBean.setFontItalic(Fonts.getFont(display, "Courier New", fontCurrent.getFontData()[0].height + 1, SWT.ITALIC));
 		}
-
 	}
 
 	private void addSashVertical(Shell parent) {
@@ -473,7 +444,7 @@ public class Viewer extends Shell {
 
 									public void handleEvent(Event event) {
 										new UpdaterWizard(Viewer.this).open();
-										statusBar.getVersionLabel().setData("listener", this); //$NON-NLS-1$
+										statusBar.getVersionLabel().setData("listener", this);
 									}
 								});
 
@@ -488,7 +459,7 @@ public class Viewer extends Shell {
 						});
 					}
 				} catch (Exception e) {
-					Log.warning("Version Info", e); //$NON-NLS-1$
+					Log.warning("Version Info", e);
 				}
 			}
 		}.start();
