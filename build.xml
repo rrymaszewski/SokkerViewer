@@ -5,7 +5,7 @@
     </description>
 
 	<property name="user.name" value="Radoslaw Rymaszewski" />
-	<property name="version" value="0.13.1" />
+	<property name="version" value="0.13.2" />
 	<!-- windows; linux; mac -->
 	<property name="os.name.value" value="linux" />
 	<!-- testing or stable -->

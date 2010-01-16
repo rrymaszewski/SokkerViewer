@@ -104,11 +104,7 @@ public class Viewer extends Shell {
 
 		this.display = display;
 
-		if (SettingsHandler.IS_LINUX) {
-			splash = new Splash(display, SWT.TOOL);
-		} else {
-			splash = new Splash(display, SWT.ON_TOP);
-		}
+		splash = new Splash(display, SWT.ON_TOP);
 		splash.setStatus(this.getClass().getSimpleName());
 		splash.open();
 
@@ -480,15 +476,12 @@ public class Viewer extends Shell {
 									}
 								});
 
-								if (SettingsHandler.IS_WINDOWS) {
-									if (trayItem != null) {
-										final ToolTip trayToolTip = new ToolTip(Viewer.this, SWT.BALLOON | SWT.ICON_INFORMATION);
-										trayItem.setToolTip(trayToolTip);
-										trayToolTip.setMessage(String.format(Messages.getString("message.update.info"), new Object[] { //$NON-NLS-1$
-																			 version }));
-										trayToolTip.setAutoHide(true);
-										trayToolTip.setVisible(true);
-									}
+								if (trayItem != null) {
+									final ToolTip trayToolTip = new ToolTip(Viewer.this, SWT.BALLOON | SWT.ICON_INFORMATION);
+									trayItem.setToolTip(trayToolTip);
+									trayToolTip.setMessage(String.format(Messages.getString("message.update.info"), new Object[] { version }));
+									trayToolTip.setAutoHide(true);
+									trayToolTip.setVisible(true);
 								}
 							}
 						});

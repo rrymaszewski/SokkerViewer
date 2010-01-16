@@ -4,7 +4,7 @@
 	<groupId>SokkerViewer</groupId>
 	<artifactId>SokkerViewer</artifactId>
 	<name>SokkerViewer</name>
-	<version>0.13</version>
+	<version>0.13.2</version>
 	<properties>
 		<swt.version>3.5.1</swt.version>
 	</properties>
