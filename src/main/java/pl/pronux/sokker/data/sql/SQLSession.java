@@ -44,25 +44,16 @@ public class SQLSession {
 			// respectively. They should be whatever is necessary to connect
 			// to the database.
 			SokkerViewerSettings settings = SQLQuery.getSettings();
-			SQLSession
-				.setConnection(DriverManager
-					.getConnection(
-								   "jdbc:hsqldb:"  + settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			SQLSession.setConnection(DriverManager.getConnection("jdbc:hsqldb:" + settings.getBaseDirectory() + File.separator + "db" + File.separator
+																 + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", ""));
 		} catch (SQLException se) {
-			Log.warning("Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
+			Log.warning("Couldn't connect: print out a stack trace and exit.");
 			throw se;
 		}
 		if (SQLSession.getConnection() == null) {
-			throw new SQLException("We should never get here."); //$NON-NLS-1$
+			throw new SQLException("We should never get here.");
 		}
 		return SQLSession.getConnection();
-	}
-
-	public static Connection connect(String file) throws ClassNotFoundException, SQLException {
-		Class.forName("org.hsqldb.jdbcDriver"); //$NON-NLS-1$
-
-		Connection connection = DriverManager.getConnection("jdbc:hsqldb:" + file + ";shutdown=true", "sa", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		return connection;
 	}
 
 	public static void endTransaction() throws SQLException {
@@ -77,19 +68,15 @@ public class SQLSession {
 
 	static void register() {
 		try {
-			Class.forName("org.hsqldb.jdbcDriver"); //$NON-NLS-1$
+			Class.forName("org.hsqldb.jdbcDriver");
 		} catch (ClassNotFoundException cnfe) {
-			Log.error("Couldn't find the driver!"); //$NON-NLS-1$
-			Log.error("Let's print a stack trace, and exit."); //$NON-NLS-1$
-			Log.error("Sql Class", cnfe); //$NON-NLS-1$
+			Log.error("Couldn't find the driver!", cnfe);
 		}
 	}
 
 	public static void rollback() throws SQLException {
-		if (SQLSession.getConnection() != null) {
-			if (!SQLSession.getConnection().isClosed()) {
-				SQLSession.getConnection().rollback();
-			}
+		if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+			SQLSession.getConnection().rollback();
 		}
 	}
 

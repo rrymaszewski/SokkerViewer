@@ -48,13 +48,7 @@ public class Launcher {
 			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
 
-			if (proxySettings.isEnabled()) {
-				System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-				System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
-				System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
-				System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
-				System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
-			}
+			setProxy(proxySettings);
 
 			if (settings.isCheckProperties()) {
 				new PropertiesChecker().checkAll();
@@ -93,5 +87,15 @@ public class Launcher {
 	private static String showHelp() {
 		return "--donwload-only\r\n" + //$NON-NLS-1$
 			   "--help"; //$NON-NLS-1$
+	}
+	
+	private static void setProxy(ProxySettings proxySettings) {
+		if (proxySettings.isEnabled()) {
+			System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
+			System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
+			System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
+			System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
+		}
 	}
 }

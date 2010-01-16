@@ -5,25 +5,16 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import pl.pronux.sokker.actions.PlayersManager;
-import pl.pronux.sokker.data.sql.dao.AssistantDao;
 import pl.pronux.sokker.interfaces.SV;
-import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.Training;
-import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 
 public class SQLQuery {
+
 	private static Statement batchStm;
 	private static SokkerViewerSettings settings;
-	
-	private static PlayersManager playersManager = PlayersManager.instance();
 
 	private synchronized static void addBatch(String expression) throws SQLException {
 		batchStm.addBatch(expression);
@@ -47,36 +38,35 @@ public class SQLQuery {
 	}
 
 	public static boolean dbExist() {
-		String db = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		String log = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String db = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script";
+		String log = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log";
 		return new File(db).exists() || new File(log).exists();
 	}
 
 	public static boolean dbPropertiesExist() {
-		String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties";
 		return new File(file).exists();
 	}
 
 	private synchronized static void executeBatch() throws SQLException {
 		int[] batchArray = batchStm.executeBatch();
-		Log.info("Results"); //$NON-NLS-1$
+		Log.info("Results");
 		for (int i = 0; i < batchArray.length; i++) {
 			Log.info(String.valueOf(batchArray[i]));
 		}
-
 	}
 
 	public static void initDB() throws SQLException, IOException {
 		createBatch();
-		Log.info("Init DB  " + SV.DB_VERSION); //$NON-NLS-1$
-		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql"); //$NON-NLS-1$ //$NON-NLS-2$
+		Log.info("Init DB  " + SV.DB_VERSION);
+		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql");
 
 		if (sqlBatch != null) {
-			String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
+			String[] SQLBatchArray = sqlBatch.split("\n");
 			for (int i = 0; i < SQLBatchArray.length; i++) {
 				addBatch(SQLBatchArray[i]);
 			}
-			addBatch("UPDATE system SET version = " + SV.DB_VERSION); //$NON-NLS-1$
+			addBatch("UPDATE system SET version = " + SV.DB_VERSION);
 			executeBatch();
 			clearBatch();
 		}
@@ -97,42 +87,19 @@ public class SQLQuery {
 		} catch (SQLException e) {
 			throw e;
 		}
-	} 
+	}
 
 	public static void updateDB(Connection connection, int dbVersion) throws ClassNotFoundException, SQLException, IOException {
 		createBatch();
-		Log.info("Update DB  " + dbVersion); //$NON-NLS-1$
-		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql"); //$NON-NLS-1$ //$NON-NLS-2$
+		Log.info("Update DB  " + dbVersion);
+		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql");
 		if (sqlBatch != null) {
-			String[] SQLBatchArray = sqlBatch.split("\n"); //$NON-NLS-1$
+			String[] SQLBatchArray = sqlBatch.split("\n");
 			for (int i = 0; i < SQLBatchArray.length; i++) {
 				addBatch(SQLBatchArray[i]);
 			}
-			// executeBatch(SQLBatch);
-			// update(SQLBatch);
 			executeBatch();
 			clearBatch();
-		}
-
-		switch (dbVersion) {
-		case 1:
-			ArrayList<Player> players = playersManager.getPlayers(null, new HashMap<Integer, Junior>(), new HashMap<Integer, Training>(), new HashMap<Integer, Transfer>(),
-					new HashMap<Integer, Transfer>());
-			int[][] data = AssistantDao.getAssistantData();
-			for (Player player : players) {
-				player.setPositionTable(playersManager.calculatePosition(player, data));
-				player.setPosition(player.getBestPosition());
-			}
-			playersManager.updatePlayersPositions(players);
-			break;
-		case 4:
-			try {
-				SQLQuery.update("ALTER TABLE player_skills DROP COLUMN training;"); //$NON-NLS-1$
-			} catch (SQLException e) {
-			}
-			break;
-		default:
-			break;
 		}
 		closeBatch();
 	}
@@ -142,20 +109,16 @@ public class SQLQuery {
 	 *         true -> use new connection false -> use old connection
 	 */
 	public static boolean connect() throws SQLException {
-		if (SQLSession.getConnection() != null) {
-			if (!SQLSession.getConnection().isClosed()) {
-				return false;
-			}
+		if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+			return false;
 		}
 		SQLSession.connect();
 		return true;
 	}
 
 	public static void close(boolean newConnection) throws SQLException {
-		if (newConnection) {
-			if (SQLSession.getConnection() != null) {
-				SQLSession.close();
-			}
+		if (newConnection && SQLSession.getConnection() != null) {
+			SQLSession.close();
 		}
 	}
 
