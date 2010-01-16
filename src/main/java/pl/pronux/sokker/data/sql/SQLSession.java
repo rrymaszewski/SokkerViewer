@@ -10,7 +10,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class SQLSession {
 
-	static Connection connection;
+	private static Connection connection;
 
 	public static void beginTransaction() throws SQLException {
 		if (SQLSession.getConnection() != null) {
@@ -28,24 +28,25 @@ public class SQLSession {
 		}
 	}
 
-	public static void close(Connection connection) throws SQLException {
-		connection.close();
-	}
-
 	public static void commit() throws SQLException {
 		SQLSession.getConnection().commit();
 	}
 
 	public static Connection connect() throws SQLException {
-		register();
-		SQLSession.setConnection(null);
+		SokkerViewerSettings settings = SQLQuery.getSettings();
+		String filename = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername();
+		return connect(filename);
+	}
+
+	public static Connection connect(String filename) throws SQLException {
+		loadDatabaseDriver("org.hsqldb.jdbcDriver");
+		connection = null;
 		try {
 			// The second and third arguments are the username and password,
 			// respectively. They should be whatever is necessary to connect
 			// to the database.
-			SokkerViewerSettings settings = SQLQuery.getSettings();
-			SQLSession.setConnection(DriverManager.getConnection("jdbc:hsqldb:" + settings.getBaseDirectory() + File.separator + "db" + File.separator
-																 + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", ""));
+
+			connection = DriverManager.getConnection("jdbc:hsqldb:" + filename + ";shutdown=true", "sa", "");
 		} catch (SQLException se) {
 			Log.warning("Couldn't connect: print out a stack trace and exit.");
 			throw se;
@@ -66,9 +67,9 @@ public class SQLSession {
 		return SQLSession.connection;
 	}
 
-	static void register() {
+	private static void loadDatabaseDriver(String driverName) {
 		try {
-			Class.forName("org.hsqldb.jdbcDriver");
+			Class.forName(driverName);
 		} catch (ClassNotFoundException cnfe) {
 			Log.error("Couldn't find the driver!", cnfe);
 		}
@@ -78,10 +79,6 @@ public class SQLSession {
 		if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
 			SQLSession.getConnection().rollback();
 		}
-	}
-
-	public static void setConnection(Connection connection) {
-		SQLSession.connection = connection;
 	}
 
 	public static void close(boolean newConnection) throws SQLException {

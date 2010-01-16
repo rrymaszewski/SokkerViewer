@@ -73,10 +73,6 @@ public class SQLQuery {
 		closeBatch();
 	}
 
-	public static void setConnection(Connection connection) {
-		SQLSession.setConnection(connection);
-	}
-
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
 	public synchronized static void update(String expression) throws SQLException {
 		Statement stm = null;
