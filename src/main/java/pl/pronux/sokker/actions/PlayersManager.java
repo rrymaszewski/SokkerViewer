@@ -59,6 +59,7 @@ public class PlayersManager {
 
 	public void importPlayers(List<Player> players, Training training) throws SQLException {
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
+		AssistantDao assistantDao = new AssistantDao(SQLSession.getConnection());
 		for (Player player : players) {
 
 			if (!playersDao.existsPlayer(player.getId())) {
@@ -68,7 +69,7 @@ public class PlayersManager {
 				if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
 					playersDao.addNtPlayerSkills(player.getId(), player.getNtSkills()[0], training.getDate());
 				}
-				player.setPositionTable(this.calculatePosition(player, AssistantDao.getAssistantData()));
+				player.setPositionTable(this.calculatePosition(player, assistantDao.getAssistantData()));
 				player.setPosition(player.getBestPosition());
 				this.updatePlayersPositions(player);
 
@@ -111,6 +112,7 @@ public class PlayersManager {
 
 	public void addPlayers(List<Player> players, Training training) throws SQLException {
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
+		AssistantDao assistantDao = new AssistantDao(SQLSession.getConnection());
 		String sTemp;
 		for (Player player : players) {
 
@@ -121,7 +123,7 @@ public class PlayersManager {
 				if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
 					playersDao.addNtPlayerSkills(player.getId(), player.getNtSkills()[0], training.getDate());
 				}
-				player.setPositionTable(this.calculatePosition(player, AssistantDao.getAssistantData()));
+				player.setPositionTable(this.calculatePosition(player, assistantDao.getAssistantData()));
 				player.setPosition(player.getBestPosition());
 				this.updatePlayersPositions(player);
 
@@ -406,7 +408,8 @@ public class PlayersManager {
 	public void updateAssistantData(int[][] data) throws SQLException {
 		try {
 			SQLSession.connect();
-			AssistantDao.updateAssistantData(data);
+			AssistantDao assistantDao = new AssistantDao(SQLSession.getConnection());
+			assistantDao.updateAssistantData(data);
 		} catch (SQLException e) {
 			throw e;
 		} finally {

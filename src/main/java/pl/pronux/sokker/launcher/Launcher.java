@@ -7,9 +7,8 @@ import java.sql.SQLException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.PropertiesSession;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.downloader.Synchronizer;
@@ -24,6 +23,8 @@ import pl.pronux.sokker.utils.file.PropertiesChecker;
 
 public class Launcher {
 
+	private static SettingsManager settingsManager = SettingsManager.instance();
+
 	/**
 	 * @param args
 	 * @throws IOException
@@ -32,31 +33,23 @@ public class Launcher {
 	public static void main(String[] args) {
 
 		try {
-			PropertiesSession properties = PropertiesDatabase.getSession();
-			SokkerViewerSettings settings = new SokkerViewerSettingsDao(properties).getSokkerViewerSettings();
+			SokkerViewerSettings settings = settingsManager.getSettings();
 			if (settings.isCheckProperties()) {
 				new PropertiesChecker().checkAll();
 				PropertiesDatabase.reload();
-				settings = new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).getSokkerViewerSettings();
+				settings = settingsManager.getSettings();
 				settings.setCheckProperties(false);
-				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
+				settingsManager.updateSettings(settings);
 			}
 
 			SettingsHandler.setSokkerViewerSettings(settings);
 
 			// base directory settings
-			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
+			settings.setBaseDirectory(System.getProperty("user.dir"));
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
-
 			setProxy(proxySettings);
 
-			if (settings.isCheckProperties()) {
-				new PropertiesChecker().checkAll();
-				settings.setCheckProperties(false);
-				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
-			}
-
-			if (args.length == 1 && args[0].equals("--download-only")) { //$NON-NLS-1$
+			if (args.length == 1 && args[0].equals("--download-only")) {
 				SQLQuery.setSettings(settings);
 				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(new Monitor());
 			} else if (args.length == 0) {
@@ -64,7 +57,7 @@ public class Launcher {
 				try {
 					new Viewer(display, SWT.SHELL_TRIM).open();
 				} catch (Exception e) {
-					new BugReporter(display).openErrorMessage("SokkerViewer", e); //$NON-NLS-1$
+					new BugReporter(display).openErrorMessage("SokkerViewer", e);
 				} finally {
 					display.dispose();
 				}
@@ -88,7 +81,7 @@ public class Launcher {
 		return "--donwload-only\r\n" + //$NON-NLS-1$
 			   "--help"; //$NON-NLS-1$
 	}
-	
+
 	private static void setProxy(ProxySettings proxySettings) {
 		if (proxySettings.isEnabled()) {
 			System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$

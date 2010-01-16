@@ -29,9 +29,8 @@ import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.data.properties.SVProperties;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -96,6 +95,8 @@ public class Viewer extends Shell {
 
 	private Group viewGroup;
 
+	private SettingsManager settingsManager = SettingsManager.instance();
+
 	public Viewer(Display display, int style) throws Exception {
 		super(display, style);
 		_monitor = display.getPrimaryMonitor();
@@ -119,7 +120,7 @@ public class Viewer extends Shell {
 		// loading language properties
 		if (settings.getLangCode().isEmpty()) {
 			settings.setLangCode(Language.en_EN.name());
-			new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+			settingsManager.updateSettings(settings);
 		}
 
 		String[] table = settings.getLangCode().split("_"); //$NON-NLS-1$

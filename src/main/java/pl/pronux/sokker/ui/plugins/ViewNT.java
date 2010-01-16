@@ -1,6 +1,5 @@
 package pl.pronux.sokker.ui.plugins;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URLEncoder;
@@ -20,7 +19,6 @@ import javax.crypto.spec.SecretKeySpec;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
@@ -29,7 +27,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -37,13 +34,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -51,8 +46,6 @@ import org.xml.sax.SAXException;
 import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.PlayerComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.downloader.HTMLDownloader;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.CountryXmlParser;
@@ -76,9 +69,7 @@ import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
-import pl.pronux.sokker.ui.resources.Fonts;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
-import pl.pronux.sokker.utils.file.PropertiesChecker;
 import pl.pronux.sokker.utils.security.Crypto;
 
 public class ViewNT implements IPlugin {
@@ -104,8 +95,6 @@ public class ViewNT implements IPlugin {
 	private PlayerComparator comparator;
 
 	private ArrayList<Player> players;
-
-	private Shell shell;
 
 	private Composite composite;
 
@@ -150,8 +139,6 @@ public class ViewNT implements IPlugin {
 	private Label charLimit;
 
 	private StyledText note;
-
-	private Monitor _monitor;
 
 	private SokkerViewerSettings settings;
 
@@ -598,15 +585,6 @@ public class ViewNT implements IPlugin {
 
 			String value = htmlDownloader.postDataToPage(url, params, referer);
 			return value;
-			// if (value.equals("1")) {
-			// status.setText(langResource.getString("viewnt.status.hide") + " "
-			// +
-			// player.getName() + " " + player.getSurname());
-			// } else {
-			// status.setText(langResource.getString("viewnt.status.error") + "
-			// " +
-			// value);
-			// }
 		} catch (InvalidKeyException e2) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewNT", e2);
 		} catch (NoSuchAlgorithmException e2) {
@@ -650,165 +628,11 @@ public class ViewNT implements IPlugin {
 		}
 	}
 
-	// private void addTableEditor(final Table table) {
-	// final TableEditor editor = new TableEditor(table);
-	// editor.horizontalAlignment = SWT.LEFT;
-	// editor.grabHorizontal = true;
-	// table.addListener(SWT.MouseDown, new Listener() {
-	// public void handleEvent(Event event) {
-	// Rectangle clientArea = table.getClientArea();
-	// Point pt = new Point(event.x, event.y);
-	// final TableItem item = table.getItem(pt);
-	// if (item != null) {
-	//
-	// boolean visible = false;
-	// for (int i = table.getColumnCount() - 1; i < table.getColumnCount() ;
-	// i++)
-	// {
-	// Rectangle rect = item.getBounds(i);
-	// if (rect.contains(pt)) {
-	// // final int column = i;
-	// final Text text = new Text(table, SWT.RIGHT);
-	// text.setTextLimit(500);
-	// text.setFont(SokkerBean.getFontTable());
-	//
-	// editor.setEditor(text, item, i);
-	//
-	// text.setText(item.getText(i));
-	//
-	// Listener textListener = new Listener() {
-	// public void handleEvent(final Event e) {
-	// switch (e.type) {
-	// case SWT.FocusOut:
-	// ((Player) item.getData(Player.class.getName())).setNote(text.getText());
-	// fillTable(table, players, comparator);
-	// text.dispose();
-	// break;
-	// case SWT.Traverse:
-	// switch (e.detail) {
-	// case SWT.TRAVERSE_RETURN:
-	// ((Player) item.getData(Player.class.getName())).setNote(text.getText());
-	// fillTable(table, players, comparator);
-	//
-	// // FALL THROUGH
-	// case SWT.TRAVERSE_ESCAPE:
-	// text.dispose();
-	// e.doit = false;
-	// break;
-	// }
-	// }
-	// }
-	// };
-	// text.addListener(SWT.FocusOut, textListener);
-	// text.addListener(SWT.Traverse, textListener);
-	//
-	// text.selectAll();
-	// text.setFocus();
-	// return;
-	// }
-	// if (!visible && rect.intersects(clientArea)) {
-	// visible = true;
-	// }
-	// }
-	// if (!visible)
-	// return;
-	// }
-	// }
-	// });
-
-	// }
-
-	public ViewNT(Display display) {
-		shell = new Shell(display);
-		_monitor = display.getPrimaryMonitor();
-		shell.setSize(_monitor.getClientArea().width, _monitor.getClientArea().height);
-		shell.setLayout(new FormLayout());
-
-		Rectangle splashRect = shell.getBounds();
-		Rectangle displayRect = _monitor.getClientArea();
-		int x = (displayRect.width - splashRect.width) / 2;
-		int y = (displayRect.height - splashRect.height) / 2;
-		shell.setLocation(x, y);
-
-		addFonts();
-		players = new ArrayList<Player>();
-
-		try {
-			settings = new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).getSokkerViewerSettings();
-			Messages.setDefault(new Locale("pl_PL"));
-
-			if (settings.isCheckProperties()) {
-				new PropertiesChecker().checkSokkerProperties();
-				settings.setCheckProperties(false);
-				new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
-			}
-
-			if (settings.getLangCode().isEmpty()) {
-				settings.setLangCode(Language.en_EN.name());
-				new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
-			}
-			String[] table = settings.getLangCode().split("_");
-			Messages.setDefault(new Locale(table[0], table[1]));
-		} catch (FileNotFoundException e) {
-			new BugReporter(composite.getShell()).openErrorMessage(Messages.getString("message.file.ioexception"), e);
-		} catch (IOException e) {
-			new BugReporter(composite.getShell()).openErrorMessage(Messages.getString("message.file.ioexception"), e);
-		} catch (SVException e) {
-			new BugReporter(composite.getShell()).openErrorMessage(e.getMessage(), e);
-		}
-
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 0);
-		formData.right = new FormAttachment(100, 0);
-		formData.top = new FormAttachment(0, 0);
-		formData.bottom = new FormAttachment(100, 0);
-
-		composite = new Composite(shell, SWT.NONE);
-		composite.setLayoutData(formData);
-		composite.setLayout(new FormLayout());
-
-		init(composite);
-		addPopupMenu();
-
-		Tree tree = new Tree(composite, SWT.NONE);
-		_treeItem = new TreeItem(tree, SWT.NONE);
-		tree.setVisible(false);
-
-		languageCombo.setEnabled(true);
-		buttonGet.setEnabled(true);
-		shell.setDefaultButton(buttonGet);
-		shell.open();
-
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new ViewNT(new Display());
-	}
-
 	private void addView() {
-
-		// FormData formData = new FormData();
-		// formData.left = new FormAttachment(50, 0);
-		// formData.top = new FormAttachment(0, 5);
-		// formData.width = 0;
-		// formData.height = 0;
-		//
-		// Label centerPoint = new Label(composite, SWT.NONE);
-		// centerPoint.setLayoutData(formData);
 
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 0);
 		formData.top = new FormAttachment(0, 5);
-		// formData.height = 150;
-		// formData.width = 400;
 
 		loginGroup = new Group(composite, SWT.NONE);
 		loginGroup.setLayout(new FormLayout());
@@ -819,7 +643,6 @@ public class ViewNT implements IPlugin {
 		formData.left = new FormAttachment(0, 10);
 		formData.right = new FormAttachment(100, -10);
 		formData.top = new FormAttachment(0, 5);
-		// formData.height = 15;
 
 		loginLabel = new Label(loginGroup, SWT.NONE);
 		loginLabel.setLayoutData(formData);
@@ -876,22 +699,6 @@ public class ViewNT implements IPlugin {
 
 			public void handleEvent(Event arg0) {
 				try {
-					// String xml =
-					// HTMLDownloader.postDataToPage("http://62.233.129.98/sokker/dataxml.php",
-					// "ilogin=" + URLEncoder.encode(loginText.getText(),
-					// "UTF-8") +
-					// "&ipassword=" + URLEncoder.encode(passwordText.getText(),
-					// "UTF-8"),
-					// "http://62.233.129.98/sokker/data.php");
-
-					// Parser parser = new Parser();
-					// InputSource input = new InputSource(new
-					// StringReader(xml));
-					// parser.parseXmlSax(input, null);
-					//
-					// players = parser.alPlayers;
-					// club = parser.club;
-
 					XMLDownloader xmlDownloader = new XMLDownloader();
 					xmlDownloader.login(loginText.getText(), passwordText.getText());
 					if (xmlDownloader.getStatus().equals("OK")) {
@@ -931,9 +738,7 @@ public class ViewNT implements IPlugin {
 				} catch (SVException e) {
 					new BugReporter(composite.getShell()).openErrorMessage(Messages.getString("login.error." + e.getMessage()), e);
 				}
-
 			}
-
 		});
 
 		formData = new FormData();
@@ -974,8 +779,6 @@ public class ViewNT implements IPlugin {
 							Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"),
 							Messages.getString("table.playmaker"), Messages.getString("table.scorer"), "" };
 
-		// addTableEditor(table);
-
 		for (int j = 0; j < columns.length; j++) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
 
@@ -1014,25 +817,6 @@ public class ViewNT implements IPlugin {
 						// note.setEnabled(false);
 					}
 				}
-				// else {
-				// Point pt = new Point(event.x, event.y);
-				// TableItem item = table.getItem(pt);
-				//
-				// if (item != null) {
-				// // note.setEnabled(true);
-				// // note.setData(Player.class.getName(), (Player)item.getData(Player.class.getName()));
-				// // note.setData("item" , item);
-				// // if(((Player)item.getData(Player.class.getName())).getNote() == null) {
-				// // note.setText("");
-				// // } else {
-				// // note.setText(((Player)item.getData(Player.class.getName())).getNote());
-				// // }
-				//
-				// } else {
-				// // note.setEnabled(false);
-				// }
-				//
-				// }
 			}
 		});
 
@@ -1150,48 +934,6 @@ public class ViewNT implements IPlugin {
 		languageCombo.addListener(SWT.Selection, confShellLangComboListner);
 		languageCombo.setEnabled(false);
 
-		// formData = new FormData();
-		// formData.left = new FormAttachment(pluginGroup, 15);
-		// formData.top = new FormAttachment(0, 5);
-		// formData.bottom = new FormAttachment(table, -20);
-		// formData.right = new FormAttachment(100, -10);
-		//
-		// notePlugin = new Group(composite, SWT.NONE);
-		// notePlugin.setLayout(new FormLayout());
-		// notePlugin.setLayoutData(formData);
-		// notePlugin.setText(langProperties.getProperty("viewnt.settings.note"));
-		//
-		// formData = new FormData();
-		// formData.left = new FormAttachment(0, 5);
-		// formData.top = new FormAttachment(0, 5);
-		// formData.bottom = new FormAttachment(100, -5);
-		// formData.right = new FormAttachment(100, -5);
-		//
-		// note = new Text(notePlugin, SWT.BORDER | SWT.WRAP | SWT.MULTI |
-		// SWT.V_SCROLL);
-		// note.setLayoutData(formData);
-		// note.setTextLimit(500);
-		// note.setEnabled(false);
-		//
-		// note.addListener(SWT.Modify, new Listener() {
-		//
-		// public void handleEvent(Event arg0) {
-		// if(note.getData(Player.class.getName()) != null) {
-		// Player player = (Player)note.getData(Player.class.getName());
-		// player.setNote(note.getText());
-		// if(note.getData("item") != null) {
-		// ((TableItem)note.getData("item")).setText(table.getColumnCount()-1,
-		// note.getText());
-		// if(note.getText().length() > table.getColumn(table.getColumnCount() -
-		// 1).getText().length()) {
-		// table.getColumn(table.getColumnCount() - 1).pack();
-		// }
-		// }
-		// }
-		// }
-		//
-		// });
-
 	}
 
 	private void fillTable(Table table, ArrayList<Player> players, PlayerComparator comparator) {
@@ -1213,8 +955,6 @@ public class ViewNT implements IPlugin {
 			} else {
 				item.setImage(c++, FlagsResources.getFlagLight(player.getCountryfrom()));
 			}
-			// item.setImage(c++,
-			// FlagsResources.getFlag(player.getCountryfrom()));
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			item.setText(c++, player.getSkills()[maxSkill].getValue().formatIntegerCurrency());
@@ -1229,12 +969,6 @@ public class ViewNT implements IPlugin {
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getDefender()));
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getPlaymaker()));
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getScorer()));
-			// if (player.getNote() == null) {
-			// item.setText(c++, "");
-			// } else {
-			// item.setText(c++, player.getNote());
-			// }
-
 			if (player.isNt()) {
 				item.setBackground(ColorResources.getColor(233, 252, 224));
 			}
@@ -1246,43 +980,14 @@ public class ViewNT implements IPlugin {
 
 		// Turn drawing back on
 		table.setRedraw(true);
-
-		// note.setEnabled(false);
-	}
-
-	private void addFonts() {
-		// ustawiam fonty
-		ConfigBean.setFontCurrent(shell.getFont());
-		Font fontCurrent = ConfigBean.getFontCurrent();
-
-		if (System.getProperty("os.name").equals("Linux")) {
-			ConfigBean.setFontMain(Fonts.getFont(shell.getDisplay(), fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
-
-			ConfigBean.setFontDescription(Fonts.getFont(shell.getDisplay(), "Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L",
-														fontCurrent.getFontData()[0].height, SWT.NORMAL));
-
-			ConfigBean.setFontTable(Fonts.getFont(shell.getDisplay(), fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
-		} else {
-			ConfigBean.setFontMain(Fonts.getFont(shell.getDisplay(), "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL));
-
-			ConfigBean.setFontDescription(Fonts.getFont(shell.getDisplay(), "Courier New", fontCurrent.getFontData()[0].height + 1, SWT.NORMAL));
-
-			ConfigBean.setFontTable(Fonts.getFont(shell.getDisplay(), "Arial", fontCurrent.getFontData()[0].height, SWT.NORMAL));
-		}
-
 	}
 
 	public void dispose() {
-
 	}
 
 	public void setSvBean(SvBean svBean) {
-
 	}
 
 	public void reload() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

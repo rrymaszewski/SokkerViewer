@@ -9,8 +9,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.downloader.HTMLDownloader;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.exceptions.SVException;
@@ -24,6 +23,9 @@ import pl.pronux.sokker.utils.file.OperationOnFile;
 import pl.pronux.sokker.utils.security.Crypto;
 
 public class PackagesDownloader implements IRunnableWithProgress {
+
+	private SettingsManager settingsManager = SettingsManager.instance();
+	
 	private String mirror;
 	private String versionType;
 	private List<Package> packages;
@@ -52,7 +54,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 			OperationOnFile.copyDirectory(new File(System.getProperty("user.dir") + File.separator + "tmp"), new File(System.getProperty("user.dir"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			SettingsHandler.getSokkerViewerSettings().setCheckProperties(true);
-			new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(SettingsHandler.getSokkerViewerSettings());
+			settingsManager.updateSettings(SettingsHandler.getSokkerViewerSettings());
 
 			monitor.beginTask(String.format("%s (5/5)", Messages.getString("updater.label.package.clean")), 1); //$NON-NLS-1$ //$NON-NLS-2$
 			OperationOnFile.cleanDir(new File(System.getProperty("user.dir") + File.separator + "tmp")); //$NON-NLS-1$ //$NON-NLS-2$

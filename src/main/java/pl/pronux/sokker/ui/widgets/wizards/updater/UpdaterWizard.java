@@ -1,17 +1,9 @@
 package pl.pronux.sokker.ui.widgets.wizards.updater;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.PropertiesSession;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.wizards.Wizard;
 import pl.pronux.sokker.ui.widgets.wizards.updater.pages.DownloadPage;
 import pl.pronux.sokker.ui.widgets.wizards.updater.pages.MirrorsPage;
@@ -52,28 +44,6 @@ public class UpdaterWizard extends Wizard {
 		addPage(new PackagesPage(this));
 		addPage(new DownloadPage(this));
 		init();
-	}
-
-	public static void main(String[] args) {
-
-		PropertiesSession properties;
-		Display display = new Display();
-		try {
-			properties = PropertiesDatabase.getSession();
-
-			SokkerViewerSettings settings = new SokkerViewerSettingsDao(properties).getSokkerViewerSettings();
-			SettingsHandler.setSokkerViewerSettings(settings);
-
-			// base directory settings
-			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
-
-			UpdaterWizard wizard = new UpdaterWizard(display);
-			wizard.open();
-		} catch (FileNotFoundException e) {
-			new BugReporter(display).openErrorMessage("Wizard", e); //$NON-NLS-1$
-		} catch (IOException e) {
-			new BugReporter(display).openErrorMessage("Wizard", e); //$NON-NLS-1$
-		}
 	}
 
 	public String getVersionType() {

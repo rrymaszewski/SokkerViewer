@@ -14,8 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -25,6 +24,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewGeneral implements IViewConfigure {
 
+	private SettingsManager settingsManager = SettingsManager.instance();
+	
 	private TreeItem treeItem;
 
 	private Composite composite;
@@ -162,7 +163,7 @@ public class ViewGeneral implements IViewConfigure {
 			}
 		}
 		try {
-			new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+			settingsManager.updateSettings(settings);
 		} catch (FileNotFoundException e1) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("Configurator", e1);
 		} catch (IOException e1) {

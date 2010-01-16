@@ -17,8 +17,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -35,6 +34,9 @@ import pl.pronux.sokker.ui.resources.CursorResources;
 import pl.pronux.sokker.ui.widgets.dialogs.MessageDialog;
 
 public class LoginShell extends Shell {
+
+	private SettingsManager settingsManager = SettingsManager.instance();
+
 	private Display display;
 
 	private Text skLoginText;
@@ -143,6 +145,7 @@ public class LoginShell extends Shell {
 		langTypeLabel.setLayoutData(defaultGridData);
 
 		Listener confShellLangComboListner = new Listener() {
+
 			public void handleEvent(Event event) {
 				try {
 					String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
@@ -150,7 +153,7 @@ public class LoginShell extends Shell {
 
 					if (langCode != null) {
 						settings.setLangCode(langCode);
-						new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+						settingsManager.updateSettings(settings);
 						String[] table = langCode.split("_"); //$NON-NLS-1$
 						Messages.setDefault(new Locale(table[0], table[1]));
 						setShellConfWidgetsTranslation();
@@ -210,7 +213,7 @@ public class LoginShell extends Shell {
 				}
 
 				try {
-					new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+					settingsManager.updateSettings(settings);
 				} catch (FileNotFoundException e) {
 					new BugReporter(LoginShell.this.getDisplay()).openErrorMessage("Login", e);
 				} catch (IOException e) {
@@ -227,6 +230,7 @@ public class LoginShell extends Shell {
 		};
 
 		Listener confShellCancelListner = new Listener() {
+
 			public void handleEvent(Event event) {
 				LoginShell.this.close();
 			}
@@ -293,7 +297,8 @@ public class LoginShell extends Shell {
 
 		this.setDefaultButton(okButton);
 		this.pack();
-		this.setLocation(display.getPrimaryMonitor().getClientArea().width / 2 - this.getBounds().width / 2, display.getPrimaryMonitor().getClientArea().height / 2 - this.getBounds().height / 2);
+		this.setLocation(display.getPrimaryMonitor().getClientArea().width / 2 - this.getBounds().width / 2, display.getPrimaryMonitor().getClientArea().height
+																											 / 2 - this.getBounds().height / 2);
 	}
 
 	final private void setShellConfWidgetsTranslation() {
@@ -306,5 +311,4 @@ public class LoginShell extends Shell {
 		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
 		changeLoginLabel.setText(Messages.getString("confShell.login.change")); //$NON-NLS-1$
 	}
-
 }
