@@ -100,7 +100,7 @@ public class Synchronizer implements IRunnableWithProgress {
 			osType = "/mac"; //$NON-NLS-1$
 		}
 
-		String query = "http://www.rymek.user.icpnet.pl/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+		String query = "http://www.sokkerviewer.net/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		ProxySettings proxySettings = settings.getProxySettings();
 		xml = new HTMLDownloader(proxySettings).getNormalPage(query);
