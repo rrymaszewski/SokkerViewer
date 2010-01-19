@@ -173,6 +173,8 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							pack.setImported(false);
 							SQLSession.rollback();
 							Log.error("XML Importer ", e); //$NON-NLS-1$
+						} finally {
+							SQLSession.endTransaction();
 						}
 					}
 				} else if (child instanceof XMLpackOld) {
@@ -218,6 +220,8 @@ public class ImportXMLAction implements IRunnableWithProgress {
 						pack.setImported(false);
 						SQLSession.rollback();
 						Log.error("XML Importer ", e); //$NON-NLS-1$
+					} finally {
+						SQLSession.endTransaction();
 					}
 
 				}

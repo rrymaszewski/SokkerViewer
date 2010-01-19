@@ -82,6 +82,8 @@ public class ConfigurationManager {
 		} catch (SQLException e) {
 			SQLSession.rollback();
 			throw e;
+		} finally {
+			SQLSession.endTransaction();
 		}
 	}
 

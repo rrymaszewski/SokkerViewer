@@ -44,6 +44,7 @@ import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.Database;
 
 public class CoreAction implements IRunnableWithProgress {
@@ -119,8 +120,13 @@ public class CoreAction implements IRunnableWithProgress {
 					SQLSession.beginTransaction();
 					SQLQuery.initDB();
 					SQLSession.commit();
+					SQLSession.endTransaction();
 				} catch (SQLException e) {
-					SQLSession.rollback();
+					try {
+						SQLSession.close();
+					} catch(SQLException e1) {
+						Log.error("Problem during closing database after bad initialization");
+					}
 					new File(dbFile).delete();
 					new File(dbPropertiesFile).delete();
 					new File(dbLogFile).delete();

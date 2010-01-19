@@ -368,6 +368,12 @@ public class Synchronizer implements IRunnableWithProgress {
 				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
 			} catch (SAXException e) {
 				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("message.error.login"), e)); //$NON-NLS-1$
+			} finally {
+				try {
+					SQLSession.endTransaction();
+				} catch (SQLException e) {
+					Log.error("Synchronizer -> SQL Importing EndTransaction", e); 
+				}
 			}
 		}
 	}

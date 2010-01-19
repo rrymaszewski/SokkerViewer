@@ -26,7 +26,7 @@
 	<property name="images" value="images-0.13.jar" />
 	<property name="lang" value="lang-0.13.jar" />
 	<property name="properties" value="properties-0.10.jar" />
-	<property name="sql" value="sql-0.12.zip" />
+	<property name="sql" value="sql-0.13.2.zip" />
 	<property name="fonts" value="fonts-0.12.zip" />
 
 	<property name="build.classes.dir" location="packages/classes/" />
