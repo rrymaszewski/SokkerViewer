@@ -106,7 +106,7 @@ public class ChangeLoginShell extends Shell {
 		button.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
-				if (!text.getText().equals("") && !text.getText().equals(combo.getText())) { //$NON-NLS-1$
+				if (!text.getText().isEmpty() && !text.getText().equals(combo.getText())) { 
 					if (new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".script").exists()) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						MessageBox msg = new MessageBox(ChangeLoginShell.this, SWT.YES | SWT.NO | SWT.ICON_INFORMATION);
 						msg.setText(Messages.getString("message.file.exists.warning.title")); //$NON-NLS-1$

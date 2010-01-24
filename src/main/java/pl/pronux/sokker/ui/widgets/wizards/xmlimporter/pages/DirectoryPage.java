@@ -57,7 +57,7 @@ public class DirectoryPage extends Page {
 				if (directory != null) {
 					text.setText(directory);
 					getWizard().getNextButton().setEnabled(true);
-				} else if(text.getText().equals("")){ //$NON-NLS-1$
+				} else if(text.getText().isEmpty()){
 					getWizard().getNextButton().setEnabled(false);
 				}
 				
@@ -72,7 +72,7 @@ public class DirectoryPage extends Page {
 	
 	@Override
 	public void onEnterPage() {
-		if(text.getText() == null || text.getText().equals("")) { //$NON-NLS-1$
+		if(text.getText() == null || text.getText().isEmpty()) {
 			getWizard().getNextButton().setEnabled(false);	
 		}
 		super.onEnterPage();

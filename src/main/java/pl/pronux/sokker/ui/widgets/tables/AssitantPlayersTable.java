@@ -16,7 +16,6 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
@@ -78,8 +77,8 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (title[i].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (title[i].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {

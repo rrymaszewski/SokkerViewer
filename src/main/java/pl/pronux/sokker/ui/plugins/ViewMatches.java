@@ -18,17 +18,18 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.model.League;
+import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
+import pl.pronux.sokker.ui.managers.MatchUIManager;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.MatchesComposite;
@@ -61,6 +62,8 @@ public class ViewMatches implements IPlugin {
 	private MatchesComposite seasonComposite;
 
 	private HashMap<Match, TreeItem> hmTreeItemMatch;
+	
+	private MatchUIManager matchesManager = MatchUIManager.instance(); 
 
 	public void clear() {
 
@@ -123,21 +126,19 @@ public class ViewMatches implements IPlugin {
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
-
 	}
 
 	public void setSvBean(SvBean svBean) {
-
 	}
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
 		this.treeItem.setText(Messages.getString("tree.ViewMatches")); //$NON-NLS-1$
 		this.treeItem.setImage(ImageResources.getImageResources("match.png")); //$NON-NLS-1$
-
 	}
 
 	public void set() {
+		final Club team = Cache.getClub();
 		matches = Cache.getMatches();
 		fillTree(this.treeItem, matches);
 		// for (int i = alMatches.size() - 1; i >= 0; i--) {
@@ -147,7 +148,7 @@ public class ViewMatches implements IPlugin {
 		// }
 		// }
 
-		matchesComposite.fill(matches);
+		matchesComposite.fill(team.getId(), matches);
 
 		Listener matchesListener = new Listener() {
 			@SuppressWarnings("unchecked")//$NON-NLS-1$
@@ -160,8 +161,8 @@ public class ViewMatches implements IPlugin {
 						switch (event.type) {
 						case SWT.MouseDoubleClick:
 
-							if (item.getData(Match.IDENTIFIER) != null && item.getData(Match.IDENTIFIER) instanceof Match) {
-								Match match = (Match) item.getData(Match.IDENTIFIER);
+							if (item.getData(Match.class.getName()) != null && item.getData(Match.class.getName()) instanceof Match) {
+								Match match = (Match) item.getData(Match.class.getName());
 								if (match.getAwayTeamScore() >= 0 || match.getHomeTeamScore() >= 0) {
 									matchComposite.fill(match);
 									show(matchComposite);
@@ -176,7 +177,7 @@ public class ViewMatches implements IPlugin {
 								}
 							} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 								List<Match> matches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-								seasonComposite.fill(matches);
+								seasonComposite.fill(team.getId(), matches);
 								show(seasonComposite);
 							}
 
@@ -207,16 +208,16 @@ public class ViewMatches implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null) {
+						if (item.getData(Match.class.getName()) != null) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							if (match != null) {
 								matchComposite.fill(match);
 							}
 
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-							seasonComposite.fill(alMatches);
+							seasonComposite.fill(team.getId(), alMatches);
 							show(seasonComposite);
 						}
 
@@ -246,13 +247,13 @@ public class ViewMatches implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null && item.getData(Match.IDENTIFIER) instanceof Match) {
+						if (item.getData(Match.class.getName()) != null && item.getData(Match.class.getName()) instanceof Match) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							matchComposite.fill(match);
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
 							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-							seasonComposite.fill(alMatches);
+							seasonComposite.fill(team.getId(), alMatches);
 							show(seasonComposite);
 						}
 					} else if (item.equals(treeItem)) {
@@ -270,7 +271,7 @@ public class ViewMatches implements IPlugin {
 
 			public void handleEvent(Event arg0) {
 				fillTree(treeItem, matches);
-				matchesComposite.fill(matches);
+				matchesComposite.fill(team.getId(), matches);
 			}
 		});
 
@@ -330,28 +331,14 @@ public class ViewMatches implements IPlugin {
 
 				if (treeItemSeason != null) {
 					treeItemMatch = new TreeItem(treeItemSeason, SWT.NONE);
-					treeItemMatch.setData(Match.IDENTIFIER, match);
+					treeItemMatch.setData(Match.class.getName(), match);
 
 					hmTreeItemMatch.put(match, treeItemMatch);
 
 					if (match.getLeague() != null) {
-						League league = match.getLeague();
-						if (league.getIsOfficial() == League.OFFICIAL) {
-							if (league.getType() == League.TYPE_LEAGUE) {
-								treeItemMatch.setImage(ImageResources.getImageResources("league_match.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
-								treeItemMatch.setImage(ImageResources.getImageResources("playoff.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
-								treeItemMatch.setImage(ImageResources.getImageResources("cup.png")); //$NON-NLS-1$
-							}
-						} else {
-							if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
-								treeItemMatch.setImage(ImageResources.getImageResources("friendly_match.png")); //$NON-NLS-1$
-							} else if (league.getType() == League.TYPE_LEAGUE) {
-								treeItemMatch.setImage(ImageResources.getImageResources("friendly_league.png")); //$NON-NLS-1$
-							}
-						}
+						treeItemMatch.setImage(matchesManager.getMatchImage(match.getLeague()));	
 					}
+					
 					if (match.getIsFinished() == Match.FINISHED) {
 						treeItemMatch.setText(match.getHomeTeamName() + " - " + match.getAwayTeamName()); //$NON-NLS-1$
 					} else {

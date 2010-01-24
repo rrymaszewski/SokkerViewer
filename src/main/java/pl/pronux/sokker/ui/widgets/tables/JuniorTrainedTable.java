@@ -11,7 +11,6 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 
 public class JuniorTrainedTable extends SVTable<Junior> {
 
@@ -34,8 +33,8 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (titles[j].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -52,7 +51,7 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 
 	public void fill(Junior junior) {
 		this.setRedraw(false);
-		this.setData(Junior.IDENTIFIER, junior); 
+		this.setData(Junior.class.getName(), junior); 
 
 		this.remove(0, this.getItemCount()-1);
 		int maxSkill = 0;

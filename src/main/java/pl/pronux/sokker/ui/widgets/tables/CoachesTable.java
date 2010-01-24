@@ -16,7 +16,6 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
@@ -73,8 +72,8 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[j].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (titles[j].isEmpty()) { //$NON-NLS-1$
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -90,7 +89,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 		}
 		
 		this.addLabelsListener();
-		this.addNoteListener(Coach.IDENTIFIER, CoachComparator.NOTE);
+		this.addNoteListener(Coach.class.getName(), CoachComparator.NOTE);
 	}
 	
 	public void fill(List<Coach> coaches) {
@@ -106,7 +105,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 		for (Coach coach : coaches) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Coach.IDENTIFIER, coach); //$NON-NLS-1$
+			item.setData(Coach.class.getName(), coach); //$NON-NLS-1$
 
 			item.setImage(c++, FlagsResources.getFlag(coach.getCountryfrom()));
 			item.setText(c++, coach.getName());
@@ -141,7 +140,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			item.setText(c++, String.valueOf(coach.getScorers()));
 
 			if (coach.getNote() != null) {
-				if (coach.getNote().equals("")) { //$NON-NLS-1$
+				if (coach.getNote().isEmpty()) { 
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -170,7 +169,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= CoachComparator.GENERAL_SKILL && column <= CoachComparator.SCORERS) {
-			Coach coach = (Coach) item.getData(Coach.IDENTIFIER);
+			Coach coach = (Coach) item.getData(Coach.class.getName());
 			switch(column) {
 			case CoachComparator.GENERAL_SKILL:
 				label.setText(Messages.getString("skill.a" + coach.getGeneralskill()));
@@ -212,9 +211,9 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			int maxSizeX = 400;
 			int maxSizeY = 200;
 
-			Coach coach = (Coach) item.getData(Coach.IDENTIFIER);
+			Coach coach = (Coach) item.getData(Coach.class.getName());
 			if (coach.getNote() != null) {
-				if (!coach.getNote().equals("")) {
+				if (!coach.getNote().isEmpty()) {
 					label.setText(coach.getNote());
 
 					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);

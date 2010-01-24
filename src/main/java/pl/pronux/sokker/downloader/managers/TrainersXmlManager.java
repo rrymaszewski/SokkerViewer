@@ -8,7 +8,7 @@ import java.util.List;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.TrainersManager;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.TrainerXmlParser;
@@ -20,7 +20,9 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	private List<Coach> alTrainers;
 
-	private TrainersManager trainersManager = new TrainersManager();
+	private TrainersManager trainersManager = TrainersManager.instance();
+	
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
 
 	public TrainersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -49,7 +51,7 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	public void repairCoaches() throws SQLException {
 		trainersManager.repairCoaches(this.alTrainers);
-		new DatabaseConfiguration().updateDbRepairCoaches(false);
+		configurationManager.updateDbRepairCoaches(false);
 	}
 
 	@Override

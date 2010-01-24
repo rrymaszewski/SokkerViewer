@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -14,8 +13,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-
-import org.eclipse.swt.graphics.Image;
 
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
@@ -31,85 +28,46 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class OperationOnFile {
 
-	public static void appendToFile(String fileName, String stringToWrite) throws IOException {
-
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-			out.write(stringToWrite);
-			out.close();
-		} catch (IOException e) {
-			throw e;
-		}
-
-	}
-
 	public static void serializePlayer(PlayerInterface player, String filename) throws Exception {
+		if (!filename.contains(".sv_")) { //$NON-NLS-1$
+			filename += ".sv_"; //$NON-NLS-1$
+		}
+		FileOutputStream out = null;
 		try {
-			if (!filename.contains(".sv_")) { //$NON-NLS-1$
-				filename += ".sv_"; //$NON-NLS-1$
-			}
-			FileOutputStream out = new FileOutputStream(filename);
+			out = new FileOutputStream(filename);
 			ObjectOutputStream oos = new ObjectOutputStream(out);
 			oos.writeObject(player);
 			oos.flush();
-		} catch (Exception e) {
-			throw e;
+		} finally {
+			if (out != null) {
+				out.close();	
+			}
 		}
 	}
 
 	public static PlayerInterface serializePlayer(String filename) throws Exception {
 		PlayerInterface player = null;
-		try {
-			FileInputStream in = new FileInputStream(filename);
-			ObjectInputStream ois = new ObjectInputStream(in);
-			player = (PlayerInterface) (ois.readObject());
-		} catch (Exception e) {
-			throw e;
-		}
+		FileInputStream in = new FileInputStream(filename);
+		ObjectInputStream ois = new ObjectInputStream(in);
+		player = (PlayerInterface) (ois.readObject());
 		return player;
 	}
 
-	public static void appendToFileUTF(String fileName, String stringToWrite) throws IOException {
-		try {
-			OutputStreamWriter out3 = new OutputStreamWriter(new FileOutputStream(fileName, true), "UTF-8"); //$NON-NLS-1$
-			// BufferedWriter out2 = new BufferedWriter(new
-			// FileWriter("c:\\test.xml"));
-			out3.write(stringToWrite);
-			out3.close();
-		} catch (IOException e) {
-			throw e;
-		}
-
-	}
-
-	public static void backup() {
-
-	}
-
-	public static void convertISO88592toUTF() {
-
-	}
-
 	public static void copyFile(File inputFile, File outputFile) throws IOException {
-
-		FileChannel sourceChannel = new FileInputStream(inputFile).getChannel();
-		FileChannel destinationChannel = new FileOutputStream(outputFile).getChannel();
-		sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-		// or
-		// destinationChannel.transferFrom
-		// (sourceChannel, 0, sourceChannel.size());
-		sourceChannel.close();
-		destinationChannel.close();
-		// FileInputStream in = new FileInputStream(inputFile);
-		// FileOutputStream out = new FileOutputStream(outputFile);
-		// int c;
-		//		
-		// while ((c = in.read()) != -1) {
-		// out.write(c);
-		// }
-		//		
-		// in.close();
-		// out.close();
+		FileChannel sourceChannel = null;
+		FileChannel destinationChannel = null;
+		try {
+			sourceChannel = new FileInputStream(inputFile).getChannel();
+			destinationChannel = new FileOutputStream(outputFile).getChannel();
+			sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
+		} finally {
+			if (sourceChannel != null) {
+				sourceChannel.close();	
+			}
+			if (destinationChannel != null) {
+				destinationChannel.close();	
+			}
+		}
 	}
 
 	public static void copyDirectory(File srcDir, File dstDir) throws IOException {
@@ -117,7 +75,6 @@ public class OperationOnFile {
 			if (!dstDir.exists()) {
 				dstDir.mkdir();
 			}
-
 			String[] children = srcDir.list();
 			for (int i = 0; i < children.length; i++) {
 				copyDirectory(new File(srcDir, children[i]), new File(dstDir, children[i]));
@@ -159,16 +116,13 @@ public class OperationOnFile {
 		// Move file to new directory
 		boolean success = source.renameTo(new File(destination));
 
-		ArrayList<File> files = getDirList(source);
-
-		for (File file : files) {
-			moveFile(file, destination);
+		if (success) {
+			ArrayList<File> files = getDirList(source);
+			for (File file : files) {
+				moveFile(file, destination);
+			}
 		}
-
-		if (!success) {
-			return false;
-		}
-		return true;
+		return success;
 	}
 
 	public static boolean createDirectory(File dir) {
@@ -178,11 +132,7 @@ public class OperationOnFile {
 	public static boolean moveFile(File source, String destination) {
 		// Move file to new directory
 		boolean success = source.renameTo(new File(destination, source.getName()));
-
-		if (!success) {
-			return false;
-		}
-		return true;
+		return success;
 	}
 
 	public static String readFromFile(String fileName) throws IOException {
@@ -190,32 +140,7 @@ public class OperationOnFile {
 	}
 
 	public static String readFromFile(String fileName, String encoding) throws IOException {
-		String buffer = ""; //$NON-NLS-1$
-		InputStreamReader in = null;
-		try {
-			if (encoding != null) {
-				in = new InputStreamReader(new FileInputStream(new File(fileName)), encoding);
-			} else {
-				in = new InputStreamReader(new FileInputStream(new File(fileName)));
-			}
-
-			int c;
-			StringBuffer sb = new StringBuffer();
-			while ((c = in.read()) != -1) {
-				sb.append((char) c);
-			}
-			buffer = sb.toString();
-			in.close();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-		return (buffer);
-
+		return readFromFile(new File(fileName), encoding);
 	}
 
 	public static String readFromFile(File file) throws IOException {
@@ -223,7 +148,7 @@ public class OperationOnFile {
 	}
 
 	public static String readFromFile(File file, String encoding) throws IOException {
-		String buffer = ""; //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder();
 		InputStreamReader in = null;
 		int c;
 		try {
@@ -232,13 +157,9 @@ public class OperationOnFile {
 			} else {
 				in = new InputStreamReader(new FileInputStream(file));
 			}
-
-			StringBuffer sb = new StringBuffer();
 			while ((c = in.read()) != -1) {
 				sb.append((char) c);
 			}
-			buffer = sb.toString();
-
 		} finally {
 			if (in != null) {
 				try {
@@ -246,10 +167,8 @@ public class OperationOnFile {
 				} catch (IOException e) {
 				}
 			}
-
 		}
-		return (buffer);
-
+		return sb.toString();
 	}
 
 	public static boolean createDirectory(String directoryName) {
@@ -257,10 +176,7 @@ public class OperationOnFile {
 			return false;
 		}
 		boolean success = (new File(directoryName)).mkdirs();
-		if (!success) {
-			return false;
-		}
-		return true;
+		return success;
 	}
 
 	public static void generateToPDF(String file, String text) throws IOException, DocumentException {
@@ -278,8 +194,8 @@ public class OperationOnFile {
 			// step 3: we open the document
 			document.open();
 			// step 4: we add a paragraph to the document
-			BaseFont bfCourier = BaseFont.createFont(
-					SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
+			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator
+													 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
 			Font font = new Font(bfCourier, 12);
 			document.add(new Paragraph(text, font));
 		} catch (DocumentException de) {
@@ -294,7 +210,6 @@ public class OperationOnFile {
 
 	public static ArrayList<File> visitAllDirs(File dir, FileFilter filter, ArrayList<File> listFiles) {
 		// This filter only returns directories
-
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
 			for (int i = 0; i < children.length; i++) {
@@ -336,7 +251,6 @@ public class OperationOnFile {
 					listFiles.add(children[i]);
 				}
 				monitor.worked(1);
-
 			}
 		}
 		return listFiles;
@@ -374,56 +288,36 @@ public class OperationOnFile {
 	}
 
 	public static void writeToFile(String fileName, String stringToWrite) throws IOException {
-		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
-		out.write(stringToWrite);
-		out.close();
-
-		// try {
-		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		// out.write(new String(stringToWrite.getBytes("UTF-8")));
-		// out.close();
-		// } catch (IOException e) {
-		// }
+		Writer out = null;
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+			out.write(stringToWrite);
+			out.flush();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
 
-	public static void writeToFile(String fileName, Image image) {
-
-		// try {
-		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		// out.write(new String(stringToWrite.getBytes("UTF-8")));
-		// out.close();
-		// } catch (IOException e) {
-		// }
+	public static void writeToFileLATIN1(String filename, String content) throws IOException {
+	 	writeToFile(filename, content, "ISO-8859-1"); //$NON-NLS-1$
 	}
 
-	public static void writeToFileLATIN1(String fileName, String stringToWrite) throws IOException {
-		OutputStreamWriter out3 = new OutputStreamWriter(new FileOutputStream(fileName), "ISO-8859-1"); //$NON-NLS-1$
-		// BufferedWriter out2 = new BufferedWriter(new
-		// FileWriter("c:\\test.xml"));
-		out3.write(stringToWrite);
-		out3.close();
-
-		// try {
-		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		// out.write(new String(stringToWrite.getBytes("UTF-8")));
-		// out.close();
-		// } catch (IOException e) {
-		// }
+	public static void writeToFileUTF(String filename, String content) throws IOException {
+		writeToFile(filename, content, "UTF-8"); //$NON-NLS-1$
 	}
-
-	public static void writeToFileUTF(String fileName, String stringToWrite) throws IOException {
-		OutputStreamWriter out3 = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
-		// BufferedWriter out2 = new BufferedWriter(new
-		// FileWriter("c:\\test.xml"));
-		out3.write(stringToWrite);
-		out3.close();
-
-		// try {
-		// BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-		// out.write(new String(stringToWrite.getBytes("UTF-8")));
-		// out.close();
-		// } catch (IOException e) {
-		// }
+	
+	private static void writeToFile(String filename, String content, String encoding) throws IOException {
+		OutputStreamWriter out = null;
+		try {
+			out = new OutputStreamWriter(new FileOutputStream(filename), encoding); 
+			out.write(content);
+			out.flush();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
 	}
-
 }

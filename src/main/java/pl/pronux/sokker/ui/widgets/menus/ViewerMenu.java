@@ -135,21 +135,23 @@ public class ViewerMenu extends Menu {
 		_mainShellMenuItemBackupDatabase.setText(Messages.getString("button.database.backup")); //$NON-NLS-1$
 		_mainShellMenuItemBackupDatabase.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				try {
-					boolean operation = Database.backup(SettingsHandler.getSokkerViewerSettings());
-					if (operation) {
-						MessageBox msg = new MessageBox(_mainShell, SWT.OK | SWT.ICON_INFORMATION);
-						msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
-						msg.setMessage(Messages.getString("message.db.backup.text")); //$NON-NLS-1$
-						msg.open();
-					} else {
-						MessageBox msg = new MessageBox(_mainShell, SWT.OK | SWT.ICON_ERROR);
-						msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
-						msg.setMessage(Messages.getString("message.db.backup.error.text")); //$NON-NLS-1$
-						msg.open();
+				if(SettingsHandler.isLogged()) {
+					try {
+						boolean operation = Database.backup(SettingsHandler.getSokkerViewerSettings());
+						if (operation) {
+							MessageBox msg = new MessageBox(_mainShell, SWT.OK | SWT.ICON_INFORMATION);
+							msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
+							msg.setMessage(Messages.getString("message.db.backup.text")); //$NON-NLS-1$
+							msg.open();
+						} else {
+							MessageBox msg = new MessageBox(_mainShell, SWT.OK | SWT.ICON_ERROR);
+							msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
+							msg.setMessage(Messages.getString("message.db.backup.error.text")); //$NON-NLS-1$
+							msg.open();
+						}
+					} catch (IOException e) {
+						new BugReporter(ViewerMenu.this.getDisplay()).openErrorMessage("Viewer -> Backup DB", e);
 					}
-				} catch (IOException e) {
-					new BugReporter(ViewerMenu.this.getDisplay()).openErrorMessage("Viewer -> Backup DB", e);
 				}
 			}
 		});
@@ -159,8 +161,10 @@ public class ViewerMenu extends Menu {
 		_mainShellMenuItemRestoreDatabase.setText(Messages.getString("button.database.restore")); //$NON-NLS-1$
 		_mainShellMenuItemRestoreDatabase.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				RestoreDatabaseShell shellResDB = new RestoreDatabaseShell(_mainShell, SWT.PRIMARY_MODAL | SWT.CLOSE);
-				shellResDB.open();
+				if(SettingsHandler.isLogged()) {
+					RestoreDatabaseShell shellResDB = new RestoreDatabaseShell(_mainShell, SWT.PRIMARY_MODAL | SWT.CLOSE);
+					shellResDB.open();
+				}
 			}
 		});
 		_mainShellMenuItemRestoreDatabase.setEnabled(true);

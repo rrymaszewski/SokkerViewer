@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dto.CoachDto;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Person;
@@ -83,7 +83,7 @@ public class TrainersDao {
 				break;
 
 			case Coach.JOB_ASSISTANT:
-				training.getAlAssistants().add(coachMap.get(id_coach));
+				training.getAssistants().add(coachMap.get(id_coach));
 				break;
 
 			default:
@@ -229,7 +229,7 @@ public class TrainersDao {
 			pstm.executeUpdate();
 		}
 
-		ArrayList<Coach> assistants = training.getAlAssistants();
+		List<Coach> assistants = training.getAssistants();
 
 		for (Coach coach : assistants) {
 			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); //$NON-NLS-1$
@@ -312,8 +312,7 @@ public class TrainersDao {
 	}
 
 	public void repairCoach(Coach coach) throws SQLException {
-		PreparedStatement ps;
-		ps = SQLSession.getConnection().prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); //$NON-NLS-1$
 
 		if (coach.getKeepers() >= 0) {
 			ps.setInt(1, coach.getKeepers());
@@ -324,6 +323,5 @@ public class TrainersDao {
 
 		ps.executeUpdate();
 		ps.close();
-
 	}
 }

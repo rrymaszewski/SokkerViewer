@@ -29,16 +29,18 @@ public class JuniorsComparator implements SVComparator<Junior>, ISort {
 	public static final int JUMPS = 8;
 
 	public static final int ESTIMATED_AGE = 9;
+	
+	public static final int EXIT_WEEK = 10;
 
-	public static final int EXIT_DATE = 10;
+	public static final int EXIT_DATE = 11;
 
-	public static final int MONEY_SPENT = 11;
+	public static final int MONEY_SPENT = 12;
 
-	public static final int MONEY_LEFT = 12;
+	public static final int MONEY_LEFT = 13;
 
-	public static final int MONEY_ALL = 13;
+	public static final int MONEY_ALL = 14;
 
-	public static final int NOTE = 14;
+	public static final int NOTE = 15;
 
 	private int column;
 
@@ -108,6 +110,9 @@ public class JuniorsComparator implements SVComparator<Junior>, ISort {
 			break;
 		case JUMPS:
 			rc = (j1.getPops() < j2.getPops()) ? -1 : 1;
+			break;
+		case EXIT_WEEK:
+			rc = (j1.getEndDate().getSeason().getSeasonWeek() < j2.getEndDate().getSeason().getSeasonWeek()) ? -1 : 1;
 			break;
 		case EXIT_DATE:
 			rc = j1.getEndDate().compareTo(j2.getEndDate());

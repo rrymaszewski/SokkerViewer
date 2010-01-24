@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Group;
 
 import pl.pronux.sokker.model.Report;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
@@ -21,9 +22,9 @@ public class ReportsGroup extends Group {
 		super(arg0, arg1);
 		this.setText(Messages.getString("ReportsGroup.reports")); //$NON-NLS-1$
 		setLayout(new FillLayout());
-		styledText = new StyledText(this, SWT.H_SCROLL);
+		styledText = new StyledText(this, SWT.H_SCROLL | SWT.READ_ONLY);
 		this.setFont(ConfigBean.getFontMain());
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 		styledText.setBackground(this.getBackground());
 		styledText.setFont(ConfigBean.getFontMain());
 	}

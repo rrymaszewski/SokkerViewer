@@ -16,8 +16,17 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerArchive;
 
 public class PersonsManager {
+	
+	private final static PersonsManager _instance = new PersonsManager();
+	
+	private PersonsManager() {
+	}
+	
+	public static PersonsManager instance() {
+		return _instance;
+	}
 
-	public static void restorePersonFromTrash(Person person) throws SQLException {
+	public void restorePersonFromTrash(Person person) throws SQLException {
 		boolean newConnection = false;
 		try {
 			if (SQLSession.getConnection().isClosed()) {
@@ -57,7 +66,7 @@ public class PersonsManager {
 		}
 	}
 
-	public static void movePersonToTrash(Person person) throws SQLException {
+	public void movePersonToTrash(Person person) throws SQLException {
 		boolean newConnection = false;
 		try {
 			if (SQLSession.getConnection().isClosed()) {
@@ -98,7 +107,7 @@ public class PersonsManager {
 		}
 	}
 
-	public static void removePersonFromTrash(Person person) throws SQLException {
+	public void removePersonFromTrash(Person person) throws SQLException {
 		boolean newConnection = false;
 		try {
 			if (SQLSession.getConnection().isClosed()) {
@@ -128,13 +137,13 @@ public class PersonsManager {
 		}
 	}
 
-	public static void updatePersonNote(Person person) throws SQLException {
+	public void updatePersonNote(Person person) throws SQLException {
 		try {
 			SQLSession.connect();
 			if (person instanceof Player) {
 				new PlayersDao(SQLSession.getConnection()).updatePlayerNote(person);
 			} else if (person instanceof Junior) {
-				JuniorsDao.updateJuniorNote(person);
+				new JuniorsDao(SQLSession.getConnection()).updateJuniorNote(person);
 			} else if (person instanceof Coach) {
 				new TrainersDao(SQLSession.getConnection()).updateCoachNote(person);
 			} else if (person instanceof PlayerArchive) {

@@ -32,7 +32,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.JuniorsComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -42,7 +43,6 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.JuniorHistoryTable;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -54,9 +54,9 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.ChartDateComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionSingleComposite;
-import pl.pronux.sokker.ui.widgets.composites.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.composites.JuniorDescriptionComposite;
 import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.JuniorChartsComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 import pl.pronux.sokker.ui.widgets.tables.JuniorTable;
@@ -66,16 +66,18 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
+		private ConfigurationManager configurationManager = ConfigurationManager.instance();
+		
 		private Composite composite;
 
 		private Spinner spinner;
 
 		private TreeItem treeItem;
-
+		
 		public void applyChanges() {
 			if (SQLSession.getConnection() != null) {
 				try {
-					new DatabaseConfiguration().setJuniorMinimumPop(spinner.getSelection() / 10.0);
+					configurationManager.setJuniorMinimumPop(spinner.getSelection() / 10.0);
 					Junior.minimumPop = spinner.getSelection() / 10.0;
 					for (int i = 0; i < juniors.size(); i++) {
 						juniors.get(i).reload();
@@ -242,7 +244,7 @@ public class ViewJuniors implements IPlugin, ISort {
 				TreeItem item = _treeItem.getParent().getItem(point);
 				if (item != null) {
 					if (item.getParentItem() != null && item.getParentItem().equals(_treeItem)) {
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 
 						generalStatusComposite.setVisible(false);
 						detailStatusComposite.setVisible(true);
@@ -312,7 +314,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
 					Item item = (Item) menuPopUp.getData("item"); //$NON-NLS-1$
-					if (item.getData(Junior.IDENTIFIER) != null) {
+					if (item.getData(Junior.class.getName()) != null) {
 						openNote(item);
 					}
 				}
@@ -553,7 +555,7 @@ public class ViewJuniors implements IPlugin, ISort {
 							detailStatusComposite.setVisible(true);
 							comboGraph.select(0);
 
-							Junior junior = (Junior) item.getData(Junior.IDENTIFIER); 
+							Junior junior = (Junior) item.getData(Junior.class.getName()); 
 
 							juniorDesc.setStatsJuniorInfo(junior);
 							juniorView.fill(junior);
@@ -591,7 +593,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		for (int i = 0; i < junior.size(); i++) {
 			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
 			// item.setData("id", junior.get(i).getId());
-			item.setData(Junior.IDENTIFIER, junior.get(i)); 
+			item.setData(Junior.class.getName(), junior.get(i)); 
 			item.setText(junior.get(i).getSurname() + " " + junior.get(i).getName()); //$NON-NLS-1$
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 
@@ -728,7 +730,7 @@ public class ViewJuniors implements IPlugin, ISort {
 					Point pt = new Point(event.x, event.y);
 					TableItem item = juniorsTable.getItem(pt);
 					if (item != null) {
-						// Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						// Junior junior = (Junior) item.getData(Junior.class.getName());
 						menuPopUp.setData("item", item); //$NON-NLS-1$
 						juniorsTable.setMenu(menuPopUp);
 						juniorsTable.getMenu().setVisible(true);
@@ -832,7 +834,7 @@ public class ViewJuniors implements IPlugin, ISort {
 	// }
 
 	private void openNote(Item item) {
-		Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+		Junior junior = (Junior) item.getData(Junior.class.getName());
 		final NoteShell noteShell = new NoteShell(vComposite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(junior);
 		noteShell.open();
@@ -840,7 +842,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			juniorsTable.fill(juniors);
 		} else if (item instanceof TableItem) {
 			if (junior.getNote() != null) {
-				if (junior.getNote().equals("")) { //$NON-NLS-1$
+				if (junior.getNote().isEmpty()) {
 					((TableItem) item).setImage(JuniorsComparator.NOTE, null);
 				} else {
 					((TableItem) item).setImage(JuniorsComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -858,7 +860,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		return new Listener() {
 			public void handleEvent(Event event) {
 				if (event != null) {
-					Junior junior = (Junior) event.item.getData(Junior.IDENTIFIER); 
+					Junior junior = (Junior) event.item.getData(Junior.class.getName()); 
 					juniorDesc.setStatsJuniorInfo(junior);
 					showDescription(juniorDesc);
 					// setCbData(juniorDesc);
@@ -901,7 +903,7 @@ public class ViewJuniors implements IPlugin, ISort {
 							((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(1))); //$NON-NLS-1$
 						} else if (currentDesc instanceof DescriptionDoubleComposite) {
 							int index = item.getParent().indexOf(item);
-							universalComposite.setStatsJuniorInfo((Junior) item.getParent().getData(Junior.IDENTIFIER), index); 
+							universalComposite.setStatsJuniorInfo((Junior) item.getParent().getData(Junior.class.getName()), index); 
 							showDescription(universalComposite);
 						}
 					}
@@ -1025,7 +1027,7 @@ public class ViewJuniors implements IPlugin, ISort {
 						generalStatusComposite.setVisible(true);
 						detailStatusComposite.setVisible(false);
 
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 
 						juniorDesc.setStatsJuniorInfo(junior);
 						juniorView.fill(junior);
@@ -1041,7 +1043,7 @@ public class ViewJuniors implements IPlugin, ISort {
 						detailStatusComposite.setVisible(true);
 						comboGraph.select(0);
 
-						Junior junior = (Junior) item.getData(Junior.IDENTIFIER);
+						Junior junior = (Junior) item.getData(Junior.class.getName());
 
 						juniorDesc.setStatsJuniorInfo(junior);
 						juniorView.fill(junior);

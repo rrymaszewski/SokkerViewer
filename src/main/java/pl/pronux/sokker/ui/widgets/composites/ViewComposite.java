@@ -1,50 +1,25 @@
 package pl.pronux.sokker.ui.widgets.composites;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ResourceBundle;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Sash;
-import org.eclipse.swt.widgets.TreeItem;
 
 public class ViewComposite extends Composite {
 
-	protected static Font fontDescription;
+	private FormData descriptionFormData;
 
-	protected static Font fontTable;
+	private FormData sashFormData;
 
-	protected static ResourceBundle langResource;
+	private Sash sashHorizontal;
 
-	protected static Font fontMain;
-
-	protected static Font fontBold;
-
-	protected FormData descriptionFormData;
-
-	protected FormData sashFormData;
-
-	protected Sash sashHorizontal;
-
-	protected FormData viewFormData;
-
-	protected DecimalFormat moneyFormat;
-
-	protected NumberFormat numberFormat;
-
-	protected String descriptionValues[][];
-
-	protected TreeItem _treeItem;
-
-	protected Composite composite;
-
+	private FormData viewFormData;
+	
 	public ViewComposite(Composite parent, int style) {
 
 		super(parent, style);
@@ -89,6 +64,34 @@ public class ViewComposite extends Composite {
 
 	public Composite getComposite() {
 		return this;
+	}
+	private Control currentDesc;
+
+	private Control currentView;
+
+	protected void showView(Control control) {
+		if (currentView == null) {
+			currentView = control;
+		}
+		currentView.setVisible(false);
+		currentView = control;
+		currentView.setVisible(true);
+	}
+
+	protected void showDescription(Control control) {
+		if (currentDesc == null) {
+			currentDesc = control;
+		}
+		currentDesc.setVisible(false);
+		currentDesc = control;
+		currentDesc.setVisible(true);
+	}
+	public Control getCurrentDesc() {
+		return currentDesc;
+	}
+
+	public Control getCurrentView() {
+		return currentView;
 	}
 
 	public FormData getDescriptionFormData() {

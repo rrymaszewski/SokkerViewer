@@ -7,13 +7,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import pl.pronux.sokker.model.Player;
-import pl.pronux.sokker.ui.widgets.styledtexts.PlayerDescriptionAdditionsStyledText;
-import pl.pronux.sokker.ui.widgets.styledtexts.PlayerDescriptionStyledText;
+import pl.pronux.sokker.ui.widgets.styledtexts.PlayerDescriptionAdditions;
+import pl.pronux.sokker.ui.widgets.styledtexts.PlayerDescription;
 
 public class PlayerDescriptionComposite extends Composite {
 
-	private PlayerDescriptionStyledText playerDescription;
-	private PlayerDescriptionAdditionsStyledText playerDescriptionAdditions;
+	private PlayerDescription playerDescription;
+	private PlayerDescriptionAdditions playerDescriptionAdditions;
 
 	public PlayerDescriptionComposite(Composite parent, int style) {
 		super(parent, style);
@@ -27,7 +27,7 @@ public class PlayerDescriptionComposite extends Composite {
 		formData.right = new FormAttachment(60,0);
 		formData.bottom = new FormAttachment(100,0);
 		
-		playerDescription = new PlayerDescriptionStyledText(this, SWT.NONE);
+		playerDescription = new PlayerDescription(this, SWT.NONE);
 		playerDescription.setLayoutData(formData);
 		
 		formData = new FormData();
@@ -35,7 +35,7 @@ public class PlayerDescriptionComposite extends Composite {
 		formData.top = new FormAttachment(0,0);
 		formData.right = new FormAttachment(100,0);
 		formData.bottom = new FormAttachment(100,0);
-		playerDescriptionAdditions = new PlayerDescriptionAdditionsStyledText(this, SWT.NONE);
+		playerDescriptionAdditions = new PlayerDescriptionAdditions(this, SWT.NONE);
 		playerDescriptionAdditions.setLayoutData(formData);
 	}
 	

@@ -16,8 +16,8 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.PaintStarListener;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
@@ -54,7 +54,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			if (i == 0) {
 				column.setWidth(25);
 			} else if (i == columns.length - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else if (i == MatchPlayersDetailsComparator.STARS) {
@@ -92,13 +92,13 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 		for (PlayerStats playerStats : playersStats) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			if (playerStats.getFormation() == PlayerStats.GK) {
-				item.setBackground(ColorResources.getColor(221, 255, 255));
+				item.setBackground(Colors.getPositionGK());
 			} else if (playerStats.getFormation() == PlayerStats.DEF) {
-				item.setBackground(ColorResources.getColor(255, 230, 214));
+				item.setBackground(Colors.getPositionDEF());
 			} else if (playerStats.getFormation() == PlayerStats.MID) {
-				item.setBackground(ColorResources.getColor(255, 255, 208));
+				item.setBackground(Colors.getPositionMID());
 			} else if (playerStats.getFormation() == PlayerStats.ATT) {
-				item.setBackground(ColorResources.getColor(226, 255, 208));
+				item.setBackground(Colors.getPositionATT());
 			}
 			int i = 0;
 			if (playerStats.getTimeOut() > 0 && playerStats.getTimeIn() == 0) {
@@ -123,10 +123,10 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			if (player != null && player.getExistsInSokker() != Player.EXISTS_IN_SOKKER_UNCHECKED) {
 				if (player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_TRUE || player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_COMPLETED) {
 					item.setImage(i, FlagsResources.getFlag(player.getCountryfrom()));
-					if (player.getName() == null || player.getSurname() == null || (player.getName().equals("") && player.getSurname().equals(""))) { //$NON-NLS-1$ //$NON-NLS-2$
+					if (player.getName() == null || player.getSurname() == null || (player.getName().isEmpty() && player.getSurname().isEmpty())) {
 						item.setText(i++, String.valueOf(playerStats.getPlayerID()));
 					} else {
-						if(player.getName().equals("")) { //$NON-NLS-1$
+						if(player.getName().isEmpty()) {
 							item.setText(i++, String.format("%s", player.getSurname())); //$NON-NLS-1$
 						} else {
 							item.setText(i++, String.format("%s %s.", player.getSurname(), player.getName().substring(0, 1))); //$NON-NLS-1$
@@ -153,7 +153,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			}
 			item.setText(i++, playerStats.getTimePlayed() + "'"); //$NON-NLS-1$
 
-			item.setData(PaintStarListener.IDENTIFIER, playerStats.getRating());
+			item.setData(PaintStarListener.class.getName(), playerStats.getRating());
 			i++;
 			// item.setText(i++, playerStats.getRating() + "%"); //$NON-NLS-1$
 			item.setText(i++, String.valueOf(playerStats.getGoals()));
@@ -162,7 +162,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			item.setText(i++, String.valueOf(playerStats.getFouls()));
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 
@@ -173,7 +173,7 @@ public class MatchPlayersDetailsTable extends SVTable<PlayerStats> implements IV
 			}
 
 			item.setText(i, ""); //$NON-NLS-1$
-			if (SettingsHandler.OS_TYPE == WINDOWS) {
+			if (SettingsHandler.IS_WINDOWS) {
 				item.setBackground(i, this.getBackground());
 			}
 			if (playerStats.getYellowCards() < 2 && playerStats.getRedCards() > 0) {

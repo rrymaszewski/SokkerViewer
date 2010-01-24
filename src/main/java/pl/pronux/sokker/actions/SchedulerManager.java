@@ -10,7 +10,16 @@ import pl.pronux.sokker.model.Note;
 
 public class SchedulerManager {
 
-	public static void insertNote(Note note) throws SQLException {
+	private final static SchedulerManager _instance = new SchedulerManager();
+	
+	private SchedulerManager() {
+	}
+	
+	public static SchedulerManager instance() {
+		return _instance;
+	}
+	
+	public void insertNote(Note note) throws SQLException {
 		try {
 			SQLSession.connect();
 			NotesDao notesDao = new NotesDao(SQLSession.getConnection());
@@ -23,7 +32,7 @@ public class SchedulerManager {
 		}
 	}
 
-	public static void updateNote(Note note) throws SQLException {
+	public void updateNote(Note note) throws SQLException {
 		try {
 			SQLSession.connect();
 			new NotesDao(SQLSession.getConnection()).updateNote(note);
@@ -34,7 +43,7 @@ public class SchedulerManager {
 		}
 	}
 
-	public static void dropNote(int id) throws SQLException {
+	public void dropNote(int id) throws SQLException {
 		try {
 			boolean newConnection = SQLQuery.connect();
 			new NotesDao(SQLSession.getConnection()).deleteNote(id);
@@ -44,7 +53,7 @@ public class SchedulerManager {
 		}
 	}
 
-	public static ArrayList<Note> getNoteData() throws SQLException {
+	public ArrayList<Note> getNoteData() throws SQLException {
 		ArrayList<Note> notes;
 		boolean newConnection = SQLQuery.connect();
 		notes = new NotesDao(SQLSession.getConnection()).getNotes();

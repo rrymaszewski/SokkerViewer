@@ -3,22 +3,27 @@ package pl.pronux.sokker.handlers;
 import java.util.Properties;
 
 import pl.pronux.sokker.data.properties.SVProperties;
-import pl.pronux.sokker.interfaces.SV;
+import pl.pronux.sokker.enums.OperatingSystem;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 
 public class SettingsHandler {
-	public static int OS_TYPE = SV.WINDOWS;
-	
+
+	public static OperatingSystem OS_TYPE = OperatingSystem.WINDOWS;
+
 	static {
 		String os = System.getProperty("os.name"); //$NON-NLS-1$
-		if(os.toLowerCase().startsWith("linux")) { //$NON-NLS-1$
-			OS_TYPE = SV.LINUX;
-		} else if(os.toLowerCase().startsWith("mac")) { //$NON-NLS-1$
-			OS_TYPE = SV.MAC;
-		} else if(os.toLowerCase().startsWith("windows")) { //$NON-NLS-1$
-			OS_TYPE = SV.WINDOWS;
+		if (os.toLowerCase().startsWith("linux")) { //$NON-NLS-1$
+			OS_TYPE = OperatingSystem.LINUX;
+		} else if (os.toLowerCase().startsWith("mac")) { //$NON-NLS-1$
+			OS_TYPE = OperatingSystem.MACOSX;
+		} else if (os.toLowerCase().startsWith("windows")) { //$NON-NLS-1$
+			OS_TYPE = OperatingSystem.WINDOWS;
 		}
 	}
+	public final static boolean IS_WINDOWS = OS_TYPE == OperatingSystem.WINDOWS;
+	public final static boolean IS_LINUX = OS_TYPE == OperatingSystem.LINUX;
+	public final static boolean IS_MACOSX = OS_TYPE == OperatingSystem.MACOSX;
+	
 	private static boolean logged;
 	private static SokkerViewerSettings sokkerViewerSettings;
 	private static Properties defaultProperties;

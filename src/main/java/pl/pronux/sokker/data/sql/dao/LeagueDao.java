@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -197,7 +198,7 @@ public class LeagueDao {
 		// (goals_scored-goals_lost) DESC, goals_scored DESC,
 		// SUBSTRING(rank_total,LENGTH(rank_total)-1)");
 		ps = connection
-				.prepareStatement("" + //$NON-NLS-1$
+				.prepareStatement(
 						"SELECT l.*,m.home_team_name as team_name, (goals_scored-goals_lost) as distinction, SUBSTRING(rank_total,LENGTH(rank_total)-1) as begin_place FROM league_team as l join matches_team as m on (l.league_id = m.league_id and l.season = m.season and l.round = m.round and l.team_id = m.home_team_id ) WHERE  l.season = ? AND l.round = ? AND l.league_id = ? "//$NON-NLS-1$
 						+ 
 						"UNION " //$NON-NLS-1$
@@ -409,7 +410,7 @@ public class LeagueDao {
 		while (rs.next()) {
 			LeagueSeason leagueSeason = new LeagueSeasonDto(rs).getLeagueSeason();
 			leagueSeason.setLeague(leaguesMap.get(leagueSeason.getLeagueID()));
-			leagueSeason.setAlRounds(getRounds(leagueSeason, clubMap));
+			leagueSeason.setRounds(getRounds(leagueSeason, clubMap));
 			leagueSeasons.add(leagueSeason);
 		}
 		rs.close();
@@ -771,5 +772,134 @@ public class LeagueDao {
 		ps.executeUpdate();
 		ps.close();
 
+	}
+
+	public HashMap<Integer, Integer> getTeamRating(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> teamRating = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select team_id, (sum(rating_scoring)+sum(rating_passing)+sum(rating_defending))/(3*?) as team_rating from team_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by team_id order by team_rating desc, team_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ps.setInt(4, leagueRound.getRoundNumber());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			teamRating.put(rs.getInt("team_id"), rs.getInt("team_rating"));
+		}
+		rs.close();
+		ps.close();
+		return teamRating;
+	}
+	
+	public HashMap<Integer, Integer> getAverageTeamRating(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> avgTeamRating = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select team_id, avg(rating) as avg_team_rating from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) and rating > 0 group by team_id order by avg_team_rating desc, team_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			avgTeamRating.put(rs.getInt("team_id"), rs.getInt("avg_team_rating"));
+		}
+		rs.close();
+		ps.close();
+		return avgTeamRating;
+	}
+	
+	public HashMap<Integer, Integer> getAveragePlayerRating(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> avgRating = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select player_id, avg(rating) as avg_rating from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having avg(rating) > 0 order by avg_rating desc, player_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			avgRating.put(rs.getInt("player_id"), rs.getInt("avg_rating"));
+		}
+		rs.close();
+		ps.close();
+		return avgRating;
+	}
+	
+	public int getSupporters(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		int supporters = 0;
+		ps = connection.prepareStatement("select avg(supporters) as avg_supporters from matches_team where league_id = ? and round <= ? and season = ?;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			supporters = rs.getInt("avg_supporters");
+		}
+		rs.close();
+		ps.close();
+		return supporters;
+	}
+	
+	public HashMap<Integer, Integer> getShoots(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> shoots = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select player_id, sum(shoots) as sum_shoots from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(shoots) > 0 order by sum_shoots desc, player_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			shoots.put(rs.getInt("player_id"), rs.getInt("sum_shoots"));
+		}
+		rs.close();
+		ps.close();
+		return shoots;
+	}
+	
+	public HashMap<Integer, Integer> getGoals(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> goals = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select player_id, sum(goals) as sum_goals from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(goals) > 0 order by sum_goals desc, player_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			goals.put(rs.getInt("player_id"), rs.getInt("sum_goals"));
+		}
+		rs.close();
+		ps.close();
+		return goals;
+	}
+	
+	public HashMap<Integer, Integer> getAssists(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> assists = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select player_id, sum(assists) as sum_assists from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(assists) > 0 order by sum_assists desc, player_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			assists.put(rs.getInt("player_id"), rs.getInt("sum_assists"));
+		}
+		rs.close();
+		ps.close();
+		return assists;
+	}
+	
+	public HashMap<Integer, Integer> getFouls(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps;
+		HashMap<Integer, Integer> fouls = new LinkedHashMap<Integer, Integer>();
+		ps = connection.prepareStatement("select player_id, sum(fouls) as sum_fouls from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(fouls) > 0 order by sum_fouls desc, player_id limit 10;"); //$NON-NLS-1$
+		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueID());
+		ps.setInt(2, leagueRound.getRoundNumber());
+		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			fouls.put(rs.getInt("player_id"), rs.getInt("sum_fouls"));
+		}
+		rs.close();
+		ps.close();
+		return fouls;
 	}
 }

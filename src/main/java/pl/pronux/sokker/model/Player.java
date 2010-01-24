@@ -14,8 +14,6 @@ public class Player extends Person implements Serializable, PlayerInterface {
 	 */
 	private static final long serialVersionUID = 1525870309479485957L;
 
-	public static final String IDENTIFIER = "PLAYER"; //$NON-NLS-1$
-	
 	public static final int STATUS_INCLUB = 0;
 
 	public static final int STATUS_HISTORY = 1;
@@ -48,6 +46,7 @@ public class Player extends Person implements Serializable, PlayerInterface {
 	public static final int MATCH_DEF = 1;
 	public static final int MATCH_MID = 2;
 	public static final int MATCH_ATT = 3;
+	
 	private int preferredPosition;
 	
 	private int countryfrom;

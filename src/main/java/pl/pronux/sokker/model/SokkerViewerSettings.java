@@ -1,9 +1,8 @@
 package pl.pronux.sokker.model;
 
-import java.util.List;
-import java.util.Map;
 
 public class SokkerViewerSettings {
+
 	private boolean savePassword;
 	private String backupDirectory;
 	private boolean startup;
@@ -11,40 +10,11 @@ public class SokkerViewerSettings {
 	private String password;
 	private String baseDirectory;
 	private boolean checkProperties;
-	private List<String> languages;
-	private List<String> langCodes;
 	private String langCode;
 	private boolean update;
 	private boolean infoClose;
 	private boolean infoUpdate;
 	private ProxySettings proxySettings;
-	private DatabaseSettings databaseSettings;
-	private Map<String, String> langCodeMap;
-	private Map<String, String> languageMap;
-
-	public Map<String, String> getLangCodeMap() {
-		return langCodeMap;
-	}
-
-	public void setLangCodeMap(Map<String, String> langCodeMap) {
-		this.langCodeMap = langCodeMap;
-	}
-
-	public Map<String, String> getLanguageMap() {
-		return languageMap;
-	}
-
-	public String getLanguage(String langCode) {
-		return langCodeMap.get(langCode);
-	}
-
-	public String getLangCode(String language) {
-		return languageMap.get(language);
-	}
-
-	public void setLanguageMap(Map<String, String> languageMap) {
-		this.languageMap = languageMap;
-	}
 
 	public boolean isSavePassword() {
 		return savePassword;
@@ -102,22 +72,6 @@ public class SokkerViewerSettings {
 		this.checkProperties = checkProperties;
 	}
 
-	public List<String> getLanguages() {
-		return languages;
-	}
-
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
-	}
-
-	public List<String> getLangCodes() {
-		return langCodes;
-	}
-
-	public void setLangCodes(List<String> langCodes) {
-		this.langCodes = langCodes;
-	}
-
 	public String getLangCode() {
 		return langCode;
 	}
@@ -156,13 +110,5 @@ public class SokkerViewerSettings {
 
 	public void setProxySettings(ProxySettings proxySettings) {
 		this.proxySettings = proxySettings;
-	}
-
-	public DatabaseSettings getDatabaseSettings() {
-		return databaseSettings;
-	}
-
-	public void setDatabaseSettings(DatabaseSettings databaseSettings) {
-		this.databaseSettings = databaseSettings;
 	}
 }

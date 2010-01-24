@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.actions.TeamManager;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.SokkerDate;
@@ -36,6 +35,9 @@ import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.resources.Fonts;
 
 public class TrainingEditShell extends Shell {
+	
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private Combo typeCombo;
 
 	private Combo formationCombo;
@@ -71,7 +73,7 @@ public class TrainingEditShell extends Shell {
 
 		alCoaches.remove(training.getHeadCoach());
 		alCoaches.remove(training.getJuniorCoach());
-		alCoaches.removeAll(training.getAlAssistants());
+		alCoaches.removeAll(training.getAssistants());
 
 		this.setSize(650, 550);
 		this.setMinimumSize(new org.eclipse.swt.graphics.Point(650, 550));
@@ -229,9 +231,9 @@ public class TrainingEditShell extends Shell {
 			column.setText(columns[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (columns[j].equals("")) { //$NON-NLS-1$
+			if (columns[j].isEmpty()) { 
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == SV.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -268,9 +270,9 @@ public class TrainingEditShell extends Shell {
 			column.setText(columns_coaches[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (columns[j].equals("")) { //$NON-NLS-1$
+			if (columns[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == SV.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -307,7 +309,7 @@ public class TrainingEditShell extends Shell {
 				if (items.length != 1) {
 					return;
 				}
-				Coach coach = (Coach) items[0].getData(Coach.IDENTIFIER);
+				Coach coach = (Coach) items[0].getData(Coach.class.getName());
 
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_HEAD) {
 					if (tempTraining.getHeadCoach() != null) {
@@ -326,7 +328,7 @@ public class TrainingEditShell extends Shell {
 					alCoaches.remove(coach);
 				}
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_ASSISTANT) {
-					tempTraining.getAlAssistants().add(coach);
+					tempTraining.getAssistants().add(coach);
 					coach.setJob(Coach.JOB_ASSISTANT);
 					alCoaches.remove(coach);
 				}
@@ -355,7 +357,7 @@ public class TrainingEditShell extends Shell {
 				if (items.length != 1) {
 					return;
 				}
-				Coach coach = (Coach) items[0].getData(Coach.IDENTIFIER); 
+				Coach coach = (Coach) items[0].getData(Coach.class.getName()); 
 
 				if (coach.equals(tempTraining.getHeadCoach())) {
 					tempTraining.setHeadCoach(null);
@@ -365,8 +367,8 @@ public class TrainingEditShell extends Shell {
 					tempTraining.setJuniorCoach(null);
 					alCoaches.add(coach);
 				}
-				if (tempTraining.getAlAssistants().contains(coach)) {
-					tempTraining.getAlAssistants().remove(coach);
+				if (tempTraining.getAssistants().contains(coach)) {
+					tempTraining.getAssistants().remove(coach);
 					alCoaches.add(coach);
 				}
 				items[0].dispose();
@@ -397,7 +399,7 @@ public class TrainingEditShell extends Shell {
 				training.copy(tempTraining);
 				if (tempTraining != null) {
 					try {
-						TeamManager.updateTraining(tempTraining);
+						teamManager.updateTraining(tempTraining);
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_TRAININGS, new Event());
 					} catch (SQLException e) {
 						new BugReporter(TrainingEditShell.this.getDisplay()).openErrorMessage("Training edit shell -> update training", e);
@@ -439,7 +441,7 @@ public class TrainingEditShell extends Shell {
 		for (Coach coach : coaches) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach);
+			item.setData(Coach.class.getName(), coach);
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 		}
 		for (int i = 0; i < table.getColumnCount() - 1; i++) {
@@ -463,7 +465,7 @@ public class TrainingEditShell extends Shell {
 		if (coach != null) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach); 
+			item.setData(Coach.class.getName(), coach); 
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_HEAD)); //$NON-NLS-1$
 		}
@@ -472,7 +474,7 @@ public class TrainingEditShell extends Shell {
 		if (coach != null) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, coach); 
+			item.setData(Coach.class.getName(), coach); 
 			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_JUNIORS)); //$NON-NLS-1$
 		}
@@ -480,10 +482,10 @@ public class TrainingEditShell extends Shell {
 		// We remove all the table entries, sort our
 		// rows, then add the entries
 
-		for (Coach assistant : training.getAlAssistants()) {
+		for (Coach assistant : training.getAssistants()) {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
-			item.setData(Coach.IDENTIFIER, assistant); 
+			item.setData(Coach.class.getName(), assistant); 
 			item.setText(c++, assistant.getSurname() + " " + assistant.getName()); //$NON-NLS-1$
 			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); //$NON-NLS-1$
 		}

@@ -15,10 +15,8 @@ import pl.pronux.sokker.comparators.PlayerHistoryComparator;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
-import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 
@@ -41,7 +39,8 @@ public class PlayersHistoryTable extends SVTable<Player> {
 
 		// tworzymy kolumny dla trenerow
 
-		String[] titles = { "", //$NON-NLS-1$
+		String[] titles = {
+				"", //$NON-NLS-1$
 				Messages.getString("table.name"), //$NON-NLS-1$
 				Messages.getString("table.surname"), //$NON-NLS-1$
 				Messages.getString("table.value"), //$NON-NLS-1$
@@ -72,9 +71,9 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -114,7 +113,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			tableItemMap.put(player.getId(), item);
 
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
+			item.setData(Player.class.getName(), player);
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
@@ -157,41 +156,11 @@ public class PlayersHistoryTable extends SVTable<Player> {
 
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
-		if (column >= PlayerHistoryComparator.VALUE && column <= PlayerHistoryComparator.SCORER) {
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+		if (column >= PlayerHistoryComparator.FORM && column <= PlayerHistoryComparator.SCORER) {
+			Player player = (Player) item.getData(Player.class.getName());
 			int maxSkill = player.getSkills().length - 1;
-			int[] temp1 = player.getSkills()[maxSkill].getStatsTable();
-			if (maxSkill > 0) {
-				int[] temp2 = player.getSkills()[maxSkill - 1].getStatsTable();
-				if (column >= PlayerHistoryComparator.FORM) {
-					if (temp1[column - 3] - temp2[column - 3] > 0) {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]) + ")");
-						label.setForeground(ConfigBean.getColorIncreaseDescription());
-					} else if (temp1[column - 3] - temp2[column - 3] < 0) {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]) + ")");
-						label.setForeground(ConfigBean.getColorDecreaseDescription());
-					} else {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + String.valueOf(temp1[column - 3] - temp2[column - 3]) + ")");
-					}
-
-				} else {
-					if (temp1[column - 3] - temp2[column - 3] > 0) {
-						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]));
-						label.setForeground(ConfigBean.getColorIncreaseDescription());
-					} else if (temp1[column - 3] - temp2[column - 3] < 0) {
-						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]));
-						label.setForeground(ConfigBean.getColorDecreaseDescription());
-					} else {
-						label.setText(String.valueOf(temp1[column - 3] - temp2[column - 3]));
-					}
-				}
-			} else {
-				if (column >= PlayerHistoryComparator.FORM) {
-					label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (0)");
-				} else {
-					label.setText("0");
-				}
-			}
+			int[] skills = player.getSkills()[maxSkill].getStatsTable();
+			label.setText(Messages.getString("skill.a" + skills[column - 3]));
 			label.pack();
 		}
 		super.setLabel(label, column, item);

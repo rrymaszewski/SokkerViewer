@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.JuniorSkills;
@@ -198,9 +197,9 @@ public class TrainingReportShell extends Shell {
 
 			if (j > 2) {
 				column.setAlignment(SWT.RIGHT);
-				if (columns[j].equals("")) { //$NON-NLS-1$
+				if (columns[j].isEmpty()) {
 					// column.setWidth(70);
-					if (SettingsHandler.OS_TYPE == SV.LINUX) {
+					if (SettingsHandler.IS_LINUX) {
 						column.pack();
 					}
 				} else {
@@ -232,8 +231,8 @@ public class TrainingReportShell extends Shell {
 			fillCoachTreeItem(item, coach, Coach.JOB_JUNIORS);
 		}
 
-		if (training.getAlAssistants().size() > 0) {
-			for (Coach coach : training.getAlAssistants()) {
+		if (training.getAssistants().size() > 0) {
+			for (Coach coach : training.getAssistants()) {
 				item = new TreeItem(treeItem, SWT.NONE);
 				fillCoachTreeItem(item, coach, Coach.JOB_ASSISTANT);
 			}
@@ -295,14 +294,17 @@ public class TrainingReportShell extends Shell {
 		fillJuniorTreeItemVirtualColumns(item);
 		int max = 0;
 
-		if (training.getAlJuniors().size() > 0) {
-			for (Junior junior : training.getAlJuniors()) {
+		if (training.getJuniors().size() > 0) {
+			for (Junior junior : training.getJuniors()) {
 				JuniorSkills[] skills = junior.getSkills();
 				max = skills.length;
 				if (max > 1) {
 					for (int i = max - 1; i > 0; i--) {
 						if (training.equals(skills[i].getTraining())) {
 							if (skills[i].getSkill() - skills[i - 1].getSkill() > 0) {
+								item = new TreeItem(treeItem, SWT.NONE);
+								fillJuniorTreeItem(item, junior, i);
+							} else if (skills[i].getSkill() - skills[i - 1].getSkill() < 0) {
 								item = new TreeItem(treeItem, SWT.NONE);
 								fillJuniorTreeItem(item, junior, i);
 							}
@@ -320,8 +322,8 @@ public class TrainingReportShell extends Shell {
 		item.setBackground(treeItem.getParent().getShell().getBackground());
 		fillJuniorTrainedTreeItemVirtualColumns(item);
 
-		if (training.getAlJuniors().size() > 0) {
-			for (Junior junior : training.getAlJuniors()) {
+		if (training.getJuniors().size() > 0) {
+			for (Junior junior : training.getJuniors()) {
 				JuniorSkills[] skills = junior.getSkills();
 				max = skills.length;
 				if (max > 1) {
@@ -363,8 +365,12 @@ public class TrainingReportShell extends Shell {
 		c++;
 		// item.setText(c++, String.valueOf(junior.getSkills()[max -
 		// 1].getSkill()));
-
-		item.setBackground(c, ConfigBean.getColorIncrease());
+		if (junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill() > 0) {
+			item.setBackground(c, ConfigBean.getColorIncrease());	
+		} else if(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill() < 0) {
+			item.setBackground(c, ConfigBean.getColorDecrease());
+		}
+		
 		item.setText(c++, junior.getSkills()[index].getSkill() + "  " + SVNumberFormat.formatIntegerWithSignZero(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill())); //$NON-NLS-1$
 		item.setText(c++, String.valueOf(junior.getSkills()[index].getWeeks()));
 	}
@@ -424,8 +430,8 @@ public class TrainingReportShell extends Shell {
 		item.setBackground(treeItem.getParent().getShell().getBackground());
 		fillPlayerTreeItemVirtualColumns(item);
 
-		if (training.getAlPlayers().size() > 0) {
-			for (Player player : training.getAlPlayers()) {
+		if (training.getPlayers().size() > 0) {
+			for (Player player : training.getPlayers()) {
 				PlayerSkills[] skills = player.getSkills();
 				max = skills.length;
 				if (max > 1) {

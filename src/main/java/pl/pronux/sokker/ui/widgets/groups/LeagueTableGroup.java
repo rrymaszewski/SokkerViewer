@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.ui.resources.ColorResources;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.widgets.tables.LeagueTable;
 
 public class LeagueTableGroup extends Group {
@@ -29,7 +29,7 @@ public class LeagueTableGroup extends Group {
 		FormData formData;
 		
 		this.setText(Messages.getString("table")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 		
 		leagueTable = new LeagueTable(this, SWT.FULL_SELECTION);
 		

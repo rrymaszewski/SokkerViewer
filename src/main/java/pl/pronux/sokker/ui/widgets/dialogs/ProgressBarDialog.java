@@ -18,17 +18,20 @@ import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.custom.ProgressBarCustom;
 
 public class ProgressBarDialog extends Shell {
+
 	private ProgressBarCustom progressBar;
 	private Button cancelButton;
 	private Button closeButton;
+	private IRunnableWithProgress runnable;
 
 	@Override
 	protected void checkSubclass() {
 		// super.checkSubclass();
 	}
+
 	public ProgressBarDialog(Shell shell, int style) {
 		super(shell, style);
-		
+
 		init(this);
 		this.setSize(400, 150);
 		org.eclipse.swt.widgets.Monitor _monitor = shell.getDisplay().getPrimaryMonitor();
@@ -38,71 +41,92 @@ public class ProgressBarDialog extends Shell {
 		int y = (displayRect.height - splashRect.height) / 2;
 		this.setLocation(x, y);
 	}
-	
+
 	private void init(Shell parent) {
 		FormLayout layout = new FormLayout();
 		parent.setLayout(layout);
-		
+
 		FormData formData = new FormData();
-		formData.left = new FormAttachment(0,5);
-		formData.top = new FormAttachment(0,5);
-		formData.right = new FormAttachment(100,-5);
-		
+		formData.left = new FormAttachment(0, 5);
+		formData.top = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+
 		progressBar = new ProgressBarCustom(parent, SWT.NONE);
 		progressBar.setLayoutData(formData);
-		
+
 		formData = new FormData();
-		formData.right = new FormAttachment(100,-5);
-		formData.bottom = new FormAttachment(100,-5);
-		
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(100, -5);
+
 		cancelButton = new Button(this, SWT.PUSH);
 		cancelButton.setLayoutData(formData);
 		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
 		cancelButton.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event arg0) {
 				progressBar.cancel();
 			}
 		});
-		
+
 		formData = new FormData();
-		formData.right = new FormAttachment(cancelButton,-10);
-		formData.bottom = new FormAttachment(100,-5);
-		
+		formData.right = new FormAttachment(cancelButton, -10);
+		formData.bottom = new FormAttachment(100, -5);
+
 		closeButton = new Button(this, SWT.PUSH);
 		closeButton.setLayoutData(formData);
 		closeButton.setText(Messages.getString("button.close")); //$NON-NLS-1$
 		closeButton.setEnabled(false);
 		closeButton.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event arg0) {
 				ProgressBarDialog.this.close();
 			}
 		});
-		
+
 		this.addListener(SWT.Close, new Listener() {
+
 			public void handleEvent(Event event) {
 				progressBar.cancel();
+				if (progressBar.isRunning()) {
+					event.doit = false;
+				}
 			}
 		});
 
-		this.setLocation(this.getDisplay().getPrimaryMonitor().getClientArea().width / 2 - this.getBounds().width / 2, this.getDisplay().getPrimaryMonitor().getClientArea().height / 2 - this.getBounds().height / 2);
+		this.addListener(SWT.Dispose, new Listener() {
+
+			@Override
+			public void handleEvent(Event arg0) {
+				ProgressBarDialog.this.runnable.onFinish();
+			}
+		});
+
+		this.setLocation(this.getDisplay().getPrimaryMonitor().getClientArea().width / 2 - this.getBounds().width / 2, this
+			.getDisplay()
+			.getPrimaryMonitor()
+			.getClientArea().height
+																													   / 2 - this.getBounds().height / 2);
 	}
-	
+
 	public Monitor getProgressMonitor() {
 		return progressBar.getProgressMonitor();
 	}
-	
-	public void run(boolean fork, boolean cancellable, final boolean autoclose, final IRunnableWithProgress runnable) throws InterruptedException, InvocationTargetException {
-		
-		if(autoclose) {
+
+	public void run(boolean fork, boolean cancellable, final boolean autoclose, final IRunnableWithProgress runnable) throws InterruptedException,
+		InvocationTargetException {
+		this.runnable = runnable;
+
+		if (autoclose) {
 			closeButton.setVisible(false);
 		}
-		
-		if(!cancellable) {
+
+		if (!cancellable) {
 			cancelButton.setVisible(false);
 		}
-		
+
 		this.progressBar.run(fork, cancellable, runnable);
 		Thread monitorThread = new Thread(new Runnable() {
+
 			public void run() {
 				final Monitor monitor = progressBar.getProgressMonitor();
 				while ((!monitor.isDone() && !monitor.isCanceled() && !monitor.isInterrupted()) || progressBar.getRunningThreads() != 0) {
@@ -111,29 +135,31 @@ public class ProgressBarDialog extends Shell {
 					} catch (InterruptedException e) {
 					}
 				}
-				
-				if ((monitor.isDone() || monitor.isCanceled()) && !monitor.isInterrupted()) {
-					ProgressBarDialog.this.getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							if(autoclose) {
-								ProgressBarDialog.this.close();
-							} else {
+				if (!ProgressBarDialog.this.getDisplay().isDisposed()) {
+					if ((monitor.isDone() || monitor.isCanceled()) && !monitor.isInterrupted()) {
+						ProgressBarDialog.this.getDisplay().asyncExec(new Runnable() {
+
+							public void run() {
+								if (autoclose) {
+									ProgressBarDialog.this.close();
+								} else {
+									closeButton.setEnabled(true);
+									cancelButton.setEnabled(false);
+								}
+							}
+						});
+					}
+
+					if (monitor.isInterrupted()) {
+						ProgressBarDialog.this.getDisplay().syncExec(new Runnable() {
+
+							public void run() {
 								closeButton.setEnabled(true);
 								cancelButton.setEnabled(false);
 							}
-						}
-					});
+						});
+					}
 				}
-
-				if (monitor.isInterrupted()) {
-					ProgressBarDialog.this.getDisplay().syncExec(new Runnable() {
-						public void run() {
-							closeButton.setEnabled(true);
-							cancelButton.setEnabled(false);
-						}
-					});
-				}
-				
 			}
 		});
 
@@ -141,5 +167,4 @@ public class ProgressBarDialog extends Shell {
 		monitorThread.start();
 		this.open();
 	}
-	
 }

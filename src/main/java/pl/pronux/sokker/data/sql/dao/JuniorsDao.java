@@ -51,24 +51,13 @@ public class JuniorsDao {
 	}
 
 	public void updateJuniorSkills(int id, JuniorSkills jSkills, Date date) throws SQLException {
-		PreparedStatement ps = null;
 
-		if (SQLSession.databaseType == SQLSession.POSTGRESQL) {
-			ps = connection
-					.prepareStatement("UPDATE junior_skills SET " //$NON-NLS-1$
-							+ "weeks = ?, " //$NON-NLS-1$
-							+ "skill = ?, " //$NON-NLS-1$
-							+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
-							+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
-							+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(j.day) from junior_skills j where j.week = junior_skills.week AND j.id_junior_fk = ?)"); //$NON-NLS-1$
-		} else if (SQLSession.databaseType == SQLSession.HSQLDB) {
-			ps = connection.prepareStatement("UPDATE junior_skills j SET " //$NON-NLS-1$
-					+ "weeks = ?, " //$NON-NLS-1$
-					+ "skill = ?, " //$NON-NLS-1$
-					+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
-					+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
-					+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(day) from junior_skills where week = j.week AND id_junior_fk = ?)"); //$NON-NLS-1$
-		}
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior_skills j SET " //$NON-NLS-1$
+				+ "weeks = ?, " //$NON-NLS-1$
+				+ "skill = ?, " //$NON-NLS-1$
+				+ "millis = ?, day = ?, week = ?  " //$NON-NLS-1$
+				+ "WHERE id_junior_fk = ? " //$NON-NLS-1$
+				+ "AND week = (select max(week) from junior_skills WHERE id_junior_fk = ?) AND day = (select max(day) from junior_skills where week = j.week AND id_junior_fk = ?)"); //$NON-NLS-1$
 
 		ps.setInt(1, jSkills.getWeeks());
 		ps.setInt(2, jSkills.getSkill());
@@ -163,7 +152,7 @@ public class JuniorsDao {
 			juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
 			juniorSkills.setTraining(trainingMap.get(rs.getInt("id_training_fk"))); //$NON-NLS-1$
 			if (trainingMap.get(rs.getInt("id_training_fk")) != null) { //$NON-NLS-1$
-				trainingMap.get(rs.getInt("id_training_fk")).getAlJuniors() //$NON-NLS-1$
+				trainingMap.get(rs.getInt("id_training_fk")).getJuniors() //$NON-NLS-1$
 						.add(junior);
 			}
 			juniorsSkills.add(juniorSkills);
@@ -287,7 +276,7 @@ public class JuniorsDao {
 	}
 
 	public String moveTrainedJuniors(String sTemp, int clubId) throws SQLException {
-		String movedJuniors = ""; //$NON-NLS-1$
+		StringBuilder movedJuniors = new StringBuilder(); //$NON-NLS-1$
 		PreparedStatement ps;
 		ps = connection
 				.prepareStatement("SELECT j.id_junior FROM junior j, junior_skills s WHERE status = 0 AND j.id_junior = s.id_junior_fk AND s.weeks = 0 AND s.weeks = (select min(weeks) from junior_skills WHERE id_junior_fk = j.id_junior) AND j.id_junior NOT IN " //$NON-NLS-1$
@@ -295,16 +284,16 @@ public class JuniorsDao {
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			movedJuniors = movedJuniors + rs.getInt(1) + '\n';
+			movedJuniors.append(rs.getInt(1)).append('\n');
 			this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 		}
 		rs.close();
 		ps.close();
-		return movedJuniors;
+		return movedJuniors.toString();
 	}
 
 	public String removeTrainedJuniors(int clubId) throws SQLException {
-		String deletedJuniors = ""; //$NON-NLS-1$
+		StringBuilder deletedJuniors = new StringBuilder(); //$NON-NLS-1$
 		PreparedStatement ps;
 		PlayersDao playersDao = new PlayersDao(connection);
 		ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0"); //$NON-NLS-1$
@@ -314,15 +303,14 @@ public class JuniorsDao {
 			if (playersDao.existsPlayer(rs.getString(2), rs.getString(3))) {
 				this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 			} else {
-				deletedJuniors = deletedJuniors + rs.getInt(1) + '\n';
+				deletedJuniors.append(rs.getInt(1)).append('\n');
 				// deleteJunior(rs.getInt(1));
 				this.moveJunior(rs.getInt(1), Junior.STATUS_SACKED, clubId);
 			}
-
 		}
 		rs.close();
 		ps.close();
-		return deletedJuniors;
+		return deletedJuniors.toString();
 	}
 
 	public String removeTrainedJuniors(String sTemp, int clubId) throws SQLException {
@@ -335,9 +323,6 @@ public class JuniorsDao {
 		while (rs.next()) {
 
 			if (playersDao.existsPlayer(rs.getString(2), rs.getString(3))) {
-				// System.out.println("Przenosze juniora do
-				// wytrenowanych = " +
-				// rs.getInt(1));
 				this.moveJunior(rs.getInt(1), Junior.STATUS_TRAINED, clubId);
 			} else {
 				deletedJuniors = deletedJuniors + rs.getInt(1) + '\n';
@@ -360,7 +345,7 @@ public class JuniorsDao {
 		ps.executeUpdate();
 		ps.close();
 
-		ps = SQLSession.getConnection().prepareStatement(
+		ps = connection.prepareStatement(
 				"UPDATE player SET id_junior_fk = ? WHERE name = (SELECT name FROM junior WHERE id_junior = ?) AND surname = (SELECT surname FROM junior WHERE id_junior = ? ) AND youth_team_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, id);
 		ps.setInt(2, id);
@@ -371,9 +356,8 @@ public class JuniorsDao {
 
 	}
 
-	public static void updateJuniorNote(Person junior) throws SQLException {
-		PreparedStatement ps;
-		ps = SQLSession.getConnection().prepareStatement("UPDATE junior SET " + "note = ? " + "WHERE id_junior = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	public void updateJuniorNote(Person junior) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior SET " + "note = ? " + "WHERE id_junior = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		ps.setString(1, junior.getNote());
 		ps.setLong(2, junior.getId());

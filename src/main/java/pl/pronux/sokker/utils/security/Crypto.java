@@ -18,7 +18,6 @@ import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.logging.Level;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -29,7 +28,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import pl.pronux.sokker.exceptions.BadArgumentException;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class Crypto {
 
@@ -58,7 +57,7 @@ public class Crypto {
 		try {
 			in = new FileInputStream(file);
 			int c;
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			while ((c = in.read()) != -1) {
 				sb.append(c);
 			}
@@ -69,15 +68,15 @@ public class Crypto {
 
 			return verifySignature(publicKey, signature, buffer);
 		} catch (FileNotFoundException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (InvalidKeyException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (SignatureException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (NoSuchAlgorithmException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		}
 
 		return false;
@@ -113,7 +112,7 @@ public class Crypto {
 		try {
 			FileInputStream in = new FileInputStream(file);
 			int c;
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			while ((c = in.read()) != -1) {
 				sb.append(c);
 			}
@@ -127,13 +126,13 @@ public class Crypto {
 			sig.update(buffer, 0, buffer.length);
 			return sig.sign();
 		} catch (SignatureException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (InvalidKeyException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (NoSuchAlgorithmException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); //$NON-NLS-1$
 		}
 		return null;
 	}

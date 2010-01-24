@@ -1,0 +1,14 @@
+* added colors to club reports
+* added new plugin reports
+* added new plugin spy
+* added stars to player matches
+* added importer for SokkerOrganizer xml files
+* added function for import user logo into gallery
+* added function to restore autobackups
+* added info about players (from school, from transferlist)
+* added bug reporter
+* modified progress bar
+* fixed: proxy for updater
+* fixed: formula for arena simulator
+* small bugfixes
+* small corrections

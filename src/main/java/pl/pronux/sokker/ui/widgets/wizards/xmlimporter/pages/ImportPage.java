@@ -22,7 +22,6 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.events.UpdateEvent;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.custom.ProgressBarCustom;
@@ -96,7 +95,7 @@ public class ImportPage extends Page {
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			if (i == table.getColumnCount() - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					table.getColumn(i).pack();
 				}
 			} else {

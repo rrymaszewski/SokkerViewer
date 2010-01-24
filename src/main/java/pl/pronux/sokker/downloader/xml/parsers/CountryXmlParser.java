@@ -2,7 +2,6 @@ package pl.pronux.sokker.downloader.xml.parsers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -14,7 +13,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import pl.pronux.sokker.model.Country;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class CountryXmlParser {
 
@@ -36,7 +35,7 @@ public class CountryXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuffer message;
+			StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
@@ -78,7 +77,7 @@ public class CountryXmlParser {
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equals("country")) { //$NON-NLS-1$
 					TAG_switch = TAG_country;
@@ -110,7 +109,7 @@ public class CountryXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

@@ -338,7 +338,6 @@ public class Configurator {
 		alView.add(new ViewProxy());
 		alView.add(new ViewPassword());
 		alView.add(new ViewBackup());
-		alView.add(new ViewDatabase());
 //		alView.add(new ViewTemplates());
 
 		ArrayList<IPlugin> alPlugins = ViewerHandler.getViewer().getPluginsList();

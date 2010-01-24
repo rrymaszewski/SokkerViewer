@@ -3,7 +3,9 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -26,7 +28,7 @@ import pl.pronux.sokker.model.Rank;
 import pl.pronux.sokker.model.Stand;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.User;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class TeamXmlParser {
 
@@ -84,7 +86,7 @@ public class TeamXmlParser {
 
 	static int TAG_switch = 0;
 
-	private ArrayList<Stand> alStand;
+	private List<Stand> stands;
 
 	private Arena arena;
 
@@ -121,15 +123,12 @@ public class TeamXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
 				case TAG_stand_size:
-					stand.setSize(Integer.valueOf(message.toString()).intValue());
+					stand.setCapacity(Integer.valueOf(message.toString()).intValue());
 					break;
 				case TAG_stand_type:
 					stand.setType(Integer.valueOf(message.toString()).intValue());
@@ -196,7 +195,7 @@ public class TeamXmlParser {
 			// obsluga bledow
 
 			public void endDocument() {
-				if(club.getId() == -1) {
+				if (club.getId() == -1) {
 					club = null;
 				} else {
 					club.setArena(arena);
@@ -210,21 +209,34 @@ public class TeamXmlParser {
 			public void endElement(String namespaceURL, String localName, String qName) {
 				current_tag = 0;
 				if (localName.equalsIgnoreCase("stand")) { //$NON-NLS-1$
-					alStand.add(stand);
+					stands.add(stand);
 				} else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
-					arena.setStands(alStand);
+
+					if (stands.size() < 8) {
+						Map<Integer, Stand> standsMap = new HashMap<Integer, Stand>();
+						for (Stand stand : stands) {
+							standsMap.put(stand.getLocation(), stand);
+						}
+
+						for (int i = Stand.N; i <= Stand.SE; i++) {
+							if (standsMap.get(i) == null) {
+								stands.add(new Stand(i, 0, 100, 0, 0.0));
+							}
+						}
+					}
+					arena.setStands(stands);
 				} else if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
 					alClubFanclub.add(clubFanclub);
 					alClubMoney.add(clubMoney);
 					alClubName.add(clubName);
 					alRank.add(rank);
 					alArenaName.add(clubArenaName);
-					arena.setAlArenaName(alArenaName);
+					arena.setArenaNames(alArenaName);
 				}
 			}
 
 			public void startDocument() {
-				alStand = new ArrayList<Stand>();
+				stands = new ArrayList<Stand>();
 				alArenaName = new ArrayList<ClubArenaName>();
 				alClubFanclub = new ArrayList<ClubSupporters>();
 				alClubMoney = new ArrayList<ClubBudget>();
@@ -247,11 +259,11 @@ public class TeamXmlParser {
 				rank = new Rank();
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
 					TAG_switch = TAG_arena;
@@ -330,7 +342,7 @@ public class TeamXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();
@@ -339,7 +351,8 @@ public class TeamXmlParser {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see pl.pronux.sokker.downloader.xml.parsers.TeamXmlParserInterface#getClub()
 	 */
 	public Club getClub() {
@@ -348,7 +361,9 @@ public class TeamXmlParser {
 
 }
 
+
 class TeamErrorHandler implements ErrorHandler {
+
 	public void warning(SAXParseException e) throws SAXException {
 		// throw new SAXException();
 	}

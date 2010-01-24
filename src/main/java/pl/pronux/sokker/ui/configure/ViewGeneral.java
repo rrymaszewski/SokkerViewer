@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.actions.SettingsManager;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
@@ -24,6 +24,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewGeneral implements IViewConfigure {
 
+	private SettingsManager settingsManager = SettingsManager.instance();
+	
 	private TreeItem treeItem;
 
 	private Composite composite;
@@ -108,7 +110,7 @@ public class ViewGeneral implements IViewConfigure {
 		// formData.height = 15;
 
 		confShellLangTypeCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
-		confShellLangTypeCombo.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
+		confShellLangTypeCombo.setItems(Language.languageNames());
 		confShellLangTypeCombo.setLayoutData(formData);
 		confShellLangTypeCombo.pack();
 
@@ -127,7 +129,7 @@ public class ViewGeneral implements IViewConfigure {
 		startupButton.setSelection(settings.isStartup());
 		closeButton.setSelection(settings.isInfoClose());
 
-		String language = settings.getLanguage(settings.getLangCode());
+		String language = Language.getLanguageName(settings.getLangCode());
 		if (language != null) {
 			confShellLangTypeCombo.setText(language);
 			confShellLangTypeCombo.pack();
@@ -152,7 +154,7 @@ public class ViewGeneral implements IViewConfigure {
 		settings.setUpdate(downloadButton.getSelection());
 
 		String text = confShellLangTypeCombo.getItem(confShellLangTypeCombo.getSelectionIndex());
-		String langCode = settings.getLangCode(text);
+		String langCode = Language.getLanguageCode(text);
 
 		if (langCode != null) {
 			if (!langCode.equals(settings.getLangCode())) {
@@ -161,7 +163,7 @@ public class ViewGeneral implements IViewConfigure {
 			}
 		}
 		try {
-			new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+			settingsManager.updateSettings(settings);
 		} catch (FileNotFoundException e1) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("Configurator", e1);
 		} catch (IOException e1) {

@@ -101,8 +101,8 @@ public class MatchInfoTable extends SVTable<Match> {
 			} else {
 				this.getItem(2).setText(2, ""); //$NON-NLS-1$
 			}
-			if(match.getHomeTeam() != null && match.getHomeTeam().getArena() != null && match.getHomeTeam().getArena().getAlArenaName().size() > 0 && match.getHomeTeam().getArena().getAlArenaName().get(0).getArenaName() != null) {
-				this.getItem(2).setText(2, match.getHomeTeam().getArena().getAlArenaName().get(match.getHomeTeam().getArena().getAlArenaName().size() - 1).getArenaName());
+			if(match.getHomeTeam() != null && match.getHomeTeam().getArena() != null && match.getHomeTeam().getArena().getArenaNames().size() > 0 && match.getHomeTeam().getArena().getArenaNames().get(0).getArenaName() != null) {
+				this.getItem(2).setText(2, match.getHomeTeam().getArena().getArenaNames().get(match.getHomeTeam().getArena().getArenaNames().size() - 1).getArenaName());
 			} else {
 				this.getItem(2).setText(2, "?");				 //$NON-NLS-1$
 			}

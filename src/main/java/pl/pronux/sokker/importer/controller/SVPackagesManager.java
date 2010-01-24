@@ -176,4 +176,9 @@ public class SVPackagesManager extends PackagesManager implements IRunnableWithP
 		this.packages = packages;
 	}
 
+	public void onFinish() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

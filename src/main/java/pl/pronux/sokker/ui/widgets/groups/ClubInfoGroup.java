@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.tables.ClubInfoTable;
 
 public class ClubInfoGroup extends Group {
@@ -29,7 +29,7 @@ public class ClubInfoGroup extends Group {
 		FormData formData;
 		this.setFont(ConfigBean.getFontMain());
 		this.setText(Messages.getString("team.info")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 
 		clubInfoTable = new ClubInfoTable(this, SWT.FULL_SELECTION);
 

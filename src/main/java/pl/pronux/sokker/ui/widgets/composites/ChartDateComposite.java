@@ -8,7 +8,6 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -26,17 +25,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
 import pl.pronux.sokker.model.Date;
-import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class ChartDateComposite extends Composite {
-	final static Color colorBlack = ColorResources.getBlack();
-
-	final static Color colorDarkGray = ColorResources.getColor(105, 105, 105);
-
-	// private Font fontMy;
-
-	final static Color colorRed = ColorResources.getRed();
-
 	private Canvas canvas;
 
 	private JFreeChart chart;

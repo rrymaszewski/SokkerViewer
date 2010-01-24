@@ -21,11 +21,11 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Exchange;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;

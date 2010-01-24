@@ -1,7 +1,6 @@
 package pl.pronux.sokker.model;
 
 public class Transfer {
-	public final static String IDENTIFIER = "TRANSFER"; //$NON-NLS-1$
 	public final static int IN = 0;
 	public final static int OUT = 1;
 	private int transferID;

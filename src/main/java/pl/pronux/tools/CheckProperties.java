@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import pl.pronux.sokker.data.properties.SVProperties;
+import pl.pronux.sokker.enums.Language;
 
 public class CheckProperties {
 
@@ -17,36 +18,36 @@ public class CheckProperties {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String baseDir = System.getProperty("user.dir");
-		File sokkerPropertiesFileIn = new File(baseDir + File.separator
-				+ "properties" + File.separator + "lang" + File.separator
-				+ "sokker.properties");
-		File sokkerPropertiesFileOut = new File(baseDir + File.separator
-				+ "properties" + File.separator + "lang" + File.separator
-				+ "sokker_cs_CZ.properties");
-		sokkerPropertiesIn = new SVProperties();
-		sokkerPropertiesOut = new SVProperties();
-		try {
-			sokkerPropertiesIn.loadFile(sokkerPropertiesFileIn);
-			sokkerPropertiesOut.loadFile(sokkerPropertiesFileOut);
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
-		}
-		
-		Set<Object> setIn = sokkerPropertiesIn.keySet();
-		
-		Iterator<Object> itr = setIn.iterator();
-		
-		while(itr.hasNext()) {
-			String key = (String)itr.next(); 
-			String valueIn = (String)sokkerPropertiesIn.get(key);
-			String valueOut = (String)sokkerPropertiesOut.get(key);
+		for (Language language : Language.values()) {
+			String baseDir = System.getProperty("user.dir");
+			File sokkerPropertiesFileIn = new File(baseDir + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator
+												   + "lang" + File.separator + "sokker.properties");
+			File sokkerPropertiesFileOut = new File(baseDir + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator
+													+ "lang" + File.separator + "sokker_" + language.name() + ".properties");
+			sokkerPropertiesIn = new SVProperties();
+			sokkerPropertiesOut = new SVProperties();
+			try {
+				sokkerPropertiesIn.loadFile(sokkerPropertiesFileIn);
+				sokkerPropertiesOut.loadFile(sokkerPropertiesFileOut);
+			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
+			}
+
+			Set<Object> setIn = sokkerPropertiesIn.keySet();
+
+			Iterator<Object> itr = setIn.iterator();
+
+			System.out.println("========================== " + language.getLanguageName() + " =================================");
 			
-			if(valueOut == null || valueOut.equals("")) {
-				System.out.println(key + "=" + valueIn);
+			while (itr.hasNext()) {
+				String key = (String) itr.next();
+				String valueIn = (String) sokkerPropertiesIn.get(key);
+				String valueOut = (String) sokkerPropertiesOut.get(key);
+
+				if (valueOut == null || valueOut.isEmpty()) {
+					System.out.println(key + "=" + valueIn);
+				}
 			}
 		}
 	}
-
 }

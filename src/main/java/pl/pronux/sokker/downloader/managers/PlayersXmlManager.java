@@ -23,6 +23,8 @@ import pl.pronux.sokker.model.Training;
 
 public class PlayersXmlManager extends XmlManager<Player> {
 
+	private PlayersManager playersManager = PlayersManager.instance();
+	
 	Map<String, String> teamsMap = new HashMap<String, String>();
 	
 	public String completeYouthTeamId() throws SQLException {
@@ -95,7 +97,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 	}
 	
 	public void importToSQL(Training training) throws SQLException {
-		new PlayersManager().addPlayers(alPlayers, training);
+		playersManager.addPlayers(alPlayers, training);
 	}
 
 	public List<Player> parseXML() throws SAXException {

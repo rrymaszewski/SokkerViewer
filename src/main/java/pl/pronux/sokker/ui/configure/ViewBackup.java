@@ -17,8 +17,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
@@ -30,13 +29,15 @@ public class ViewBackup implements IViewConfigure {
 
 	private TreeItem treeItem;
 	private Composite composite;
-//	private Group proxyGroup;
+	// private Group proxyGroup;
 	private SokkerViewerSettings settings;
 	private Group backupGroup;
 	private CLabel backupLabel;
 	private Text backupPathText;
 	private Button backupPathButton;
 	protected String tempPropsFile;
+
+	private SettingsManager settingsManager = SettingsManager.instance();
 
 	public void clear() {
 
@@ -70,7 +71,6 @@ public class ViewBackup implements IViewConfigure {
 		backupGroup.setLayoutData(formData);
 		backupGroup.setLayout(new FormLayout());
 
-
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 10);
 		formData.left = new FormAttachment(0, 10);
@@ -79,7 +79,6 @@ public class ViewBackup implements IViewConfigure {
 
 		backupLabel = new CLabel(backupGroup, SWT.NONE);
 		backupLabel.setLayoutData(formData);
-
 
 		formData = new FormData();
 		formData.top = new FormAttachment(backupLabel, 5);
@@ -99,15 +98,14 @@ public class ViewBackup implements IViewConfigure {
 				dirDialog.setFilterPath(settings.getBackupDirectory());
 
 				tempPropsFile = dirDialog.open();
-				if(tempPropsFile != null) {
+				if (tempPropsFile != null) {
 					backupPathText.setText(tempPropsFile);
 				}
 			}
 		});
 
-
 		formData = new FormData();
-//		formData.top = new FormAttachment(backupPathText, 0, SWT.CENTER);
+		// formData.top = new FormAttachment(backupPathText, 0, SWT.CENTER);
 		formData.left = new FormAttachment(0, 10);
 		formData.top = new FormAttachment(backupLabel, 5);
 		formData.right = new FormAttachment(backupPathButton, -10);
@@ -136,7 +134,6 @@ public class ViewBackup implements IViewConfigure {
 		this.settings = sokkerViewerSettings;
 	}
 
-
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
 		treeItem.setText(Messages.getString("configure.backup")); //$NON-NLS-1$
@@ -149,7 +146,7 @@ public class ViewBackup implements IViewConfigure {
 	public void applyChanges() {
 		File backupDir = new File(settings.getBackupDirectory());
 
-		if (tempPropsFile != null && !tempPropsFile.equals( settings.getBackupDirectory() )) {
+		if (tempPropsFile != null && !tempPropsFile.equals(settings.getBackupDirectory())) {
 			if (OperationOnFile.getDirList(new File(tempPropsFile)).size() == 0) {
 				if (new File(tempPropsFile).canWrite()) {
 
@@ -160,7 +157,7 @@ public class ViewBackup implements IViewConfigure {
 					try {
 						backupPathText.setText(tempPropsFile);
 						settings.setBackupDirectory(tempPropsFile);
-						new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
+						settingsManager.updateSettings(settings);
 						MessageDialog.openInformationMessage(composite.getShell(), Messages.getString("message.db.move.text")); //$NON-NLS-1$
 					} catch (IOException e) {
 						MessageDialog.openErrorMessage(composite.getShell(), e.getLocalizedMessage());

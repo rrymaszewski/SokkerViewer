@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.League;
@@ -20,13 +21,12 @@ import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.model.LeagueSeason;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
-import pl.pronux.sokker.ui.widgets.composites.LeagueComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.LeagueComposite;
 import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewLeague implements IPlugin {
@@ -128,14 +128,14 @@ public class ViewLeague implements IPlugin {
 				TreeItem item = treeItem.getParent().getItem(point);
 
 				if (item != null) {
-					if (item.getData(LeagueRound.IDENTIFIER) != null) { 
-						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.IDENTIFIER); 
-						leagueComposite.fillLeagueTable(leagueRound);
+					if (item.getData(LeagueRound.class.getName()) != null) { 
+						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.class.getName()); 
+						leagueComposite.fillLeague(leagueRound);
 						show(leagueComposite);
 					}
 
-					if (item.getData(Match.IDENTIFIER) != null) { 
-						Match match = (Match) item.getData(Match.IDENTIFIER); 
+					if (item.getData(Match.class.getName()) != null) { 
+						Match match = (Match) item.getData(Match.class.getName()); 
 						matchComposite.fill(match);
 						show(matchComposite);
 					}
@@ -153,14 +153,14 @@ public class ViewLeague implements IPlugin {
 				}
 
 				if (item != null) {
-					if (item.getData(LeagueRound.IDENTIFIER) != null) { 
-						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.IDENTIFIER); 
-						leagueComposite.fillLeagueTable(leagueRound);
+					if (item.getData(LeagueRound.class.getName()) != null) { 
+						LeagueRound leagueRound = (LeagueRound) item.getData(LeagueRound.class.getName()); 
+						leagueComposite.fillLeague(leagueRound);
 						show(leagueComposite);
 					}
 
-					if (item.getData(Match.IDENTIFIER) != null) { 
-						Match match = (Match) item.getData(Match.IDENTIFIER); 
+					if (item.getData(Match.class.getName()) != null) { 
+						Match match = (Match) item.getData(Match.class.getName()); 
 						matchComposite.fill(match);
 						show(matchComposite);
 					}
@@ -188,8 +188,8 @@ public class ViewLeague implements IPlugin {
 					treeItemSeason.setImage(ImageResources.getImageResources("seasons.png")); //$NON-NLS-1$
 //					treeItemSeason.setText(langResources.getString("league.season") + " " + leagueSeason.getSeason());
 					treeItemSeason.setText(String.format("%s %2d (%s)", Messages.getString("league.season"), leagueSeason.getRawSeason(), leagueSeason.getLeague().getName())); //$NON-NLS-1$ //$NON-NLS-2$
-					treeItemSeason.setData(LeagueSeason.IDENTIFIER, leagueSeason);
-					for (LeagueRound round : leagueSeason.getAlRounds()) {
+					treeItemSeason.setData(LeagueSeason.class.getName(), leagueSeason);
+					for (LeagueRound round : leagueSeason.getRounds()) {
 						TreeItem treeItemRound = new TreeItem(treeItemSeason, SWT.NONE);
 						if(round.getRoundNumber() == 0) {
 							treeItemRound.setImage(ImageResources.getImageResources("round0.png")); //$NON-NLS-1$
@@ -200,7 +200,7 @@ public class ViewLeague implements IPlugin {
 						}
 
 						treeItemRound.setText(Messages.getString("league.round") + " " + round.getRoundNumber()); //$NON-NLS-1$ //$NON-NLS-2$
-						treeItemRound.setData(LeagueRound.IDENTIFIER, round); 
+						treeItemRound.setData(LeagueRound.class.getName(), round); 
 						for (Match match : round.getMatches()) {
 							TreeItem treeItemMatch = new TreeItem(treeItemRound, SWT.NONE);
 							treeItemMatch.setImage(ImageResources.getImageResources("match.png")); //$NON-NLS-1$
@@ -222,7 +222,7 @@ public class ViewLeague implements IPlugin {
 								awayTeam = String.valueOf(match.getAwayTeamID());
 							}
 							treeItemMatch.setText(homeTeam + " - " + awayTeam); //$NON-NLS-1$
-							treeItemMatch.setData(Match.IDENTIFIER, match); 
+							treeItemMatch.setData(Match.class.getName(), match); 
 							if(match.getIsFinished() == Match.NOT_FINISHED) {
 								treeItemMatch.setForeground(ColorResources.getGray());
 								treeItemMatch.getParentItem().setForeground(ColorResources.getGray());

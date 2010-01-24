@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.AssistantManager;
 import pl.pronux.sokker.actions.PlayersManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -34,7 +35,6 @@ import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -50,6 +50,8 @@ public class ViewAssistant implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
+		private PlayersManager playersManager = PlayersManager.instance();
+		
 		private Composite composite;
 
 		private Table confTable;
@@ -61,7 +63,9 @@ public class ViewAssistant implements IPlugin, ISort {
 		private TreeItem treeItem;
 
 		private boolean changed;
-
+		
+		private AssistantManager assistantManager = AssistantManager.instance();
+		
 		private void addTableEditor(final Table table) {
 			final TableEditor editor = new TableEditor(table);
 			editor.horizontalAlignment = SWT.LEFT;
@@ -91,7 +95,7 @@ public class ViewAssistant implements IPlugin, ISort {
 										switch (e.type) {
 										case SWT.FocusOut:
 											String temp = item.getText(column);
-											if(text.getText().equals("")) {
+											if(text.getText().isEmpty()) {
 												text.setText("0");
 											}
 											item.setText(column, text.getText());
@@ -109,7 +113,7 @@ public class ViewAssistant implements IPlugin, ISort {
 											case SWT.TRAVERSE_RETURN:
 
 												temp = item.getText(column);
-												if(text.getText().equals("")) {
+												if(text.getText().isEmpty()) {
 													text.setText("0");
 												}
 												item.setText(column, text.getText());
@@ -169,14 +173,14 @@ public class ViewAssistant implements IPlugin, ISort {
 				try {
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_WAIT));
 					Cache.setAssistant(getConfigurationTableData(confTable));
-					PlayersManager.updateAssistantData(Cache.getAssistant());
-					PlayersManager.calculatePositionForAllPlayer(players, Cache.getAssistant());
-					new PlayersManager().updatePlayersPositions(players);
+					playersManager.updateAssistantData(Cache.getAssistant());
+					playersManager.calculatePositionForAllPlayer(players, Cache.getAssistant());
+					playersManager.updatePlayersPositions(players);
 					playersTable.fill(players);
 //					composite.getShell().notifyListeners(IEvents.REFRESH_PLAYERS_DESCRIPTION, new Event());
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_ARROW));
 				} catch (SQLException e) {
-					new BugReporter(composite.getDisplay()).openErrorMessage("ViewJuniorsFired", e);
+					new BugReporter(composite.getDisplay()).openErrorMessage("ViewAssistant", e);
 				}
 
 				changed = false;
@@ -359,9 +363,9 @@ public class ViewAssistant implements IPlugin, ISort {
 
 						try {
 							Cache.setAssistant(data);
-							PlayersManager.updateAssistantData(data);
-							PlayersManager.calculatePositionForAllPlayer(players, data);
-							new PlayersManager().updatePlayersPositions(players);
+							playersManager.updateAssistantData(data);
+							playersManager.calculatePositionForAllPlayer(players, data);
+							playersManager.updatePlayersPositions(players);
 							fillConfigurationTable(confTable, data);
 
 							playersTable.fill(players);
@@ -388,11 +392,11 @@ public class ViewAssistant implements IPlugin, ISort {
 					ViewerHandler.getViewer().setCursor(CursorResources.getCursor(SWT.CURSOR_WAIT));
 
 					SQLSession.connect();
-					int[][] data = AssistantManager.getAssistantData();
+					int[][] data = assistantManager.getAssistantData();
 
 					Cache.setAssistant(data);
-					PlayersManager.calculatePositionForAllPlayer(players, data);
-					new PlayersManager().updatePlayersPositions(players);
+					playersManager.calculatePositionForAllPlayer(players, data);
+					playersManager.updatePlayersPositions(players);
 					fillConfigurationTable(confTable, data);
 
 					playersTable.fill(players);

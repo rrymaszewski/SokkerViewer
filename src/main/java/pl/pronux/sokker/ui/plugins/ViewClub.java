@@ -23,10 +23,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.TeamManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -44,6 +44,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewClub implements IPlugin {
 
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private Composite composite;
@@ -242,7 +244,7 @@ public class ViewClub implements IPlugin {
 			if(init) {
 				club.setImagePath(imagePathText.getText());
 				try {
-					new TeamManager().updateClubImagePath(club);
+					teamManager.updateClubImagePath(club);
 				} catch (SQLException e) {
 					new BugReporter(composite.getDisplay()).openErrorMessage("ViewClub -> update logo", e);
 				}

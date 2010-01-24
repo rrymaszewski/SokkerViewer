@@ -5,12 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.JuniorsManager;
 import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.actions.TeamManager;
@@ -37,10 +36,20 @@ import pl.pronux.sokker.model.Report;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.OperationOnFile;
-import pl.pronux.sokker.utils.file.SVLogger;
 
 public class ImportXMLAction implements IRunnableWithProgress {
+
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+
+	private TrainersManager trainersManager = TrainersManager.instance();
+
+	private TeamManager teamManager = TeamManager.instance();
+
+	private JuniorsManager juniorsManager = JuniorsManager.instance();
+
+	private PlayersManager playersManager = PlayersManager.instance();
 
 	private ArrayList<IXMLpack> packages;
 
@@ -52,8 +61,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 		monitor.beginTask(Messages.getString("ImportXMLAction.start"), packages.size()); //$NON-NLS-1$
 		try {
 			SQLSession.connect();
-			DatabaseConfiguration dbConfiguration = new DatabaseConfiguration();
-			int teamID = dbConfiguration.getTeamID();
+			int teamID = configurationManager.getTeamID();
 			for (IXMLpack child : packages) {
 				if (monitor.isCanceled()) {
 					throw new InterruptedException();
@@ -73,10 +81,13 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							// countriesManager.parseXML();
 							// countriesManager.importToSQL();
 							// }
-							TeamsXmlManager teamXmlManager = new TeamsXmlManager(OperationOnFile.readFromFile(pack.getTeam(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
-							PlayersXmlManager playersXmlManager = new PlayersXmlManager(OperationOnFile.readFromFile(pack.getPlayers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
-							JuniorsXmlManager juniorsXmlManager = new JuniorsXmlManager(OperationOnFile.readFromFile(pack.getJuniors(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
-							TrainersXmlManager trainersManager;
+							TeamsXmlManager teamXmlManager = new TeamsXmlManager(
+								OperationOnFile.readFromFile(pack.getTeam(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+							PlayersXmlManager playersXmlManager = new PlayersXmlManager(
+								OperationOnFile.readFromFile(pack.getPlayers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+							JuniorsXmlManager juniorsXmlManager = new JuniorsXmlManager(
+								OperationOnFile.readFromFile(pack.getJuniors(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+							TrainersXmlManager trainersXMLManager;
 							TransfersXmlManager transfersManager;
 							ReportsXmlManager reportsManager;
 							List<Coach> trainers;
@@ -84,32 +95,30 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							Club club = teamXmlManager.parseXML(teamID);
 							List<Player> players = playersXmlManager.parseXML();
 							List<Junior> juniors = juniorsXmlManager.parseXML();
-							
-							TeamManager teamManager = new TeamManager();
-							PlayersManager playersManager = new PlayersManager();
-							JuniorsManager juniorsManager = new JuniorsManager();
-							
-							if(club.getId() == teamID) {
+
+							if (club.getId() == teamID) {
 								if (club.getId() == pack.getTeamID()) {
 									teamManager.importerTeam(club, pack.getDate());
 								}
 
 								Training training = null;
-								
+
 								if (club != null) {
 									training = club.getTraining();
-									if(pack.getTrainers() != null) {
-										 trainersManager = new TrainersXmlManager(OperationOnFile.readFromFile(pack.getTrainers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
-										 trainers = trainersManager.parseXML();
-										 new TrainersManager().importerTrainers(trainers);
-										 trainersManager.importCoachesAtTraining(training);
+									if (pack.getTrainers() != null) {
+										trainersXMLManager = new TrainersXmlManager(
+											OperationOnFile.readFromFile(pack.getTrainers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+										trainers = trainersXMLManager.parseXML();
+										trainersManager.importerTrainers(trainers);
+										trainersXMLManager.importCoachesAtTraining(training);
 									}
 								}
 								playersManager.importPlayers(players, training);
 								juniorsManager.importJuniors(juniors, training, club.getId());
 
 								if (pack.getReports() != null) {
-									reportsManager = new ReportsXmlManager(OperationOnFile.readFromFile(pack.getReports(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+									reportsManager = new ReportsXmlManager(
+										OperationOnFile.readFromFile(pack.getReports(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
 									List<Report> reports = reportsManager.parseXML();
 									teamManager.importerReports(reports);
 								}
@@ -128,50 +137,53 @@ public class ImportXMLAction implements IRunnableWithProgress {
 								// }
 
 								if (pack.getTransfers() != null) {
-									transfersManager = new TransfersXmlManager(OperationOnFile.readFromFile(pack.getTransfers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+									transfersManager = new TransfersXmlManager(
+										OperationOnFile.readFromFile(pack.getTransfers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
 									List<Transfer> transfers = transfersManager.parseXML();
 									teamManager.importerTransfers(transfers);
 								}
-								
-//								if(pack.getLeagues().size() > 0) {
-//									leagueXmlManager = new LeagueXmlManager();
-//									List<String> leagues = new ArrayList<String>();
-//									for(File league : pack.getLeagues()) {
-//										leagues.add(OperationOnFile.readFromFile(league, "UTF-8"));
-//									}
-//									leagueXmlManager.parseXML(leagues);
-//									leagueXmlManager.importToSQL();
-//								}
-//								
-//								if(pack.getMatches().size() > 0) {
-//									matchXmlManager = new MatchXmlManager();
-//									List<String> matches = new ArrayList<String>();
-//									for(File match : pack.getMatches()) {
-//										matches.add(OperationOnFile.readFromFile(match, "UTF-8"));
-//									}
-//									matchXmlManager.parseXML(matches);
-//									matchXmlManager.importToSQL();
-//								}
+
+								// if(pack.getLeagues().size() > 0) {
+								// leagueXmlManager = new LeagueXmlManager();
+								// List<String> leagues = new ArrayList<String>();
+								// for(File league : pack.getLeagues()) {
+								// leagues.add(OperationOnFile.readFromFile(league, "UTF-8"));
+								// }
+								// leagueXmlManager.parseXML(leagues);
+								// leagueXmlManager.importToSQL();
+								// }
+								//								
+								// if(pack.getMatches().size() > 0) {
+								// matchXmlManager = new MatchXmlManager();
+								// List<String> matches = new ArrayList<String>();
+								// for(File match : pack.getMatches()) {
+								// matches.add(OperationOnFile.readFromFile(match, "UTF-8"));
+								// }
+								// matchXmlManager.parseXML(matches);
+								// matchXmlManager.importToSQL();
+								// }
 								pack.setImported(true);
 							} else {
-								pack.setImported(false);	
+								pack.setImported(false);
 							}
-							
+
 							SQLSession.commit();
-							
+
 						} catch (Exception e) {
 							pack.setImported(false);
 							SQLSession.rollback();
-							new SVLogger(Level.WARNING, "XML Importer ", e); //$NON-NLS-1$
+							Log.error("XML Importer ", e); //$NON-NLS-1$
+						} finally {
+							SQLSession.endTransaction();
 						}
 					}
 				} else if (child instanceof XMLpackOld) {
 					XMLpackOld pack = (XMLpackOld) child;
 					try {
-						
-						//FIXME: data zmiany kodowania z ISO-8859-2 na utf 24.03.2006 
+
+						// FIXME: data zmiany kodowania z ISO-8859-2 na utf 24.03.2006
 						// BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(importXMLTable.getItem(i).getText(0)), "ISO-8859-2")); //$NON-NLS-1$
-						
+
 						SQLSession.beginTransaction();
 						OldXmlParser oldXMLParser = new OldXmlParser();
 						String xml = OperationOnFile.readFromFile(pack.getFile(), "UTF-8"); //$NON-NLS-1$
@@ -183,26 +195,22 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							oldXMLParser.parseXmlSax(input, null);
 						}
 						Club club = oldXMLParser.getClub();
-						if(club.getId() == teamID) {
-							TrainersManager trainersManager = new TrainersManager();
-							TeamManager teamManager = new TeamManager();
-							PlayersManager playersManager = new PlayersManager();
-							JuniorsManager juniorsManager = new JuniorsManager();
+						if (club.getId() == teamID) {
 
 							trainersManager.importerTrainers(club.getCoaches());
 							teamManager.importerTeam(club, pack.getDate());
 							Training training = null;
 							if (club != null) {
 								training = club.getTraining();
-								if (( training.getStatus() & Training.NEW_TRAINING ) != 0) {
+								if ((training.getStatus() & Training.NEW_TRAINING) != 0) {
 									trainersManager.importTrainersAtTraining(club.getCoaches(), training);
-								} else if ((training.getStatus() & Training.UPDATE_TRAINING) != 0 ) {
+								} else if ((training.getStatus() & Training.UPDATE_TRAINING) != 0) {
 									trainersManager.updateTrainersAtTraining(club.getCoaches(), training);
 								}
 							}
 							playersManager.importPlayers(club.getPlayers(), training);
 							juniorsManager.importJuniors(club.getJuniors(), training, club.getId());
-							
+
 							pack.setImported(true);
 						} else {
 							pack.setImported(false);
@@ -211,26 +219,33 @@ public class ImportXMLAction implements IRunnableWithProgress {
 					} catch (Exception e) {
 						pack.setImported(false);
 						SQLSession.rollback();
-						new SVLogger(Level.WARNING, "XML Importer ", e); //$NON-NLS-1$
+						Log.error("XML Importer ", e); //$NON-NLS-1$
+					} finally {
+						SQLSession.endTransaction();
 					}
 
 				}
 				monitor.worked(1);
 			}
-//			new DatabaseConfiguration().updateDbCountry(true);
-//			new DatabaseConfiguration().updateDbUpdate(true);
-//			SQLSession.commit();
+			// new DatabaseConfiguration().updateDbCountry(true);
+			// new DatabaseConfiguration().updateDbUpdate(true);
+			// SQLSession.commit();
 			SQLSession.close();
 		} catch (SQLException e) {
 			try {
 				SQLSession.rollback();
 				SQLSession.close();
 			} catch (SQLException e1) {
-				new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+				Log.error("Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
 			}
-			new SVLogger(Level.WARNING, "Synchronizer -> SQL Importing", e); //$NON-NLS-1$
+			Log.error("Synchronizer -> SQL Importing", e); //$NON-NLS-1$
 		} finally {
 			monitor.done();
 		}
+	}
+
+	public void onFinish() {
+		// TODO Auto-generated method stub
+
 	}
 }

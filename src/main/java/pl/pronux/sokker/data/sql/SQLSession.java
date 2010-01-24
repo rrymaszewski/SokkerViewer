@@ -4,20 +4,13 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
-import pl.pronux.sokker.model.DatabaseSettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class SQLSession {
-	static Connection connection;
 
-	public static int databaseType;
-
-	public static final int HSQLDB = 2;
-
-	public static final int POSTGRESQL = 1;
+	private static Connection connection;
 
 	public static void beginTransaction() throws SQLException {
 		if (SQLSession.getConnection() != null) {
@@ -26,19 +19,13 @@ public class SQLSession {
 	}
 
 	public static void close() throws SQLException {
-		if (SQLSession.getConnection() != null) {
-			try {
-				if (!SQLSession.getConnection().isClosed()) {
-					SQLSession.getConnection().close();
-				}
-			} catch (SQLException e) {
-				throw e;
+		try {
+			if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+				SQLSession.getConnection().close();
 			}
+		} catch (SQLException e) {
+			throw e;
 		}
-	}
-
-	public static void close(Connection connection) throws SQLException {
-		connection.close();
 	}
 
 	public static void commit() throws SQLException {
@@ -46,43 +33,28 @@ public class SQLSession {
 	}
 
 	public static Connection connect() throws SQLException {
-		register();
-		SQLSession.setConnection(null);
+		SokkerViewerSettings settings = SQLQuery.getSettings();
+		String filename = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername();
+		return connect(filename);
+	}
+
+	public static Connection connect(String filename) throws SQLException {
+		loadDatabaseDriver("org.hsqldb.jdbcDriver");
+		connection = null;
 		try {
 			// The second and third arguments are the username and password,
 			// respectively. They should be whatever is necessary to connect
 			// to the database.
-			SokkerViewerSettings settings = SQLQuery.getSettings();
-			DatabaseSettings databaseSettings = settings.getDatabaseSettings();
-			if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.POSTGRESQL)) {
-				SQLSession
-						.setConnection(DriverManager
-								.getConnection(
-										"jdbc:postgresql://" + databaseSettings.getServer() + "/" + databaseSettings.getName() + "", "" + databaseSettings.getUsername() + "", "" + databaseSettings.getPassword() + "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-				SQLSession.databaseType = SQLSession.POSTGRESQL;
-			} else if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-				SQLSession.setConnection(DriverManager.getConnection(
-						"jdbc:hsqldb:" + settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ";shutdown=true", "sa", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-				SQLSession.databaseType = SQLSession.HSQLDB;
-			}
+
+			connection = DriverManager.getConnection("jdbc:hsqldb:" + filename + ";shutdown=true", "sa", "");
 		} catch (SQLException se) {
-			new SVLogger(Level.WARNING, "Couldn't connect: print out a stack trace and exit."); //$NON-NLS-1$
+			Log.warning("Couldn't connect: print out a stack trace and exit.");
 			throw se;
 		}
-		if (SQLSession.getConnection() != null) {
-		}
-		// System.out.println("Hooray! We connected to the database!");
-		else {
-			throw new SQLException("We should never get here."); //$NON-NLS-1$
+		if (SQLSession.getConnection() == null) {
+			throw new SQLException("We should never get here.");
 		}
 		return SQLSession.getConnection();
-	}
-
-	public static Connection connect(String file) throws ClassNotFoundException, SQLException {
-		Class.forName("org.hsqldb.jdbcDriver"); //$NON-NLS-1$
-
-		Connection connection = DriverManager.getConnection("jdbc:hsqldb:" + file + ";shutdown=true", "sa", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		return connection;
 	}
 
 	public static void endTransaction() throws SQLException {
@@ -95,38 +67,18 @@ public class SQLSession {
 		return SQLSession.connection;
 	}
 
-	static void register() {
-		// System.out.println("Checking if Driver is registered with
-		// DriverManager.");
-		DatabaseSettings databaseSettings = SQLQuery.getSettings().getDatabaseSettings();
+	private static void loadDatabaseDriver(String driverName) {
 		try {
-			if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.POSTGRESQL)) {
-				Class.forName("org.postgresql.Driver"); //$NON-NLS-1$
-			} else if (databaseSettings.getType().equalsIgnoreCase(DatabaseSettings.HSQLDB)) {
-				Class.forName("org.hsqldb.jdbcDriver"); //$NON-NLS-1$
-			}
-
+			Class.forName(driverName);
 		} catch (ClassNotFoundException cnfe) {
-			new SVLogger(Level.WARNING, "Couldn't find the driver!"); //$NON-NLS-1$
-			new SVLogger(Level.WARNING, "Let's print a stack trace, and exit."); //$NON-NLS-1$
-			new SVLogger(Level.WARNING, "Sql Class", cnfe); //$NON-NLS-1$
+			Log.error("Couldn't find the driver!", cnfe);
 		}
-
-		// System.out.println("Registered the driver ok, so let's make a
-		// connection.");
-
 	}
 
 	public static void rollback() throws SQLException {
-		if (SQLSession.getConnection() != null) {
-			if (!SQLSession.getConnection().isClosed()) {
-				SQLSession.getConnection().rollback();
-			}
+		if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+			SQLSession.getConnection().rollback();
 		}
-	}
-
-	public static void setConnection(Connection connection) {
-		SQLSession.connection = connection;
 	}
 
 	public static void close(boolean newConnection) throws SQLException {

@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.PersonsManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.CoachTrashComparator;
 import pl.pronux.sokker.comparators.JuniorTrashComparator;
 import pl.pronux.sokker.comparators.PlayerTrashComparator;
@@ -40,19 +41,21 @@ import pl.pronux.sokker.model.Person;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
+import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.TabComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewTrash implements IPlugin, ISort {
+
+	private PersonsManager personsManager = PersonsManager.instance();
 
 	private TreeItem _treeItem;
 
@@ -171,6 +174,7 @@ public class ViewTrash implements IPlugin, ISort {
 		treeCoachItem.setText(Messages.getString("tree.ViewCoaches"));
 		treeCoachItem.setImage(ImageResources.getImageResources("whistle.png"));
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
+
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = _treeItem.getParent().getItem(pt);
@@ -222,6 +226,7 @@ public class ViewTrash implements IPlugin, ISort {
 		});
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
+
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = _treeItem.getParent().getItem(pt);
@@ -240,6 +245,7 @@ public class ViewTrash implements IPlugin, ISort {
 		});
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
+
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = _treeItem.getParent().getItem(pt);
@@ -283,10 +289,11 @@ public class ViewTrash implements IPlugin, ISort {
 		coachesTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setLayoutData(formData);
 
-		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.salary"), Messages.getString("table.age"),
-				Messages.getString("table.generallSkill"), Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
-				Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"), Messages.getString("table.playmaker"),
-				Messages.getString("table.scorer"), "" };
+		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.salary"),
+						   Messages.getString("table.age"), Messages.getString("table.generallSkill"), Messages.getString("table.stamina"),
+						   Messages.getString("table.pace"), Messages.getString("table.technique"), Messages.getString("table.passing"),
+						   Messages.getString("table.keeper"), Messages.getString("table.defender"), Messages.getString("table.playmaker"),
+						   Messages.getString("table.scorer"), "" };
 
 		tabComposite.setViewTable(coachesTable);
 
@@ -303,8 +310,8 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (titles[i].equals("")) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (titles[i].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			}
@@ -395,7 +402,8 @@ public class ViewTrash implements IPlugin, ISort {
 		juniorsTable.setLinesVisible(true);
 		juniorsTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setLayoutData(formData);
-		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.skill"), Messages.getString("table.status"), "" };
+		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.skill"),
+						   Messages.getString("table.status"), "" };
 		tabComposite.setViewTable(juniorsTable);
 
 		juniorsTable.setFont(ConfigBean.getFontTable());
@@ -411,9 +419,9 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (titles[i].equals("")) {
+			if (titles[i].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			}
@@ -506,10 +514,11 @@ public class ViewTrash implements IPlugin, ISort {
 		playersTable.setLinesVisible(true);
 		playersTable.setLayoutData(tabComposite.getViewFormData());
 
-		String[] title = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.value"), Messages.getString("table.salary"),
-				Messages.getString("table.age"), Messages.getString("table.form"), Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
-				Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"), Messages.getString("table.playmaker"),
-				Messages.getString("table.scorer"), Messages.getString("table.sold"), "" };
+		String[] title = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.value"),
+						  Messages.getString("table.salary"), Messages.getString("table.age"), Messages.getString("table.form"),
+						  Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
+						  Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"),
+						  Messages.getString("table.playmaker"), Messages.getString("table.scorer"), Messages.getString("table.sold"), "" };
 
 		tabComposite.setViewTable(playersTable);
 
@@ -526,9 +535,9 @@ public class ViewTrash implements IPlugin, ISort {
 			column.setMoveable(false);
 			column.setResizable(false);
 
-			if (title[i].equals("")) {
+			if (title[i].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			}
@@ -645,13 +654,14 @@ public class ViewTrash implements IPlugin, ISort {
 		MenuItem menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restore"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				Person person = (Person) currentItem.getData("person");
 				if (person instanceof Player) {
 
 					try {
-						PersonsManager.restorePersonFromTrash(person);
+						personsManager.restorePersonFromTrash(person);
 						fillPlayersTable(playersTable);
 						((TabComposite) cTabItemPlayers.getControl()).getDescriptionComposite().clearAll();
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_PLAYERS_HISTORY, new Event());
@@ -661,10 +671,10 @@ public class ViewTrash implements IPlugin, ISort {
 				} else if (person instanceof Junior) {
 					try {
 						if (person.getStatus() == Junior.STATUS_TRAINED + 10) {
-							PersonsManager.restorePersonFromTrash(person);
+							personsManager.restorePersonFromTrash(person);
 							ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_JUNIORS_TRAINED, new Event());
 						} else if (person.getStatus() == Junior.STATUS_SACKED + 10) {
-							PersonsManager.restorePersonFromTrash(person);
+							personsManager.restorePersonFromTrash(person);
 							ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_JUNIORS_FIRED, new Event());
 						}
 						fillJuniorsTable(juniorsTable);
@@ -675,7 +685,7 @@ public class ViewTrash implements IPlugin, ISort {
 				} else if (person instanceof Coach) {
 
 					try {
-						PersonsManager.restorePersonFromTrash(person);
+						personsManager.restorePersonFromTrash(person);
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_COACHES_FIRED, new Event());
 						fillCoachesTable(coachesTable);
 						((TabComposite) cTabItemCoaches.getControl()).getDescriptionComposite().clearAll();
@@ -689,6 +699,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.delete"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -699,7 +710,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 					if (messageBox.open() == SWT.YES) {
 						try {
-							PersonsManager.removePersonFromTrash(person);
+							personsManager.removePersonFromTrash(person);
 							fillPlayersTable(playersTable);
 							((TabComposite) cTabItemPlayers.getControl()).getDescriptionComposite().clearAll();
 						} catch (SQLException e1) {
@@ -722,7 +733,7 @@ public class ViewTrash implements IPlugin, ISort {
 								messageBox.open();
 
 							} else {
-								PersonsManager.removePersonFromTrash(person);
+								personsManager.removePersonFromTrash(person);
 								fillJuniorsTable(juniorsTable);
 								((TabComposite) cTabItemJuniors.getControl()).getDescriptionComposite().clearAll();
 							}
@@ -745,7 +756,7 @@ public class ViewTrash implements IPlugin, ISort {
 					if (messageBox.open() == SWT.YES) {
 
 						try {
-							PersonsManager.removePersonFromTrash(person);
+							personsManager.removePersonFromTrash(person);
 							fillCoachesTable(coachesTable);
 							((TabComposite) cTabItemCoaches.getControl()).getDescriptionComposite().clearAll();
 						} catch (SQLException e1) {
@@ -773,6 +784,7 @@ public class ViewTrash implements IPlugin, ISort {
 		MenuItem menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				try {
 					SQLSession.connect();
@@ -780,7 +792,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 						Junior junior = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(junior);
+						personsManager.restorePersonFromTrash(junior);
 
 					}
 					ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_JUNIORS_FIRED, new Event());
@@ -801,6 +813,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAllTrainedJuniors"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 
 				try {
@@ -809,7 +822,7 @@ public class ViewTrash implements IPlugin, ISort {
 						Junior junior = itr.next();
 						if (junior.getStatus() == Junior.STATUS_TRAINED + 10) {
 							itr.remove();
-							PersonsManager.restorePersonFromTrash(junior);
+							personsManager.restorePersonFromTrash(junior);
 						}
 
 					}
@@ -832,6 +845,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAllFiredJuniors"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				try {
 					SQLSession.connect();
@@ -841,7 +855,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 						if (junior.getStatus() == Junior.STATUS_SACKED + 10) {
 							itr.remove();
-							PersonsManager.restorePersonFromTrash(junior);
+							personsManager.restorePersonFromTrash(junior);
 						}
 
 					}
@@ -863,6 +877,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -884,7 +899,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 							} else {
 								itr.remove();
-								PersonsManager.removePersonFromTrash(junior);
+								personsManager.removePersonFromTrash(junior);
 							}
 
 						}
@@ -906,6 +921,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAllTrainedJuniors"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -928,7 +944,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 								} else {
 									itr.remove();
-									PersonsManager.removePersonFromTrash(junior);
+									personsManager.removePersonFromTrash(junior);
 								}
 							}
 						}
@@ -951,6 +967,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpJuniors, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAllFiredJuniors"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -974,7 +991,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 								} else {
 									itr.remove();
-									PersonsManager.removePersonFromTrash(junior);
+									personsManager.removePersonFromTrash(junior);
 								}
 
 							}
@@ -1002,6 +1019,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpCoachesFired, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				try {
 					SQLSession.connect();
@@ -1009,7 +1027,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 						Coach coach = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(coach);
+						personsManager.restorePersonFromTrash(coach);
 
 					}
 					ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_COACHES_FIRED, new Event());
@@ -1031,6 +1049,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpCoachesFired, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -1043,7 +1062,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 							Coach coach = itr.next();
 							itr.remove();
-							PersonsManager.removePersonFromTrash(coach);
+							personsManager.removePersonFromTrash(coach);
 
 						}
 					} catch (SQLException e1) {
@@ -1066,13 +1085,14 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpPlayersHistory, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				try {
 					SQLSession.connect();
 					for (Iterator<Player> itr = players.iterator(); itr.hasNext();) {
 						Player player = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(player);
+						personsManager.restorePersonFromTrash(player);
 					}
 					ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_PLAYERS_HISTORY, new Event());
 				} catch (SQLException e1) {
@@ -1092,6 +1112,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpPlayersHistory, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -1104,7 +1125,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 							Player player = itr.next();
 							itr.remove();
-							PersonsManager.restorePersonFromTrash(player);
+							personsManager.restorePersonFromTrash(player);
 
 						}
 					} catch (SQLException e1) {
@@ -1128,6 +1149,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpAll, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.restoreAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				try {
 					SQLSession.connect();
@@ -1135,7 +1157,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 						Player player = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(player);
+						personsManager.restorePersonFromTrash(player);
 
 					}
 
@@ -1145,7 +1167,7 @@ public class ViewTrash implements IPlugin, ISort {
 					for (Iterator<Coach> itr = coaches.iterator(); itr.hasNext();) {
 						Coach coach = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(coach);
+						personsManager.restorePersonFromTrash(coach);
 
 					}
 					ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_PLAYERS_HISTORY, new Event());
@@ -1156,7 +1178,7 @@ public class ViewTrash implements IPlugin, ISort {
 					for (Iterator<Junior> itr = juniors.iterator(); itr.hasNext();) {
 						Junior junior = itr.next();
 						itr.remove();
-						PersonsManager.restorePersonFromTrash(junior);
+						personsManager.restorePersonFromTrash(junior);
 					}
 					ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_COACHES_FIRED, new Event());
 				} catch (SQLException e1) {
@@ -1177,6 +1199,7 @@ public class ViewTrash implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUpAll, SWT.PUSH);
 		menuItem.setText(Messages.getString("popup.deleteAll"));
 		menuItem.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 
@@ -1189,7 +1212,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 							Player player = (Player) itr.next();
 							itr.remove();
-							PersonsManager.removePersonFromTrash(player);
+							personsManager.removePersonFromTrash(player);
 						}
 						fillPlayersTable(playersTable);
 						((TabComposite) cTabItemPlayers.getControl()).getDescriptionComposite().clearAll();
@@ -1197,7 +1220,7 @@ public class ViewTrash implements IPlugin, ISort {
 						for (Iterator<Coach> itr = coaches.iterator(); itr.hasNext();) {
 							Coach coach = itr.next();
 							itr.remove();
-							PersonsManager.removePersonFromTrash(coach);
+							personsManager.removePersonFromTrash(coach);
 						}
 
 						fillCoachesTable(coachesTable);
@@ -1213,7 +1236,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 							} else {
 								itr.remove();
-								PersonsManager.removePersonFromTrash(junior);
+								personsManager.removePersonFromTrash(junior);
 							}
 						}
 						fillJuniorsTable(juniorsTable);
@@ -1572,7 +1595,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 		diffrents = player.getSkills()[maxSkill - 1].getCards();
 		if (diffrents < 3 && diffrents > 0) {
-			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorYellowCard());
+			description.leftColorText(textSize, values[9][1].length(), ColorResources.getYellow());
 		} else if (diffrents >= 3) {
 			description.leftColorText(textSize, values[9][1].length(), ConfigBean.getColorDecreaseDescription());
 		}
@@ -1635,46 +1658,51 @@ public class ViewTrash implements IPlugin, ISort {
 		values[10][0] = Messages.getString("player.general");
 
 		values[0][1] = String.valueOf(player.getSkills()[maxSkill - 1].getAge());
-		values[0][1] += " [" + player.getSkills()[maxSkill - 1].getAge() + " " + SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getAge() - player.getSkills()[0].getAge())
-				+ "] ";
+		values[0][1] += " [" + player.getSkills()[maxSkill - 1].getAge() + " "
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getAge() - player.getSkills()[0].getAge()) + "] ";
 
 		values[1][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getForm());
 		values[1][1] += " [" + player.getSkills()[maxSkill - 1].getForm() + "] ";
 
 		values[2][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getStamina());
 		values[2][1] += " [" + player.getSkills()[maxSkill - 1].getStamina() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getStamina() - player.getSkills()[0].getStamina()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getStamina() - player.getSkills()[0].getStamina()) + "] ";
 
 		values[3][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getPace());
 		values[3][1] += " [" + player.getSkills()[maxSkill - 1].getPace() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPace() - player.getSkills()[0].getPace()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPace() - player.getSkills()[0].getPace()) + "] ";
 
 		values[4][1] = Messages.getString("skill.b" + player.getSkills()[maxSkill - 1].getTechnique());
 		values[4][1] += " [" + player.getSkills()[maxSkill - 1].getTechnique() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getTechnique() - player.getSkills()[0].getTechnique()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getTechnique() - player.getSkills()[0].getTechnique())
+						+ "] ";
 
 		values[5][1] = Messages.getString("skill.c" + player.getSkills()[maxSkill - 1].getPassing());
 		values[5][1] += " [" + player.getSkills()[maxSkill - 1].getPassing() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPassing() - player.getSkills()[0].getPassing()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPassing() - player.getSkills()[0].getPassing()) + "] ";
 
 		values[6][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getKeeper());
 		values[6][1] += " [" + player.getSkills()[maxSkill - 1].getKeeper() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getKeeper() - player.getSkills()[0].getKeeper()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getKeeper() - player.getSkills()[0].getKeeper()) + "] ";
 
 		values[7][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getDefender());
 		values[7][1] += " [" + player.getSkills()[maxSkill - 1].getDefender() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getDefender() - player.getSkills()[0].getDefender()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getDefender() - player.getSkills()[0].getDefender()) + "] ";
 
 		values[8][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getPlaymaker());
 		values[8][1] += " [" + player.getSkills()[maxSkill - 1].getPlaymaker() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPlaymaker() - player.getSkills()[0].getPlaymaker()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getPlaymaker() - player.getSkills()[0].getPlaymaker())
+						+ "] ";
 
 		values[9][1] = Messages.getString("skill.a" + player.getSkills()[maxSkill - 1].getScorer());
 		values[9][1] += " [" + player.getSkills()[maxSkill - 1].getScorer() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getScorer() - player.getSkills()[0].getScorer()) + "] ";
+						+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getScorer() - player.getSkills()[0].getScorer()) + "] ";
 
-		values[10][1] = "[" + player.getSkills()[maxSkill - 1].getSummarySkill() + " "
-				+ SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getSummarySkill() - player.getSkills()[0].getSummarySkill()) + "] ";
+		values[10][1] = "["
+						+ player.getSkills()[maxSkill - 1].getSummarySkill()
+						+ " "
+						+ SVNumberFormat
+							.formatIntegerWithSignZero(player.getSkills()[maxSkill - 1].getSummarySkill() - player.getSkills()[0].getSummarySkill()) + "] ";
 
 		for (int i = 0; i < values.length; i++) {
 			description.addRightText(values[i]);

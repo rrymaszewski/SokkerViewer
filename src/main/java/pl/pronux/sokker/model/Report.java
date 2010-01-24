@@ -2,7 +2,6 @@ package pl.pronux.sokker.model;
 
 
 public class Report {
-	public final static String IDENTIFIER = "REPORT"; //$NON-NLS-1$
 	public final static int INFO = 1;
 	public final static int COST = 2;
 	public final static int INCOME = 3;

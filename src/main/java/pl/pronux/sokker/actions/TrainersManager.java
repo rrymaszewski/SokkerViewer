@@ -13,6 +13,16 @@ import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Training;
 
 public class TrainersManager {
+	
+	private final static TrainersManager _instance = new TrainersManager();
+	
+	private TrainersManager(){
+	}
+	
+	public static TrainersManager instance() {
+		return _instance;
+	}
+	
 	public void repairCoaches(List<Coach> coaches) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 		for (Coach coach : coaches) {
@@ -31,7 +41,7 @@ public class TrainersManager {
 			if (trainer.getJob() == 1) {
 				training.setHeadCoach(trainer);
 			} else if (trainer.getJob() == 2) {
-				training.getAlAssistants().add(trainer);
+				training.getAssistants().add(trainer);
 			} else if (trainer.getJob() == 3) {
 				training.setJuniorCoach(trainer);
 			}
@@ -50,7 +60,7 @@ public class TrainersManager {
 			if (coach.getJob() == 1) {
 				training.setHeadCoach(coach);
 			} else if (coach.getJob() == 2) {
-				training.getAlAssistants().add(coach);
+				training.getAssistants().add(coach);
 			} else if (coach.getJob() == 3) {
 				training.setJuniorCoach(coach);
 			}
@@ -61,19 +71,18 @@ public class TrainersManager {
 	
 	public void importTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		String sTemp = ""; //$NON-NLS-1$
-		sTemp += "("; //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
-				sTemp += trainers.get(i).getId();
+				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sTemp += trainers.get(i).getId() + ","; //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
 		}
-		sTemp += ")"; //$NON-NLS-1$
+		sb.append(")"); //$NON-NLS-1$
 		if (trainers.size() > 0) {
-			trainersDao.removeCoaches(sTemp);
+			trainersDao.removeCoaches(sb.toString());
 		} else {
 			trainersDao.removeCoaches();
 		}
@@ -99,19 +108,18 @@ public class TrainersManager {
 
 	public void importerTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		String sTemp = ""; //$NON-NLS-1$
-		sTemp += "("; //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
-				sTemp += trainers.get(i).getId();
+				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sTemp += trainers.get(i).getId() + ","; //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
 		}
-		sTemp += ")"; //$NON-NLS-1$
+		sb.append(")"); //$NON-NLS-1$
 		if (trainers.size() > 0) {
-			trainersDao.removeCoaches(sTemp);
+			trainersDao.removeCoaches(sb.toString());
 		} else {
 			trainersDao.removeCoaches();
 		}
@@ -144,7 +152,7 @@ public class TrainersManager {
 	}
 
 	
-	public static ArrayList<Coach> getCoachesData() throws SQLException {
+	public ArrayList<Coach> getCoachesData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -153,7 +161,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesFiredData() throws SQLException {
+	public ArrayList<Coach> getCoachesFiredData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -162,7 +170,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesDeletedData() throws SQLException {
+	public ArrayList<Coach> getCoachesDeletedData() throws SQLException {
 		ArrayList<Coach> coach;
 	
 		boolean newConnection = SQLQuery.connect();
@@ -171,7 +179,7 @@ public class TrainersManager {
 		return coach;
 	}
 
-	public static ArrayList<Coach> getCoachesFromTrashData() throws SQLException {
+	public ArrayList<Coach> getCoachesFromTrashData() throws SQLException {
 		ArrayList<Coach> coaches;
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie graczy

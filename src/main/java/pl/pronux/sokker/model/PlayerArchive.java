@@ -10,7 +10,6 @@ public class PlayerArchive  extends Person {
 	public static final int EXISTS_IN_SOKKER_FALSE = 2;
 	public static final int EXISTS_IN_SOKKER_COMPLETED = 3;
 
-	public static final String IDENTIFIER = "PLAYERARCHIVE"; //$NON-NLS-1$
 	private int countryID;
 	private int national;
 	private int transferList;

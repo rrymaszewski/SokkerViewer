@@ -14,7 +14,7 @@ public class StandDto extends Stand {
 	
 	public Stand getStand() throws SQLException {
 		this.setLocation(rs.getInt("location")); //$NON-NLS-1$
-		this.setSize(rs.getInt("capacity")); //$NON-NLS-1$
+		this.setCapacity(rs.getInt("capacity")); //$NON-NLS-1$
 		this.setType(rs.getInt("type")); //$NON-NLS-1$
 		this.setIsRoof(rs.getInt("roof")); //$NON-NLS-1$
 		this.setConstructionDays(rs.getDouble("days")); //$NON-NLS-1$

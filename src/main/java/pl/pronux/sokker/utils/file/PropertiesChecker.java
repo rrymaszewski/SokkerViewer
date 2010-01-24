@@ -5,15 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 
 import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.interfaces.SV;
+import pl.pronux.sokker.utils.Log;
 
 public class PropertiesChecker {
 
@@ -29,9 +30,9 @@ public class PropertiesChecker {
 			try {
 				sokkerProperties.loadFile(sokkerPropertiesFile);
 			} catch (FileNotFoundException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 			} catch (IOException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -87,13 +88,8 @@ public class PropertiesChecker {
 		hmValues.put("backup.dir", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("db.type", "HSQLDB"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("conf.savepass", "1"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues
-				.put(
-						"lang.list", "\u0411\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438;\u010Ce\u0161tina;Deutsch;Dansk;Eesti;English;Espa\u00F1ol;Fran\u00E7ais;Italiano;Polski;Portugu\u00EAs;Rom\u00e2n\u00e3;T\u00FCrk\u00E7e"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues.put("lang.codelist", "bg_BG;cs_CZ;de_DE;dk_DK;ee_EE;en_EN;es_ES;fr_FR;it_IT;pl_PL;pt_PT;ro_RO;tr_TR"); //$NON-NLS-1$ //$NON-NLS-2$
-		// hmValues.put("lang.type", "Polski");
 		hmValues.put("conf.getXML", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-		hmValues.put("lang.code", "pl_PL"); //$NON-NLS-1$ //$NON-NLS-2$
+		hmValues.put("lang.code", "en_EN"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("check.properties", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("sv.startup", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		hmValues.put("info.update", "1"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -110,19 +106,16 @@ public class PropertiesChecker {
 			}
 		}
 
-		sokkerProperties.setProperty("lang.list", hmValues.get("lang.list")); //$NON-NLS-1$ //$NON-NLS-2$
-		sokkerProperties.setProperty("lang.codelist", hmValues.get("lang.codelist")); //$NON-NLS-1$ //$NON-NLS-2$
-
-		if (sokkerProperties.getProperty("backup.dir") == null || sokkerProperties.getProperty("backup.dir").equals("")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (sokkerProperties.getProperty("backup.dir") == null || sokkerProperties.getProperty("backup.dir").isEmpty()) { //$NON-NLS-1$ //$NON-NLS-2$ 
 			sokkerProperties.setProperty("backup.dir", System.getProperty("user.dir") + File.separator + "bak" + File.separator); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		try {
 			sokkerProperties.synchronize();
 		} catch (FileNotFoundException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		}
 		return true;
 	}
@@ -136,31 +129,30 @@ public class PropertiesChecker {
 				pluginsProperties.loadFile(pluginsFile.getAbsolutePath());
 
 				String[] plugins = { "pl.pronux.sokker.ui.plugins.ViewClub", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewPlayers", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniors", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCoaches", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTrainings", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewArena", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewPlayersHistory", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniorsTrained", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewJuniorsFired", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCoachesFired", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewStatistics", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewExchange", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewAssistant", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewNotepad", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTranslator", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewNT", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTrash", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewBBCode", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewCalendar", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewTransfers", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewMatches", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewLeague", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewArchive", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewGallery", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewOffice", //$NON-NLS-1$
-						"pl.pronux.sokker.ui.plugins.ViewSpy", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewPlayers", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniors", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCoaches", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTrainings", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewArena", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewPlayersHistory", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniorsTrained", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewJuniorsFired", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCoachesFired", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewStatistics", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewExchange", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewAssistant", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewNotepad", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTranslator", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewNT", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTrash", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewBBCode", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewCalendar", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewTransfers", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewMatches", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewLeague", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewArchive", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewOffice", //$NON-NLS-1$
+									"pl.pronux.sokker.ui.plugins.ViewSpy", //$NON-NLS-1$
 				};
 
 				String pluginsValue = pluginsProperties.getProperty("plugins"); //$NON-NLS-1$
@@ -168,8 +160,8 @@ public class PropertiesChecker {
 				Set<Object> keySet = pluginsProperties.keySet();
 				Iterator<Object> itr = keySet.iterator();
 				Map<String, String> newKeys = new HashMap<String, String>();
-				while(itr.hasNext()) {
-					String key = (String)itr.next();
+				while (itr.hasNext()) {
+					String key = (String) itr.next();
 					if (key.matches("pl.pronux.sokker.viewer.*")) { //$NON-NLS-1$
 						String value = pluginsProperties.getProperty(key);
 						key = key.replaceAll("pl.pronux.sokker.viewer.plugins", "pl.pronux.sokker.ui.plugins");//$NON-NLS-1$ //$NON-NLS-2$
@@ -177,8 +169,8 @@ public class PropertiesChecker {
 						itr.remove();
 					}
 				}
-				
-				for(String key : newKeys.keySet()) {
+
+				for (String key : newKeys.keySet()) {
 					pluginsProperties.put(key, newKeys.get(key));
 				}
 
@@ -203,18 +195,23 @@ public class PropertiesChecker {
 					}
 
 					if (!alPlugins.contains(plugins[i])) {
-						pluginsValue += plugins[i] + ";"; //$NON-NLS-1$
+						alPlugins.add(plugins[i]);
 					}
 				}
 
-				pluginsProperties.setProperty("plugins", pluginsValue); //$NON-NLS-1$
+				alPlugins.retainAll(Arrays.asList(plugins));
+				StringBuilder pluginList = new StringBuilder();
+				for (String plugin : alPlugins) {
+					pluginList.append(plugin).append(";");
+				}
+				pluginsProperties.setProperty("plugins", pluginList.toString()); //$NON-NLS-1$
 				pluginsProperties.synchronize();
 
 			}
 		} catch (FileNotFoundException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+			Log.warning("Properties Checker", e); //$NON-NLS-1$
 		}
 
 		return true;
@@ -259,10 +256,10 @@ public class PropertiesChecker {
 				userProperties.synchronize();
 
 			} catch (FileNotFoundException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 				return false;
 			} catch (IOException e) {
-				new SVLogger(Level.WARNING, "Properties Checker", e); //$NON-NLS-1$
+				Log.warning("Properties Checker", e); //$NON-NLS-1$
 				return false;
 			}
 			return true;

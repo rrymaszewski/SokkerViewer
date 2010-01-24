@@ -1,7 +1,6 @@
 package pl.pronux.sokker.model;
 
 public class Match extends MatchBase {
-	public static final String IDENTIFIER = "MATCH"; //$NON-NLS-1$
 	
 	public static final int WEATHER_SUN = 1;
 

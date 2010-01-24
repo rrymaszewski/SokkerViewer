@@ -23,8 +23,6 @@ public class Coach extends Person {
 
 	public static final int JOB_JUNIORS = 3;
 	
-	public static final String IDENTIFIER = "TRAINER"; //$NON-NLS-1$
-
 	byte signed;
 
 	int job;

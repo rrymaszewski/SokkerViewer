@@ -4,8 +4,6 @@ import java.util.List;
 
 public class LeagueSeason {
 	
-	final public static String IDENTIFIER = "leagueSeason"; //$NON-NLS-1$
-	
 	private int round;
 
 	private int leagueID;
@@ -14,7 +12,7 @@ public class LeagueSeason {
 	
 	private int rawSeason;
 
-	private List<LeagueRound> alRounds;
+	private List<LeagueRound> rounds;
 
 	private League league;
 
@@ -50,12 +48,12 @@ public class LeagueSeason {
 		this.season = season;
 	}
 
-	public List<LeagueRound> getAlRounds() {
-		return alRounds;
+	public List<LeagueRound> getRounds() {
+		return rounds;
 	}
 
-	public void setAlRounds(List<LeagueRound> rounds) {
-		this.alRounds = rounds;
+	public void setRounds(List<LeagueRound> rounds) {
+		this.rounds = rounds;
 	}
 
 	public int getRawSeason() {

@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.MatchesComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.events.TeamEvent;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -27,7 +27,7 @@ import pl.pronux.sokker.ui.interfaces.IEvents;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ImageResources;
-import pl.pronux.sokker.ui.widgets.composites.SpyComposite;
+import pl.pronux.sokker.ui.widgets.composites.views.SpyComposite;
 import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewSpy implements IPlugin {
@@ -112,7 +112,7 @@ public class ViewSpy implements IPlugin {
 	private void addTreeItem(Match match) {
 		TreeItem treeItem = new TreeItem(this.treeItem, SWT.NONE);
 		treeItem.setText(match.getHomeTeamName() + "-" + match.getAwayTeamName());
-		treeItem.setData(Match.IDENTIFIER, match);
+		treeItem.setData(Match.class.getName(), match);
 		treeItem.setImage(ImageResources.getImageResources("match.png")); 
 	}
 
@@ -154,9 +154,9 @@ public class ViewSpy implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null) {
+						if (item.getData(Match.class.getName()) != null) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							if (match != null) {
 								matchComposite.fill(match);
 							}
@@ -178,9 +178,9 @@ public class ViewSpy implements IPlugin {
 
 				if (item != null) {
 					if (checkParent(treeItem, item)) {
-						if (item.getData(Match.IDENTIFIER) != null) {
+						if (item.getData(Match.class.getName()) != null) {
 							show(matchComposite);
-							Match match = (Match) item.getData(Match.IDENTIFIER);
+							Match match = (Match) item.getData(Match.class.getName());
 							if (match != null) {
 								matchComposite.fill(match);
 							}

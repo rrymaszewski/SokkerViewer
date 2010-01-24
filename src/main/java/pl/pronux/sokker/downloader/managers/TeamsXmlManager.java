@@ -22,6 +22,8 @@ import pl.pronux.sokker.model.Date;
 
 public class TeamsXmlManager extends XmlManager<Club> {
 
+	private TeamManager teamManager = TeamManager.instance();
+	
 	private Map<String, String> teamsStringMap = new HashMap<String, String>();
 
 	private List<Club> teams = new ArrayList<Club>();
@@ -67,8 +69,6 @@ public class TeamsXmlManager extends XmlManager<Club> {
 		if(downloader.getTeamID() != null && downloader.getTeamID().matches("[0-9]+")) { //$NON-NLS-1$
 			teamID = Integer.valueOf(downloader.getTeamID());
 		}
-		TeamManager teamManager = new TeamManager();
-		
 		for(Club team : teams) {
 			if(team.getId() == teamID) {
 				teamManager.importTeam(team, currentDay);		

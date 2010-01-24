@@ -31,15 +31,9 @@ public class ConfigBean {
 
 	private static Color colorNewTreeObject;
 
-	private static Color colorRed;
-
-	private static Color colorRedCard;
-
 	private static Color colorTrainedJunior;
 
 	private static Color colorTransferList;
-
-	private static Color colorYellowCard;
 	
 	private static Font fontCurier;
 
@@ -63,14 +57,6 @@ public class ConfigBean {
 		return colorIncreaseDescription;
 	}
 
-	public static Color getColorRedCard() {
-		return colorRedCard;
-	}
-
-	public static Color getColorRed() {
-		return colorRed;
-	}
-
 	public static Color getColorNewTreeObject() {
 		return colorNewTreeObject;
 	}
@@ -89,14 +75,6 @@ public class ConfigBean {
 
 	public static Color getColorTrainedJunior() {
 		return colorTrainedJunior;
-	}
-
-	public static Color getColorYellowCard() {
-		return colorYellowCard;
-	}
-
-	public static Color getColorYellow() {
-		return colorYellowCard;
 	}
 
 	public static Color getColorTransferList() {
@@ -163,10 +141,6 @@ public class ConfigBean {
 		ConfigBean.colorInjuryBg = colorInjuryBg;
 	}
 
-	public static void setColorRedCard(Color colorRedCard) {
-		ConfigBean.colorRedCard = colorRedCard;
-	}
-
 	public static void setColorNewTableObject(Color colorNewTableObject) {
 		ConfigBean.colorNewTableObject = colorNewTableObject;
 	}
@@ -183,16 +157,8 @@ public class ConfigBean {
 		ConfigBean.colorTrainedJunior = colorTrainedJunior;
 	}
 
-	public static void setColorRed(Color colorRed) {
-		ConfigBean.colorRed = colorRed;
-	}
-
 	public static void setColorTransferList(Color colorTransferList) {
 		ConfigBean.colorTransferList = colorTransferList;
-	}
-
-	public static void setColorYellowCard(Color colorYellowCard) {
-		ConfigBean.colorYellowCard = colorYellowCard;
 	}
 
 	public static void setFontCurrent(Font fontCurrent) {
@@ -252,10 +218,6 @@ public class ConfigBean {
 			tempTable = defaultProperties.getProperty("color.trainedJunior").split(","); //$NON-NLS-1$ //$NON-NLS-2$
 			setColorTrainedJunior(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-	
-			setColorRed(ColorResources.getColor(255, 0, 0));
-			setColorRedCard(ColorResources.getColor(255, 0, 0));
-			setColorYellowCard(ColorResources.getColor(255, 255, 0));
 	
 			string = defaultProperties.getProperty("font.main"); //$NON-NLS-1$
 			setFontMain(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(string)}));

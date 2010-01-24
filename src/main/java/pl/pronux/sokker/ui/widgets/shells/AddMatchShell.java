@@ -32,6 +32,8 @@ public class AddMatchShell extends Shell {
 		// super.checkSubclass();
 	}
 
+	private MatchesManager matchesManager = MatchesManager.instance();
+	
 	public AddMatchShell(final Shell parent, int style) {
 		super(parent, style);
 		this.setSize(new Point(300, 120));
@@ -68,8 +70,7 @@ public class AddMatchShell extends Shell {
 			public void handleEvent(Event event) {
 				try {
 					MessageBox msg;
-					MatchesManager matchManager = new MatchesManager();
-					switch (matchManager.importMatch(text.getText())) {
+					switch (matchesManager.importMatch(text.getText())) {
 					case 1:
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_MATCHES, new Event());
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_INFORMATION);

@@ -10,7 +10,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import pl.pronux.sokker.actions.CountriesManager;
-import pl.pronux.sokker.actions.DatabaseConfiguration;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.CountriesXmlParser;
 import pl.pronux.sokker.model.Country;
@@ -19,6 +19,9 @@ import pl.pronux.sokker.model.Date;
 public class CountriesXmlManager extends XmlManager<Country> {
 
 	private ArrayList<Country> alCountries;
+	
+	private CountriesManager countriesManager = CountriesManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
 
 	public CountriesXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -40,7 +43,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new CountriesManager().importCountries(this.alCountries);
+		countriesManager.importCountries(this.alCountries);
 	}
 
 	public List<Country> parseXML() throws SAXException {
@@ -48,7 +51,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 	}
 
 	public void updateDbCountries(boolean b) throws SQLException {
-		new DatabaseConfiguration().updateDbCountry(b);
+		configurationManager.updateDbCountry(b);
 	}
 
 	@Override

@@ -19,10 +19,13 @@ public class RegionXmlManager extends XmlManager<Region> {
 
 	private Region region;
 	private List<Region> lRegion = new ArrayList<Region>();
+
+	private CountriesManager countriesManager = CountriesManager.instance();
+
 	public RegionXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
-	
+
 	public RegionXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
 		super("region", destination, downloader, currentDay); //$NON-NLS-1$
 	}
@@ -34,16 +37,16 @@ public class RegionXmlManager extends XmlManager<Region> {
 	@Override
 	public void download() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void download(int regionId) throws IOException {
 		setContent(downloader.getRegion(String.valueOf(regionId)));
 	}
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new CountriesManager().importRegion(this.region);
+		countriesManager.importRegion(this.region);
 	}
 
 	public List<Region> parseXML() throws SAXException {
@@ -61,9 +64,9 @@ public class RegionXmlManager extends XmlManager<Region> {
 			regionXMLParser.parseXmlSax(input, null);
 		}
 		this.region = regionXMLParser.getRegion();
-		
+
 		lRegion.add(region);
-		
+
 		return lRegion;
 	}
 

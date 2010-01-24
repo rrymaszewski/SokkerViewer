@@ -17,16 +17,18 @@ import pl.pronux.sokker.model.Report;
 
 public class ReportsXmlManager extends XmlManager<Report> {
 
+	private TeamManager teamManager = TeamManager.instance();
+
 	private ArrayList<Report> alReports;
 
 	public ReportsXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
-	
+
 	public ReportsXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
 		super("reports", destination, downloader, currentDay); //$NON-NLS-1$
 	}
-	
+
 	public ReportsXmlManager(String content, Date currentDay, int teamID) {
 		super(content, currentDay, teamID);
 	}
@@ -38,7 +40,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new TeamManager().importReports(this.alReports);
+		teamManager.importReports(this.alReports);
 	}
 
 	public List<Report> parseXML() throws SAXException {

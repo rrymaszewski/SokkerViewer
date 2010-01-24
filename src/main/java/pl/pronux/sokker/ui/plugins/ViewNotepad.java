@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.SchedulerManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.NoteComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -36,7 +37,6 @@ import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Note;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -48,6 +48,8 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewNotepad implements IPlugin, ISort {
 
+	private SchedulerManager schedulerManager = SchedulerManager.instance();
+	
 	private Listener clearListener;
 
 	private Composite composite;
@@ -97,7 +99,7 @@ public class ViewNotepad implements IPlugin, ISort {
 				TableItem[] items = viewTableNote.getSelection();
 				if (items.length == 1) {
 
-					Note note = (Note) items[0].getData(Note.IDENTIFIER);
+					Note note = (Note) items[0].getData(Note.class.getName());
 					viewTitle.setText(note.getTitle());
 					viewText.setText(note.getText());
 
@@ -173,7 +175,7 @@ public class ViewNotepad implements IPlugin, ISort {
 					TableItem[] items = viewTableNote.getSelection();
 					if (items.length == 1) {
 						boolean check = false;
-						Note note = (Note) items[0].getData(Note.IDENTIFIER); 
+						Note note = (Note) items[0].getData(Note.class.getName()); 
 
 						if (note.getAlertDate() != null && alertButton.getSelection()) {
 							Calendar cal = Calendar.getInstance();
@@ -255,9 +257,9 @@ public class ViewNotepad implements IPlugin, ISort {
 					msg.setMessage(Messages.getString("message.note.delete.text")); //$NON-NLS-1$
 					if (msg.open() == SWT.YES) {
 						for (int i = 0; i < items.length; i++) {
-							Note note = (Note) items[i].getData(Note.IDENTIFIER);
+							Note note = (Note) items[i].getData(Note.class.getName());
 							try {
-								SchedulerManager.dropNote(note.getId());
+								schedulerManager.dropNote(note.getId());
 								notes.remove(note);
 								items[i].dispose();
 							} catch (SQLException e) {
@@ -327,14 +329,14 @@ public class ViewNotepad implements IPlugin, ISort {
 			notes.add(note);
 			fillTable(viewTableNote, notes);
 			try {
-				SchedulerManager.insertNote(note);
+				schedulerManager.insertNote(note);
 			} catch (SQLException e) {
 				new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 			}
 		} else {
 			TableItem[] items = viewTableNote.getSelection();
 			if (items.length == 1) {
-				Note note = (Note) items[0].getData(Note.IDENTIFIER); 
+				Note note = (Note) items[0].getData(Note.class.getName()); 
 				note.setText(viewText.getText());
 				note.setTitle(viewTitle.getText());
 				if (alertButton.getSelection()) {
@@ -356,7 +358,7 @@ public class ViewNotepad implements IPlugin, ISort {
 
 				fillTable(viewTableNote, notes);
 				try {
-					SchedulerManager.updateNote(note);
+					schedulerManager.updateNote(note);
 				} catch (SQLException e) {
 					new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 				}
@@ -392,8 +394,8 @@ public class ViewNotepad implements IPlugin, ISort {
 			column.setMoveable(false);
 
 			column.setText(titles[i]);
-			if (titles[i].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (titles[i].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -440,12 +442,12 @@ public class ViewNotepad implements IPlugin, ISort {
 
 			public void handleEvent(Event arg0) {
 				TableItem item = (TableItem) arg0.item;
-				Note note = (Note) item.getData(Note.IDENTIFIER); 
+				Note note = (Note) item.getData(Note.class.getName()); 
 				boolean check = arg0.detail == SWT.CHECK ? true : false;
 				if (check) {
 					note.setChecked(item.getChecked());
 					try {
-						SchedulerManager.updateNote(note);
+						schedulerManager.updateNote(note);
 					} catch (SQLException e) {
 						new BugReporter(composite.getDisplay()).openErrorMessage("ViewNotepad", e);
 					}
@@ -724,7 +726,7 @@ public class ViewNotepad implements IPlugin, ISort {
 			TableItem item = new TableItem(viewTableNote, SWT.NONE);
 
 			int c = 0;
-			item.setData(Note.IDENTIFIER, note); 
+			item.setData(Note.class.getName(), note); 
 			item.setChecked(note.isChecked());
 
 			if (note.getDate() != null) {

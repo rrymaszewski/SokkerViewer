@@ -11,7 +11,6 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 
 public class JuniorTable extends SVTable<Junior> {
 
@@ -41,8 +40,8 @@ public class JuniorTable extends SVTable<Junior> {
 				column.setWidth(50);
 			} else if (titles[j].equals(Messages.getString("table.week"))) { //$NON-NLS-1$
 				column.setWidth(50);
-			} else if (titles[j].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			} else if (titles[j].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -55,7 +54,7 @@ public class JuniorTable extends SVTable<Junior> {
 		this.setRedraw(false);
 		this.removeAll();
 
-		this.setData(Junior.IDENTIFIER, junior); 
+		this.setData(Junior.class.getName(), junior); 
 
 		int maxSkill = 0;
 		maxSkill = junior.getSkills().length;

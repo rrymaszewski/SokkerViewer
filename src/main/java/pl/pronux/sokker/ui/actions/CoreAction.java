@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import pl.pronux.sokker.actions.AssistantManager;
+import pl.pronux.sokker.actions.ConfigurationManager;
 import pl.pronux.sokker.actions.CountriesManager;
-import pl.pronux.sokker.actions.DatabaseConfiguration;
-import pl.pronux.sokker.actions.GalleryManager;
 import pl.pronux.sokker.actions.LeaguesManager;
 import pl.pronux.sokker.actions.MatchesManager;
 import pl.pronux.sokker.actions.PlayersManager;
@@ -25,7 +23,6 @@ import pl.pronux.sokker.comparators.CountryComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.data.xml.dao.GalleryImagesDao;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
@@ -37,7 +34,6 @@ import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.DbProperties;
-import pl.pronux.sokker.model.GalleryImage;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.Player;
@@ -48,6 +44,7 @@ import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.Database;
 
 public class CoreAction implements IRunnableWithProgress {
@@ -57,6 +54,16 @@ public class CoreAction implements IRunnableWithProgress {
 	public final static boolean LOCK = false;
 	public final static boolean UNLOCK = true;
 	public static boolean lock = UNLOCK;
+
+	private MatchesManager matchesManager = MatchesManager.instance();
+	private AssistantManager assistantManager = AssistantManager.instance();
+	private CountriesManager countriesManager = CountriesManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private SchedulerManager schedulerManager = SchedulerManager.instance();
+	private TrainersManager trainersManager = TrainersManager.instance();
+	private TeamManager teamManager = TeamManager.instance();
+	private LeaguesManager leaguesManager = LeaguesManager.instance();
+	private PlayersManager playersManager = PlayersManager.instance();
 
 	public boolean isUpdate() {
 		return update;
@@ -81,8 +88,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.interrupt();
 			return;
 		}
-		
-		DatabaseConfiguration dbConf = new DatabaseConfiguration();
+
 		// FIXME: if some players will be removed from then there will be null
 		// pointer error
 
@@ -94,43 +100,49 @@ public class CoreAction implements IRunnableWithProgress {
 		// Cache.getTree().setSelection(selectTreeItem);
 		// Cache.getTree().setEnabled(false);
 
-		// FIXME: dodac flage do uzytkownika logged ktora bedzie wykorzystywana
-		// do wykonywania dodatkowych funkcji takich jak aktywacja funkcji w
-		// menu
 		ViewerHandler.getViewer().clear();
+
 		try {
 			SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 			SQLQuery.setSettings(settings);
 			DbProperties dbProperties = null;
-//			String value = "-4"; //$NON-NLS-1$
+			monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
+			
+			// String value = "-4"; //$NON-NLS-1$
 			if (!SQLQuery.dbExist()) {
 				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); //$NON-NLS-1$
-				String file = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				String fileProperties = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String dbFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String dbLogFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String dbPropertiesFile = settings.getBaseDirectory() + File.separator
+										+ "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				try {
 					SQLSession.connect();
 					SQLSession.beginTransaction();
 					SQLQuery.initDB();
 					SQLSession.commit();
-					SQLSession.close();
+					SQLSession.endTransaction();
 				} catch (SQLException e) {
-					SQLSession.rollback();
-					SQLSession.close();
-					new File(file).delete();
-					new File(fileProperties).delete();
+					try {
+						SQLSession.close();
+					} catch(SQLException e1) {
+						Log.error("Problem during closing database after bad initialization");
+					}
+					new File(dbFile).delete();
+					new File(dbPropertiesFile).delete();
+					new File(dbLogFile).delete();
 					throw new SVException("DB file error: deleted", e);
 				}
 
 				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(monitor);
 			} else {
+				SQLSession.connect();
 				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
 				if (SQLQuery.dbPropertiesExist()) {
-					monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
 
-					dbConf.updateDbStructure(SV.DB_VERSION);
+					configurationManager.updateDbStructure(SV.DB_VERSION);
 
-					dbProperties = dbConf.getDbProperties();
-					
+					dbProperties = configurationManager.getDbProperties();
+
 					int params = 0;
 					if (dbProperties != null) {
 						if (dbProperties.isCheckCountries()) {
@@ -141,28 +153,27 @@ public class CoreAction implements IRunnableWithProgress {
 						}
 					}
 
-					if (this.isUpdate() || dbConf.getMaxDate() == null) {
+					if (this.isUpdate() || configurationManager.getMaxDate() == null) {
 						params = params | Synchronizer.DOWNLOAD_BASE;
 					} else if (dbProperties != null && dbProperties.isCheckDbUpdate()) {
 						params = params | Synchronizer.DOWNLOAD_BASE;
 					}
 					new Synchronizer(settings, params).run(monitor);
-					
+
 					if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
-						SQLSession.connect();
-						int counter = dbProperties.getScanCounter(); 
-						
+						int counter = dbProperties.getScanCounter();
+
 						String directory = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername();
-						if(counter % 30 == 0) {
-							 File file = new File(directory);
-							 if(file.exists() && file.listFiles().length > 10000) {
-								 file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_" + Calendar.getInstance().getTimeInMillis()));
-								 new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername()).mkdir();
-							 }
+						if (counter % 30 == 0) {
+							File file = new File(directory);
+							if (file.exists() && file.listFiles().length > 10000) {
+								file.renameTo(new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername() + "_"
+													   + Calendar.getInstance().getTimeInMillis()));
+								new File(settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername()).mkdir();
+							}
 						}
 						counter++;
-						dbConf.updateScanCounter(counter);
-						SQLSession.close();
+						configurationManager.updateScanCounter(counter);
 						dbProperties.setScanCounter(counter);
 					}
 				} else {
@@ -175,39 +186,36 @@ public class CoreAction implements IRunnableWithProgress {
 			} catch (IOException ioe) {
 				throw new SVException("Synchronizer -> post-autobackup failed", ioe);
 			}
-//			if (!value.equals("0")) { //$NON-NLS-1$
-//				
-//				return;
-//			}
+			// if (!value.equals("0")) { //$NON-NLS-1$
+			//				
+			// return;
+			// }
 			monitor.beginTask(Messages.getString("CoreAction.info"), 17);//$NON-NLS-1$
 
 			monitor.subTask(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
 
-			SQLSession.connect();
-			final Date sokkerDate = dbConf.getMaxDate();
+			final Date sokkerDate = configurationManager.getMaxDate();
 			Cache.setDate(sokkerDate);
-			
+
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
 
-			Junior.minimumPop = dbConf.getJuniorMinimumPop();
-
-			TeamManager teamManager = new TeamManager();
+			Junior.minimumPop = configurationManager.getJuniorMinimumPop();
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getNotesData")); //$NON-NLS-1$
 
-			Cache.setNotes(SchedulerManager.getNoteData());
+			Cache.setNotes(schedulerManager.getNoteData());
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getClubData")); //$NON-NLS-1$
 
-			Cache.setClub(teamManager.getTeam(dbConf.getTeamID()));
+			Cache.setClub(teamManager.getTeam(configurationManager.getTeamID()));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getCountries")); //$NON-NLS-1$
 
-			Cache.setCountries(new CountriesManager().getCountries());
+			Cache.setCountries(countriesManager.getCountries());
 			SVComparator<Country> countryComparator = new CountryComparator();
 			countryComparator.setColumn(CountryComparator.NAME);
 			countryComparator.setDirection(CountryComparator.ASCENDING);
@@ -223,7 +231,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getTransfersData")); //$NON-NLS-1$
 
-			Cache.setTransfers(TeamManager.getTransfers(Cache.getClub()));
+			Cache.setTransfers(teamManager.getTransfers(Cache.getClub()));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.completeTransfers")); //$NON-NLS-1$
@@ -241,11 +249,11 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getCoachesData")); //$NON-NLS-1$
 
-			Cache.setCoachesTrash(TrainersManager.getCoachesFromTrashData());
-			Cache.setCoaches(TrainersManager.getCoachesData());
-			Cache.setCoachesFired(TrainersManager.getCoachesFiredData());
+			Cache.setCoachesTrash(trainersManager.getCoachesFromTrashData());
+			Cache.setCoaches(trainersManager.getCoachesData());
+			Cache.setCoachesFired(trainersManager.getCoachesFiredData());
 
-			ArrayList<Coach> coachDeleted = TrainersManager.getCoachesDeletedData();
+			ArrayList<Coach> coachDeleted = trainersManager.getCoachesDeletedData();
 
 			// coach map for quick searching
 			Cache.setCoachesMap(new HashMap<Integer, Coach>());
@@ -278,19 +286,18 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getJuniorsData")); //$NON-NLS-1$
 
-			Cache.setJuniors(TeamManager.getJuniors(Cache.getTrainingsMap()));
+			Cache.setJuniors(teamManager.getJuniors(Cache.getTrainingsMap()));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getJuniorsTrainedData")); //$NON-NLS-1$
 
-			Cache.setJuniorsTrained(TeamManager.getJuniorsTrained(Cache.getTrainingsMap()));
+			Cache.setJuniorsTrained(teamManager.getJuniorsTrained(Cache.getTrainingsMap()));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getJuniorsFiredData")); //$NON-NLS-1$
 
-			Cache.setJuniorsFired(TeamManager.getJuniorsFired(Cache.getTrainingsMap()));
-
-			Cache.setJuniorsTrash(TeamManager.getJuniorsFromTrash(Cache.getTrainingsMap()));
+			Cache.setJuniorsFired(teamManager.getJuniorsFired(Cache.getTrainingsMap()));
+			Cache.setJuniorsTrash(teamManager.getJuniorsFromTrash(Cache.getTrainingsMap()));
 
 			// mapa juniorow do szybkiego wyszukiwania
 			HashMap<Integer, Junior> juniorTrainedMap = new HashMap<Integer, Junior>();
@@ -307,23 +314,22 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getPlayersData")); //$NON-NLS-1$
 
-			PlayersManager playerManager = new PlayersManager();
-
-			Cache.setPlayers(playerManager.getPlayers(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
+			Cache.setPlayers(playersManager.getPlayers(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); //$NON-NLS-1$
 
-			Cache.setPlayersHistory(playerManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
-
-			Cache.setPlayersTrash(playerManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
+			Cache.setPlayersHistory(playersManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
+																		transfersBuyMap));
+			Cache.setPlayersTrash(playersManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
+																		transfersBuyMap));
 
 			ArrayList<Player> alPlayers = new ArrayList<Player>();
 			alPlayers.addAll(Cache.getPlayers());
 			alPlayers.addAll(Cache.getPlayersHistory());
 			alPlayers.addAll(Cache.getPlayersTrash());
 
-			Cache.setPlayersArchiveMap(playerManager.getPlayersArchive());
+			Cache.setPlayersArchiveMap(playersManager.getPlayersArchive());
 
 			for (Player player : alPlayers) {
 				if (Cache.getPlayersArchiveMap().get(player.getId()) == null) {
@@ -343,18 +349,17 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getAssistantData")); //$NON-NLS-1$
 
-			Cache.setAssistant(AssistantManager.getAssistantData());
+			Cache.setAssistant(assistantManager.getAssistantData());
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getLeaguesData")); //$NON-NLS-1$
 
 			Cache.setClubMap(teamManager.getTeams());
-			
-			Cache.setLeaguesMap(new LeaguesManager().getLeagues());
-			
-			Cache.setLeagueSeasons(new LeaguesManager().getLeagueSeasons(Cache.getLeaguesMap(), Cache.getClubMap()));
 
-			
+			Cache.setLeaguesMap(leaguesManager.getLeagues());
+
+			Cache.setLeagueSeasons(leaguesManager.getLeagueSeasons(Cache.getLeaguesMap(), Cache.getClubMap()));
+
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getMatchesData")); //$NON-NLS-1$
 
@@ -363,13 +368,10 @@ public class CoreAction implements IRunnableWithProgress {
 				Cache.getPlayersMap().put(player.getId(), player);
 			}
 
-			Cache.setMatches(new MatchesManager().getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache.getPlayersArchiveMap()));
+			Cache.setMatches(matchesManager.getMatches(Cache.getClub(), Cache.getPlayersMap(), Cache.getLeaguesMap(), Cache.getClubMap(), Cache
+				.getPlayersArchiveMap()));
 
-			PlayersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
-
-			Cache.setGalleryImages(new GalleryImagesDao().getImages());
-			List<GalleryImage> images = new GalleryManager().getGalleryImages();
-			Cache.getGalleryImages().addAll(images);
+			playersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.completeYouthTeamId")); //$NON-NLS-1$
@@ -378,50 +380,53 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.done();
 			SettingsHandler.setLogged(true);
 		} catch (final InvocationTargetException e) {
-//			if(e.getCause() instanceof SVSynchronizerCriticalException) {
-//				new SVLogger(Level.WARNING, "Downloader -> Synchronizer", e); //$NON-NLS-1$
-//				MessageDialog.openErrorMessage(ViewerHandler.getViewer(), e.getCause().getMessage());
-//			}
+			// if(e.getCause() instanceof SVSynchronizerCriticalException) {
+			// new SVLogger(Level.WARNING, "Downloader -> Synchronizer", e);
+			// //$NON-NLS-1$
+			// MessageDialog.openErrorMessage(ViewerHandler.getViewer(),
+			// e.getCause().getMessage());
+			// }
 			monitor.interrupt();
 			throw e;
 		} catch (final SQLException e) {
-			try {
-				SQLSession.close();
-			} catch (SQLException e1) {
-			}
 			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "CoreAction SQLException");
 		} catch (final ConnectException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, Messages.getString("message.error.connection"));
 		} catch (final IOException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "IOException Bean");
 		} catch (ClassNotFoundException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "ClassNotFound");
 		} catch (NumberFormatException e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "NumberFormatExcetion");
 		} catch (Exception e) {
-			SettingsHandler.setLogged(false);			
+			SettingsHandler.setLogged(false);
 			monitor.interrupt();
 			throw new InvocationTargetException(e, "CoreAction Undefined");
 		} finally {
 			try {
-				if (SQLSession.getConnection() != null) {
-					SQLSession.close();
-				}
+				SQLSession.close();
 			} catch (Exception e) {
 				SettingsHandler.setLogged(false);
 				throw new InvocationTargetException(e, "CoreAction Finally");
 			}
 			lock = UNLOCK;
+		}
+	}
+
+	public void onFinish() {
+		try {
+			SQLSession.close();
+		} catch (SQLException e) {
 		}
 	}
 }

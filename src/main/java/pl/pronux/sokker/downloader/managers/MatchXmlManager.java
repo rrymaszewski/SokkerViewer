@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -20,7 +19,7 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.MatchXmlParser;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Match;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class MatchXmlManager extends XmlManager<Match> {
 
@@ -28,6 +27,8 @@ public class MatchXmlManager extends XmlManager<Match> {
 
 	private Map<String, String> matchesMap = new HashMap<String, String>();
 
+	private MatchesManager matchesManager = MatchesManager.instance();
+	
 	public MatchXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
 		super("match", destination, downloader, currentDay); //$NON-NLS-1$
 	}
@@ -40,7 +41,7 @@ public class MatchXmlManager extends XmlManager<Match> {
 		String value = "-3"; //$NON-NLS-1$
 		List<Match> matches = new ArrayList<Match>();
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
-		MatchesManager matchesManager = new MatchesManager();
+		
 		List<Match> alUncompletedMatches = leagueDao.getUncompletedLeague(teamID);
 
 		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
@@ -64,7 +65,7 @@ public class MatchXmlManager extends XmlManager<Match> {
 							download(matchID);
 							matches = parseXML(matchesMap.get(String.valueOf(matchID)));
 						} catch (Exception e) {
-							new SVLogger(Level.WARNING, this.toString(), e);
+							Log.warning(this.toString(), e);
 							continue;
 						}
 						if (matches.size() > 0 && matches.get(0).getLeagueID() == match.getLeagueID() && matches.get(0).getSeason() == match.getSeason()) {
@@ -113,7 +114,7 @@ public class MatchXmlManager extends XmlManager<Match> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		new MatchesManager().importMatches(matches);
+		matchesManager.importMatches(matches);
 	}
 
 	public List<Match> parseXML() throws SAXException {

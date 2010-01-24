@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Person;
 import pl.pronux.sokker.ui.beans.ConfigBean;
@@ -16,7 +15,7 @@ import pl.pronux.sokker.ui.listeners.TableLabelsListener;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 
-abstract public class SVTable<T> extends Table implements SV {
+abstract public class SVTable<T> extends Table {
 	public SVTable(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -71,7 +70,7 @@ abstract public class SVTable<T> extends Table implements SV {
 			noteShell.setPerson(person);
 			noteShell.open();
 			if ( person.getNote() != null) {
-				if (person.getNote().equals("")) {
+				if (person.getNote().isEmpty()) {
 					item.setImage(column, null);
 				} else {
 					item.setImage(column, ImageResources.getImageResources("note.png"));

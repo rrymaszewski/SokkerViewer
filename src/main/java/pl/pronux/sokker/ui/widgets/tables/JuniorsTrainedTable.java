@@ -17,7 +17,6 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
@@ -74,7 +73,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 			column.setMoveable(false);
 			if (j == titles.length - 1) {
 				// potrzebne do dopelnienia tabel w Linuxie
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -110,7 +109,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 			Player player = junior.getPlayer();
 
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior); 
+			item.setData(Junior.class.getName(), junior); 
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));

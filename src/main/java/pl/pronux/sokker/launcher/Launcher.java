@@ -2,15 +2,15 @@ package pl.pronux.sokker.launcher;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
+import java.sql.SQLException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
+import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
-import pl.pronux.sokker.data.properties.PropertiesSession;
-import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.data.sql.SQLQuery;
+import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.ProxySettings;
@@ -18,100 +18,77 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.ui.Viewer;
 import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.PropertiesChecker;
-import pl.pronux.sokker.utils.file.SVLogger;
 
 public class Launcher {
-	
+
+	private static SettingsManager settingsManager = SettingsManager.instance();
+
 	/**
 	 * @param args
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
 	public static void main(String[] args) {
-		
+
 		try {
-			
-			PropertiesSession properties = PropertiesDatabase.getSession();
-			SokkerViewerSettings settings = new SokkerViewerSettingsDao(properties).getSokkerViewerSettings();
+			SokkerViewerSettings settings = settingsManager.getSettings();
 			if (settings.isCheckProperties()) {
 				new PropertiesChecker().checkAll();
 				PropertiesDatabase.reload();
-				settings = new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).getSokkerViewerSettings();
+				settings = settingsManager.getSettings();
 				settings.setCheckProperties(false);
-				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
+				settingsManager.updateSettings(settings);
 			}
-			
+
 			SettingsHandler.setSokkerViewerSettings(settings);
 
 			// base directory settings
-			settings.setBaseDirectory(System.getProperty("user.dir")); //$NON-NLS-1$
+			settings.setBaseDirectory(System.getProperty("user.dir"));
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
-			
-			if (proxySettings.isEnabled()) {
-				System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-				System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
-				System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
-				System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
-				System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
-			}
+			setProxy(proxySettings);
 
-			if (settings.isCheckProperties()) {
-				new PropertiesChecker().checkAll();
-				settings.setCheckProperties(false);
-				new SokkerViewerSettingsDao(properties).updateSokkerViewerSettings(settings);
-			}
-
-			if(args.length == 1 && args[0].equals("--download-only")) { //$NON-NLS-1$
+			if (args.length == 1 && args[0].equals("--download-only")) {
 				SQLQuery.setSettings(settings);
 				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(new Monitor());
-			} else if(args.length == 0) {
+			} else if (args.length == 0) {
 				Display display = new Display();
 				try {
 					new Viewer(display, SWT.SHELL_TRIM).open();
 				} catch (Exception e) {
-					new BugReporter(display).openErrorMessage("SokkerViewer", e); //$NON-NLS-1$
+					new BugReporter(display).openErrorMessage("SokkerViewer", e);
 				} finally {
 					display.dispose();
 				}
-				
-			} 
-			
-			/*else if( args.length > 1) {
 
-			Map<String, String> mParams = new HashMap<String, String>();
-			for(int i = 0; i < args.length; i++) {
-				String[] split = args[i].split("=");
-				if(split.length == 2) {
-					mParams.put(split[0], split[1]);		
-				}  else {
-					mParams.put(args[i], null);
-				}
-			}
-			if(mParams.containsKey("--download-only") && mParams.containsKey("--name") && mParams.containsKey("--password") && mParams.containsKey("--download-path")) {
-				System.out.println("hi");
 			} else {
-				System.out.println(showHelp());
-			}
-		}*/ 
-			else {
 				System.out.println(showHelp());
 			}
 
 		} catch (Exception e) {
-			new SVLogger(Level.WARNING, "Error Viewer", e); //$NON-NLS-1$
+			Log.error("Error Viewer", e); //$NON-NLS-1$
 		} finally {
-			SVLogger.dispose();
+			Log.close();
+			try {
+				SQLSession.close();
+			} catch (SQLException e) {
+			}
 		}
 	}
-	
+
 	private static String showHelp() {
-/*		return "--download-only\r\n" +
-				"--user=<user>\r\n" +
-				"--password=<password>\r\n" +
-				"--path=<path>\r\n" +
-				"--help";*/
 		return "--donwload-only\r\n" + //$NON-NLS-1$
-				"--help"; //$NON-NLS-1$
+			   "--help"; //$NON-NLS-1$
+	}
+
+	private static void setProxy(ProxySettings proxySettings) {
+		if (proxySettings.isEnabled()) {
+			System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
+			System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
+			System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
+			System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
+		}
 	}
 }

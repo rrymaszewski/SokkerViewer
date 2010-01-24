@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerSkills;
@@ -15,12 +14,13 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
 
-public class PlayerTable extends SVTable<Player> implements SV {
+public class PlayerTable extends SVTable<Player> {
 
 	public PlayerTable(Composite parent, int style) {
 		super(parent, style);
@@ -57,9 +57,9 @@ public class PlayerTable extends SVTable<Player> implements SV {
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -67,7 +67,6 @@ public class PlayerTable extends SVTable<Player> implements SV {
 				column.pack();
 			}
 		}
-
 	}
 
 	public void fill(Player player) {
@@ -126,13 +125,13 @@ public class PlayerTable extends SVTable<Player> implements SV {
 //									item.setImage(18, ImageResources.getImageResources("playoff.png"));
 //								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(18, ColorResources.getColor(221, 255, 255));
+									item.setBackground(18, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(18, ColorResources.getColor(255, 230, 214));
+									item.setBackground(18, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(18, ColorResources.getColor(255, 255, 208));
+									item.setBackground(18, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(18, ColorResources.getColor(226, 255, 208));
+									item.setBackground(18, Colors.getPositionATT());
 								}
 
 							} else {
@@ -142,13 +141,13 @@ public class PlayerTable extends SVTable<Player> implements SV {
 //									item.setImage(19, ImageResources.getImageResources("cup.png"));
 								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-								item.setBackground(19, ColorResources.getColor(221, 255, 255));
+								item.setBackground(19, Colors.getPositionGK());
 							} else if (playerStats.getFormation() == PlayerStats.DEF) {
-								item.setBackground(19, ColorResources.getColor(255, 230, 214));
+								item.setBackground(19, Colors.getPositionDEF());
 							} else if (playerStats.getFormation() == PlayerStats.MID) {
-								item.setBackground(19, ColorResources.getColor(255, 255, 208));
+								item.setBackground(19, Colors.getPositionMID());
 							} else if (playerStats.getFormation() == PlayerStats.ATT) {
-								item.setBackground(19, ColorResources.getColor(226, 255, 208));
+								item.setBackground(19, Colors.getPositionATT());
 							}
 								item.setText(19, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 //								if(league.getType() == League.TYPE_LEAGUE) {
@@ -187,7 +186,7 @@ public class PlayerTable extends SVTable<Player> implements SV {
 
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();
-			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 5);
+//			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 5);
 		}
 
 		if (this.getColumn(18).getWidth() < this.getColumn(19).getWidth()) {

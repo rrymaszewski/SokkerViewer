@@ -29,6 +29,16 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 
 public class MatchesManager {
+
+	private static final MatchesManager _instance = new MatchesManager();
+
+	private MatchesManager() {
+	}
+
+	public static MatchesManager instance() {
+		return _instance;
+	}
+
 	public void importMatches(List<Match> matches) throws SQLException {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		for (Match match : matches) {
@@ -71,7 +81,8 @@ public class MatchesManager {
 		return filteredMatches;
 	}
 
-	public List<Match> getMatches(Club club, Map<Integer, Player> playersMap, Map<Integer, League> hmLeague, Map<Integer, Club> clubMap, Map<Integer, PlayerArchive> archivePlayerMap) throws SQLException {
+	public List<Match> getMatches(Club club, Map<Integer, Player> playersMap, Map<Integer, League> hmLeague, Map<Integer, Club> clubMap,
+		Map<Integer, PlayerArchive> archivePlayerMap) throws SQLException {
 		List<Match> matches = new ArrayList<Match>();
 		boolean newConnection = SQLQuery.connect();
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
@@ -94,18 +105,14 @@ public class MatchesManager {
 	}
 
 	public int importMatch(String matchID) throws SQLException, IOException, SAXException, SVException {
-		XMLDownloader downloader = new XMLDownloader();				
+		XMLDownloader downloader = new XMLDownloader();
 		Match match;
 		League league;
 		String value;
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
 		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
-		if(proxySettings.isEnabled()) {
-			downloader.login(settings.getUsername(), settings.getPassword(), proxySettings.getHostname(), proxySettings.getPort(), proxySettings.getUsername(), proxySettings.getPassword());
-		} else {
-			downloader.login(settings.getUsername(), settings.getPassword());	
-		}
+		downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 
 		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
 			value = "0"; //$NON-NLS-1$
@@ -122,7 +129,9 @@ public class MatchesManager {
 					List<Match> matches = manager.parseXML();
 					if (matches.get(0) != null) {
 						match = matches.get(0);
-						if ((match.getAwayTeamID() == Integer.valueOf(downloader.getTeamID()) || match.getHomeTeamID() == Integer.valueOf(downloader.getTeamID())) && match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1 ) {
+						if ((match.getAwayTeamID() == Integer.valueOf(downloader.getTeamID()) || match.getHomeTeamID() == Integer.valueOf(downloader
+							.getTeamID()))
+							&& match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1) {
 							manager.write();
 							// if(!SQLQuery.ifExistsLeague(manager.getMatch().getLeagueID())) {
 							if (Cache.getLeaguesMap().get(match.getLeagueID()) == null) {
@@ -132,7 +141,7 @@ public class MatchesManager {
 								leagueManager.importToSQL();
 								for (int i = 0; i < leagues.size(); i++) {
 									league = leagues.get(i);
-//									Cache.getLeagues().add(league);
+									// Cache.getLeagues().add(league);
 									Cache.getLeaguesMap().put(league.getLeagueID(), league);
 								}
 							} else {
@@ -166,9 +175,9 @@ public class MatchesManager {
 							return 2;
 						}
 					} else {
-						return 3;	
+						return 3;
 					}
-					
+
 				}
 			} else {
 				throw new SVException(Messages.getString("login.error." + value)); //$NON-NLS-1$
@@ -177,6 +186,5 @@ public class MatchesManager {
 			SQLSession.close();
 		}
 		return 2;
-
 	}
 }

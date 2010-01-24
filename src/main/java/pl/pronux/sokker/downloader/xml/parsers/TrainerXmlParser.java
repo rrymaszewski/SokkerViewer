@@ -3,7 +3,6 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -16,7 +15,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Money;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class TrainerXmlParser {
 
@@ -161,11 +160,11 @@ public class TrainerXmlParser {
 				alCoach = new ArrayList<Coach>();
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 				if (localName.equals("trainers")) { //$NON-NLS-1$
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
@@ -233,7 +232,7 @@ public class TrainerXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

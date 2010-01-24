@@ -21,6 +21,8 @@ import pl.pronux.sokker.resources.Messages;
 
 public class NoteShell extends Shell {
 
+	private PersonsManager personsManager = PersonsManager.instance();
+	
 	private StyledText note;
 
 	private Label charLimit;
@@ -102,7 +104,7 @@ public class NoteShell extends Shell {
 				if (person != null) {
 					person.setNote(note.getText());
 					try {
-						PersonsManager.updatePersonNote(person);
+						personsManager.updatePersonNote(person);
 					} catch (SQLException e) {
 						new BugReporter(NoteShell.this.getDisplay()).openErrorMessage("NoteShell -> update person", e);
 					}

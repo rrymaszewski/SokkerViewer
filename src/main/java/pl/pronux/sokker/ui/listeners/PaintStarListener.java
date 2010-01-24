@@ -11,7 +11,6 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class PaintStarListener implements Listener {
 
-	public final static String IDENTIFIER = "PaintStarListener"; //$NON-NLS-1$
 	private int index;
 	private final static Image STAR_FULL = ImageResources.getImageResources("star_full.png"); //$NON-NLS-1$
 	private final static Image STAR_HALF = ImageResources.getImageResources("star_half.png"); //$NON-NLS-1$
@@ -22,11 +21,11 @@ public class PaintStarListener implements Listener {
 	}
 
 	public void handleEvent(Event event) {
-		if (event.index == index && event.item instanceof TableItem && event.item.getData(PaintStarListener.IDENTIFIER) != null) {
+		if (event.index == index && event.item instanceof TableItem && event.item.getData(PaintStarListener.class.getName()) != null) {
 			TableItem item = (TableItem) event.item;
 			int rating = 0;
-			if (item.getData(PaintStarListener.IDENTIFIER) instanceof Integer) {
-				rating = (Integer) item.getData(PaintStarListener.IDENTIFIER);
+			if (item.getData(PaintStarListener.class.getName()) instanceof Integer) {
+				rating = (Integer) item.getData(PaintStarListener.class.getName());
 			}
 			switch (event.type) {
 			case SWT.PaintItem: {

@@ -21,13 +21,13 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.PersonsManager;
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
@@ -44,6 +44,8 @@ import pl.pronux.sokker.ui.widgets.tables.CoachFiredTable;
 
 public class ViewCoachesFired implements IPlugin, ISort {
 
+	private PersonsManager personsManager = PersonsManager.instance();
+	
 	private TreeItem _treeItem;
 
 	private CoachFiredTable coachesTable;
@@ -63,7 +65,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 	private Composite currentView;
 
 	private DescriptionSingleComposite descriptionComposite;
-
+	
 	// public ViewCoach(Composite parent, int style) {
 	// super(parent, style);
 	// }
@@ -269,7 +271,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 					Coach coach = currentCoach;
 
 					try {
-						PersonsManager.movePersonToTrash(coach);
+						personsManager.movePersonToTrash(coach);
 						coachesTable.fill(coaches);
 
 						setDescriptionComposite(coaches);
@@ -330,7 +332,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 							Coach coach = itr.next();
 							itr.remove();
-							PersonsManager.movePersonToTrash(coach);
+							personsManager.movePersonToTrash(coach);
 
 						}
 
@@ -373,7 +375,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 			public void handleEvent(Event event) {
 				if (event != null) {
-					Coach coach = (Coach) event.item.getData(Coach.IDENTIFIER); 
+					Coach coach = (Coach) event.item.getData(Coach.class.getName()); 
 					setStatsCoachInfo(coach, coachView);
 					showDescriptionView(coachView);
 					currentCoach = coach;

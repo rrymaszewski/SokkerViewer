@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Text;
 
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.widgets.composites.CountryChooser;
 
@@ -49,14 +49,14 @@ public class ArchiveSearchGroup extends Group {
 	}
 	
 	public Integer getPlayerID() {
-		if(idText == null || idText.equals("") || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return -1;
 		}
 		return Integer.valueOf(idText.getText());
 	}
 	
 	public Integer getPlayerYouthTeamId() {
-		if(youthTeamIdText == null || youthTeamIdText.equals("") || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
 			return -1;
 		}
 		return Integer.valueOf(youthTeamIdText.getText());
@@ -75,7 +75,7 @@ public class ArchiveSearchGroup extends Group {
 		this.setLayout(layout);
 		this.setFont(ConfigBean.getFontMain());
 		this.setText(Messages.getString("ArchiveSearchGroup.search")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 
 		GridData gridData1 = new GridData();
 		gridData1.grabExcessHorizontalSpace = true;

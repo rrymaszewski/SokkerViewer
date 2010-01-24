@@ -1,0 +1,6 @@
+* calendar update
+* mark flags to be refreshed 
+* bugfix: no juniors falls in weekly training report
+* bugfix: problem with proxy
+* bugfix: missing stars in spy and player match history
+* bugfix: (linux) fixed problem with tray information and splash image

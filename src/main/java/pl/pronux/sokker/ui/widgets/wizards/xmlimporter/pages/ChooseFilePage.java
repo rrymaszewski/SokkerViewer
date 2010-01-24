@@ -18,7 +18,6 @@ import pl.pronux.sokker.importer.controller.SOPackagesManager;
 import pl.pronux.sokker.importer.controller.SVPackagesManager;
 import pl.pronux.sokker.importer.model.IXMLpack;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.custom.ProgressBarCustom;
 import pl.pronux.sokker.ui.widgets.wizards.Wizard;
@@ -72,7 +71,7 @@ public class ChooseFilePage extends Page {
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			if (i == table.getColumnCount() - 1) {
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					table.getColumn(i).pack();
 				}
 			} else {

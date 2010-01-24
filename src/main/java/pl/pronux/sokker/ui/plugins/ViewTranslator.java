@@ -25,15 +25,16 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.StringLengthComparator;
 import pl.pronux.sokker.data.cache.Cache;
+import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.LangResources;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
@@ -131,7 +132,7 @@ public class ViewTranslator implements IPlugin {
 //						break;
 //					}
 //				}
-				langCode = settings.getLangCode(text);
+				langCode = Language.getLanguageCode(text);
 				String[] temp = langCode.split("_");
 				if(temp.length == 2) {
 					langTranslatePropertiesFrom = Messages.getLangResources(new Locale(temp[0], temp[1]));	
@@ -303,7 +304,7 @@ public class ViewTranslator implements IPlugin {
 //					}
 //				}
 				
-				langCode = settings.getLangCode(text);
+				langCode = Language.getLanguageCode(text);
 				
 				String[] temp = langCode.split("_");
 				if(temp.length > 1) {
@@ -408,8 +409,8 @@ public class ViewTranslator implements IPlugin {
 
 	private void addItems(Combo comboLang) {
 
-		comboLang.setItems(settings.getLanguages().toArray(new String[settings.getLanguages().size()]));
-		comboLang.setText(settings.getLanguage(settings.getLangCode()));
+		comboLang.setItems(Language.languageNames());
+		comboLang.setText(Language.getLanguageName(settings.getLangCode()));
 
 	}
 

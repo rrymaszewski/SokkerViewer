@@ -3,7 +3,6 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -16,7 +15,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.LeagueTeam;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 
 public class LeagueIDXmlParser {
 
@@ -83,9 +82,6 @@ public class LeagueIDXmlParser {
 		class SAXHandler extends DefaultHandler {
 
 			public void characters(char ch[], int start, int length) throws SAXException {
-				// System.out.print("Ciag znakow: ");
-				// wypisujemy lancuch, zmieniajac znaki tabulacji i konca
-				// linii na ich specjalne reprezentacje
 
 				message.append(new String(ch, start, length));
 
@@ -173,11 +169,11 @@ public class LeagueIDXmlParser {
 
 			}
 
-			StringBuffer message;
+			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
-				message = new StringBuffer();
+				message = new StringBuilder();
 
 				if (localName.equalsIgnoreCase("teams")) { //$NON-NLS-1$
 					TAG_switch = TAG_TEAMS;
@@ -250,7 +246,7 @@ public class LeagueIDXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			new SVLogger(Level.WARNING, "Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); //$NON-NLS-1$
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

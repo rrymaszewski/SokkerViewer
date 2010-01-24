@@ -18,7 +18,6 @@ import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
@@ -52,6 +51,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 				Messages.getString("junior.table.estimated.level.short"), //$NON-NLS-1$
 				Messages.getString("junior.table.jumps"), //$NON-NLS-1$
 				Messages.getString("table.age"), //$NON-NLS-1$
+				Messages.getString("junior.exit.week"), //$NON-NLS-1$
 				Messages.getString("junior.exit.date"), //$NON-NLS-1$
 				Messages.getString("junior.table.money.spent"), //$NON-NLS-1$
 				Messages.getString("junior.table.money.left"), //$NON-NLS-1$
@@ -77,10 +77,10 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			// {
 			// column.setWidth(50);
 			// } else
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 
 				// potrzebne do dopelnienia tabel w Linuxie
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -107,7 +107,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			maxSkill = junior.getSkills().length - 1;
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior);
+			item.setData(Junior.class.getName(), junior);
 			// item.setData("id", junior.getId());
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 			item.setText(c++, junior.getName());
@@ -138,6 +138,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			}
 			item.setText(c++, String.valueOf(junior.getPops()));
 			item.setText(c++, SVNumberFormat.formatIntegerWithSignZero(junior.getEstimatedAge()));
+			item.setText(c++, String.valueOf(junior.getEndDate().getSeason().getSeasonWeek()));
 			item.setText(c++, junior.getEndDate().toDateString());
 			item.setText(c++, junior.getMoneySpent().formatIntegerCurrencySymbol());
 			item.setText(c++, junior.getRestMoneyToSpend().formatIntegerCurrencySymbol());
@@ -146,7 +147,7 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			
 			
 			if (junior.getNote() != null) {
-				if (junior.getNote().equals("")) { //$NON-NLS-1$
+				if (junior.getNote().isEmpty()) {
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -176,8 +177,8 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column == JuniorsComparator.NOTE) {
-			Junior junior = (Junior) item.getData(Junior.IDENTIFIER); 
-			if (junior.getNote() != null && !junior.getNote().equals("")) { //$NON-NLS-1$
+			Junior junior = (Junior) item.getData(Junior.class.getName()); 
+			if (junior.getNote() != null && !junior.getNote().isEmpty()) {
 				label.setText(junior.getNote());
 				int minSizeX = 200;
 				int minSizeY = 80;

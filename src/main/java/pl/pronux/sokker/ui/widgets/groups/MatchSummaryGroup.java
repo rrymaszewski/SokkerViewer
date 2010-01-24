@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.tables.MatchSummaryTable;
 
 public class MatchSummaryGroup extends Group {
@@ -28,8 +28,8 @@ public class MatchSummaryGroup extends Group {
 		this.setLayout(new FormLayout());
 
 		FormData formData;
-		this.setText(Messages.getString("match.summary")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setText(Messages.getString("summary")); //$NON-NLS-1$
+		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
 		
 		summaryTable = new MatchSummaryTable(this, SWT.NONE);

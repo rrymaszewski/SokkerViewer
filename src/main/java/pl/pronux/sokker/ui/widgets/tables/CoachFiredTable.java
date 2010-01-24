@@ -16,7 +16,6 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
@@ -66,8 +65,8 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[j].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+			if (titles[j].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -101,7 +100,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 			TableItem item = new TableItem(this, SWT.NONE);
 			
 			int c = 0;
-			item.setData(Coach.IDENTIFIER, coach); //$NON-NLS-1$
+			item.setData(Coach.class.getName(), coach); //$NON-NLS-1$
 			item.setImage(c++, FlagsResources.getFlag(coach.getCountryfrom()));
 			item.setText(c++, coach.getName());
 			item.setText(c++, coach.getSurname());
@@ -140,7 +139,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= CoachComparator.GENERAL_SKILL && column <= CoachComparator.SCORERS) {
-			Coach coach = (Coach) item.getData(Coach.IDENTIFIER);
+			Coach coach = (Coach) item.getData(Coach.class.getName());
 			switch(column) {
 			case CoachComparator.GENERAL_SKILL:
 				label.setText(Messages.getString("skill.a" + coach.getGeneralskill()));

@@ -9,15 +9,15 @@ import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.LeagueComparator;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.LeagueRound;
 import pl.pronux.sokker.model.LeagueTeam;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
-public class LeagueTable extends SVTable<LeagueRound> implements SV {
+public class LeagueTable extends SVTable<LeagueRound> {
 
 	private LeagueComparator leagueComparator;
 
@@ -55,8 +55,8 @@ public class LeagueTable extends SVTable<LeagueRound> implements SV {
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[i].equals("")) { //$NON-NLS-1$
-				if (SettingsHandler.OS_TYPE == LINUX) {
+			if (titles[i].isEmpty()) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -74,7 +74,7 @@ public class LeagueTable extends SVTable<LeagueRound> implements SV {
 		TableItem item = new TableItem(this, SWT.NONE);
 		for (int i = 0; i < titles.length; i++) {
 			item.setText(i, titles[i]);
-			item.setForeground(ColorResources.getBlueDescription());
+			item.setForeground(Colors.getBlueDescription());
 		}
 
 		leagueComparator = new LeagueComparator();

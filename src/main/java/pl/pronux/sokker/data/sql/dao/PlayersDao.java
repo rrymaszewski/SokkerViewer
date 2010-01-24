@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dto.PlayerDto;
 import pl.pronux.sokker.data.sql.dto.PlayerNtSkillsDto;
 import pl.pronux.sokker.data.sql.dto.PlayerSkillsDto;
@@ -227,7 +226,7 @@ public class PlayersDao {
 			playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
 			playerSkills.setTraining(trainingMap.get(playerSkills.getTrainingID()));
 			if (trainingMap.get(playerSkills.getTrainingID()) != null) {
-				trainingMap.get(playerSkills.getTrainingID()).getAlPlayers().add(player);
+				trainingMap.get(playerSkills.getTrainingID()).getPlayers().add(player);
 			}
 			alPlayerSkills.add(playerSkills);
 		}
@@ -317,63 +316,32 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerSkills(int id, PlayerSkills skills, Date date) throws SQLException {
-		PreparedStatement ps = null;
-
-		if (SQLSession.databaseType == SQLSession.POSTGRESQL) {
-			ps = connection
-					.prepareStatement("UPDATE player_skills SET " //$NON-NLS-1$
-							+ "millis = ?, " //$NON-NLS-1$
-							+ "age = ?, " //$NON-NLS-1$
-							+ "value = ?, " //$NON-NLS-1$
-							+ "salary = ?, " //$NON-NLS-1$
-							+ "form = ?, " //$NON-NLS-1$
-							+ "stamina = ?, " //$NON-NLS-1$
-							+ "pace = ?, " //$NON-NLS-1$
-							+ "technique = ?, " //$NON-NLS-1$
-							+ "passing = ?, " //$NON-NLS-1$
-							+ "keeper = ?, " //$NON-NLS-1$
-							+ "defender = ? ," //$NON-NLS-1$
-							+ "playmaker = ?, " //$NON-NLS-1$
-							+ "scorer = ?, " //$NON-NLS-1$
-							+ "matches = ?, " //$NON-NLS-1$
-							+ "goals = ?, " //$NON-NLS-1$
-							+ "assists = ?, " //$NON-NLS-1$
-							+ "cards = ?, " //$NON-NLS-1$
-							+ "injurydays = ?, " //$NON-NLS-1$
-							+ "day = ?, " //$NON-NLS-1$
-							+ "week = ?, " //$NON-NLS-1$
-							+ "experience = ?, " //$NON-NLS-1$
-							+ "teamwork = ?, " //$NON-NLS-1$
-							+ "discipline = ? " //$NON-NLS-1$
-							+ "WHERE id_player_fk = ? AND week = (select max(week) from player_skills WHERE id_player_fk = ?) AND day = (select max(p.day) from player_skills p where p.week = player_skills.week AND p.id_player_fk = ?)"); //$NON-NLS-1$
-		} else if (SQLSession.databaseType == SQLSession.HSQLDB) {
-			ps = connection
-					.prepareStatement("UPDATE player_skills p SET " //$NON-NLS-1$
-							+ "millis = ?, " //$NON-NLS-1$
-							+ "age = ?, " //$NON-NLS-1$
-							+ "value = ?, " //$NON-NLS-1$
-							+ "salary = ?, " //$NON-NLS-1$
-							+ "form = ?, " //$NON-NLS-1$
-							+ "stamina = ?, " //$NON-NLS-1$
-							+ "pace = ?, " //$NON-NLS-1$
-							+ "technique = ?, " //$NON-NLS-1$
-							+ "passing = ?, " //$NON-NLS-1$
-							+ "keeper = ?, " //$NON-NLS-1$
-							+ "defender = ? ," //$NON-NLS-1$
-							+ "playmaker = ?, " //$NON-NLS-1$
-							+ "scorer = ?, " //$NON-NLS-1$
-							+ "matches = ?, " //$NON-NLS-1$
-							+ "goals = ?, " //$NON-NLS-1$
-							+ "assists = ?, " //$NON-NLS-1$
-							+ "cards = ?, " //$NON-NLS-1$
-							+ "injurydays = ?, " //$NON-NLS-1$
-							+ "day = ?, " //$NON-NLS-1$
-							+ "week = ?, " //$NON-NLS-1$
-							+ "experience = ?, " //$NON-NLS-1$
-							+ "teamwork = ?, " //$NON-NLS-1$
-							+ "discipline = ? " //$NON-NLS-1$
-							+ "WHERE id_player_fk = ? AND week = (select max(week) from player_skills WHERE id_player_fk = ?) AND day = (select max(day) from player_skills where week = p.week AND id_player_fk = ?)"); //$NON-NLS-1$
-		}
+		PreparedStatement ps = connection
+				.prepareStatement("UPDATE player_skills p SET " //$NON-NLS-1$
+						+ "millis = ?, " //$NON-NLS-1$
+						+ "age = ?, " //$NON-NLS-1$
+						+ "value = ?, " //$NON-NLS-1$
+						+ "salary = ?, " //$NON-NLS-1$
+						+ "form = ?, " //$NON-NLS-1$
+						+ "stamina = ?, " //$NON-NLS-1$
+						+ "pace = ?, " //$NON-NLS-1$
+						+ "technique = ?, " //$NON-NLS-1$
+						+ "passing = ?, " //$NON-NLS-1$
+						+ "keeper = ?, " //$NON-NLS-1$
+						+ "defender = ? ," //$NON-NLS-1$
+						+ "playmaker = ?, " //$NON-NLS-1$
+						+ "scorer = ?, " //$NON-NLS-1$
+						+ "matches = ?, " //$NON-NLS-1$
+						+ "goals = ?, " //$NON-NLS-1$
+						+ "assists = ?, " //$NON-NLS-1$
+						+ "cards = ?, " //$NON-NLS-1$
+						+ "injurydays = ?, " //$NON-NLS-1$
+						+ "day = ?, " //$NON-NLS-1$
+						+ "week = ?, " //$NON-NLS-1$
+						+ "experience = ?, " //$NON-NLS-1$
+						+ "teamwork = ?, " //$NON-NLS-1$
+						+ "discipline = ? " //$NON-NLS-1$
+						+ "WHERE id_player_fk = ? AND week = (select max(week) from player_skills WHERE id_player_fk = ?) AND day = (select max(day) from player_skills where week = p.week AND id_player_fk = ?)"); //$NON-NLS-1$
 
 		ps.setLong(1, date.getMillis());
 		ps.setInt(2, skills.getAge());

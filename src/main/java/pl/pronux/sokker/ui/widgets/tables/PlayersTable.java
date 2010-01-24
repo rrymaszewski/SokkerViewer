@@ -19,9 +19,9 @@ import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.Fonts;
@@ -86,9 +86,9 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			// } else if (titles[j].equals(Messages.getString("table.salary"))) {
 			// column.setWidth(70);
 			// } else
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// column.setWidth(70);
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -113,7 +113,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			max = player.getSkills().length - 1;
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Player.IDENTIFIER, player);
+			item.setData(Player.class.getName(), player);
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			
 			if(!player.getSkills()[max].isPassTraining()) {
@@ -155,7 +155,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			}
 			
 			if (player.getNote() != null) {
-				if (player.getNote().equals("")) { //$NON-NLS-1$
+				if (player.getNote().isEmpty()) {
 					c++;
 				} else {
 					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
@@ -173,13 +173,13 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 								item.setFont(PlayerComparator.MATCH_SUNDAY, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(PlayerComparator.MATCH_SUNDAY).getFontData()));
 								item.setText(PlayerComparator.MATCH_SUNDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(221, 255, 255));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(255, 230, 214));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(255, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(PlayerComparator.MATCH_SUNDAY, ColorResources.getColor(226, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionATT());
 								}
 							} else {
 								if (league.getIsOfficial() == League.OFFICIAL) {
@@ -187,13 +187,13 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 								}
 								item.setText(PlayerComparator.MATCH_WEDNESDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(221, 255, 255));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(255, 230, 214));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(255, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, ColorResources.getColor(226, 255, 208));
+									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionATT());
 								}
 							}
 						}
@@ -264,7 +264,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 	@Override
 	public void setLabel(Label label, int column, TableItem item) {
 		if (column >= PlayerComparator.VALUE &&  column <= PlayerComparator.TEAMWORK) {
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			int maxSkill = player.getSkills().length - 1;
 			int[] temp1 = player.getSkills()[maxSkill].getStatsTable();
 			if (maxSkill > 0) {
@@ -306,9 +306,9 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			int maxSizeX = 400;
 			int maxSizeY = 200;
 
-			Player player = (Player) item.getData(Player.IDENTIFIER);
+			Player player = (Player) item.getData(Player.class.getName());
 			if (player.getNote() != null) {
-				if (!player.getNote().equals("")) {
+				if (!player.getNote().isEmpty()) {
 					label.setText(player.getNote());
 
 					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);

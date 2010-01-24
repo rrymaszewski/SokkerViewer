@@ -14,7 +14,6 @@ import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.interfaces.IPlugin;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 
@@ -55,9 +54,9 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals("")) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) {
 				// potrzebne do dopelnienia tabel w Linuxie
-				if (SettingsHandler.OS_TYPE == IPlugin.LINUX) {
+				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
 			} else {
@@ -86,7 +85,7 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			TableItem item = new TableItem(this, SWT.NONE);
 
 			int c = 0;
-			item.setData(Junior.IDENTIFIER, junior); 
+			item.setData(Junior.class.getName(), junior); 
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));

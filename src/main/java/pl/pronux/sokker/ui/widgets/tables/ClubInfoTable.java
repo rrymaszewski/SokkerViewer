@@ -68,6 +68,8 @@ public class ClubInfoTable extends SVTable<Club> {
 		for (int i = 0; i < this.getItemCount(); i++) {
 			if ((i % 2) == 0) {
 				this.getItem(i).setBackground(ColorResources.getGray());
+			} else {
+				this.getItem(i).setBackground(this.getBackground());
 			}
 		}
 
@@ -139,7 +141,7 @@ public class ClubInfoTable extends SVTable<Club> {
 		item.setText(firstColumn, club.getRegion().getName());
 
 		item = this.getItem(c++);
-		item.setText(firstColumn, club.getArena().getAlArenaName().get(club.getArena().getAlArenaName().size() - 1).getArenaName());
+		item.setText(firstColumn, club.getArena().getArenaNames().get(club.getArena().getArenaNames().size() - 1).getArenaName());
 
 		item = this.getItem(c++);
 		item.setText(firstColumn, club.getClubBudget().get(maxSkillMoney - 1).getMoney().formatDoubleCurrencySymbol());

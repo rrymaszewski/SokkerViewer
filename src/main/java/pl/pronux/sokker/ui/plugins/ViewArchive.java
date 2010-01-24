@@ -20,12 +20,12 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
+import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.PlayerArchiveComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.PlayerArchive;
 import pl.pronux.sokker.model.SokkerViewerSettings;
-import pl.pronux.sokker.model.SvBean;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
@@ -93,7 +93,7 @@ public class ViewArchive implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
 					Item item = (Item) menuPopUp.getData("item"); //$NON-NLS-1$
-					if (item.getData(PlayerArchive.IDENTIFIER) != null) { //$NON-NLS-1$
+					if (item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
 						openNote(item);
 					}
 				}
@@ -163,10 +163,10 @@ public class ViewArchive implements IPlugin, ISort {
 				if (archiveSearchGroup.getPlayerYouthTeamId() >= 0) {
 					search = search | youthTeamID;
 				}
-				if (!archiveSearchGroup.getPlayerName().equals("")) { //$NON-NLS-1$
+				if (!archiveSearchGroup.getPlayerName().isEmpty()) {
 					search = search | name;
 				}
-				if (!archiveSearchGroup.getPlayerSurname().equals("")) { //$NON-NLS-1$
+				if (!archiveSearchGroup.getPlayerSurname().isEmpty()) { 
 					search = search | surname;
 				}
 //				if (archiveSearchGroup.getPlayerCountryID() > 0 && archiveSearchGroup.getPlayerCountryID() < FlagsResources.EMPTY_FLAG) {
@@ -384,8 +384,8 @@ public class ViewArchive implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TableItem item = playersArchiveTable.getItem(pt);
-				if (item != null && item.getData(PlayerArchive.IDENTIFIER) != null) { //$NON-NLS-1$
-					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER); //$NON-NLS-1$
+				if (item != null && item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
+					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
 					archiveInformationGroup.fill(playerArchive);
 				}
 
@@ -415,7 +415,7 @@ public class ViewArchive implements IPlugin, ISort {
 	}
 
 	private void openNote(Item item) {
-		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER); //$NON-NLS-1$
+		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
 		final NoteShell noteShell = new NoteShell(composite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(playerArchive);
 		noteShell.open();
@@ -424,7 +424,7 @@ public class ViewArchive implements IPlugin, ISort {
 			playersArchiveTable.fill(players);
 		} else if (item instanceof TableItem) {
 			if (playerArchive.getNote() != null) {
-				if (playerArchive.getNote().equals("")) { //$NON-NLS-1$
+				if (playerArchive.getNote().isEmpty()) {
 					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, null);
 				} else {
 					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$

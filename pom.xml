@@ -4,12 +4,22 @@
 	<groupId>SokkerViewer</groupId>
 	<artifactId>SokkerViewer</artifactId>
 	<name>SokkerViewer</name>
-	<version>0.12</version>
+	<version>0.13.2</version>
+	<properties>
+		<swt.version>3.5.1</swt.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>SokkerViewer</id>
+			<name>SokkerViewer.repository</name>
+			<url>http://www.sokkerviewer.net/repo</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>1.8.0</version>
+			<version>1.8.0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>htmlentities</groupId>
@@ -22,11 +32,6 @@
 			<version>1.4.2</version>
 		</dependency>
 		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>8.1-405.jdbc3</version>
-		</dependency>
-		<dependency>
 			<groupId>jcommon</groupId>
 			<artifactId>jcommon</artifactId>
 			<version>1.0.0</version>
@@ -35,6 +40,11 @@
 			<groupId>jfreechart</groupId>
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>swt</groupId>
+			<artifactId>${swt.os-specific-dep}</artifactId>
+			<version>${swt.version}</version>
 		</dependency>
 	</dependencies>
 	<profiles>
@@ -48,15 +58,8 @@
 			<properties>
 				<swt.os-specific-dep>swt-linux-gtk
 				</swt.os-specific-dep>
-				<swt.version>3.3.0</swt.version>
+				<sv.os.type name="os.name.value">linux</sv.os.type>
 			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>swt</groupId>
-					<artifactId>swt-linux-gtk</artifactId>
-					<version>3.3.0</version>
-				</dependency>
-			</dependencies>
 		</profile>
 		<profile>
 			<id>windows</id>
@@ -67,18 +70,11 @@
 			</activation>
 			<properties>
 				<swt.os-specific-dep>swt-win32</swt.os-specific-dep>
-				<swt.version>3.3.0</swt.version>
+				<sv.os.type name="os.name.value">windows</sv.os.type>
 			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>swt</groupId>
-					<artifactId>swt-win32</artifactId>
-					<version>3.3.0</version>
-				</dependency>
-			</dependencies>
 		</profile>
 		<profile>
-			<id>mac</id>
+			<id>macosx</id>
 			<activation>
 				<os>
 					<family>macosx</family>
@@ -86,15 +82,84 @@
 			</activation>
 			<properties>
 				<swt.os-specific-dep>swt-macosx</swt.os-specific-dep>
-				<swt.version>3.3.0</swt.version>
+				<sv.os.type name="os.name.value">mac</sv.os.type>
 			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>swt</groupId>
-					<artifactId>swt-macosx</artifactId>
-					<version>3.3.0</version>
-				</dependency>
-			</dependencies>
+		</profile>
+		<profile>
+			<id>unix-x86_64</id>
+			<properties>
+				<swt.os-specific-dep>swt-linux-gtk-x86_64
+				</swt.os-specific-dep>
+				<sv.os.type name="os.name.value">linux-x86_64</sv.os.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>windows-x86_64</id>
+			<properties>
+				<swt.os-specific-dep>swt-win32-x86_64</swt.os-specific-dep>
+				<sv.os.type name="os.name.value">windows-x86_64</sv.os.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>macosx-x86_64</id>
+			<properties>
+				<swt.os-specific-dep>swt-macosx-x86_64</swt.os-specific-dep>
+				<sv.os.type name="os.name.value">mac-x86_64</sv.os.type>
+			</properties>
 		</profile>
 	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target</outputDirectory>
+							<includeScope>compile</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>buildSV</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<ant inheritRefs="true" antfile="${basedir}/build.xml">
+									<property value="${sv.os.type}" name="os.name.value" />
+									<property name="lib.src.dir" value="target/" />
+									<property name="swt"
+										value="${swt.os-specific-dep}-${swt.version}.jar" />
+									<target name="post_clean" />
+								</ant>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -11,8 +11,8 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 import pl.pronux.sokker.model.Match;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
-import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.tables.MatchResultTable;
 
 public class MatchResultGroup extends Group {
@@ -30,7 +30,7 @@ public class MatchResultGroup extends Group {
 		FormData formData;
 		
 		this.setText(Messages.getString("match")); //$NON-NLS-1$
-		this.setForeground(ColorResources.getBlueDescription());
+		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
 		
 		resultsTable = new MatchResultTable(this, SWT.NONE);

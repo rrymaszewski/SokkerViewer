@@ -1,7 +1,5 @@
 package pl.pronux.sokker.ui.widgets.shells;
 
-import java.util.logging.Level;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
@@ -21,7 +19,7 @@ import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.widgets.dialogs.MessageDialog;
-import pl.pronux.sokker.utils.file.SVLogger;
+import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.net.BugReportAction;
 
 public class BugReporter extends Shell {
@@ -78,21 +76,21 @@ public class BugReporter extends Shell {
 		formData = new FormData();
 		formData.bottom = new FormAttachment(100, -5);
 		formData.right = new FormAttachment(100, -5);
-		
+
 		closeButton = new Button(this, SWT.NONE);
 		closeButton.setText(Messages.getString("button.close"));
 		closeButton.setLayoutData(formData);
 		closeButton.pack();
 		closeButton.addListener(SWT.Selection, new Listener() {
+
 			public void handleEvent(Event arg0) {
 				BugReporter.this.close();
 			}
 		});
-		
+
 		formData = new FormData();
 		formData.bottom = new FormAttachment(100, -5);
 		formData.right = new FormAttachment(closeButton, -5);
-
 
 		detailButton = new Button(this, SWT.NONE);
 		detailButton.setText(Messages.getString("button.details"));
@@ -128,12 +126,12 @@ public class BugReporter extends Shell {
 				try {
 					message += messageLabel.getText() + "##" + detailText.getText();
 					value = new BugReportAction().sendBug(message, settings);
-					if(value != null && value.equals("1")) {
-						MessageDialog.openInformationMessage(BugReporter.this, Messages.getString("BugReporter.thankyou"));	
+					if (value != null && value.equals("1")) {
+						MessageDialog.openInformationMessage(BugReporter.this, Messages.getString("BugReporter.thankyou"));
 					} else {
 						MessageDialog.openErrorMessage(BugReporter.this, Messages.getString("BugReporter.error"));
 					}
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					MessageDialog.openErrorMessage(BugReporter.this, Messages.getString("error.send"));
@@ -141,7 +139,7 @@ public class BugReporter extends Shell {
 				BugReporter.this.close();
 			}
 		});
-		
+
 		formData = new FormData();
 		formData.top = new FormAttachment(messageLabel, 5);
 		formData.left = new FormAttachment(0, 5);
@@ -153,12 +151,12 @@ public class BugReporter extends Shell {
 		detailText.setVisible(false);
 
 	}
-	
+
 	public BugReporter(Shell shell) {
 		super(shell);
 		init();
 	}
-	
+
 	public BugReporter(Display display) {
 		super(display);
 		init();
@@ -170,7 +168,7 @@ public class BugReporter extends Shell {
 	}
 
 	public void openErrorMessage(final String message) {
-		new SVLogger(Level.WARNING, message);
+		Log.error(message);
 		messageLabel.setText(message);
 		detailButton.setEnabled(false);
 		detailText.setText("");
@@ -188,7 +186,7 @@ public class BugReporter extends Shell {
 	}
 
 	public void openErrorMessage(final String message, final Throwable e) {
-		new SVLogger(Level.WARNING, message, e);
+		Log.error(message, e);
 		messageLabel.setText(String.format("%s", message)); //$NON-NLS-1$
 
 		detailText.setText(String.format("%s\n%s", detailText.getText(), e.toString())); //$NON-NLS-1$

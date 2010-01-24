@@ -2,8 +2,6 @@ package pl.pronux.sokker.data.properties.dao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.properties.PropertiesSession;
@@ -23,15 +21,6 @@ public class SokkerViewerSettingsDao {
 	public SokkerViewerSettings getSokkerViewerSettings() {
 		SokkerViewerSettings settings = new SokkerViewerSettingsDto(properties);
 		settings.setProxySettings(new ProxyDao(properties).getProxySettings());
-		settings.setDatabaseSettings(new DatabaseSettingsDao(properties).getDatabaseSettings());
-		Map<String, String> langCodeMap = new HashMap<String, String>();
-		Map<String, String> languageMap = new HashMap<String, String>();
-		for (int i = 0; i < settings.getLanguages().size(); i++) {
-			languageMap.put(settings.getLanguages().get(i), settings.getLangCodes().get(i));
-			langCodeMap.put(settings.getLangCodes().get(i), settings.getLanguages().get(i));
-		}
-		settings.setLangCodeMap(langCodeMap);
-		settings.setLanguageMap(languageMap);
 		return settings;
 	}
 
@@ -78,7 +67,6 @@ public class SokkerViewerSettingsDao {
 
 		PropertiesDatabase.getSession().save();
 		
-		new DatabaseSettingsDao(PropertiesDatabase.getSession()).updateDatabaseSettings(sokkerViewerSettings.getDatabaseSettings());
 		new ProxyDao(PropertiesDatabase.getSession()).updateProxySettings(sokkerViewerSettings.getProxySettings());
 	}
 }
