@@ -55,7 +55,6 @@
 	<property name="db.dst.dir" location="${sokker.dir}/db/" />
 	<property name="sql.dst.dir" location="${sokker.dir}/sql/" />
 	<property name="resources.dst.dir" location="${sokker.dir}/resources/" />
-	<property name="properties.dst.dir" location="${temp.dir}/properties/" />
 	<property name="packages.dst.dir" location="packages/${software.type}/packages/" />
 	<property name="os.packages.dst.dir" location="packages/${software.type}/packages/${os.name.value}/" />
 	<property name="tmp.dst.dir" location="${sokker.dir}/tmp" />
@@ -74,7 +73,6 @@
 		<mkdir dir="${xml.dst.dir}" />
 		<mkdir dir="${db.dst.dir}" />
 		<mkdir dir="${sql.dst.dir}" />
-		<mkdir dir="${properties.dst.dir}/default" />
 		<mkdir dir="${resources.dst.dir}" />
 		<mkdir dir="${packages.dst.dir}" />
 		<mkdir dir="packages/${software.type}/${os.name.value}" />
@@ -112,15 +110,13 @@
 		<copy todir="${sql.dst.dir}">
 			<fileset dir="${sql.src.dir}" />
 		</copy>
-
-		<copy file="${settings.src.dir}/default.properties.example" tofile="${properties.dst.dir}/default/default.properties" />
 	</target>
 
 	<target name="resources" depends="copy">
 		<jar destfile="${resources.dst.dir}/${flags}" basedir="${resources}" includes="flags/**" />
 		<jar destfile="${resources.dst.dir}/${images}" basedir="${resources}" includes="images/**" />
 		<jar destfile="${resources.dst.dir}/${lang}" basedir="${resources}" includes="lang/**" />
-		<jar destfile="${resources.dst.dir}/${properties}" basedir="${temp.dir}" includes="properties/default/*" />
+		<jar destfile="${resources.dst.dir}/${properties}" basedir="${resources}" includes="properties/*" />
 	</target>
 
 	<target name="compile" depends="resources">
