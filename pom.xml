@@ -4,7 +4,7 @@
 	<groupId>SokkerViewer</groupId>
 	<artifactId>SokkerViewer</artifactId>
 	<name>SokkerViewer</name>
-	<version>0.13.2</version>
+	<version>0.13.3</version>
 	<properties>
 		<swt.version>3.5.1</swt.version>
 	</properties>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
+			<version>1.8.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>htmlentities</groupId>

@@ -31,7 +31,6 @@ import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Money;
-import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -1086,7 +1085,7 @@ public class ViewTranslator implements IPlugin {
 		return player;
 	}
 
-	private void validPlayer(PersonInterface player) {
+	private void validPlayer(Player player) {
 		if (player.getClubName() == null) {
 			player.setClubName("-");
 		}

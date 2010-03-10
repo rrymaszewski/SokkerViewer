@@ -12,6 +12,8 @@ public class DbProperties {
 	private boolean repairDB;
 	
 	private int scanCounter;
+	
+	private boolean completeJuniorsAge;
 
 	public int getScanCounter() {
 		return scanCounter;
@@ -59,6 +61,14 @@ public class DbProperties {
 
 	public void setRepairDB(boolean repairDB) {
 		this.repairDB = repairDB;
+	}
+
+	public void setCompleteJuniorsAge(boolean repairJuniorsAge) {
+		this.completeJuniorsAge = repairJuniorsAge;
+	}
+
+	public boolean isCompleteJuniorsAge() {
+		return completeJuniorsAge;
 	}
 
 }

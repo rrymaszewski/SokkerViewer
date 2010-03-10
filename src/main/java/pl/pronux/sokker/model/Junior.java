@@ -35,21 +35,23 @@ public class Junior extends Person {
 
 	private int estimatedAge = -1;
 
-	int pops;
+	private int pops;
 
-	int lastPop;
+	private int lastPop;
 
 	private Money moneySpent;
 
-	Player player;
+	private Player player;
 
 	private Integer estimatedSkill;
 
 	private Money restMoneyToSpend;
 
-	JuniorSkills[] skills;
+	private JuniorSkills[] skills;
 
 	private Double trainersAverage;
+	
+	private int formation = -1;
 
 	public Money getAllMoneyToSpend() {
 		if (this.allMoneyToSpend == null) {
@@ -324,6 +326,14 @@ public class Junior extends Person {
 	public void reload() {
 		setAveragePops(null);
 		setEstimatedSkill(null);
+	}
+
+	public void setFormation(int formation) {
+		this.formation = formation;
+	}
+
+	public int getFormation() {
+		return formation;
 	}
 
 }

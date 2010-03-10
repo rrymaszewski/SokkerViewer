@@ -8,6 +8,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 import pl.pronux.sokker.actions.SettingsManager;
+import pl.pronux.sokker.bean.SynchronizerConfiguration;
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -51,7 +52,9 @@ public class Launcher {
 
 			if (args.length == 1 && args[0].equals("--download-only")) {
 				SQLQuery.setSettings(settings);
-				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(new Monitor());
+				SynchronizerConfiguration synchronizerConfiguration = new SynchronizerConfiguration();
+				synchronizerConfiguration.checkDownloadAll();
+				new Synchronizer(settings, synchronizerConfiguration).run(new Monitor());
 			} else if (args.length == 0) {
 				Display display = new Display();
 				try {

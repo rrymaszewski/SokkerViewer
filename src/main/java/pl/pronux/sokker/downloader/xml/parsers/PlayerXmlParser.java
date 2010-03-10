@@ -88,6 +88,8 @@ public class PlayerXmlParser {
 
 	final private static int TAG_skillScoring = 33;
 
+	final private static int TAG_height = 34;
+	
 	static int TAG_switch = 0;
 
 	private Player player;
@@ -201,6 +203,9 @@ public class PlayerXmlParser {
 				case TAG_skillScoring:
 					playerSkills[0].setScorer(Integer.valueOf(message.toString()).byteValue());
 					break;
+				case TAG_height:
+					player.setHeight(Integer.valueOf(message.toString()).intValue());
+					break;
 				default:
 					break;
 				}
@@ -310,6 +315,8 @@ public class PlayerXmlParser {
 						current_tag = TAG_skillPlaymaking;
 					} else if (localName.equals("skillScoring")) { //$NON-NLS-1$
 						current_tag = TAG_skillScoring;
+					} else if (localName.equals("height")) {
+						current_tag = TAG_height;
 					}
 
 				}

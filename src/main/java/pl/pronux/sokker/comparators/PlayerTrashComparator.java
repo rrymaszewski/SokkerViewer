@@ -14,31 +14,33 @@ public class PlayerTrashComparator implements SVComparator<Player>, ISort {
 
 	public static final int SURNAME = 1;
 
-	public static final int VALUE = 2;
+	public static final int HEIGHT = 2;
+	
+	public static final int VALUE = 3;
 
-	public static final int SALARY = 3;
+	public static final int SALARY = 4;
 
-	public static final int AGE = 4;
+	public static final int AGE = 5;
 
-	public static final int FORM = 5;
+	public static final int FORM = 6;
 
-	public static final int STAMINA = 6;
+	public static final int STAMINA = 7;
 
-	public static final int PACE = 7;
+	public static final int PACE = 8;
 
-	public static final int TECHNIQUE = 8;
+	public static final int TECHNIQUE = 9;
 
-	public static final int PASSING = 9;
+	public static final int PASSING = 10;
 
-	public static final int KEEPER = 10;
+	public static final int KEEPER = 11;
 
-	public static final int DEFENDER = 11;
+	public static final int DEFENDER = 12;
 
-	public static final int PLAYMAKER = 12;
+	public static final int PLAYMAKER = 13;
 
-	public static final int SCORER = 13;
+	public static final int SCORER = 14;
 
-	public static final int SOLD = 14;
+	public static final int SOLD = 15;
 
 	private int column;
 
@@ -70,6 +72,8 @@ public class PlayerTrashComparator implements SVComparator<Player>, ISort {
 				rc = coll.compare(p1.getSurname(), p2.getSurname());
 //				rc = p1.getSurname().compareTo(p2.getSurname());
 				break;
+			case HEIGHT:
+				rc = p1.getHeight() < p2.getHeight() ? -1 : 1;
 			case VALUE:
 				rc = p1.getSkills()[p1.getSkills().length-1].getValue().compareTo(p2.getSkills()[p2.getSkills().length-1].getValue());
 				break;

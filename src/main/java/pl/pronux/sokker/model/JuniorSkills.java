@@ -2,17 +2,19 @@ package pl.pronux.sokker.model;
 
 public class JuniorSkills {
 
-	Date date;
+	private Date date;
 	
-	int id;
+	private int id;
 
-	int idJuniorFK;
+	private int idJuniorFK;
 
-	int skill;
+	private int skill;
 
-	int weeks;
+	private int weeks;
 
-	Training training;
+	private Training training;
+	
+	private int age = 0;
 
 	public Date getDate() {
 		return date;
@@ -67,6 +69,14 @@ public class JuniorSkills {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getAge() {
+		return age;
 	}
 
 }

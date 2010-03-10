@@ -31,6 +31,7 @@ public class PlayerArchive  extends Person {
 	private int skillTeamwork;
 	private int skillDiscipline;
 	private int existsInSokker;
+	private int height = 0;
 
 	public int getCountryID() {
 		return countryID;
@@ -230,6 +231,7 @@ public class PlayerArchive  extends Person {
 		this.skillDiscipline = player.getSkills()[0].getDiscipline();
 		this.note = player.getNote();
 		this.existsInSokker = EXISTS_IN_SOKKER_TRUE;
+		this.height = player.getHeight();
 	}
 
 	public PlayerArchive() {
@@ -245,6 +247,14 @@ public class PlayerArchive  extends Person {
 		player.setYouthTeamID(this.getYouthTeamID());
 		player.setNote(this.getNote());
 		return player;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 	
 }

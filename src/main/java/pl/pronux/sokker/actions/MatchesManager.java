@@ -29,6 +29,10 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 
 public class MatchesManager {
+	
+	public static final int OK = 0;
+	public static final int ERROR_DOESNT_CONTAIN = 2;
+	public static final int ERROR_ALREADY_EXIST = 3;
 
 	private static final MatchesManager _instance = new MatchesManager();
 
@@ -167,15 +171,15 @@ public class MatchesManager {
 
 								Cache.getMatches().add(match);
 
-								return 1;
+								return OK;
 							} else {
-								return 3;
+								return ERROR_ALREADY_EXIST;
 							}
 						} else {
-							return 2;
+							return ERROR_DOESNT_CONTAIN;
 						}
 					} else {
-						return 3;
+						return ERROR_DOESNT_CONTAIN;
 					}
 
 				}
@@ -185,6 +189,6 @@ public class MatchesManager {
 		} finally {
 			SQLSession.close();
 		}
-		return 2;
+		return ERROR_DOESNT_CONTAIN;
 	}
 }

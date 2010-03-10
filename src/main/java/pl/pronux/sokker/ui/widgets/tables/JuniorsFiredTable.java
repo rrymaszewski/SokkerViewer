@@ -35,12 +35,8 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 
 		// tworzymy kolumny dla trenerow
 
-		String[] titles = {
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.skill"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
-		};
+		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.formation"),
+						   Messages.getString("table.skill"), "" };
 
 		for (int j = 0; j < titles.length; j++) {
 			TableColumn column = new TableColumn(this, SWT.NONE);
@@ -72,7 +68,7 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			columns[i].addSelectionListener(new SortTableListener<Junior>(this, comparator));
 		}
 	}
-	
+
 	public void fill(List<Junior> juniors) {
 		// Turn off drawing to avoid flicker
 		this.setRedraw(false);
@@ -85,9 +81,14 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 			TableItem item = new TableItem(this, SWT.NONE);
 
 			int c = 0;
-			item.setData(Junior.class.getName(), junior); 
+			item.setData(Junior.class.getName(), junior);
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
+			if (junior.getFormation() >= 0) {
+				item.setText(c++, Messages.getString("junior.formation." + junior.getFormation()));				
+			} else {
+				item.setText(c++, "-");
+			}
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));
 		}
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
@@ -96,13 +97,13 @@ public class JuniorsFiredTable extends SVTable<Junior> implements IViewSort<Juni
 		// Turn drawing back on
 		this.setRedraw(true);
 	}
-	
+
 	public void sort(SVComparator<Junior> comparator) {
-		if(juniors != null) {
+		if (juniors != null) {
 			Collections.sort(juniors, comparator);
 			fill(juniors);
 		}
-		
+
 	}
 
 	public SVComparator<Junior> getComparator() {

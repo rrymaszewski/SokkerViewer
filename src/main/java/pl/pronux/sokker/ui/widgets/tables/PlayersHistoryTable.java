@@ -43,6 +43,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 				"", //$NON-NLS-1$
 				Messages.getString("table.name"), //$NON-NLS-1$
 				Messages.getString("table.surname"), //$NON-NLS-1$
+				Messages.getString("table.height"),
 				Messages.getString("table.value"), //$NON-NLS-1$
 				Messages.getString("table.salary"), //$NON-NLS-1$
 				Messages.getString("table.age"), //$NON-NLS-1$
@@ -117,6 +118,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			item.setImage(c++, FlagsResources.getFlag(player.getCountryfrom()));
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
+			item.setText(c++, String.valueOf(player.getHeight()));
 			item.setText(c++, player.getSkills()[maxSkill].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[maxSkill].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getAge()));
@@ -160,7 +162,7 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			Player player = (Player) item.getData(Player.class.getName());
 			int maxSkill = player.getSkills().length - 1;
 			int[] skills = player.getSkills()[maxSkill].getStatsTable();
-			label.setText(Messages.getString("skill.a" + skills[column - 3]));
+			label.setText(Messages.getString("skill.a" + skills[column - PlayerHistoryComparator.VALUE]));
 			label.pack();
 		}
 		super.setLabel(label, column, item);

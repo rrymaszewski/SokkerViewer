@@ -24,6 +24,14 @@ public class DatabaseConfigurationDao {
 		ps.executeUpdate();
 		ps.close();
 	}
+	
+	public void setDbRepairJuniorsAge(boolean b) throws SQLException {
+		PreparedStatement ps;
+		ps = connection.prepareStatement("UPDATE system SET repair_juniors_age = ?"); //$NON-NLS-1$
+		ps.setBoolean(1, b);
+		ps.executeUpdate();
+		ps.close();
+	}
 
 	public void setDbCountry(boolean b) throws SQLException {
 		PreparedStatement ps;
@@ -71,18 +79,19 @@ public class DatabaseConfigurationDao {
 		Date date = null;
 		DbProperties dbProperties = null;
 		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT version, last_modification_millis, last_modification_sk_day, last_modification_sk_week, check_countries, check_update_db, repair_db, scan_counter FROM system"); //$NON-NLS-1$
+		ps = connection.prepareStatement("SELECT version, last_modification_millis, last_modification_sk_day, last_modification_sk_week, check_countries, check_update_db, repair_db, scan_counter, complete_juniors_age FROM system");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			dbProperties = new DbProperties();
-			dbProperties.setDbVersion(rs.getInt("version")); //$NON-NLS-1$
-			date = new Date(rs.getLong("last_modification_millis")); //$NON-NLS-1$
-			date.setSokkerDate(new SokkerDate(rs.getInt("last_modification_sk_day"), rs.getInt("last_modification_sk_week"))); //$NON-NLS-1$ //$NON-NLS-2$
+			dbProperties.setDbVersion(rs.getInt("version"));
+			date = new Date(rs.getLong("last_modification_millis"));
+			date.setSokkerDate(new SokkerDate(rs.getInt("last_modification_sk_day"), rs.getInt("last_modification_sk_week")));
 			dbProperties.setLastModification(date);
-			dbProperties.setCheckCountries(rs.getBoolean("check_countries")); //$NON-NLS-1$
-			dbProperties.setCheckDbUpdate(rs.getBoolean("check_update_db")); //$NON-NLS-1$
-			dbProperties.setRepairDB(rs.getBoolean("repair_db")); //$NON-NLS-1$
-			dbProperties.setScanCounter(rs.getInt("scan_counter")); //$NON-NLS-1$
+			dbProperties.setCheckCountries(rs.getBoolean("check_countries"));
+			dbProperties.setCheckDbUpdate(rs.getBoolean("check_update_db"));
+			dbProperties.setRepairDB(rs.getBoolean("repair_db"));
+			dbProperties.setScanCounter(rs.getInt("scan_counter"));
+			dbProperties.setCompleteJuniorsAge(rs.getBoolean("complete_juniors_age"));
 		}
 		rs.close();
 		ps.close();

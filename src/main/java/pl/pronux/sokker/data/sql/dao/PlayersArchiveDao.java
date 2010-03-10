@@ -30,7 +30,7 @@ public class PlayersArchiveDao {
 	public void addPlayer(PlayerArchive playerArchive) throws SQLException {
 		PreparedStatement pstm;
 		pstm = connection
-				.prepareStatement("INSERT INTO player_archive(player_id,name,surname,country_id, team_id, national, transfer_list, youth_team_id,AGE,VALUE ,WAGE ,CARDS,GOALS ,ASSISTS,MATCHES ,NT_CARDS ,NT_MATCHES,NT_ASSISTS ,NT_GOALS ,INJURY_DAYS ,SKILL_FORM ,SKILL_EXPERIENCE ,SKILL_TEAMWORK ,SKILL_DISCIPLINE ,EXISTS_IN_SOKKER ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); //$NON-NLS-1$
+				.prepareStatement("INSERT INTO player_archive(player_id,name,surname,country_id, team_id, national, transfer_list, youth_team_id,age,value ,wage ,cards,goals ,assists,matches ,nt_cards ,nt_matches,nt_assists ,nt_goals ,injury_days ,skill_form ,skill_experience ,skill_teamwork ,skill_discipline ,exists_in_sokker, height ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); //$NON-NLS-1$
 
 		pstm.setInt(1, playerArchive.getId());
 		pstm.setString(2, playerArchive.getName());
@@ -57,6 +57,7 @@ public class PlayersArchiveDao {
 		pstm.setInt(23, playerArchive.getSkillTeamwork());
 		pstm.setInt(24, playerArchive.getSkillDiscipline());
 		pstm.setInt(25, PlayerArchive.EXISTS_IN_SOKKER_TRUE);
+		pstm.setInt(26, playerArchive.getHeight());
 		pstm.executeUpdate();
 		pstm.close();
 
@@ -113,7 +114,7 @@ public class PlayersArchiveDao {
 		ArrayList<Integer> alPlayersId = new ArrayList<Integer>();
 		Integer integer;
 		PreparedStatement ps;
-		ps = connection.prepareStatement("select distinct player_id from players_stats where player_id not in (select player_id from player_archive) order by player_id limit ?"); //$NON-NLS-1$
+		ps = connection.prepareStatement("select distinct player_id from players_stats where player_id not in (select player_id from player_archive) and player_id > 0 order by player_id limit ?"); //$NON-NLS-1$
 		ps.setInt(1, limit);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -138,7 +139,7 @@ public class PlayersArchiveDao {
 
 	public void updatePlayerArchive(PlayerArchive playerArchive) throws SQLException {
 		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE player_archive SET name = ?, surname = ?, youth_team_id = ?, country_id = ?, exists_in_sokker = ? WHERE player_id = ?"); //$NON-NLS-1$
+		ps = connection.prepareStatement("UPDATE player_archive SET name = ?, surname = ?, youth_team_id = ?, country_id = ?, exists_in_sokker = ?, height = ? WHERE player_id = ?"); //$NON-NLS-1$
 
 		ps.setString(1, playerArchive.getName());
 		ps.setString(2, playerArchive.getSurname());
@@ -146,7 +147,7 @@ public class PlayersArchiveDao {
 		ps.setInt(4, playerArchive.getCountryID());
 		ps.setInt(5, playerArchive.getExistsInSokker());
 		ps.setLong(6, playerArchive.getId());
-
+		ps.setInt(7, playerArchive.getHeight());
 		ps.executeUpdate();
 		ps.close();
 

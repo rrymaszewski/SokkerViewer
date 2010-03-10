@@ -15,35 +15,37 @@ public class JuniorsTrainedComparator implements SVComparator<Junior>, ISort {
 
 	public static final int SURNAME = 1;
 
-	public static final int SKILL = 2;
+	public static final int FORMATION = 2;
 
-	public static final int SUM = 3;
+	public static final int SKILL = 3;
 	
-	public static final int STAMINA = 4;
+	public static final int SUM = 4;
+	
+	public static final int STAMINA = 5;
 
-	public static final int SUM_WITHOUT_STAMINA = 5;
+	public static final int SUM_WITHOUT_STAMINA = 6;
 	
-	public static final int PACE = 6;
+	public static final int PACE = 7;
 	
-	public static final int TECHNIQUE = 7;
+	public static final int TECHNIQUE = 8;
 	
-	public static final int PASSING = 8;
+	public static final int PASSING = 9;
 	
-	public static final int KEEPER = 9;
+	public static final int KEEPER = 10;
 	
-	public static final int DEFENDER = 10;
+	public static final int DEFENDER = 11;
 	
-	public static final int PLAYMAKER = 11;
+	public static final int PLAYMAKER = 12;
 	
-	public static final int SCORER = 12;
+	public static final int SCORER = 13;
 	
-	public static final int AGE = 13;
+	public static final int AGE = 14;
 	
-	public static final int WEEKS = 14;
+	public static final int WEEKS = 15;
 	
-	public static final int AVERAGE_JUMP = 15;
+	public static final int AVERAGE_JUMP = 16;
 	
-	public static final int COSTS = 16;
+	public static final int COSTS = 17;
 	
 	private int column;
 
@@ -76,6 +78,9 @@ public class JuniorsTrainedComparator implements SVComparator<Junior>, ISort {
 				break;
 			case SURNAME:
 				rc = coll.compare(j1.getSurname(),j2.getSurname());
+				break;
+			case FORMATION:
+				rc = j1.getFormation() < j2.getFormation() ? -1 : 1;
 				break;
 			case SKILL:
 				rc = (j1.getSkills()[j1.getSkills().length-1].getSkill() < j2.getSkills()[j2.getSkills().length-1].getSkill()) ? -1 : 1;

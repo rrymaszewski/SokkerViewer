@@ -1,7 +1,6 @@
 package pl.pronux.sokker.downloader;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
@@ -14,8 +13,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import pl.pronux.sokker.actions.ConfigurationManager;
+import pl.pronux.sokker.actions.JuniorsManager;
 import pl.pronux.sokker.actions.LeaguesManager;
 import pl.pronux.sokker.actions.MatchesManager;
+import pl.pronux.sokker.bean.SynchronizerConfiguration;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.downloader.managers.CountriesXmlManager;
 import pl.pronux.sokker.downloader.managers.JuniorsXmlManager;
@@ -36,7 +37,6 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.VarsXmlParser;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.exceptions.SVSynchronizerCriticalException;
-import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
 import pl.pronux.sokker.interfaces.IRunnableWithProgress;
 import pl.pronux.sokker.model.Date;
@@ -46,7 +46,6 @@ import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
-import pl.pronux.sokker.updater.xml.UpdateXMLParser;
 import pl.pronux.sokker.utils.Log;
 
 public class Synchronizer implements IRunnableWithProgress {
@@ -55,72 +54,25 @@ public class Synchronizer implements IRunnableWithProgress {
 
 	private SokkerViewerSettings settings;
 
-	private int params;
-
 	private MatchesManager matchesManager = MatchesManager.instance();
 	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private JuniorsManager juniorsManager = JuniorsManager.instance();
 	private LeaguesManager leaguesManager = LeaguesManager.instance();
 
-	final public static int DOWNLOAD_BASE = 1 << 0;
-
-	final public static int DOWNLOAD_COUNTRIES = 1 << 1;
-
-	final public static int REPAIR_DB = 1 << 2;
-
-	final public static int REPAIR_DATABASE = 1 << 3;
-
-	final public static int DOWNLOAD_ALL = DOWNLOAD_BASE | DOWNLOAD_COUNTRIES;
+	private SynchronizerConfiguration configuration;
 
 	final public static String ERROR_MESSAGE_NULL = "-4"; //$NON-NLS-1$
 	final public static String ERROR_RESPONSE_UNKNOWN = "-1"; //$NON-NLS-1$
 	final public static String ERROR_WRITE = "-3";//$NON-NLS-1$
 	final public static String ERROR_DOWNLOAD = "-2"; //$NON-NLS-1$
 
-	public Synchronizer(SokkerViewerSettings settings, int params) {
-		this.params = params;
+	public Synchronizer(SokkerViewerSettings settings, SynchronizerConfiguration configuration) {
+		this.configuration = configuration;
 		this.settings = settings;
-	}
-
-	public Synchronizer(SokkerViewerSettings settings) {
-		this.settings = settings;
-		this.params = DOWNLOAD_ALL;
-	}
-
-	final public static String NO_UPDATES = "NO_UPDATES";//$NON-NLS-1$
-
-	public String getVersion() throws SAXException, IOException {
-		String xml;
-		String osType = "/windows"; //$NON-NLS-1$
-		String version = NO_UPDATES;
-		if (SettingsHandler.IS_WINDOWS) {
-			osType = "/windows"; //$NON-NLS-1$
-		} else if (SettingsHandler.IS_LINUX) {
-			osType = "/linux"; //$NON-NLS-1$
-		} else if (SettingsHandler.IS_MACOSX) {
-			osType = "/mac"; //$NON-NLS-1$
-		}
-
-		String query = "http://www.sokkerviewer.net/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-
-		ProxySettings proxySettings = settings.getProxySettings();
-		xml = new HTMLDownloader(proxySettings).getNormalPage(query);
-
-		UpdateXMLParser parser = new UpdateXMLParser();
-		InputSource input = new InputSource(new StringReader(xml));
-		parser.parseXmlSax(input, null);
-
-		UpdateXMLParser oldParser = new UpdateXMLParser();
-		InputSource inputOld = new InputSource(new FileReader(new File(settings.getBaseDirectory() + File.separator + "packages.xml"))); //$NON-NLS-1$
-		oldParser.parseXmlSax(inputOld, null);
-
-		if (parser.revision > oldParser.revision) {
-			version = parser.version;
-		}
-		return version;
 	}
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		if (params != 0 && (params & Synchronizer.DOWNLOAD_BASE) != 0 && monitor != null) {
+		if (configuration != null && configuration.isDownloadBase() && monitor != null) {
 
 			monitor.beginTask(Messages.getString("synchronizer.info"), 15); //$NON-NLS-1$
 
@@ -206,7 +158,7 @@ public class Synchronizer implements IRunnableWithProgress {
 
 				// download xmls
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
+				if (configuration.isDownloadBase()) {
 					monitor.subTask(Messages.getString("synchronizer.download.players")); //$NON-NLS-1$
 					playersXmlManager.download();
 					monitor.worked(1);
@@ -227,30 +179,30 @@ public class Synchronizer implements IRunnableWithProgress {
 					monitor.worked(1);
 				}
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0 || (params & Synchronizer.REPAIR_DB) != 0) {
+				if (configuration.isDownloadBase() || configuration.isRepairDb()) {
 					monitor.subTask(Messages.getString("synchronizer.download.trainers")); //$NON-NLS-1$
 					trainersXmlManager.download();
 					monitor.worked(1);
 				}
 
-				if ((params & Synchronizer.DOWNLOAD_COUNTRIES) != 0) {
+				if (configuration.isDownloadCountries()) {
 					monitor.subTask(Messages.getString("synchronizer.download.countries")); //$NON-NLS-1$
 					countriesXmlManager.download();
 				}
 
 				// parse xmls
 				monitor.subTask(Messages.getString("synchronizer.parse")); //$NON-NLS-1$
-				if ((params & Synchronizer.DOWNLOAD_COUNTRIES) != 0) {
+				if (configuration.isDownloadCountries()) {
 					countriesXmlManager.parseXML();
 					countriesXmlManager.write();
 				}
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0 || (params & Synchronizer.REPAIR_DB) != 0) {
+				if (configuration.isDownloadBase() || configuration.isRepairDb()) {
 					trainersXmlManager.parseXML();
 					trainersXmlManager.write();
 				}
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
+				if (configuration.isDownloadBase()) {
 
 					playersXmlManager.parseXML();
 					juniorsXmlManager.parseXML();
@@ -308,17 +260,17 @@ public class Synchronizer implements IRunnableWithProgress {
 					throw new SVException("synchronizer -> teamID != getTeamID"); //$NON-NLS-1$
 				}
 
-				if ((params & Synchronizer.REPAIR_DB) != 0) {
+				if (configuration.isRepairDb()) {
 					trainersXmlManager.repairCoaches();
 					configurationManager.repairDatabase();
 				}
-
-				if ((params & Synchronizer.DOWNLOAD_COUNTRIES) != 0) {
+				
+				if (configuration.isDownloadCountries()) {
 					countriesXmlManager.importToSQL();
 					countriesXmlManager.updateDbCountries(false);
 				}
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
+				if (configuration.isDownloadBase()) {
 					trainersXmlManager.importToSQL();
 
 					systemXmlManager.updateDbDate(currentDay);
@@ -336,21 +288,24 @@ public class Synchronizer implements IRunnableWithProgress {
 					reportsXmlManager.importToSQL();
 					regionXmlManager.importToSQL();
 					leagueXmlManager.importToSQL();
-
 					matchXmlManager.importToSQL();
 					systemXmlManager.updateDbUpdate(false);
 				}
 
 				monitor.subTask(Messages.getString("synchronizer.data.complete")); //$NON-NLS-1$
 
-				if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
+				if (configuration.isDownloadBase()) {
 					new MatchXmlManager(destination, downloader, currentDay).completeMatches(teamID, 9);
-					playersXmlManager.completeYouthTeamId();
+					playersXmlManager.completeUncompletedPlayers();
 					playerXmlManager.completePlayersArchive(50);
 					teamsXmlManager.completeClubs();
 					leaguesManager.completeLeagueRounds();
 				}
 
+				if (configuration.isRepairDbJuniorsAge()) {
+					juniorsManager.completeJuniorsAge(currentDay);
+				}
+				
 				SQLSession.commit();
 				monitor.worked(1);
 			} catch (SQLException e) {

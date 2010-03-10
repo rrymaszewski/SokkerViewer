@@ -14,7 +14,6 @@ public class SokkerDate {
 	public final static byte THURSDAY = 5;
 	public final static byte FRIDAY = 6;
 
-
 	public SokkerDate() {
 	}
 

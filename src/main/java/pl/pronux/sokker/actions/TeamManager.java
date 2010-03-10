@@ -551,7 +551,7 @@ public class TeamManager {
 			SQLSession.close();
 		}
 	}
-
+	
 	public List<Junior> getJuniors(HashMap<Integer, Training> trainingMap) throws SQLException {
 		JuniorSkills[] juniorSkills;
 		List<Junior> juniors;

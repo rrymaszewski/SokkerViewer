@@ -13,46 +13,48 @@ public class PlayerComparator implements SVComparator<Player>, ISort {
 	public static final int NAME = 1;
 
 	public static final int SURNAME = 2;
-
-	public static final int VALUE = 3;
-
-	public static final int SALARY = 4;
-
-	public static final int AGE = 5;
-
-	public static final int FORM = 6;
-
-	public static final int STAMINA = 7;
-
-	public static final int PACE = 8;
-
-	public static final int TECHNIQUE = 9;
-
-	public static final int PASSING = 10;
-
-	public static final int KEEPER = 11;
-
-	public static final int DEFENDER = 12;
-
-	public static final int PLAYMAKER = 13;
-
-	public static final int SCORER = 14;
-
-	public static final int DISCIPLINE = 15;
-
-	public static final int EXPERIENCE = 16;
-
-	public static final int TEAMWORK = 17;
-
-	public static final int CARDS = 18;
-
-	public static final int INJURY = 19;
 	
-	public static final int NOTE = 20;
+	public static final int HEIGHT = 3; 
 
-	public static final int MATCH_SUNDAY = 21;
+	public static final int VALUE = 4;
 
-	public static final int MATCH_WEDNESDAY = 22;
+	public static final int SALARY = 5;
+
+	public static final int AGE = 6;
+
+	public static final int FORM = 7;
+
+	public static final int STAMINA = 8;
+
+	public static final int PACE = 9;
+
+	public static final int TECHNIQUE = 10;
+
+	public static final int PASSING = 11;
+
+	public static final int KEEPER = 12;
+
+	public static final int DEFENDER = 13;
+
+	public static final int PLAYMAKER = 14;
+
+	public static final int SCORER = 15;
+
+	public static final int DISCIPLINE = 16;
+
+	public static final int EXPERIENCE = 17;
+
+	public static final int TEAMWORK = 18;
+
+	public static final int CARDS = 19;
+
+	public static final int INJURY = 20;
+	
+	public static final int NOTE = 21;
+
+	public static final int MATCH_SUNDAY = 22;
+
+	public static final int MATCH_WEDNESDAY = 23;
 
 	private int column;
 
@@ -83,6 +85,9 @@ public class PlayerComparator implements SVComparator<Player>, ISort {
 		case SURNAME:
 			rc = coll.compare(p1.getSurname(), p2.getSurname());
 			// rc = p1.getSurname().compareTo(p2.getSurname());
+			break;
+		case HEIGHT:
+			rc = p1.getHeight() < p2.getHeight() ? -1 : 1;
 			break;
 		case VALUE:
 			rc = p1.getSkills()[p1.getSkills().length - 1].getValue().compareTo(p2.getSkills()[p2.getSkills().length - 1].getValue());

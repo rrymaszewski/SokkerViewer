@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.model.PersonInterface;
+import pl.pronux.sokker.model.Person;
 import pl.pronux.sokker.model.Player;
 
 public class PersonsDao {
@@ -16,7 +16,7 @@ public class PersonsDao {
 		this.connection = connection;
 	}
 
-	public void updatePersonStatus(PersonInterface person) throws SQLException {
+	public void updatePersonStatus(Person person) throws SQLException {
 		PreparedStatement ps = null;
 		if (person instanceof Player) {
 			ps = connection.prepareStatement("UPDATE player SET status = ? WHERE id_player = ?"); //$NON-NLS-1$
