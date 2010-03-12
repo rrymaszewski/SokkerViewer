@@ -5,7 +5,7 @@
     </description>
 
 	<property name="user.name" value="Radoslaw Rymaszewski" />
-	<property name="version" value="0.13.2" />
+	<property name="version" value="0.13.3" />
 	<!-- windows; linux; mac -->
 	<property name="os.name.value" value="linux" />
 	<!-- testing or stable -->
@@ -17,16 +17,16 @@
 	<property name="htmlentities" value="htmlentities-1.0.0.jar" />
 	<property name="jfreechart" value="jfreechart-1.0.1.jar" />
 	<property name="jcommon" value="jcommon-1.0.0.jar" />
-	<property name="hsqldb" value="hsqldb-1.8.0.10.jar" />
+	<property name="hsqldb" value="hsqldb-1.8.1.1.jar" />
 
 	<property name="core" value="core-${version}.jar" />
 	<property name="ui" value="ui-${version}.jar" />
 	<property name="headers" value="headers-${version}.jar" />
 	<property name="flags" value="flags-0.13.jar" />
 	<property name="images" value="images-0.13.jar" />
-	<property name="lang" value="lang-0.13.jar" />
+	<property name="lang" value="lang-0.13.3.jar" />
 	<property name="properties" value="properties-0.10.jar" />
-	<property name="sql" value="sql-0.13.2.zip" />
+	<property name="sql" value="sql-0.13.3.zip" />
 	<property name="fonts" value="fonts-0.12.zip" />
 
 	<property name="build.classes.dir" location="packages/classes/" />
@@ -58,7 +58,7 @@
 	<property name="packages.dst.dir" location="packages/${software.type}/packages/" />
 	<property name="os.packages.dst.dir" location="packages/${software.type}/packages/${os.name.value}/" />
 	<property name="tmp.dst.dir" location="${sokker.dir}/tmp" />
-	
+
 	<target name="pre_clean">
 		<delete dir="${build.classes.dir}" />
 		<delete dir="${sokker.dir}" />

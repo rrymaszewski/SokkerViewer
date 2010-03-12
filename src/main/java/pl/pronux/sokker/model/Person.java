@@ -2,7 +2,7 @@ package pl.pronux.sokker.model;
 
 import java.io.Serializable;
 
-public class Person implements Serializable, PersonInterface {
+public abstract class Person implements Serializable {
 	/**
 	 * 
 	 */

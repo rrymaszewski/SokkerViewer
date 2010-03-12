@@ -41,23 +41,25 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 
 	
 		String[] titles = {
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.skill"), //$NON-NLS-1$
-				Messages.getString("table.week") + ARROW_UP, //$NON-NLS-1$
-				Messages.getString("junior.table.weeks.withoutJump"), //$NON-NLS-1$
-				Messages.getString("junior.averageJumps"), //$NON-NLS-1$
-				Messages.getString("junior.skill.begin.short"), //$NON-NLS-1$
-				Messages.getString("junior.table.estimated.level.short"), //$NON-NLS-1$
-				Messages.getString("junior.table.jumps"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("junior.exit.week"), //$NON-NLS-1$
-				Messages.getString("junior.exit.date"), //$NON-NLS-1$
-				Messages.getString("junior.table.money.spent"), //$NON-NLS-1$
-				Messages.getString("junior.table.money.left"), //$NON-NLS-1$
-				Messages.getString("junior.table.money.all"), //$NON-NLS-1$
-				Messages.getString("table.note.short"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"),
+				Messages.getString("table.formation"),
+				Messages.getString("table.skill"),
+				Messages.getString("table.week") + ARROW_UP,
+				Messages.getString("junior.table.weeks.withoutJump"), 
+				Messages.getString("junior.averageJumps"),
+				Messages.getString("junior.skill.begin.short"), 
+				Messages.getString("junior.table.estimated.level.short"),
+				Messages.getString("junior.table.jumps"),
+				Messages.getString("table.age"),
+				Messages.getString("table.age"),
+				Messages.getString("junior.exit.week"),
+				Messages.getString("junior.exit.date"),
+				Messages.getString("junior.table.money.spent"),
+				Messages.getString("junior.table.money.left"), 
+				Messages.getString("junior.table.money.all"), 
+				Messages.getString("table.note.short"), 
+				""
 		};
 		
 		for (int j = 0; j < titles.length; j++) {
@@ -88,8 +90,8 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			}
 		}
 		
-		this.getColumn(JuniorsComparator.BEGIN_LEVEL).setToolTipText(Messages.getString("junior.skill.begin")); //$NON-NLS-1$
-		this.getColumn(JuniorsComparator.ESTIMATED_LEVEL).setToolTipText(Messages.getString("junior.table.estimated.level")); //$NON-NLS-1$
+		this.getColumn(JuniorsComparator.BEGIN_LEVEL).setToolTipText(Messages.getString("junior.skill.begin"));
+		this.getColumn(JuniorsComparator.ESTIMATED_LEVEL).setToolTipText(Messages.getString("junior.table.estimated.level")); 
 
 		this.addLabelsListener();
 	}
@@ -112,19 +114,23 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
+			if (junior.getFormation() >= 0) {
+				item.setText(c++, Messages.getString("junior.formation." + junior.getFormation()));				
+			} else {
+				item.setText(c++, "-");
+			}
 			item.setText(c++, String.valueOf(junior.getSkills()[maxSkill].getSkill()));
 			item.setText(c++, String.valueOf(junior.getSkills()[maxSkill].getWeeks()));
 			item.setText(c++, String.valueOf(junior.getWeeksWithoutJump()));
 			if(junior.getAveragePops() == 0) {
-				item.setText(c++, "-"); //$NON-NLS-1$
+				item.setText(c++, "-");
 			} else {
 				if(junior.getPops() > 1) {
 					item.setText(c++, SVNumberFormat.formatDouble(junior.getAveragePops()));	
 				} else {
 					item.setForeground(c, ColorResources.getDarkGray());
-					item.setText(c++, "~" + SVNumberFormat.formatDouble(junior.getAveragePops())); //$NON-NLS-1$
+					item.setText(c++, "~" + SVNumberFormat.formatDouble(junior.getAveragePops()));
 				}
-				
 			}
 			
 			item.setText(c++, String.valueOf(junior.getSkills()[0].getSkill()));
@@ -133,10 +139,10 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 				item.setText(c++, String.valueOf(junior.getEstimatedSkill()));
 			} else {
 				item.setForeground(c, ColorResources.getDarkGray());
-				item.setText(c++, "~" + junior.getEstimatedSkill()); //$NON-NLS-1$
-				
+				item.setText(c++, "~" + junior.getEstimatedSkill()); 
 			}
 			item.setText(c++, String.valueOf(junior.getPops()));
+			item.setText(c++, String.valueOf(junior.getSkills()[maxSkill].getAge()));
 			item.setText(c++, SVNumberFormat.formatIntegerWithSignZero(junior.getEstimatedAge()));
 			item.setText(c++, String.valueOf(junior.getEndDate().getSeason().getSeasonWeek()));
 			item.setText(c++, junior.getEndDate().toDateString());
@@ -150,12 +156,12 @@ public class JuniorsTable extends SVTable<Junior> implements ISort {
 				if (junior.getNote().isEmpty()) {
 					c++;
 				} else {
-					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+					item.setImage(c++, ImageResources.getImageResources("note.png"));
 				}
 			}
 
 			if (maxSkill > 0) {
-				this.getChanges(junior.getSkills()[maxSkill].getSkill(), junior.getSkills()[maxSkill - 1].getSkill(), item, 2);
+				this.getChanges(junior.getSkills()[maxSkill].getSkill(), junior.getSkills()[maxSkill - 1].getSkill(), item, JuniorsComparator.SKILL);
 			} else {
 				item.setBackground(ConfigBean.getColorNewTableObject());
 			}

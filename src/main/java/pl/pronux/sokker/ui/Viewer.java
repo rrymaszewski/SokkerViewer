@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.data.properties.SVProperties;
-import pl.pronux.sokker.downloader.Synchronizer;
+import pl.pronux.sokker.downloader.VersionDownloader;
 import pl.pronux.sokker.enums.Language;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
@@ -434,8 +434,8 @@ public class Viewer extends Shell {
 
 			public void run() {
 				try {
-					final String version = new Synchronizer(settings).getVersion();
-					if (version != null && !version.equals(Synchronizer.NO_UPDATES)) {
+					final String version = new VersionDownloader(settings).getVersion();
+					if (version != null && !version.equals(VersionDownloader.NO_UPDATES)) {
 						display.asyncExec(new Runnable() {
 
 							public void run() {

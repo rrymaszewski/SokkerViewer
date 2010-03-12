@@ -87,6 +87,8 @@ public class Player extends Person implements Serializable, PlayerInterface {
 	
 	private Club team;
 
+	private int height = 0;
+	
 	public Club getTeam() {
 		return team;
 	}
@@ -338,6 +340,14 @@ public class Player extends Person implements Serializable, PlayerInterface {
 
 	public void setPreferredPosition(int avgPosition) {
 		this.preferredPosition = avgPosition;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 	
 }

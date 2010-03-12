@@ -35,7 +35,6 @@ import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.model.JuniorHistoryTable;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
@@ -322,7 +321,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 
 				graphComposite.setColumn(k);
 
-				if(k == JuniorHistoryTable.SKILL) {
+				if(k == JuniorTrainedTable.SKILL) {
 					graphComposite.fillGraph(tempIntTable, tempDateTable,Calendar.THURSDAY,true, 18);
 				} else {
 					graphComposite.fillGraph(tempIntTable, tempDateTable,Calendar.THURSDAY,true, -1);
@@ -668,7 +667,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 
 		});
 
-		juniorTrainedTable.getColumn(JuniorHistoryTable.SKILL).addListener(SWT.Selection, graphList);
+		juniorTrainedTable.getColumn(JuniorTrainedTable.SKILL).addListener(SWT.Selection, graphList);
 
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {

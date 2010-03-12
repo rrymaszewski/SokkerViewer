@@ -14,7 +14,7 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.resources.ColorResources;
 
-public class JuniorDescription extends StyledText implements IDescription{
+public class JuniorDescription extends StyledText implements IDescription {
 
 	@Override
 	protected void checkSubclass() {
@@ -85,7 +85,14 @@ public class JuniorDescription extends StyledText implements IDescription{
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getBlack(), SWT.BOLD);
 
-		text = String.format("%s: [%s]", Messages.getString("player.age"), SVNumberFormat.formatIntegerWithSign(junior.getEstimatedAge())); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%s: ", Messages.getString("player.age"));
+		this.addText(text);
+
+		if (junior.getSkills()[max].getAge() > 0) {
+			text = String.valueOf(junior.getSkills()[max].getAge());
+		} else {
+			text = "-";
+		}
 		this.addText(text);
 
 		text = String.format("\t(ID %d)", junior.getId()); //$NON-NLS-1$
@@ -94,9 +101,11 @@ public class JuniorDescription extends StyledText implements IDescription{
 		this.addText(NEW_LINE);
 
 		if (max > 0) {
-			addSkill(Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[max - 1].getSkill(), junior.getSkills()[0].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addSkill(
+					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[max - 1].getSkill(), junior.getSkills()[0].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			addSkill(Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addSkill(
+					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		if (junior.getWeeksWithoutJump() > 0) {
@@ -126,7 +135,9 @@ public class JuniorDescription extends StyledText implements IDescription{
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s %d %s", Messages.getString("junior.weeksPast"), junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		text = String
+			.format(
+					" %-25s %d %s", Messages.getString("junior.weeksPast"), junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		this.addText(text);
 		this.addText(NEW_LINE);
 
@@ -140,12 +151,12 @@ public class JuniorDescription extends StyledText implements IDescription{
 		this.addText(text);
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s ", Messages.getString("junior.averageJumps")); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format(" %-25s ", Messages.getString("junior.averageJumps"));
 		this.addText(text);
 		if (junior.getPops() < 2) {
 			this.addText("~"); //$NON-NLS-1$
 		}
-		text = String.format("%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //$NON-NLS-1$
+		text = String.format("%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); 
 		this.addText(text);
 		if (junior.getPops() < 2) {
 			this.addStyle(this.getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.BOLD);
@@ -155,42 +166,40 @@ public class JuniorDescription extends StyledText implements IDescription{
 
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s", Messages.getString("junior.skill.begin")); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format(" %-25s", Messages.getString("junior.skill.begin"));
 		this.addText(text);
-		text1 = String.format("%s", Messages.getString("skill.a" + junior.getSkills()[0].getSkill())); //$NON-NLS-1$ //$NON-NLS-2$
-		text2 = String.format("[%d]", junior.getSkills()[0].getSkill()); //$NON-NLS-1$
-		text = String.format(" %s%s", text2, text1); //$NON-NLS-1$
+		text1 = String.format("%s", Messages.getString("skill.a" + junior.getSkills()[0].getSkill())); 
+		text2 = String.format("[%d]", junior.getSkills()[0].getSkill()); 
+		text = String.format(" %s%s", text2, text1);
 		this.addText(text);
 		addStyle(getText().length() - text1.length(), text1.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 		this.addText(NEW_LINE);
 
 		if (junior.getSkills()[0].getWeeks() != 0) {
-			text = String.format(" %-25s", Messages.getString("junior.propablyOutLevelSkill")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format(" %-25s", Messages.getString("junior.propablyOutLevelSkill")); 
 			this.addText(text);
 		}
 
-		text1 = String.format("%s", Messages.getString("skill.a" + junior.getEstimatedSkill())); //$NON-NLS-1$ //$NON-NLS-2$
-		text2 = String.format("[%d]", junior.getEstimatedSkill()); //$NON-NLS-1$
+		text1 = String.format("%s", Messages.getString("skill.a" + junior.getEstimatedSkill())); 
+		text2 = String.format("[%d]", junior.getEstimatedSkill()); 
 		if (junior.getPops() < 2) {
-			text = String.format(" ~%s%s", text2, text1); //$NON-NLS-1$
+			text = String.format(" ~%s%s", text2, text1);
 			this.addText(text);
 			addStyle(getText().length() - text1.length(), text1.length(), ColorResources.getDarkGray(), SWT.BOLD);
 		} else {
-			text = String.format(" %s%s", text2, text1); //$NON-NLS-1$
+			text = String.format(" %s%s", text2, text1);
 			this.addText(text);
 			addStyle(getText().length() - text1.length(), text1.length(), ColorResources.getBlack(), SWT.BOLD);
 		}
 
 		this.addText(NEW_LINE);
-
-		text = String.format(" %-25s \u2265 %d", Messages.getString("junior.age.estimated"), junior.getEstimatedAge() + Junior.MINIMUM_AGE); //$NON-NLS-1$ //$NON-NLS-2$
+		if (junior.getSkills()[0].getAge() > 0) {
+			text = String.format(" %-25s %d", Messages.getString("junior.age.estimated"), junior.getEstimatedAge() + junior.getSkills()[0].getAge());
+		} else {
+			text = String.format(" %-25s \u2265 %d", Messages.getString("junior.age.estimated"), junior.getEstimatedAge() + Junior.MINIMUM_AGE);
+		}
 
 		this.addText(text);
-		//		
-		// if(junior.getEstimatedAge() > 0) {
-		// text = String.format("[+%d]", junior.getEstimatedAge());
-		// }
-		// this.addText(text);
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 
@@ -203,37 +212,6 @@ public class JuniorDescription extends StyledText implements IDescription{
 				this.addStyle(this.getText().length() - value.length() - 1, value.length(), ColorResources.getBlack(), SWT.BOLD);
 			}
 		}
-
-		/*
-		 * 
-		 * 
-		 * if (max > 0) { addSkillDescription(Messages.getString("player.form"),
-		 * Messages.getString("skill.b" + junior.getSkills()[max].getForm()),
-		 * junior.getSkills()[max].getForm(), junior.getSkills()[max - 1].getForm(),
-		 * junior.getSkills()[0].getForm(), getText().length()); } else {
-		 * addSkillDescription(Messages.getString("player.form"),
-		 * Messages.getString("skill.b" + junior.getSkills()[max].getForm()),
-		 * junior.getSkills()[max].getForm(), getText().length()); } // if (max > 0 &&
-		 * (pop = player.getSkills()[max].getForm() - // player.getSkills()[max -
-		 * 1].getForm()) != 0) { // int offset = this.getText().length(); // String
-		 * skill = Messages.getString("skill.b" + //
-		 * player.getSkills()[max].getForm()); // String spop =
-		 * SVNumberFormat.formatIntegerWithSign(pop); // String name =
-		 * Messages.getString("player.form"); // this.addText(String.format("%s(%s)
-		 * %s, ", skill, spop, name)); // if (pop > 0) { // addStyle(offset,
-		 * spop.length() + skill.length() + 2, //
-		 * ConfigBean.getColorIncreaseDescription(), SWT.NONE); // } else if (pop <
-		 * 0) { // addStyle(offset, spop.length() + skill.length() + 2, //
-		 * ConfigBean.getColorDecreaseDescription(), SWT.NONE); // } // // } else { //
-		 * this.addText(String.format("%s %s, ", Messages.getString("skill.b" + //
-		 * player.getSkills()[max].getForm()), Messages.getString("player.form"))); // }
-		 * 
-		 * 
-		 * 
-		 * this.addText(NEW_LINE);
-		 */
 		this.setRedraw(true);
-
 	}
-
 }

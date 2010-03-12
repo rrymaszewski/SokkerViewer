@@ -57,7 +57,6 @@ import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Money;
-import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -477,7 +476,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
+					Player player = (Player) items[0].getData(Player.class.getName());
 					hidePlayer(player);
 				}
 			}
@@ -491,7 +490,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
+					Player player = (Player) items[0].getData(Player.class.getName());
 					showPlayer(player);
 				}
 			}
@@ -507,7 +506,7 @@ public class ViewNT implements IPlugin {
 
 				TableItem[] items = table.getSelection();
 				if (items.length == 1) {
-					PersonInterface player = (PersonInterface) items[0].getData(Player.class.getName());
+					Player player = (Player) items[0].getData(Player.class.getName());
 					infoPlayer(player);
 				}
 			}
@@ -516,7 +515,7 @@ public class ViewNT implements IPlugin {
 		menuClear = new Menu(composite.getShell(), SWT.POP_UP);
 	}
 
-	private void infoPlayer(PersonInterface player) {
+	private void infoPlayer(Player player) {
 		String info = "";
 		String response = requestPlayer(player, NT_DATABASE_ADDRESS_STATUS);
 		if (response.contains(";;")) {
@@ -549,7 +548,7 @@ public class ViewNT implements IPlugin {
 
 	}
 
-	private void showPlayer(PersonInterface player) {
+	private void showPlayer(Player player) {
 		String response = requestPlayer(player, NT_DATABASE_ADDRESS_SHOW).replaceAll("[^0-9]", "");
 		if (response.equals("1")) {
 			status.setText(Messages.getString("viewnt.status.exist.no") + " " + player.getName() + " " + player.getSurname());
@@ -569,7 +568,7 @@ public class ViewNT implements IPlugin {
 		}
 	}
 
-	private String requestPlayer(PersonInterface player, String url) {
+	private String requestPlayer(Player player, String url) {
 		String parameters = "";
 		try {
 
@@ -608,7 +607,7 @@ public class ViewNT implements IPlugin {
 
 	}
 
-	private void hidePlayer(PersonInterface player) {
+	private void hidePlayer(Player player) {
 		String response = requestPlayer(player, NT_DATABASE_ADDRESS_HIDE).replaceAll("[^0-9]", "");
 		if (response.equals("1")) {
 			status.setText(Messages.getString("viewnt.status.exist.no") + " " + player.getName() + " " + player.getSurname());

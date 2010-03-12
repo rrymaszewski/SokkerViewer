@@ -149,11 +149,14 @@ public class PlayerHistoryDescription extends StyledText implements IDescription
 		String text;
 		String imageText = "\uFFFC"; //$NON-NLS-1$
 		this.setText(imageText);
+		this.addText(String.format(" %s %s, %s: %d", player.getName(), player.getSurname(), Messages.getString("player.age"), player.getSkills()[max].getAge())); 
 
-		this.addText(String.format(" %s %s, %s: %d ", player.getName(), player.getSurname(), Messages.getString("player.age"), player.getSkills()[max].getAge())); //$NON-NLS-1$ //$NON-NLS-2$
-
-		addStyle(2, player.getName().length() + player.getSurname().length() + 1, ColorResources.getBlack(), SWT.BOLD);
-		addStyle(getText().length() - 3, 2, ColorResources.getBlack(), SWT.BOLD);
+		int start = 2;
+		int length = player.getName().length() + player.getSurname().length() + 1;
+		addStyle(start, length, ColorResources.getBlack(), SWT.BOLD);
+		start += length + Messages.getString("player.age").length() + 4; 
+		length = String.valueOf(player.getSkills()[max].getAge()).length();
+		addStyle(start, length, ColorResources.getBlack(), SWT.BOLD);
 
 		if (max > 0 && (pop = player.getSkills()[max].getAge() - player.getSkills()[0].getAge()) > 0) {
 			text = String.format("[%s]", SVNumberFormat.formatIntegerWithSignZero(pop)); //$NON-NLS-1$
@@ -161,7 +164,11 @@ public class PlayerHistoryDescription extends StyledText implements IDescription
 			addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
 		}
 
-		text = String.format("\t(ID %d)", player.getId()); //$NON-NLS-1$
+		text = String.format(", %s: %d cm", Messages.getString("player.height"), player.getHeight());
+		this.addText(text);
+		addStyle(getText().length() - String.valueOf(player.getHeight()).length() - 3, String.valueOf(player.getHeight()).length(), ColorResources.getBlack(), SWT.BOLD);
+
+		text = String.format("  (ID %d)", player.getId()); //$NON-NLS-1$
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
 		this.addText(NEW_LINE);

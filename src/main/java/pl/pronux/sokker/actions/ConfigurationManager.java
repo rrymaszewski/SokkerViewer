@@ -24,12 +24,12 @@ import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 
 public class ConfigurationManager {
-	
+
 	private final static ConfigurationManager _instance = new ConfigurationManager();
-	
+
 	private ConfigurationManager() {
 	}
-	
+
 	public static ConfigurationManager instance() {
 		return _instance;
 	}
@@ -59,6 +59,11 @@ public class ConfigurationManager {
 		dbConfDao.setDBVersion(version);
 	}
 	
+	public void updateDbRepairJuniorsAge(boolean b) throws SQLException {
+		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
+		dbConfDao.setDbRepairJuniorsAge(b);
+	}
+
 	public DbProperties getDbProperties() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
 		DbProperties dbProperties = dbConfDao.getDbProperties();
@@ -71,11 +76,11 @@ public class ConfigurationManager {
 		return date;
 	}
 
-	public void updateDbStructure(int db_version) throws SQLException, ClassNotFoundException, IOException {
+	public void updateDbStructure(int dbVersion) throws SQLException, ClassNotFoundException, IOException {
 		try {
 			SQLSession.beginTransaction();
 			DatabaseConfigurationDao databaseConfigurationDao = new DatabaseConfigurationDao(SQLSession.getConnection());
-			while (databaseConfigurationDao.checkDBVersion() < db_version) {
+			while (databaseConfigurationDao.checkDBVersion() < dbVersion) {
 				SQLQuery.updateDB(SQLSession.getConnection(), databaseConfigurationDao.checkDBVersion() + 1);
 			}
 			SQLSession.commit();

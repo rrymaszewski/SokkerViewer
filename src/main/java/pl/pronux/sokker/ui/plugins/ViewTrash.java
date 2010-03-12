@@ -402,8 +402,8 @@ public class ViewTrash implements IPlugin, ISort {
 		juniorsTable.setLinesVisible(true);
 		juniorsTable.setLayoutData(tabComposite.getViewFormData());
 		tabComposite.setLayoutData(formData);
-		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.skill"),
-						   Messages.getString("table.status"), "" };
+		String[] titles = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.formation"),
+						   Messages.getString("table.skill"), Messages.getString("table.status"), "" };
 		tabComposite.setViewTable(juniorsTable);
 
 		juniorsTable.setFont(ConfigBean.getFontTable());
@@ -514,11 +514,12 @@ public class ViewTrash implements IPlugin, ISort {
 		playersTable.setLinesVisible(true);
 		playersTable.setLayoutData(tabComposite.getViewFormData());
 
-		String[] title = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.value"),
-						  Messages.getString("table.salary"), Messages.getString("table.age"), Messages.getString("table.form"),
-						  Messages.getString("table.stamina"), Messages.getString("table.pace"), Messages.getString("table.technique"),
-						  Messages.getString("table.passing"), Messages.getString("table.keeper"), Messages.getString("table.defender"),
-						  Messages.getString("table.playmaker"), Messages.getString("table.scorer"), Messages.getString("table.sold"), "" };
+		String[] title = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.height"),
+						  Messages.getString("table.value"), Messages.getString("table.salary"), Messages.getString("table.age"),
+						  Messages.getString("table.form"), Messages.getString("table.stamina"), Messages.getString("table.pace"),
+						  Messages.getString("table.technique"), Messages.getString("table.passing"), Messages.getString("table.keeper"),
+						  Messages.getString("table.defender"), Messages.getString("table.playmaker"), Messages.getString("table.scorer"),
+						  Messages.getString("table.sold"), "" };
 
 		tabComposite.setViewTable(playersTable);
 
@@ -1346,6 +1347,11 @@ public class ViewTrash implements IPlugin, ISort {
 			item.setData("person", junior);
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
+			if (junior.getFormation() >= 0) {
+				item.setText(c++, Messages.getString("junior.formation." + junior.getFormation()));
+			} else {
+				item.setText(c++, "-");
+			}
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));
 			if (junior.getStatus() == 11) {
 				item.setText(c++, Messages.getString("junior.status.trained"));
@@ -1379,6 +1385,7 @@ public class ViewTrash implements IPlugin, ISort {
 			item.setData("person", player);
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
+			item.setText(c++, String.valueOf(player.getHeight()));
 			item.setText(c++, player.getSkills()[maxSkill].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[maxSkill].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getAge()));
@@ -1477,22 +1484,28 @@ public class ViewTrash implements IPlugin, ISort {
 
 		String[][] values;
 
-		values = new String[7][2];
+		values = new String[8][2];
 		values[0][0] = Messages.getString("junior.id");
 		values[1][0] = Messages.getString("junior.name");
 		values[2][0] = Messages.getString("junior.surname");
-		values[3][0] = Messages.getString("junior.skill");
-		values[4][0] = Messages.getString("junior.weeksAll");
-		values[5][0] = Messages.getString("junior.numberOfJumps");
-		values[6][0] = Messages.getString("junior.averageJumps");
+		values[3][0] = Messages.getString("junior.formation");
+		values[4][0] = Messages.getString("junior.skill");
+		values[5][0] = Messages.getString("junior.weeksAll");
+		values[6][0] = Messages.getString("junior.numberOfJumps");
+		values[7][0] = Messages.getString("junior.averageJumps");
 
 		values[0][1] = String.valueOf(junior.getId()).toString();
 		values[1][1] = junior.getName();
 		values[2][1] = junior.getSurname();
-		values[3][1] = Messages.getString("skill.a" + junior.getSkills()[maxSkill].getSkill()) + " [" + junior.getSkills()[maxSkill].getSkill() + "]";
-		values[4][1] = String.valueOf(junior.getSkills()[0].getWeeks()).toString();
-		values[5][1] = String.valueOf(junior.getPops()).toString();
-		values[6][1] = String.valueOf(new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP));
+		if (junior.getFormation() < 0) {
+			values[3][1] = "-";
+		} else {
+			values[3][1] = Messages.getString("junior.formation." + junior.getFormation());
+		}
+		values[4][1] = Messages.getString("skill.a" + junior.getSkills()[maxSkill].getSkill()) + " [" + junior.getSkills()[maxSkill].getSkill() + "]";
+		values[5][1] = String.valueOf(junior.getSkills()[0].getWeeks()).toString();
+		values[6][1] = String.valueOf(junior.getPops()).toString();
+		values[7][1] = String.valueOf(new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP));
 
 		for (int i = 0; i < values.length; i++) {
 			description.addLeftText(values[i]);

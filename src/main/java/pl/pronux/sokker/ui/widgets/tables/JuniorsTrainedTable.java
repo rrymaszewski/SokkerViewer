@@ -22,42 +22,42 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 
 public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Junior> {
+
 	private JuniorsTrainedComparator comparator;
 	private List<Junior> juniors;
 
 	public JuniorsTrainedTable(Composite parent, int style) {
 		super(parent, style);
-		
+
 		juniors = new ArrayList<Junior>();
-		
+
 		comparator = new JuniorsTrainedComparator();
 		comparator.setColumn(JuniorsTrainedComparator.SURNAME);
 		comparator.setDirection(JuniorsTrainedComparator.ASCENDING);
-		
+
 		this.setLinesVisible(true);
 		this.setHeaderVisible(true);
 		this.setFont(ConfigBean.getFontTable());
 		this.setVisible(true);
-		
-		String[] titles = {
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.skill"), //$NON-NLS-1$
-				Messages.getString("table.sum"), //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.sum.mainskills"), //$NON-NLS-1$
-				Messages.getString("table.pace"), //$NON-NLS-1$
-				Messages.getString("table.technique"), //$NON-NLS-1$
-				Messages.getString("table.passing"), //$NON-NLS-1$
-				Messages.getString("table.keeper"), //$NON-NLS-1$
-				Messages.getString("table.defender"), //$NON-NLS-1$
-				Messages.getString("table.playmaker"), //$NON-NLS-1$
-				Messages.getString("table.scorer"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.week"), //$NON-NLS-1$
-				Messages.getString("junior.averageJumps"), //$NON-NLS-1$
-				Messages.getString("junior.table.money.all"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+
+		String[] titles = { Messages.getString("table.name"), //$NON-NLS-1$
+						   Messages.getString("table.surname"), //$NON-NLS-1$
+						   Messages.getString("table.formation"), Messages.getString("table.skill"), //$NON-NLS-1$
+						   Messages.getString("table.sum"), //$NON-NLS-1$
+						   Messages.getString("table.stamina"), //$NON-NLS-1$
+						   Messages.getString("table.sum.mainskills"), //$NON-NLS-1$
+						   Messages.getString("table.pace"), //$NON-NLS-1$
+						   Messages.getString("table.technique"), //$NON-NLS-1$
+						   Messages.getString("table.passing"), //$NON-NLS-1$
+						   Messages.getString("table.keeper"), //$NON-NLS-1$
+						   Messages.getString("table.defender"), //$NON-NLS-1$
+						   Messages.getString("table.playmaker"), //$NON-NLS-1$
+						   Messages.getString("table.scorer"), //$NON-NLS-1$
+						   Messages.getString("table.age"), //$NON-NLS-1$
+						   Messages.getString("table.week"), //$NON-NLS-1$
+						   Messages.getString("junior.averageJumps"), //$NON-NLS-1$
+						   Messages.getString("junior.table.money.all"), //$NON-NLS-1$
+						   "" //$NON-NLS-1$
 		};
 		for (int j = 0; j < titles.length; j++) {
 			TableColumn column = new TableColumn(this, SWT.NONE);
@@ -80,10 +80,10 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 				column.pack();
 			}
 		}
-		
+
 		this.setSortColumn(this.getColumn(JuniorsTrainedComparator.SURNAME));
 		this.setSortDirection(SWT.UP);
-		
+
 		final TableColumn[] columns = this.getColumns();
 
 		for (int i = 0; i < columns.length - 1; i++) {
@@ -96,7 +96,7 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 
 		// Turn off drawing to avoid flicker
 		this.setRedraw(false);
-		
+
 		this.juniors = juniors;
 		// We remove all the table entries, sort our
 		// rows, then add the entries
@@ -105,15 +105,20 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 		Collections.sort(juniors, comparator);
 		for (Junior junior : juniors) {
 			TableItem item = new TableItem(this, SWT.NONE);
-			
+
 			Player player = junior.getPlayer();
 
 			int c = 0;
-			item.setData(Junior.class.getName(), junior); 
+			item.setData(Junior.class.getName(), junior);
 			item.setText(c++, junior.getName());
 			item.setText(c++, junior.getSurname());
+			if (junior.getFormation() >= 0) {
+				item.setText(c++, Messages.getString("junior.formation." + junior.getFormation()));				
+			} else {
+				item.setText(c++, "-");
+			}
 			item.setText(c++, String.valueOf(junior.getSkills()[junior.getSkills().length - 1].getSkill()));
-			if(player != null) {
+			if (player != null) {
 				item.setText(c++, String.valueOf(player.getSkills()[0].getSummarySkill() + player.getSkills()[0].getStamina()));
 				item.setText(c++, String.valueOf(player.getSkills()[0].getStamina()));
 				item.setText(c++, String.valueOf(player.getSkills()[0].getSummarySkill()));
@@ -126,15 +131,15 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 				item.setText(c++, String.valueOf(player.getSkills()[0].getScorer()));
 				item.setText(c++, String.valueOf(player.getSkills()[0].getAge()));
 			} else {
-				c+=11;
+				c += 11;
 			}
 
 			item.setText(c++, String.valueOf(junior.getSkills()[0].getWeeks()));
-			if(junior.getAveragePops() == 0) {
+			if (junior.getAveragePops() == 0) {
 				item.setText(c++, "-"); //$NON-NLS-1$
 			} else {
-				if(junior.getPops() > 1) {
-					item.setText(c++, SVNumberFormat.formatDouble(junior.getAveragePops()));	
+				if (junior.getPops() > 1) {
+					item.setText(c++, SVNumberFormat.formatDouble(junior.getAveragePops()));
 				} else {
 					item.setForeground(c, ColorResources.getDarkGray());
 					item.setText(c++, "~" + SVNumberFormat.formatDouble(junior.getAveragePops())); //$NON-NLS-1$
@@ -146,18 +151,18 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();
 		}
-		
+
 		// Turn drawing back on
 		this.setRedraw(true);
-		
+
 	}
-	
+
 	public void sort(SVComparator<Junior> comparator) {
-		if(juniors != null) {
+		if (juniors != null) {
 			Collections.sort(juniors, comparator);
 			fill(juniors);
 		}
-		
+
 	}
 
 	public SVComparator<Junior> getComparator() {

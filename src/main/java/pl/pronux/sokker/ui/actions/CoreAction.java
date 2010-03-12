@@ -19,6 +19,7 @@ import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.actions.SchedulerManager;
 import pl.pronux.sokker.actions.TeamManager;
 import pl.pronux.sokker.actions.TrainersManager;
+import pl.pronux.sokker.bean.SynchronizerConfiguration;
 import pl.pronux.sokker.comparators.CountryComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLQuery;
@@ -106,15 +107,14 @@ public class CoreAction implements IRunnableWithProgress {
 			SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 			SQLQuery.setSettings(settings);
 			DbProperties dbProperties = null;
-			monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); //$NON-NLS-1$
-			
-			// String value = "-4"; //$NON-NLS-1$
+			monitor.setTaskName(Messages.getString("CoreAction.database.library.loading")); 
+			SynchronizerConfiguration synchronizerConfiguration = new SynchronizerConfiguration();
 			if (!SQLQuery.dbExist()) {
-				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); //$NON-NLS-1$
-				String dbFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				String dbLogFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				monitor.setTaskName(Messages.getString("progressBar.info.database.initialization")); 
+				String dbFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".script"; 
+				String dbLogFile = settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + settings.getUsername() + ".log"; 
 				String dbPropertiesFile = settings.getBaseDirectory() + File.separator
-										+ "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										  + "db" + File.separator + "db_file_" + settings.getUsername() + ".properties"; 
 				try {
 					SQLSession.connect();
 					SQLSession.beginTransaction();
@@ -124,7 +124,7 @@ public class CoreAction implements IRunnableWithProgress {
 				} catch (SQLException e) {
 					try {
 						SQLSession.close();
-					} catch(SQLException e1) {
+					} catch (SQLException e1) {
 						Log.error("Problem during closing database after bad initialization");
 					}
 					new File(dbFile).delete();
@@ -132,8 +132,8 @@ public class CoreAction implements IRunnableWithProgress {
 					new File(dbLogFile).delete();
 					throw new SVException("DB file error: deleted", e);
 				}
-
-				new Synchronizer(settings, Synchronizer.DOWNLOAD_ALL).run(monitor);
+				synchronizerConfiguration.checkDownloadAll();
+				new Synchronizer(settings, synchronizerConfiguration).run(monitor);
 			} else {
 				SQLSession.connect();
 				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
@@ -143,24 +143,18 @@ public class CoreAction implements IRunnableWithProgress {
 
 					dbProperties = configurationManager.getDbProperties();
 
-					int params = 0;
 					if (dbProperties != null) {
-						if (dbProperties.isCheckCountries()) {
-							params = params | Synchronizer.DOWNLOAD_COUNTRIES;
-						}
-						if (dbProperties.isRepairDB()) {
-							params = params | Synchronizer.REPAIR_DB;
-						}
+						synchronizerConfiguration.setDownloadCountries(dbProperties.isCheckCountries());
+						synchronizerConfiguration.setRepairDb(dbProperties.isRepairDB());
+						synchronizerConfiguration.setRepairDbJuniorsAge(dbProperties.isCompleteJuniorsAge());
 					}
 
-					if (this.isUpdate() || configurationManager.getMaxDate() == null) {
-						params = params | Synchronizer.DOWNLOAD_BASE;
-					} else if (dbProperties != null && dbProperties.isCheckDbUpdate()) {
-						params = params | Synchronizer.DOWNLOAD_BASE;
+					if (this.isUpdate() || configurationManager.getMaxDate() == null || (dbProperties != null && dbProperties.isCheckDbUpdate())) {
+						synchronizerConfiguration.setDownloadBase(true);
 					}
-					new Synchronizer(settings, params).run(monitor);
+					new Synchronizer(settings, synchronizerConfiguration).run(monitor);
 
-					if ((params & Synchronizer.DOWNLOAD_BASE) != 0) {
+					if (synchronizerConfiguration.isDownloadBase()) {
 						int counter = dbProperties.getScanCounter();
 
 						String directory = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername();
@@ -182,7 +176,7 @@ public class CoreAction implements IRunnableWithProgress {
 			}
 
 			try {
-				Database.backup(settings, "autobackup-" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + ".bak"); //$NON-NLS-1$ //$NON-NLS-2$
+				Database.backup(settings, "autobackup-" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + ".bak"); 
 			} catch (IOException ioe) {
 				throw new SVException("Synchronizer -> post-autobackup failed", ioe);
 			}
@@ -190,30 +184,30 @@ public class CoreAction implements IRunnableWithProgress {
 			//				
 			// return;
 			// }
-			monitor.beginTask(Messages.getString("CoreAction.info"), 17);//$NON-NLS-1$
-
-			monitor.subTask(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
+			monitor.beginTask(Messages.getString("CoreAction.info"), 17);
+			
+			monitor.subTask(Messages.getString("progressBar.info.database.connection")); 
 
 			final Date sokkerDate = configurationManager.getMaxDate();
 			Cache.setDate(sokkerDate);
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
+			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); 
 
 			Junior.minimumPop = configurationManager.getJuniorMinimumPop();
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getNotesData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getNotesData")); 
 
 			Cache.setNotes(schedulerManager.getNoteData());
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getClubData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getClubData")); 
 
 			Cache.setClub(teamManager.getTeam(configurationManager.getTeamID()));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getCountries")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getCountries"));
 
 			Cache.setCountries(countriesManager.getCountries());
 			SVComparator<Country> countryComparator = new CountryComparator();
@@ -320,9 +314,9 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); //$NON-NLS-1$
 
 			Cache.setPlayersHistory(playersManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
-																		transfersBuyMap));
+																		 transfersBuyMap));
 			Cache.setPlayersTrash(playersManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
-																		transfersBuyMap));
+																		 transfersBuyMap));
 
 			ArrayList<Player> alPlayers = new ArrayList<Player>();
 			alPlayers.addAll(Cache.getPlayers());

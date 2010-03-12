@@ -26,6 +26,10 @@ public class JuniorXmlParser  {
 	static final int TAG_junior_name = 2;
 
 	static final int TAG_junior_skill = 5;
+	
+	static final int TAG_formation = 6;
+	
+	static final int TAG_age = 7;
 
 	static final int TAG_junior_surname = 3;
 
@@ -69,6 +73,11 @@ public class JuniorXmlParser  {
 				case TAG_junior_skill:
 					juniorSkills[0].setSkill(Integer.valueOf(message.toString()).byteValue());
 					break;
+				case TAG_formation:
+					junior.setFormation(Integer.valueOf(message.toString()).intValue());
+					break;
+				case TAG_age:
+					juniorSkills[0].setAge(Integer.valueOf(message.toString()).intValue());
 				default:
 					break;
 				}
@@ -130,6 +139,10 @@ public class JuniorXmlParser  {
 						current_tag = TAG_junior_skill;
 					} else if (localName.equals("ID")) { //$NON-NLS-1$
 						current_tag = TAG_junior_id;
+					} else if (localName.equals("age")) {
+						current_tag = TAG_age;
+					} else if (localName.equals("formation")) {
+						current_tag = TAG_formation;
 					}
 				}
 			}

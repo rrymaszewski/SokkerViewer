@@ -15,40 +15,42 @@ public class SpyPlayersComparator implements SVComparator<Player>, ISort {
 	public static final int NAME = 1;
 
 	public static final int SURNAME = 2;
-
-	public static final int VALUE = 3;
-
-	public static final int SALARY = 4;
-
-	public static final int AGE = 5;
 	
-	public static final int FORM = 6;
+	public static final int HEIGHT = 3;
 
-	public static final int DISCIPLINE = 7;
+	public static final int VALUE = 4;
 
-	public static final int EXPERIENCE = 8;
+	public static final int SALARY = 5;
 
-	public static final int TEAMWORK = 9;
-
-	public static final int MATCHES = 10;
-
-	public static final int GOALS = 11;
-
-	public static final int ASSISTS = 12;
-
-	public static final int RANKING_AVG = 13;
+	public static final int AGE = 6;
 	
-	public static final int RANKING_MAX = 14;
+	public static final int FORM = 7;
+
+	public static final int DISCIPLINE = 8;
+
+	public static final int EXPERIENCE = 9;
+
+	public static final int TEAMWORK = 10;
+
+	public static final int MATCHES = 11;
+
+	public static final int GOALS = 12;
+
+	public static final int ASSISTS = 13;
+
+	public static final int RANKING_AVG = 14;
 	
-	public static final int RANKING_MIN = 15;
+	public static final int RANKING_MAX = 15;
 	
-	public static final int PREFERRED_POSITION = 16;
+	public static final int RANKING_MIN = 16;
+	
+	public static final int PREFERRED_POSITION = 17;
 
-	public static final int CARDS = 17;
+	public static final int CARDS = 18;
 
-	public static final int INJURY = 18;
+	public static final int INJURY = 19;
 
-	public static final int NOTE = 19;
+	public static final int NOTE = 20;
 
 	private int column;
 
@@ -79,6 +81,9 @@ public class SpyPlayersComparator implements SVComparator<Player>, ISort {
 		case SURNAME:
 			rc = coll.compare(p1.getSurname(), p2.getSurname());
 			// rc = p1.getSurname().compareTo(p2.getSurname());
+			break;
+		case HEIGHT:
+			rc = p1.getHeight() < p2.getHeight() ? -1 : 1;
 			break;
 		case COUNTRY:
 			rc = (p1.getCountryfrom() < p2.getCountryfrom()) ? -1 : 1;

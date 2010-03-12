@@ -13,10 +13,12 @@ public class JuniorTrashComparator implements SVComparator<Junior>, ISort {
 	public static final int NAME = 0;
 
 	public static final int SURNAME = 1;
-
-	public static final int SKILL = 2;
 	
-	public static final int STATUS = 3;
+	public static final int FORMATION = 2;
+
+	public static final int SKILL = 3;
+	
+	public static final int STATUS = 4;
 
 	private int column;
 
@@ -50,6 +52,9 @@ public class JuniorTrashComparator implements SVComparator<Junior>, ISort {
 			case SURNAME:
 				rc = coll.compare(j1.getSurname(), j2.getSurname());
 //				rc = j1.getSurname().compareTo(j2.getSurname());
+				break;
+			case FORMATION:
+				rc = j1.getFormation() < j2.getFormation() ? -1 : 1;
 				break;
 			case SKILL:
 				rc = (j1.getSkills()[j1.getSkills().length-1].getSkill() < j2.getSkills()[j2.getSkills().length-1].getSkill()) ? -1 : 1;

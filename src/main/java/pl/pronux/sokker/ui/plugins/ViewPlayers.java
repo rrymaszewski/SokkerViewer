@@ -38,9 +38,7 @@ import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
-import pl.pronux.sokker.model.PlayerHistoryTable;
 import pl.pronux.sokker.model.PlayerInterface;
 import pl.pronux.sokker.model.PlayerSkills;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -216,16 +214,16 @@ public class ViewPlayers implements IPlugin, ISort {
 				graphComposite.setColumn(k);
 
 				switch (k) {
-				case PlayerHistoryTable.VALUE:
+				case PlayerTable.VALUE:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, false, -1);
 					break;
-				case PlayerHistoryTable.SALARY:
+				case PlayerTable.SALARY:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
 					break;
-				case PlayerHistoryTable.AGE:
+				case PlayerTable.AGE:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
 					break;
-				case PlayerHistoryTable.STAMINA:
+				case PlayerTable.STAMINA:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 12);
 					break;
 				default:
@@ -745,7 +743,7 @@ public class ViewPlayers implements IPlugin, ISort {
 						Rectangle rect = item.getBounds(i);
 						if (rect.contains(pt) && i != PlayerComparator.NOTE) {
 							_treeItem.getParent().setSelection(
-															   new TreeItem[] { (TreeItem) itemMap.get(((PersonInterface) item.getData(Player.class.getName()))
+															   new TreeItem[] { (TreeItem) itemMap.get(((Player) item.getData(Player.class.getName()))
 																   .getId()) });
 
 							comboFilter.setVisible(false);

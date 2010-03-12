@@ -13,6 +13,8 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 
 public class JuniorTable extends SVTable<Junior> {
+	
+	public static final int SKILL = 1;
 
 	public JuniorTable(Composite parent, int style) {
 		super(parent, style);
@@ -26,6 +28,7 @@ public class JuniorTable extends SVTable<Junior> {
 				Messages.getString("table.skill"), //$NON-NLS-1$
 				Messages.getString("table.week"), //$NON-NLS-1$
 				Messages.getString("table.coach"), //$NON-NLS-1$
+				Messages.getString("table.age"),
 				"" //$NON-NLS-1$
 		};
 
@@ -39,6 +42,8 @@ public class JuniorTable extends SVTable<Junior> {
 			} else if (titles[j].equals(Messages.getString("table.skill"))) { //$NON-NLS-1$
 				column.setWidth(50);
 			} else if (titles[j].equals(Messages.getString("table.week"))) { //$NON-NLS-1$
+				column.setWidth(50);
+			} else if (titles[j].equals(Messages.getString("table.age"))) { //$NON-NLS-1$
 				column.setWidth(50);
 			} else if (titles[j].isEmpty()) {
 				if (SettingsHandler.IS_LINUX) {
@@ -75,7 +80,7 @@ public class JuniorTable extends SVTable<Junior> {
 					thisItem.setText(3, String.valueOf(value));
 				}
 			}
-
+			thisItem.setText(4, String.valueOf(junior.getSkills()[i].getAge()));
 		}
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();

@@ -15,12 +15,13 @@ public class JuniorSkillsDto extends JuniorSkills {
 	}
 	
 	public JuniorSkills getJuniorSkills() throws SQLException {
-		this.setId(rs.getInt("id_skill")); //$NON-NLS-1$
-		this.setIdJuniorFK(rs.getInt("id_junior_fk")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.setWeeks(rs.getInt("weeks")); //$NON-NLS-1$
-		this.setSkill(rs.getInt("skill")); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setId(rs.getInt("id_skill"));
+		this.setIdJuniorFK(rs.getInt("id_junior_fk"));
+		this.setDate(new Date(rs.getLong("millis")));
+		this.setWeeks(rs.getInt("weeks"));
+		this.setSkill(rs.getInt("skill"));
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));
+		this.setAge(rs.getInt("age"));
 		return this;
 	}
 }

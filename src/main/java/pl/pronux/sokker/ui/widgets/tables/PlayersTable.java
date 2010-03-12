@@ -46,6 +46,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 				"", //$NON-NLS-1$
 				Messages.getString("table.name"), //$NON-NLS-1$
 				Messages.getString("table.surname"), //$NON-NLS-1$
+				Messages.getString("table.height"),
 				Messages.getString("table.value"), //$NON-NLS-1$
 				Messages.getString("table.salary"), //$NON-NLS-1$
 				Messages.getString("table.age"), //$NON-NLS-1$
@@ -122,6 +123,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
+			item.setText(c++, String.valueOf(player.getHeight()));
 			item.setText(c++, player.getSkills()[max].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[max].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[max].getAge()));
@@ -270,30 +272,30 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			if (maxSkill > 0) {
 				int[] temp2 = player.getSkills()[maxSkill - 1].getStatsTable();
 				if (column >= PlayerComparator.FORM) {
-					if (temp1[column - 3] - temp2[column - 3] > 0) {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]) + ")");
+					if (temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE] > 0) {
+						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
 						label.setForeground(ConfigBean.getColorIncreaseDescription());
-					} else if (temp1[column - 3] - temp2[column - 3] < 0) {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]) + ")");
+					} else if (temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE] < 0) {
+						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
 						label.setForeground(ConfigBean.getColorDecreaseDescription());
 					} else {
-						label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (" + String.valueOf(temp1[column - 3] - temp2[column - 3]) + ")");
+						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + String.valueOf(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
 					}
 
 				} else {
-					if (temp1[column - 3] - temp2[column - 3] > 0) {
-						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]));
+					if (temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE] > 0) {
+						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]));
 						label.setForeground(ConfigBean.getColorIncreaseDescription());
-					} else if (temp1[column - 3] - temp2[column - 3] < 0) {
-						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - 3] - temp2[column - 3]));
+					} else if (temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE] < 0) {
+						label.setText(SVNumberFormat.formatIntegerWithSignZero(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]));
 						label.setForeground(ConfigBean.getColorDecreaseDescription());
 					} else {
-						label.setText(String.valueOf(temp1[column - 3] - temp2[column - 3]));
+						label.setText(String.valueOf(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]));
 					}
 				}
 			} else {
 				if (column >= PlayerComparator.FORM) {
-					label.setText(Messages.getString("skill.a" + temp1[column - 3]) + " (0)");
+					label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (0)");
 				} else {
 					label.setText("0");
 				}

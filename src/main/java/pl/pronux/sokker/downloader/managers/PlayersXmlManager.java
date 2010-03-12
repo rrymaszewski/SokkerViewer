@@ -27,23 +27,19 @@ public class PlayersXmlManager extends XmlManager<Player> {
 	
 	Map<String, String> teamsMap = new HashMap<String, String>();
 	
-	public String completeYouthTeamId() throws SQLException {
+	public String completeUncompletedPlayers() throws SQLException {
 		String value = "-3"; //$NON-NLS-1$
 		ArrayList<Integer> alPlayersID = new ArrayList<Integer>();
 
 		try {
-
 			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-
-			alPlayersID = playersDao.getPlayersIDWithoutYouthTeamId();
-
+			alPlayersID = playersDao.getUncompletePlayers();
 			if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
 				value = "0"; //$NON-NLS-1$
 			} else {
 				value = downloader.getErrorno();
 			}
 			// download xmls
-
 			if (value.equals("0")) { //$NON-NLS-1$
 				for (int i = 0; i < alPlayersID.size(); i++) {
 					try {
@@ -57,7 +53,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 						}
 						Player player = parser.getPlayer();
 						if (player != null) {
-							playersDao.updatePlayerYouthTeamID(player);
+							playersDao.updateUncompletedPlayer(player);
 						} else {
 							playersDao.updateNotExists(alPlayersID.get(i));
 						}
@@ -68,9 +64,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 		} catch (final SQLException e) {
 			throw e;
 		}
-
 		return value;
-
 	}
 
 	private List<Player> alPlayers;

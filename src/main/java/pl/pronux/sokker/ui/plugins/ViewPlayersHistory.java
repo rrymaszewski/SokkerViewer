@@ -42,9 +42,7 @@ import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Money;
-import pl.pronux.sokker.model.PersonInterface;
 import pl.pronux.sokker.model.Player;
-import pl.pronux.sokker.model.PlayerHistoryTable;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
@@ -445,7 +443,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 						Rectangle rect = item.getBounds(i);
 						if (rect.contains(pt)) {
 							_treeItem.getParent().setSelection(
-															   new TreeItem[] { (TreeItem) treeItemMap.get(((PersonInterface) item.getData(Player.class
+															   new TreeItem[] { (TreeItem) treeItemMap.get(((Player) item.getData(Player.class
 																   .getName())).getId()) });
 							showView((Player) item.getData(Player.class.getName()));
 							showDescription((Player) item.getData(Player.class.getName()));
@@ -851,16 +849,16 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 				graphComposite.setColumn(k);
 
 				switch (k) {
-				case PlayerHistoryTable.VALUE:
+				case PlayerTable.VALUE:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, false, -1);
 					break;
-				case PlayerHistoryTable.SALARY:
+				case PlayerTable.SALARY:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
 					break;
-				case PlayerHistoryTable.AGE:
+				case PlayerTable.AGE:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
 					break;
-				case PlayerHistoryTable.STAMINA:
+				case PlayerTable.STAMINA:
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 12);
 					break;
 				default:

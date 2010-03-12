@@ -40,7 +40,6 @@ import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.interfaces.ISort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
-import pl.pronux.sokker.model.JuniorHistoryTable;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
@@ -438,7 +437,7 @@ public class ViewJuniors implements IPlugin, ISort {
 					String[] tempDateTable = new String[currentView.getItemCount()];
 
 					// sprawdzamy czy tabela zawiera elementy
-					int k = JuniorHistoryTable.SKILL;
+					int k = JuniorTable.SKILL;
 					for (int x = 0; x < juniorView.getItemCount(); x++) {
 						tempIntTable[x] = Integer.parseInt(juniorView.getItem(x).getText(k));
 						tempDateTable[x] = juniorView.getItem(x).getText(0);
@@ -665,7 +664,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 				graphComposite.setColumn(k);
 
-				if (k == JuniorHistoryTable.SKILL) {
+				if (k == JuniorTable.SKILL) {
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, 18);
 				} else {
 					graphComposite.fillGraph(tempIntTable, tempDateTable, Calendar.THURSDAY, true, -1);
@@ -914,7 +913,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 		});
 
-		juniorView.getColumn(JuniorHistoryTable.SKILL).addListener(SWT.Selection, graphList);
+		juniorView.getColumn(JuniorTable.SKILL).addListener(SWT.Selection, graphList);
 
 		juniorsTable.addListener(SWT.MouseDoubleClick, doubleClickAllTableListener(juniorsTable, comboFilter, _treeItem, itemMap));
 		juniorsTable.addListener(SWT.Selection, selectionAllTableListener());

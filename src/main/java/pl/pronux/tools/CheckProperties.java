@@ -38,7 +38,8 @@ public class CheckProperties {
 			Iterator<Object> itr = setIn.iterator();
 
 			System.out.println("========================== " + language.getLanguageName() + " =================================");
-			
+			double all = 0.0;
+			double notTranslated = 0;
 			while (itr.hasNext()) {
 				String key = (String) itr.next();
 				String valueIn = (String) sokkerPropertiesIn.get(key);
@@ -46,8 +47,11 @@ public class CheckProperties {
 
 				if (valueOut == null || valueOut.isEmpty()) {
 					System.out.println(key + "=" + valueIn);
+					notTranslated++;
 				}
+				all++;
 			}
+			System.out.println("translated in: " + (100 - (notTranslated/all*100)));
 		}
 	}
 }

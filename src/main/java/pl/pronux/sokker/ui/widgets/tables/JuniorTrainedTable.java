@@ -14,6 +14,8 @@ import pl.pronux.sokker.ui.beans.ConfigBean;
 
 public class JuniorTrainedTable extends SVTable<Junior> {
 
+	public static final int SKILL = 1;
+	
 	public JuniorTrainedTable(Composite parent, int style) {
 		super(parent, style);
 		this.setLinesVisible(true);
@@ -21,11 +23,12 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 		this.setFont(ConfigBean.getFontTable());
 		
 		String[] titles = {
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.skill"), //$NON-NLS-1$
-				Messages.getString("table.week"), //$NON-NLS-1$
-				Messages.getString("table.coach"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.date"),
+				Messages.getString("table.skill"),
+				Messages.getString("table.week"), 
+				Messages.getString("table.coach"), 
+				Messages.getString("table.age"), 
+				"" 
 		};
 		
 		for (int j = 0; j < titles.length; j++) {
@@ -73,6 +76,7 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 					juniorTableItem.setText(3, String.valueOf(value));
 				}
 			}
+			juniorTableItem.setText(4, String.valueOf(junior.getSkills()[i].getAge()));
 		}
 
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
@@ -81,6 +85,4 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 		this.getChanges(columns);
 		this.setRedraw(true);
 	}
-
-
 }

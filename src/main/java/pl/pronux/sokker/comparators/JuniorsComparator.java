@@ -13,34 +13,38 @@ public class JuniorsComparator implements SVComparator<Junior>, ISort {
 	public static final int NAME = 0;
 
 	public static final int SURNAME = 1;
-
-	public static final int SKILL = 2;
-
-	public static final int WEEKS = 3;
-
-	public static final int WITHOUT_JUMP = 4;
-
-	public static final int AVERAGE_JUMP = 5;
-
-	public static final int BEGIN_LEVEL = 6;
-
-	public static final int ESTIMATED_LEVEL = 7;
-
-	public static final int JUMPS = 8;
-
-	public static final int ESTIMATED_AGE = 9;
 	
-	public static final int EXIT_WEEK = 10;
+	public static final int FORMATION = 2;
 
-	public static final int EXIT_DATE = 11;
+	public static final int SKILL = 3;
 
-	public static final int MONEY_SPENT = 12;
+	public static final int WEEKS = 4;
 
-	public static final int MONEY_LEFT = 13;
+	public static final int WITHOUT_JUMP = 5;
 
-	public static final int MONEY_ALL = 14;
+	public static final int AVERAGE_JUMP = 6;
 
-	public static final int NOTE = 15;
+	public static final int BEGIN_LEVEL = 7;
+
+	public static final int ESTIMATED_LEVEL = 8;
+
+	public static final int JUMPS = 9;
+	
+	public static final int AGE = 10;
+
+	public static final int ESTIMATED_AGE = 11;
+	
+	public static final int EXIT_WEEK = 12;
+
+	public static final int EXIT_DATE = 13;
+
+	public static final int MONEY_SPENT = 14;
+
+	public static final int MONEY_LEFT = 15;
+
+	public static final int MONEY_ALL = 16;
+
+	public static final int NOTE = 17;
 
 	private int column;
 
@@ -73,6 +77,9 @@ public class JuniorsComparator implements SVComparator<Junior>, ISort {
 		case SURNAME:
 			rc = coll.compare(j1.getSurname(), j2.getSurname());
 			// rc = j1.getSurname().compareTo(j2.getSurname());
+			break;
+		case FORMATION:
+			rc = j1.getFormation() < j2.getFormation() ? -1 : 1;
 			break;
 		case SKILL:
 			rc = (j1.getSkills()[j1.getSkills().length - 1].getSkill() < j2.getSkills()[j2.getSkills().length - 1].getSkill()) ? -1 : 1;
@@ -131,6 +138,9 @@ public class JuniorsComparator implements SVComparator<Junior>, ISort {
 			break;
 		case ESTIMATED_AGE:
 			rc = (j1.getEstimatedAge() < j2.getEstimatedAge()) ? -1 : 1;
+			break;
+		case AGE:
+			rc = (j1.getSkills()[j1.getSkills().length - 1].getAge() < j2.getSkills()[j2.getSkills().length - 1].getAge()) ? -1 : 1;
 			break;
 		}
 

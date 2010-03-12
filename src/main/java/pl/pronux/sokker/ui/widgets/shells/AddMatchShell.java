@@ -71,18 +71,18 @@ public class AddMatchShell extends Shell {
 				try {
 					MessageBox msg;
 					switch (matchesManager.importMatch(text.getText())) {
-					case 1:
+					case MatchesManager.OK:
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_MATCHES, new Event());
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_INFORMATION);
 						msg.setMessage(Messages.getString("download.match.error.0")); //$NON-NLS-1$
 						msg.open();
 						break;
-					case 2:
+					case MatchesManager.ERROR_DOESNT_CONTAIN:
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_ERROR);
 						msg.setMessage(Messages.getString("download.match.error.-1")); //$NON-NLS-1$
 						msg.open();
 						break;
-					case 3:
+					case MatchesManager.ERROR_ALREADY_EXIST:
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_ERROR);
 						msg.setMessage(Messages.getString("download.match.error.-3")); //$NON-NLS-1$
 						msg.open();

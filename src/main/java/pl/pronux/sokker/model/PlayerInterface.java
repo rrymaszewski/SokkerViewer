@@ -1,6 +1,6 @@
 package pl.pronux.sokker.model;
 
-public interface PlayerInterface extends PersonInterface {
+public interface PlayerInterface {
 
 	public int getCountryfrom();
 
@@ -37,5 +37,7 @@ public interface PlayerInterface extends PersonInterface {
 	public Transfer getTransferBuy();
 
 	public void setTransferBuy(Transfer transferBuy);
+
+	public int getId();
 
 }
