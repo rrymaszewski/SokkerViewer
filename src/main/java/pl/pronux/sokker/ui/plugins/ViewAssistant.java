@@ -1,7 +1,7 @@
 package pl.pronux.sokker.ui.plugins;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -469,7 +469,7 @@ public class ViewAssistant implements IPlugin, ISort {
 
 	private FormData descriptionFormData;
 
-	private ArrayList<Player> players;
+	private List<Player> players;
 
 	private AssitantPlayersTable playersTable;
 

@@ -8,12 +8,12 @@ import org.xml.sax.SAXException;
 
 public interface IXmlManager<T> {
 
-	public void download() throws IOException, SQLException;
+	void download() throws IOException, SQLException;
 
-	public void importToSQL() throws SQLException;
+	void importToSQL() throws SQLException;
 
-	public List<T> parseXML(String xml) throws SAXException;
+	List<T> parseXML(String xml) throws SAXException;
 	
-	public List<T> parseXML() throws SAXException;
+	List<T> parseXML() throws SAXException;
 
 }

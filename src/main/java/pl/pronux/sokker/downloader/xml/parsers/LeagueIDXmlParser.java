@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -71,9 +72,10 @@ public class LeagueIDXmlParser {
 
 	private League league;
 
-	private ArrayList<LeagueTeam> alTeams;
+	private List<LeagueTeam> teams;
 
-	public LeagueTeam team;
+	private LeagueTeam team;
+	
 	public void parseXmlSax(final InputSource input) throws SAXException {
 		parseXmlSax(input, null);
 	}
@@ -156,16 +158,16 @@ public class LeagueIDXmlParser {
 			public void endElement(String namespaceURL, String localName, String qName) {
 				current_tag = 0;
 				if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
-					alTeams.add(team);
+					teams.add(team);
 				} else if (localName.equalsIgnoreCase("teams")) { //$NON-NLS-1$
-					league.setLeagueTeams(alTeams);
+					league.setLeagueTeams(teams);
 				}
 			}
 
 			public void startDocument() {
 				league = new League();
 				league.setCountryID(1);
-				alTeams = new ArrayList<LeagueTeam>();
+				teams = new ArrayList<LeagueTeam>();
 
 			}
 
@@ -255,7 +257,7 @@ public class LeagueIDXmlParser {
 		}
 	}
 	public League getLeague() {
-		league.setLeagueTeams(alTeams);
+		league.setLeagueTeams(teams);
 		return league;
 	}
 

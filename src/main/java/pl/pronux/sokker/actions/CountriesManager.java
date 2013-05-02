@@ -11,13 +11,13 @@ import pl.pronux.sokker.model.Region;
 
 public class CountriesManager {
 
-	private static final CountriesManager _instance = new CountriesManager();
+	private static CountriesManager instance = new CountriesManager();
 	
 	private CountriesManager() {
 	}
 	
 	public static CountriesManager instance() {
-		return _instance;
+		return instance;
 	}
 	
 	public void importCountries(List<Country> countries) throws SQLException {

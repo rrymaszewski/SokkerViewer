@@ -30,11 +30,12 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ImportPage extends Page {
 
+	public static final String PAGE_NAME = "IMPORT_PAGE"; //$NON-NLS-1$
+
 	private ProgressBarCustom progressBar;
 	private Button detailsButton;
 	private Table table;
 	private CLabel informationLabel;
-	public static String PAGE_NAME = "IMPORT_PAGE"; //$NON-NLS-1$
 
 	public ImportPage(Wizard parent) {
 		super(parent, Messages.getString("importer.page.import.title"), PAGE_NAME); //$NON-NLS-1$

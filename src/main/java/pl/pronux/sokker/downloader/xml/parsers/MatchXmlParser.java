@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -139,7 +140,9 @@ public class MatchXmlParser {
 
 	private int awayTeamID;
 
-	private ArrayList<PlayerStats> alPlayersStats;
+	private List<PlayerStats> alPlayersStats;
+	
+	private StringBuilder message;
 
 	public Match getMatch() {
 		return match;
@@ -340,8 +343,6 @@ public class MatchXmlParser {
 				homeTeam = new TeamStats();
 				awayTeam = new TeamStats();
 			}
-
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 

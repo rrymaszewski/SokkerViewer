@@ -38,13 +38,13 @@ import pl.pronux.sokker.resources.Messages;
 
 public class TeamManager {
 
-	private final static TeamManager _instance = new TeamManager();
+	private static TeamManager instance = new TeamManager();
 
 	private TeamManager() {
 	}
 
 	public static TeamManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void importReports(List<Report> reports) throws SQLException {
@@ -370,13 +370,6 @@ public class TeamManager {
 
 	public Map<Integer, Club> getTeams() throws SQLException {
 		Map<Integer, Club> clubMap = new HashMap<Integer, Club>();
-		ArrayList<ClubName> clubName;
-		ArrayList<Rank> rank;
-		Arena arena = new Arena();
-		ArrayList<Stand> stands;
-		ArrayList<ClubArenaName> clubArenaName;
-		Region region;
-
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie informacji o klubie
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
@@ -384,20 +377,20 @@ public class TeamManager {
 		List<Club> clubs = teamsDao.getClubs();
 
 		for (Club club : clubs) {
-			clubName = teamsDao.getClubName(club.getId());
+			List<ClubName> clubName = teamsDao.getClubName(club.getId());
 			club.setClubName(clubName);
 
-			rank = teamsDao.getRank(club.getId());
+			List<Rank> rank = teamsDao.getRank(club.getId());
 			club.setRank(rank);
 
-			region = countriesDao.getRegion(club.getRegionID());
+			Region region = countriesDao.getRegion(club.getRegionID());
 			club.setRegion(region);
 
-			arena = new Arena();
-			stands = teamsDao.getStands(club.getId());
+			Arena arena = new Arena();
+			List<Stand> stands = teamsDao.getStands(club.getId());
 			arena.setStands(stands);
 
-			clubArenaName = teamsDao.getClubArenaName(club.getId());
+			List<ClubArenaName> clubArenaName = teamsDao.getClubArenaName(club.getId());
 			arena.setArenaNames(clubArenaName);
 
 			club.setArena(arena);
@@ -410,14 +403,7 @@ public class TeamManager {
 	}
 
 	public Club getTeam(int teamID) throws SQLException {
-		ArrayList<ClubBudget> clubDataMoney;
-		ArrayList<ClubSupporters> clubDataFanclub;
-		ArrayList<ClubName> clubName;
-		ArrayList<Rank> rank;
-		Arena arena = new Arena();
-		ArrayList<Stand> stands;
-		ArrayList<ClubArenaName> clubArenaName;
-
+		
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie informacji o klubie
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
@@ -425,25 +411,26 @@ public class TeamManager {
 
 		Club club = teamsDao.getClub(teamID);
 
-		clubDataMoney = teamsDao.getClubDataMoney(teamID);
+		List<ClubBudget> clubDataMoney = teamsDao.getClubDataMoney(teamID);
 		club.setClubBudget(clubDataMoney);
 
-		clubDataFanclub = teamsDao.getClubDataFanclub(teamID);
+		List<ClubSupporters> clubDataFanclub = teamsDao.getClubDataFanclub(teamID);
 		club.setClubSupporters(clubDataFanclub);
 
-		clubName = teamsDao.getClubName(teamID);
+		List<ClubName> clubName = teamsDao.getClubName(teamID);
 		club.setClubName(clubName);
 
-		rank = teamsDao.getRank(teamID);
+		List<Rank> rank = teamsDao.getRank(teamID);
 		club.setRank(rank);
 
 		Region region = countriesDao.getRegion(club.getRegionID());
 		club.setRegion(region);
 
-		stands = teamsDao.getStands(teamID);
+		Arena arena = new Arena();
+		List<Stand> stands = teamsDao.getStands(teamID);
 		arena.setStands(stands);
 
-		clubArenaName = teamsDao.getClubArenaName(teamID);
+		List<ClubArenaName> clubArenaName = teamsDao.getClubArenaName(teamID);
 		arena.setArenaNames(clubArenaName);
 
 		club.setArena(arena);
@@ -467,12 +454,12 @@ public class TeamManager {
 		}
 	}
 
-	public ArrayList<Training> getTrainingData(Map<Integer, Coach> coachMap) throws SQLException {
+	public List<Training> getTrainingData(Map<Integer, Coach> coachMap) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 
-		ArrayList<Training> alTraining = teamsDao.getTrainings();
+		List<Training> alTraining = teamsDao.getTrainings();
 
 		for (Training training : alTraining) {
 			training.setJuniors(new ArrayList<Junior>());
@@ -484,11 +471,11 @@ public class TeamManager {
 		return alTraining;
 	}
 
-	public List<Report> getReports(Map<Integer, PlayerArchive> playersMap, HashMap<Integer, Coach> coachMap) throws SQLException {
+	public List<Report> getReports(Map<Integer, PlayerArchive> playersMap, Map<Integer, Coach> coachMap) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
 
-		ArrayList<Report> reports = reportsDao.getReports();
+		List<Report> reports = reportsDao.getReports();
 
 		for (Report report : reports) {
 			if (report.getPersonID() > 0) {
@@ -552,32 +539,26 @@ public class TeamManager {
 		}
 	}
 	
-	public List<Junior> getJuniors(HashMap<Integer, Training> trainingMap) throws SQLException {
-		JuniorSkills[] juniorSkills;
-		List<Junior> juniors;
-
+	public List<Junior> getJuniors(Map<Integer, Training> trainingMap) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		juniors = juniorsDao.getJuniors(Junior.STATUS_IN_SCHOOL);
+		List<Junior> juniors = juniorsDao.getJuniors(Junior.STATUS_IN_SCHOOL);
 
 		for (Junior junior : juniors) {
-			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
+			JuniorSkills[] juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
 		SQLQuery.close(newConnection);
 		return juniors;
 	}
 
-	public List<Junior> getJuniorsFired(HashMap<Integer, Training> trainingMap) throws SQLException {
-		JuniorSkills[] juniorSkills;
-		List<Junior> juniorsFired;
-
+	public List<Junior> getJuniorsFired(Map<Integer, Training> trainingMap) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		juniorsFired = juniorsDao.getJuniors(Junior.STATUS_SACKED);
+		List<Junior> juniorsFired = juniorsDao.getJuniors(Junior.STATUS_SACKED);
 
 		for (Junior junior : juniorsFired) {
-			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
+			JuniorSkills[] juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
 
@@ -586,15 +567,12 @@ public class TeamManager {
 	}
 
 	public List<Junior> getJuniorsFromTrash(Map<Integer, Training> trainingMap) throws SQLException {
-		JuniorSkills[] juniorSkills;
-		List<Junior> juniors;
-
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		juniors = juniorsDao.getJuniorsFromTrash();
+		List<Junior> juniors = juniorsDao.getJuniorsFromTrash();
 
 		for (Junior junior : juniors) {
-			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
+			JuniorSkills[] juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
 		SQLQuery.close(newConnection);
@@ -602,15 +580,12 @@ public class TeamManager {
 	}
 
 	public List<Junior> getJuniorsTrained(Map<Integer, Training> trainingMap) throws SQLException {
-		JuniorSkills[] juniorSkills;
-		List<Junior> juniorsTrained;
-
 		boolean newConnection = SQLQuery.connect();
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		juniorsTrained = juniorsDao.getJuniors(Junior.STATUS_TRAINED);
+		List<Junior> juniorsTrained = juniorsDao.getJuniors(Junior.STATUS_TRAINED);
 
 		for (Junior junior : juniorsTrained) {
-			juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
+			JuniorSkills[] juniorSkills = juniorsDao.getJuniorsSkills(junior, trainingMap);
 			junior.setSkills(juniorSkills);
 		}
 
@@ -618,12 +593,10 @@ public class TeamManager {
 		return juniorsTrained;
 	}
 
-	public ArrayList<Transfer> getTransfers(Club club) throws SQLException {
-		ArrayList<Transfer> alTransfers;
-
+	public List<Transfer> getTransfers(Club club) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
-		alTransfers = transfersDao.getTransfers(club);
+		ArrayList<Transfer> alTransfers = transfersDao.getTransfers(club);
 
 		SQLQuery.close(newConnection);
 		return alTransfers;

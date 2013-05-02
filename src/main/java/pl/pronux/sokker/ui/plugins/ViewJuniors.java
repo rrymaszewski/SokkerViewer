@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -183,7 +184,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	private JuniorChartsComposite graphsComposite;
 
-	private HashMap<Integer, TreeItem> itemMap;
+	private Map<Integer, TreeItem> itemMap;
 
 	private JuniorDescriptionComposite juniorDesc;
 
@@ -536,7 +537,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	}
 
-	protected Listener doubleClickAllTableListener(final Table allTable, final Combo comboFilter, final TreeItem treeItem, final HashMap<Integer, TreeItem> itemMap) {
+	protected Listener doubleClickAllTableListener(final Table allTable, final Combo comboFilter, final TreeItem treeItem, final Map<Integer, TreeItem> itemMap) {
 		return new Listener() {
 			public void handleEvent(Event event) {
 				Rectangle clientArea = allTable.getClientArea();

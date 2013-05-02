@@ -34,13 +34,13 @@ public class MatchesManager {
 	public static final int ERROR_DOESNT_CONTAIN = 2;
 	public static final int ERROR_ALREADY_EXIST = 3;
 
-	private static final MatchesManager _instance = new MatchesManager();
+	private static MatchesManager instance = new MatchesManager();
 
 	private MatchesManager() {
 	}
 
 	public static MatchesManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void importMatches(List<Match> matches) throws SQLException {

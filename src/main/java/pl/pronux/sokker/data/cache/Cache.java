@@ -1,7 +1,5 @@
 package pl.pronux.sokker.data.cache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,19 +28,19 @@ public class Cache {
 
 	private static List<Coach> coaches;
 
-	private static ArrayList<Coach> coachesFired;
+	private static List<Coach> coachesFired;
 
-	private static HashMap<Integer, Coach> coachesMap;
+	private static Map<Integer, Coach> coachesMap;
 
-	private static ArrayList<Coach> coachesTrash;
+	private static List<Coach> coachesTrash;
 
 	private static Date date;
 
-	private static HashMap<Integer, Country> countryMap;
+	private static Map<Integer, Country> countryMap;
 
 	private static Map<Integer, League> leaguesMap;
 
-	private static HashMap<Integer, Player> playersMap;
+	private static Map<Integer, Player> playersMap;
 
 	private static List<Junior> juniors;
 
@@ -50,29 +48,29 @@ public class Cache {
 
 	private static List<Junior> juniorsTrained;
 
-	private static HashMap<Integer, Junior> juniorsTrainedMap;
+	private static Map<Integer, Junior> juniorsTrainedMap;
 
 	private static List<Junior> juniorsTrash;
 
 	private static List<Match> matches;
 
-	private static ArrayList<Note> notes;
+	private static List<Note> notes;
 
-	private static ArrayList<Player> players;
+	private static List<Player> players;
 
-	private static ArrayList<Player> playersHistory;
+	private static List<Player> playersHistory;
 
-	private static ArrayList<Player> playersTrash;
+	private static List<Player> playersTrash;
 
-	private static ArrayList<Training> trainings;
+	private static List<Training> trainings;
 
 	private static List<LeagueSeason> leagueSeasons;
 
-	private static HashMap<Integer, Training> trainingsMap;
+	private static Map<Integer, Training> trainingsMap;
 
-	private static HashMap<Integer, PlayerArchive> playersArchiveMap;
+	private static Map<Integer, PlayerArchive> playersArchiveMap;
 
-	private static ArrayList<Transfer> transfers;
+	private static List<Transfer> transfers;
 
 	private static Map<Integer, Club> clubMap;
 
@@ -94,15 +92,15 @@ public class Cache {
 		return coaches;
 	}
 
-	public static ArrayList<Coach> getCoachesFired() {
+	public static List<Coach> getCoachesFired() {
 		return coachesFired;
 	}
 
-	public static HashMap<Integer, Coach> getCoachesMap() {
+	public static Map<Integer, Coach> getCoachesMap() {
 		return coachesMap;
 	}
 
-	public static ArrayList<Coach> getCoachesTrash() {
+	public static List<Coach> getCoachesTrash() {
 		return coachesTrash;
 	}
 
@@ -110,7 +108,7 @@ public class Cache {
 		return date;
 	}
 
-	public static HashMap<Integer, Country> getCountryMap() {
+	public static Map<Integer, Country> getCountryMap() {
 		return countryMap;
 	}
 
@@ -118,7 +116,7 @@ public class Cache {
 		return leaguesMap;
 	}
 
-	public static HashMap<Integer, Player> getPlayersMap() {
+	public static Map<Integer, Player> getPlayersMap() {
 		return playersMap;
 	}
 
@@ -134,7 +132,7 @@ public class Cache {
 		return juniorsTrained;
 	}
 
-	public static HashMap<Integer, Junior> getJuniorsTrainedMap() {
+	public static Map<Integer, Junior> getJuniorsTrainedMap() {
 		return juniorsTrainedMap;
 	}
 
@@ -146,31 +144,31 @@ public class Cache {
 		return matches;
 	}
 
-	public static ArrayList<Note> getNotes() {
+	public static List<Note> getNotes() {
 		return notes;
 	}
 
-	public static ArrayList<Player> getPlayers() {
+	public static List<Player> getPlayers() {
 		return players;
 	}
 
-	public static ArrayList<Player> getPlayersHistory() {
+	public static List<Player> getPlayersHistory() {
 		return playersHistory;
 	}
 
-	public static ArrayList<Player> getPlayersTrash() {
+	public static List<Player> getPlayersTrash() {
 		return playersTrash;
 	}
 
-	public static ArrayList<Training> getTrainings() {
+	public static List<Training> getTrainings() {
 		return trainings;
 	}
 
-	public static HashMap<Integer, Training> getTrainingsMap() {
+	public static Map<Integer, Training> getTrainingsMap() {
 		return trainingsMap;
 	}
 
-	public static ArrayList<Transfer> getTransfers() {
+	public static List<Transfer> getTransfers() {
 		return transfers;
 	}
 
@@ -186,19 +184,19 @@ public class Cache {
 		Cache.club = club;
 	}
 
-	public static void setCoaches(ArrayList<Coach> coach) {
+	public static void setCoaches(List<Coach> coach) {
 		Cache.coaches = coach;
 	}
 
-	public static void setCoachesFired(ArrayList<Coach> coachFired) {
+	public static void setCoachesFired(List<Coach> coachFired) {
 		Cache.coachesFired = coachFired;
 	}
 
-	public static void setCoachesMap(HashMap<Integer, Coach> coachMap) {
+	public static void setCoachesMap(Map<Integer, Coach> coachMap) {
 		Cache.coachesMap = coachMap;
 	}
 
-	public static void setCoachesTrash(ArrayList<Coach> coachTrash) {
+	public static void setCoachesTrash(List<Coach> coachTrash) {
 		Cache.coachesTrash = coachTrash;
 	}
 
@@ -206,7 +204,7 @@ public class Cache {
 		Cache.date = sokkerDate;
 	}
 
-	public static void setCountryMap(HashMap<Integer, Country> hmCountry) {
+	public static void setCountryMap(Map<Integer, Country> hmCountry) {
 		Cache.countryMap = hmCountry;
 	}
 
@@ -214,7 +212,7 @@ public class Cache {
 		Cache.leaguesMap = leaguesMap;
 	}
 
-	public static void setPlayersMap(HashMap<Integer, Player> hmPlayers) {
+	public static void setPlayersMap(Map<Integer, Player> hmPlayers) {
 		Cache.playersMap = hmPlayers;
 	}
 
@@ -230,7 +228,7 @@ public class Cache {
 		Cache.juniorsTrained = juniorTrained;
 	}
 
-	public static void setJuniorsTrainedMap(HashMap<Integer, Junior> juniorTrainedMap) {
+	public static void setJuniorsTrainedMap(Map<Integer, Junior> juniorTrainedMap) {
 		Cache.juniorsTrainedMap = juniorTrainedMap;
 	}
 
@@ -242,31 +240,31 @@ public class Cache {
 		Cache.matches = matches;
 	}
 
-	public static void setNotes(ArrayList<Note> notes) {
+	public static void setNotes(List<Note> notes) {
 		Cache.notes = notes;
 	}
 
-	public static void setPlayers(ArrayList<Player> player) {
+	public static void setPlayers(List<Player> player) {
 		Cache.players = player;
 	}
 
-	public static void setPlayersHistory(ArrayList<Player> playerHistory) {
+	public static void setPlayersHistory(List<Player> playerHistory) {
 		Cache.playersHistory = playerHistory;
 	}
 
-	public static void setPlayersTrash(ArrayList<Player> playerTrash) {
+	public static void setPlayersTrash(List<Player> playerTrash) {
 		Cache.playersTrash = playerTrash;
 	}
 
-	public static void setTrainings(ArrayList<Training> trainingList) {
+	public static void setTrainings(List<Training> trainingList) {
 		Cache.trainings = trainingList;
 	}
 
-	public static void setTrainingsMap(HashMap<Integer, Training> trainingMap) {
+	public static void setTrainingsMap(Map<Integer, Training> trainingMap) {
 		Cache.trainingsMap = trainingMap;
 	}
 
-	public static void setTransfers(ArrayList<Transfer> transfers) {
+	public static void setTransfers(List<Transfer> transfers) {
 		Cache.transfers = transfers;
 	}
 
@@ -278,11 +276,11 @@ public class Cache {
 		Cache.clubMap = clubMap;
 	}
 
-	public static HashMap<Integer, PlayerArchive> getPlayersArchiveMap() {
+	public static Map<Integer, PlayerArchive> getPlayersArchiveMap() {
 		return playersArchiveMap;
 	}
 
-	public static void setPlayersArchiveMap(HashMap<Integer, PlayerArchive> playerArchiveMap) {
+	public static void setPlayersArchiveMap(Map<Integer, PlayerArchive> playerArchiveMap) {
 		Cache.playersArchiveMap = playerArchiveMap;
 	}
 

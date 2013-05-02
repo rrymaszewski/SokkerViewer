@@ -25,15 +25,17 @@ public class PlayersXmlManager extends XmlManager<Player> {
 
 	private PlayersManager playersManager = PlayersManager.instance();
 	
-	Map<String, String> teamsMap = new HashMap<String, String>();
+	private Map<String, String> teamsMap = new HashMap<String, String>();
+	
+	private List<Player> players;
 	
 	public String completeUncompletedPlayers() throws SQLException {
 		String value = "-3"; //$NON-NLS-1$
-		ArrayList<Integer> alPlayersID = new ArrayList<Integer>();
+		List<Integer> playersID = new ArrayList<Integer>();
 
 		try {
 			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-			alPlayersID = playersDao.getUncompletePlayers();
+			playersID = playersDao.getUncompletePlayers();
 			if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
 				value = "0"; //$NON-NLS-1$
 			} else {
@@ -41,9 +43,9 @@ public class PlayersXmlManager extends XmlManager<Player> {
 			}
 			// download xmls
 			if (value.equals("0")) { //$NON-NLS-1$
-				for (int i = 0; i < alPlayersID.size(); i++) {
+				for (int i = 0; i < playersID.size(); i++) {
 					try {
-						String xml = downloader.getPlayer(String.valueOf(alPlayersID.get(i)));
+						String xml = downloader.getPlayer(String.valueOf(playersID.get(i)));
 						PlayerXmlParser parser = new PlayerXmlParser();
 						InputSource input = new InputSource(new StringReader(xml));
 						try {
@@ -55,7 +57,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 						if (player != null) {
 							playersDao.updateUncompletedPlayer(player);
 						} else {
-							playersDao.updateNotExists(alPlayersID.get(i));
+							playersDao.updateNotExists(playersID.get(i));
 						}
 					} catch (IOException ioex) {
 					}
@@ -67,7 +69,6 @@ public class PlayersXmlManager extends XmlManager<Player> {
 		return value;
 	}
 
-	private List<Player> alPlayers;
 
 	public PlayersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -91,12 +92,12 @@ public class PlayersXmlManager extends XmlManager<Player> {
 	}
 	
 	public void importToSQL(Training training) throws SQLException {
-		playersManager.addPlayers(alPlayers, training);
+		playersManager.addPlayers(players, training);
 	}
 
 	public List<Player> parseXML() throws SAXException {
-		this.alPlayers = parseXML(getContent());
-		return this.alPlayers;
+		this.players = parseXML(getContent());
+		return this.players;
 	}
 
 	public List<Player> parseXML(int teamID) throws SAXException {

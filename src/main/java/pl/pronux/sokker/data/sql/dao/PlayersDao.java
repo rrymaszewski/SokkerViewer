@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.pronux.sokker.data.sql.dto.PlayerDto;
 import pl.pronux.sokker.data.sql.dto.PlayerNtSkillsDto;
@@ -30,9 +31,7 @@ public class PlayersDao {
 	}
 
 	public boolean existsPlayer(int pid) throws SQLException {
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_player) FROM player WHERE id_player = ?");
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_player) FROM player WHERE id_player = ?");
 		ps.setInt(1, pid);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -51,8 +50,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerStatsInjuryDays(PlayerStats stats) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE players_stats SET injury_days = ? WHERE player_id = ? AND match_id = ? AND team_id = ?");
+		PreparedStatement pstm = connection.prepareStatement("UPDATE players_stats SET injury_days = ? WHERE player_id = ? AND match_id = ? AND team_id = ?");
 		pstm.setInt(1, stats.getInjuryDays());
 		pstm.setInt(2, stats.getPlayerID());
 		pstm.setInt(3, stats.getMatchID());
@@ -62,8 +60,7 @@ public class PlayersDao {
 	}
 
 	public void updateUncompletedPlayer(Player player) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE player SET height = ?, youth_team_id = ?, exists_in_sokker = ? WHERE id_player = ?");
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET height = ?, youth_team_id = ?, exists_in_sokker = ? WHERE id_player = ?");
 		pstm.setInt(1, player.getHeight());
 		pstm.setInt(2, player.getYouthTeamID());
 		pstm.setInt(3, Player.EXISTS_IN_SOKKER_TRUE);
@@ -73,8 +70,7 @@ public class PlayersDao {
 	}
 
 	public void updateNotExists(int id) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE player SET exists_in_sokker = ? WHERE id_player = ?");
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET exists_in_sokker = ? WHERE id_player = ?");
 		pstm.setInt(1, Player.EXISTS_IN_SOKKER_FALSE);
 		pstm.setInt(2, id);
 		pstm.executeUpdate();
@@ -82,11 +78,9 @@ public class PlayersDao {
 
 	}
 
-	public ArrayList<Integer> getUncompletePlayers() throws SQLException {
-		ArrayList<Integer> uncompletedPlayersID = new ArrayList<Integer>();
-		PreparedStatement ps;
-
-		ps = connection
+	public List<Integer> getUncompletePlayers() throws SQLException {
+		List<Integer> uncompletedPlayersID = new ArrayList<Integer>();
+		PreparedStatement ps = connection
 			.prepareStatement("SELECT id_player FROM player where id_player in (select id_player from player where youth_team_id = 0 or height = 0) and exists_in_sokker = ?");
 		ps.setInt(1, Player.EXISTS_IN_SOKKER_UNCHECKED);
 		ResultSet rs = ps.executeQuery();
@@ -100,8 +94,7 @@ public class PlayersDao {
 	}
 
 	public void addPlayer(Player player) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection
+		PreparedStatement pstm = connection
 			.prepareStatement("INSERT INTO player(id_player,name,surname,countryfrom, id_club_fk, status, national, transfer_list, youth_team_id, height) VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?)");
 		pstm.setInt(1, player.getId());
 		pstm.setString(2, player.getName());
@@ -118,8 +111,7 @@ public class PlayersDao {
 	}
 
 	public void addPlayerSkills(int id, PlayerSkills skills, Date date) throws SQLException {
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays,day,week,experience, teamwork, discipline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)"); //$NON-NLS-1$
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
@@ -147,12 +139,10 @@ public class PlayersDao {
 		ps.setInt(24, skills.getDiscipline());
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public void addPlayerSkills(int id, PlayerSkills skills, Date date, int training_id) throws SQLException {
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays, id_training_fk, day, week, experience, teamwork, discipline, pass_training) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); //$NON-NLS-1$
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
@@ -201,15 +191,13 @@ public class PlayersDao {
 	 * @throws SQLException
 	 */
 
-	public ArrayList<Player> getPlayers(int status, HashMap<Integer, Junior> juniorTrainedMap) throws SQLException {
-		Player player;
-		ArrayList<Player> alPlayer = new ArrayList<Player>();
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM player WHERE status = ? ORDER BY surname");
+	public List<Player> getPlayers(int status, Map<Integer, Junior> juniorTrainedMap) throws SQLException {
+		List<Player> alPlayer = new ArrayList<Player>();
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM player WHERE status = ? ORDER BY surname");
 		ps.setInt(1, status);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			player = new PlayerDto(rs).getPlayer();
+			Player player = new PlayerDto(rs).getPlayer();
 			alPlayer.add(player);
 		}
 		rs.close();
@@ -217,16 +205,13 @@ public class PlayersDao {
 		return alPlayer;
 	}
 
-	public PlayerSkills[] getPlayerSkills(Player player, HashMap<Integer, Training> trainingMap) throws SQLException {
-		PlayerSkills playerSkills;
-		ArrayList<PlayerSkills> alPlayerSkills = new ArrayList<PlayerSkills>();
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM player_skills WHERE id_player_fk = ? order by week, day");
+	public PlayerSkills[] getPlayerSkills(Player player, Map<Integer, Training> trainingMap) throws SQLException {
+		List<PlayerSkills> alPlayerSkills = new ArrayList<PlayerSkills>();
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM player_skills WHERE id_player_fk = ? order by week, day");
 		ps.setInt(1, player.getId());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
+			PlayerSkills playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
 			playerSkills.setTraining(trainingMap.get(playerSkills.getTrainingID()));
 			if (trainingMap.get(playerSkills.getTrainingID()) != null) {
 				trainingMap.get(playerSkills.getTrainingID()).getPlayers().add(player);
@@ -238,15 +223,12 @@ public class PlayersDao {
 		return alPlayerSkills.toArray(new PlayerSkills[alPlayerSkills.size()]);
 	}
 
-	public ArrayList<PlayerSkills> getPlayerSkillsWithoutTrainingID() throws SQLException {
-		PlayerSkills playerSkills;
-		ArrayList<PlayerSkills> alPlayerSkills = new ArrayList<PlayerSkills>();
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM player_skills WHERE id_training_fk is null order by week, day"); //$NON-NLS-1$
+	public List<PlayerSkills> getPlayerSkillsWithoutTrainingID() throws SQLException {
+		List<PlayerSkills> alPlayerSkills = new ArrayList<PlayerSkills>();
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM player_skills WHERE id_training_fk is null order by week, day"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
+			PlayerSkills playerSkills = new PlayerSkillsDto(rs).getPlayerSkills();
 			alPlayerSkills.add(playerSkills);
 		}
 		rs.close();
@@ -255,15 +237,14 @@ public class PlayersDao {
 	}
 
 	public NtSkills[] getPlayerNtSkills(Player player) throws SQLException {
-		NtSkills ntSkills;
-		ArrayList<NtSkills> listNtSkills = new ArrayList<NtSkills>();
+		List<NtSkills> listNtSkills = new ArrayList<NtSkills>();
 
 		PreparedStatement ps;
 		ps = connection.prepareStatement("SELECT * FROM nt_player_skills WHERE id_player_fk = ? order by week, day"); //$NON-NLS-1$
 		ps.setInt(1, player.getId());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			ntSkills = new PlayerNtSkillsDto(rs).getNtSkill();
+			NtSkills ntSkills = new PlayerNtSkillsDto(rs).getNtSkill();
 			listNtSkills.add(ntSkills);
 		}
 		rs.close();
@@ -272,8 +253,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerTrainingID(PlayerSkills skills) throws SQLException {
-		PreparedStatement ps = null;
-		ps = connection.prepareStatement("UPDATE player_skills SET id_training_fk = ? WHERE id_skill = ?");
+		PreparedStatement ps = connection.prepareStatement("UPDATE player_skills SET id_training_fk = ? WHERE id_skill = ?");
 		ps.setInt(1, skills.getTrainingID());
 		ps.setInt(2, skills.getId());
 
@@ -282,8 +262,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerSkills(int id, PlayerSkills skills, Training training) throws SQLException {
-		PreparedStatement ps = null;
-		ps = connection.prepareStatement("UPDATE player_skills SET " + "millis = ?, " + "age = ?, " + "value = ?, " + "salary = ?, " + "form = ?, "
+		PreparedStatement ps = connection.prepareStatement("UPDATE player_skills SET " + "millis = ?, " + "age = ?, " + "value = ?, " + "salary = ?, " + "form = ?, "
 										 + "stamina = ?, " + "pace = ?, " + "technique = ?, " + "passing = ?, " + "keeper = ?, " + "defender = ? ,"
 										 + "playmaker = ?, " + "scorer = ?, " + "matches = ?, " + "goals = ?, " + "assists = ?, " + "cards = ?, "
 										 + "injurydays = ?, " + "day = ?, " + "week = ?, " + "experience = ?, " + "teamwork = ?, " + "discipline = ? "
@@ -379,8 +358,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayer(Player player) throws SQLException {
-		PreparedStatement pstm = null;
-		pstm = connection.prepareStatement("UPDATE player SET transfer_list = ?, national = ? WHERE id_player = ?");
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET transfer_list = ?, national = ? WHERE id_player = ?");
 		pstm.setInt(1, player.getTransferList());
 		pstm.setInt(2, player.getNational());
 		pstm.setInt(3, player.getId());
@@ -389,8 +367,7 @@ public class PlayersDao {
 	}
 
 	public void addNtPlayerSkills(int id, NtSkills skills, Date date) throws SQLException {
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("INSERT INTO nt_player_skills (id_player_fk,millis,nt_matches,nt_goals,nt_assists,nt_cards,day,week) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
@@ -406,8 +383,7 @@ public class PlayersDao {
 
 	public int getNumberOfNtMatch(int playerID) throws SQLException {
 		int matches = 0;
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("select nt_matches from nt_player_skills t where week = (select max(week) from nt_player_skills) AND day = (select max(day) from nt_player_skills where week = t.week) AND id_player_fk = ?"); //$NON-NLS-1$
 		ps.setInt(1, playerID);
 		ResultSet rs = ps.executeQuery();
@@ -422,11 +398,8 @@ public class PlayersDao {
 	}
 
 	public SokkerDate getMaxPlayerSkillSokkerDate() throws SQLException {
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("select day, week from player_skills t where week = (select max(week) from player_skills) and day = (select max(day) from player_skills where week = t.week)"); //$NON-NLS-1$
 		SokkerDate sokkerDate = null;
-		ps = connection
-			.prepareStatement("select day, week from player_skills t where week = (select max(week) from player_skills) and day = (select max(day) from player_skills where week = t.week)"); //$NON-NLS-1$
-
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -443,12 +416,11 @@ public class PlayersDao {
 	}
 
 	public PlayerSkills getPlayerSkills(Player player, Training training) throws SQLException {
-		PreparedStatement ps = null;
+		PreparedStatement ps = connection.prepareStatement("select * from player_skills where ((day >= 5 and week = ?) or (day < 5 and week = ?)) and id_player_fk = ?"); //$NON-NLS-1$
 		// SokkerDate sokkerDate = null;
 		PlayerSkills playerSkills = null;
 		int week = training.getDate().getSokkerDate().getWeek();
 		int day = training.getDate().getSokkerDate().getDay();
-		ps = connection.prepareStatement("select * from player_skills where ((day >= 5 and week = ?) or (day < 5 and week = ?)) and id_player_fk = ?"); //$NON-NLS-1$
 		if (day >= SokkerDate.THURSDAY) {
 			ps.setInt(1, week);
 			ps.setInt(2, week + 1);
@@ -472,8 +444,7 @@ public class PlayersDao {
 
 	public String removeSoldPlayer(String sTemp) throws SQLException {
 		String deletedPlayers = ""; //$NON-NLS-1$
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_player FROM player WHERE status = 0 AND id_player NOT IN " + sTemp); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT id_player FROM player WHERE status = 0 AND id_player NOT IN " + sTemp); //$NON-NLS-1$;
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			deletedPlayers = deletedPlayers + rs.getInt(1) + '\n';
@@ -487,8 +458,7 @@ public class PlayersDao {
 
 	public String removeSoldPlayer() throws SQLException {
 		String deletedPlayers = ""; //$NON-NLS-1$
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_player FROM player WHERE status = 0 "); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT id_player FROM player WHERE status = 0 "); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			deletedPlayers = deletedPlayers + rs.getInt(1) + '\n';
@@ -501,9 +471,7 @@ public class PlayersDao {
 	}
 
 	public void movePlayer(int id, int status) throws SQLException {
-		PreparedStatement ps;
-
-		ps = connection.prepareStatement("UPDATE player SET status = ? WHERE id_player = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE player SET status = ? WHERE id_player = ?"); //$NON-NLS-1$
 		ps.setInt(1, status);
 		ps.setInt(2, id);
 		ps.executeUpdate();
@@ -513,8 +481,7 @@ public class PlayersDao {
 
 	public boolean existsPlayerHistory(int pid) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_player) FROM player WHERE id_player = ? AND status > 0"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_player) FROM player WHERE id_player = ? AND status > 0"); //$NON-NLS-1$
 		ps.setInt(1, pid);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -534,8 +501,7 @@ public class PlayersDao {
 
 	public boolean existsPlayer(String name, String surname) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_player FROM player WHERE name = ? AND surname = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT id_player FROM player WHERE name = ? AND surname = ?"); //$NON-NLS-1$
 		ps.setString(1, name);
 		ps.setString(2, surname);
 		ResultSet rs = ps.executeQuery();
@@ -553,10 +519,9 @@ public class PlayersDao {
 		return rs.next();
 	}
 
-	public ArrayList<Long> getTrainingDates(int playerID) throws SQLException {
-		PreparedStatement ps;
-		ArrayList<Long> alMillis = new ArrayList<Long>();
-		ps = connection.prepareStatement("SELECT millis FROM player_skills WHERE id_player_fk = ?"); //$NON-NLS-1$
+	public List<Long> getTrainingDates(int playerID) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("SELECT millis FROM player_skills WHERE id_player_fk = ?"); //$NON-NLS-1$
+		List<Long> alMillis = new ArrayList<Long>();
 		ps.setInt(1, playerID);
 		ResultSet rs = ps.executeQuery();
 
@@ -568,8 +533,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerBuyPrice(Player player) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE player SET buy_price = ? WHERE id_player = ?"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET buy_price = ? WHERE id_player = ?"); //$NON-NLS-1$
 		pstm.setDouble(1, player.getBuyPrice().getDoubleValue());
 		pstm.setInt(2, player.getId());
 		pstm.executeUpdate();
@@ -577,9 +541,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerNote(Person player) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE player SET " + "note = ? " + "WHERE id_player = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+		PreparedStatement ps = connection.prepareStatement("UPDATE player SET " + "note = ? " + "WHERE id_player = ?"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		ps.setString(1, player.getNote());
 		ps.setLong(2, player.getId());
 
@@ -588,8 +550,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerPosition(Player player) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE player SET id_position = ? WHERE id_player = ?"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET id_position = ? WHERE id_player = ?"); //$NON-NLS-1$
 		pstm.setInt(1, player.getPosition());
 		pstm.setInt(2, player.getId());
 		pstm.executeUpdate();
@@ -597,9 +558,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerPassTraining(PlayerSkills playerSkills) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE player_skills SET pass_training = ? WHERE id_skill = ?"); //$NON-NLS-1$
-
+		PreparedStatement ps = connection.prepareStatement("UPDATE player_skills SET pass_training = ? WHERE id_skill = ?"); //$NON-NLS-1$
 		ps.setBoolean(1, playerSkills.isPassTraining());
 		ps.setInt(2, playerSkills.getId());
 
@@ -609,8 +568,7 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerSoldPrice(Player player) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("UPDATE player SET sold_price = ? WHERE id_player = ?"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("UPDATE player SET sold_price = ? WHERE id_player = ?"); //$NON-NLS-1$
 		pstm.setDouble(1, player.getSoldPrice().getDoubleValue());
 		pstm.setInt(2, player.getId());
 		pstm.executeUpdate();

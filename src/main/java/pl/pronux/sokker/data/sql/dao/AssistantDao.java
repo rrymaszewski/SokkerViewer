@@ -17,8 +17,7 @@ public class AssistantDao {
 
 	public int[][] getAssistantData() throws SQLException {
 		List<int[]> alInt = new ArrayList<int[]>();
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("SELECT id_position, form, stamina, pace, technique, passing, keeper, defender, playmaker, scorer FROM assistant ORDER BY id_position"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {

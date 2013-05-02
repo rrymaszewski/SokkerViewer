@@ -8,13 +8,13 @@ import pl.pronux.sokker.data.sql.dao.AssistantDao;
 
 public class AssistantManager {
 
-	private final static AssistantManager _instance = new AssistantManager();
+	private static AssistantManager instance = new AssistantManager();
 
 	private AssistantManager() {
 	}
 
 	public static AssistantManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public int[][] getAssistantData() throws SQLException {

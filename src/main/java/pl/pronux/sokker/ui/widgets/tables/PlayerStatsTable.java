@@ -41,7 +41,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 
 	private PlayerStatsComparator comparator;
 
-	private List<PlayerStats> alPlayerStats = new ArrayList<PlayerStats>();
+	private List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
 
 	public PlayerStatsTable(Composite parent, int style) {
 		super(parent, style);
@@ -261,7 +261,7 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 			return;
 		}
 		Collections.sort(alPlayerStats, comparator);
-		this.alPlayerStats = alPlayerStats;
+		this.playerStats = alPlayerStats;
 		for (PlayerStats playerStats : alPlayerStats) {
 			if (playerStats.getTimePlayed() > 0) {
 				Match match = playerStats.getMatch();
@@ -351,8 +351,8 @@ public class PlayerStatsTable extends SVTable<PlayerStats> implements IViewSort<
 
 	@Override
 	public void sort(SVComparator<PlayerStats> comparator) {
-		Collections.sort(alPlayerStats, comparator);
-		fill(alPlayerStats);
+		Collections.sort(playerStats, comparator);
+		fill(playerStats);
 	}
 
 	@Override

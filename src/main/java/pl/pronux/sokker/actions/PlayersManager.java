@@ -1,11 +1,10 @@
 package pl.pronux.sokker.actions;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
@@ -27,13 +26,13 @@ import pl.pronux.sokker.model.Transfer;
 
 public class PlayersManager {
 
-	private final static PlayersManager _instance = new PlayersManager();
+	private static PlayersManager instance = new PlayersManager();
 
 	private PlayersManager() {
 	}
 
 	public static PlayersManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void updatePlayerArchive(PlayerArchive playerArchive) throws SQLException {
@@ -113,7 +112,6 @@ public class PlayersManager {
 	public void addPlayers(List<Player> players, Training training) throws SQLException {
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 		AssistantDao assistantDao = new AssistantDao(SQLSession.getConnection());
-		String sTemp;
 		for (Player player : players) {
 
 			if (!playersDao.existsPlayer(player.getId())) {
@@ -151,7 +149,7 @@ public class PlayersManager {
 		// FIXME instead of creating list of player in club get clubs and remove
 		// all (do everything on collections)
 
-		sTemp = "("; //$NON-NLS-1$
+		String sTemp = "("; //$NON-NLS-1$
 		for (int i = 0; i < players.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == players.size() - 1) {
@@ -177,7 +175,7 @@ public class PlayersManager {
 			Calendar cal = Calendar.getInstance();
 			SQLSession.connect();
 			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-			ArrayList<Long> alMillis = playersDao.getTrainingDates(player.getId());
+			List<Long> alMillis = playersDao.getTrainingDates(player.getId());
 
 			for (int i = 0; i < skills.length; i++) {
 				cal.setTimeInMillis(skills[i].getDate().getMillis());
@@ -197,11 +195,10 @@ public class PlayersManager {
 				date2.getCalendar().set(Calendar.SECOND, 0);
 				date2.getCalendar().set(Calendar.MILLISECOND, 0);
 
-				Long lDate;
 				if (alMillis.size() > 0) {
 					boolean found = false;
 					for (Iterator<Long> itr = alMillis.iterator(); itr.hasNext();) {
-						lDate = itr.next();
+						Long lDate = itr.next();
 						if (lDate >= date1.getMillis() && lDate < date2.getMillis()) {
 							if (lDate < cal.getTimeInMillis()) {
 								playersDao.updatePlayerSkills(player.getId(), skills[i], date);
@@ -226,16 +223,14 @@ public class PlayersManager {
 
 	}
 
-	public ArrayList<Player> getPlayers(int status, Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
-		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
-		ArrayList<Player> players;
-		PlayerSkills[] skills;
-		NtSkills[] ntSkills;
+	public List<Player> getPlayers(int status, Club team, Map<Integer, Junior> juniorTrainedMap, Map<Integer, Training> trainingMap,
+		Map<Integer, Transfer> transfersSellMap, Map<Integer, Transfer> transfersBuyMap) throws SQLException {
+		
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie graczy
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 
-		players = playersDao.getPlayers(status, juniorTrainedMap);
+		List<Player> players = playersDao.getPlayers(status, juniorTrainedMap);
 
 		for (Player player : players) {
 
@@ -250,8 +245,8 @@ public class PlayersManager {
 				transfersSellMap.get(player.getId()).setPlayer(player);
 			}
 
-			skills = playersDao.getPlayerSkills(player, trainingMap);
-			ntSkills = playersDao.getPlayerNtSkills(player);
+			PlayerSkills[] skills = playersDao.getPlayerSkills(player, trainingMap);
+			NtSkills[] ntSkills = playersDao.getPlayerNtSkills(player);
 			player.setNtSkills(ntSkills);
 
 			Junior junior = juniorTrainedMap.get(player.getIdJuniorFK());
@@ -268,16 +263,15 @@ public class PlayersManager {
 
 	}
 
-	public ArrayList<Player> getPlayers(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
-		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public List<Player> getPlayers(Club team, Map<Integer, Junior> juniorTrainedMap, Map<Integer, Training> trainingMap,
+		Map<Integer, Transfer> transfersSellMap, Map<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_INCLUB, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
-	public HashMap<Integer, PlayerArchive> getPlayersArchive() throws SQLException {
-		HashMap<Integer, PlayerArchive> players;
+	public Map<Integer, PlayerArchive> getPlayersArchive() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
-		players = playersArchiveDao.getPlayers();
+		Map<Integer, PlayerArchive> players = playersArchiveDao.getPlayers();
 		SQLSession.close(newConnection);
 		return players;
 	}
@@ -288,13 +282,13 @@ public class PlayersManager {
 		return note;
 	}
 
-	public ArrayList<Player> getPlayersFromTrashData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
-		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public List<Player> getPlayersFromTrashData(Club team, Map<Integer, Junior> juniorTrainedMap, Map<Integer, Training> trainingMap,
+		Map<Integer, Transfer> transfersSellMap, Map<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_TRASH, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
-	public ArrayList<Player> getPlayersHistoryData(Club team, HashMap<Integer, Junior> juniorTrainedMap, HashMap<Integer, Training> trainingMap,
-		HashMap<Integer, Transfer> transfersSellMap, HashMap<Integer, Transfer> transfersBuyMap) throws SQLException {
+	public List<Player> getPlayersHistoryData(Club team, Map<Integer, Junior> juniorTrainedMap, Map<Integer, Training> trainingMap,
+		Map<Integer, Transfer> transfersSellMap, Map<Integer, Transfer> transfersBuyMap) throws SQLException {
 		return getPlayers(Player.STATUS_HISTORY, team, juniorTrainedMap, trainingMap, transfersSellMap, transfersBuyMap);
 	}
 
@@ -330,7 +324,7 @@ public class PlayersManager {
 		}
 	}
 
-	public void updatePlayersPositions(ArrayList<Player> players) throws SQLException {
+	public void updatePlayersPositions(List<Player> players) throws SQLException {
 		boolean newConnection = false;
 		try {
 			if (SQLSession.getConnection().isClosed()) {
@@ -383,7 +377,7 @@ public class PlayersManager {
 		}
 	}
 
-	public void calculatePositionForAllPlayer(ArrayList<Player> players, int[][] data) {
+	public void calculatePositionForAllPlayer(List<Player> players, int[][] data) {
 		for (Player player : players) {
 			player.setPositionTable(calculatePosition(player, data));
 			player.setPosition(player.getBestPosition());

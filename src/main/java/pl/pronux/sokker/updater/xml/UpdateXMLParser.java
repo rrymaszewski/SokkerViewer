@@ -36,33 +36,33 @@ class UpdateErrorHandler implements ErrorHandler {
 
 public class UpdateXMLParser {
 
-	final static int TAG_SOKKERDATA = 100;
+	private static final int TAG_SOKKERDATA = 100;
 
-	final static int TAG_SOKKERVIEWER = 1;
+	private static final int TAG_SOKKERVIEWER = 1;
 
-	final static int TAG_REVISION = 2;
+	private static final int TAG_REVISION = 2;
 
-	final static int TAG_VERSION = 3;
+	private static final int TAG_VERSION = 3;
 
-	final static int TAG_PACKAGES = 4;
+	private static final int TAG_PACKAGES = 4;
 
-	final static int TAG_PACKAGE = 5;
+	private static final int TAG_PACKAGE = 5;
 
-	final static int TAG_NAME = 6;
+	private static final int TAG_NAME = 6;
 
-	final static int TAG_SIGNATURE = 7;
+	private static final int TAG_SIGNATURE = 7;
 
-	final static int TAG_PATH = 8;
+	private static final int TAG_PATH = 8;
 
-	final static int TAG_AUTHOR = 9;
+	private static final int TAG_AUTHOR = 9;
 
-	final static int TAG_LOCALPATH = 10;
+	private static final int TAG_LOCALPATH = 10;
 
-	final static int TAG_FILENAME = 11;
+	private static final int TAG_FILENAME = 11;
 
-	final static int TAG_DESCRIPTION = 12;
+	private static final int TAG_DESCRIPTION = 12;
 
-	final static int TAG_CHANGELOG = 13;
+	private static final int TAG_CHANGELOG = 13;
 
 	public Map<String, Package> alPackages = new HashMap<String, Package>();
 

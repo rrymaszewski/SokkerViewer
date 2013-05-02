@@ -17,13 +17,13 @@ import pl.pronux.sokker.model.PlayerArchive;
 
 public class PersonsManager {
 	
-	private final static PersonsManager _instance = new PersonsManager();
+	private static PersonsManager instance = new PersonsManager();
 	
 	private PersonsManager() {
 	}
 	
 	public static PersonsManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void restorePersonFromTrash(Person person) throws SQLException {

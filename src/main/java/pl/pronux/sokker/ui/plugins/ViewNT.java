@@ -8,6 +8,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import javax.crypto.BadPaddingException;
@@ -73,27 +74,27 @@ import pl.pronux.sokker.utils.security.Crypto;
 
 public class ViewNT implements IPlugin {
 
-	private final String SECRET_KEY_128 = "vsXFsdVfeGFTyMdpOVhY4A==";
+	private static final String SECRET_KEY_128 = "vsXFsdVfeGFTyMdpOVhY4A==";
 
-	private final static String SYMMETRIC_KEY_TYPE = "Rijndael";
+	private static final String SYMMETRIC_KEY_TYPE = "Rijndael";
 
-	private final static String SYMMETRIC_KEY_SEQUENCE = "Rijndael/CBC/NoPadding";
+	private static final String SYMMETRIC_KEY_SEQUENCE = "Rijndael/CBC/NoPadding";
 
-	private final static String NT_DATABASE_ADDRESS = "http://baza.sokkerviewer.net/";
+	private static final String NT_DATABASE_ADDRESS = "http://baza.sokkerviewer.net/";
 
-	private final static String NT_DATABASE_ADDRESS_ADD = NT_DATABASE_ADDRESS + "sv_addplayer.php";
+	private static final String NT_DATABASE_ADDRESS_ADD = NT_DATABASE_ADDRESS + "sv_addplayer.php";
 
-	private final static String NT_DATABASE_ADDRESS_HIDE = NT_DATABASE_ADDRESS + "sv_hideplayer.php";
+	private static final String NT_DATABASE_ADDRESS_HIDE = NT_DATABASE_ADDRESS + "sv_hideplayer.php";
 
-	private final static String NT_DATABASE_ADDRESS_SHOW = NT_DATABASE_ADDRESS + "sv_showplayer.php";
+	private static final String NT_DATABASE_ADDRESS_SHOW = NT_DATABASE_ADDRESS + "sv_showplayer.php";
 
-	private final static String NT_DATABASE_ADDRESS_STATUS = NT_DATABASE_ADDRESS + "sv_statusplayer.php";
+	private static final String NT_DATABASE_ADDRESS_STATUS = NT_DATABASE_ADDRESS + "sv_statusplayer.php";
 
 	private Table table;
 
 	private PlayerComparator comparator;
 
-	private ArrayList<Player> players;
+	private List<Player> players;
 
 	private Composite composite;
 
@@ -935,7 +936,7 @@ public class ViewNT implements IPlugin {
 
 	}
 
-	private void fillTable(Table table, ArrayList<Player> players, PlayerComparator comparator) {
+	private void fillTable(Table table, List<Player> players, PlayerComparator comparator) {
 		int maxSkill = 0;
 		// Turn off drawing to avoid flicker
 		table.setRedraw(false);

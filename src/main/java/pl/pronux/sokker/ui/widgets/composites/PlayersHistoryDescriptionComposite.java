@@ -31,7 +31,6 @@ public class PlayersHistoryDescriptionComposite extends DescriptionSingleComposi
 		double teamValue = 0;
 		double teamSalary = 0;
 		double averAge = 0;
-		String[][] values;
 
 		this.setText("");
 		for (int i = 0; i < players.size(); i++) {
@@ -48,7 +47,7 @@ public class PlayersHistoryDescriptionComposite extends DescriptionSingleComposi
 		}
 
 		// aktualizujemy srednie wartosci
-		values = new String[6][2];
+		String[][] values = new String[6][2];
 
 		values[0][0] = Messages.getString("player.allValue");
 		values[1][0] = Messages.getString("player.averageValue");

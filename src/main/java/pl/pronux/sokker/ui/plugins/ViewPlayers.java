@@ -103,7 +103,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private PlayerChartsComposite graphsComposite;
 
-	private HashMap<Integer, TreeItem> itemMap;
+	private Map<Integer, TreeItem> itemMap;
 
 	private JuniorTrainedDescriptionComposite juniorTrainedComposite;
 

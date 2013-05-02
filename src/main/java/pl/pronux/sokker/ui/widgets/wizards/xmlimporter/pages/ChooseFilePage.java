@@ -25,9 +25,9 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ChooseFilePage extends Page {
 
+	public static final String PAGE_NAME = "CHOOSEFILE_PAGE"; //$NON-NLS-1$
 	private List<IXMLpack> packages;
 	private ProgressBarCustom progressBar;
-	public static String PAGE_NAME = "CHOOSEFILE_PAGE"; //$NON-NLS-1$
 	private Table table;
 	private PackagesManager packagesManager;
 

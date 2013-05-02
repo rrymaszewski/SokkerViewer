@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -76,7 +77,7 @@ public class ViewNotepad implements IPlugin, ISort {
 
 	private StyledText viewText;
 
-	private ArrayList<Note> notes;
+	private List<Note> notes;
 
 	private Listener showTableListener;
 
@@ -688,7 +689,7 @@ public class ViewNotepad implements IPlugin, ISort {
 		fillTable(viewTableNote, notes);
 	}
 
-	private void reminder(ArrayList<Note> notes) {
+	private void reminder(List<Note> notes) {
 		int counter = 0;
 		GregorianCalendar cal = new GregorianCalendar();
 		for (Note note : notes) {
@@ -716,7 +717,7 @@ public class ViewNotepad implements IPlugin, ISort {
 
 	}
 
-	private void fillTable(Table table, ArrayList<Note> notes) {
+	private void fillTable(Table table, List<Note> notes) {
 		table.setRedraw(false);
 
 		table.remove(0, table.getItemCount() - 1);

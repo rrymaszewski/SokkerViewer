@@ -19,7 +19,7 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 
 	private TransfersXmlParser transfersXmlParser = null;
 
-	private List<Transfer> alTransfers = new ArrayList<Transfer>();
+	private List<Transfer> transfers = new ArrayList<Transfer>();
 	
 	private TeamManager teamManager = TeamManager.instance();
 
@@ -42,7 +42,7 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		teamManager.importTransfers(this.alTransfers);
+		teamManager.importTransfers(this.transfers);
 	}
 
 	public List<Transfer> parseXML() throws SAXException {
@@ -59,8 +59,8 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			transfersXmlParser.parseXmlSax(input, null);
 		}
-		this.alTransfers = transfersXmlParser.getAlTransfers();
-		return alTransfers;
+		this.transfers = transfersXmlParser.getTransfers();
+		return transfers;
 	}
 
 }

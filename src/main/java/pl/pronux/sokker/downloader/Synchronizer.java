@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,28 +74,6 @@ public class Synchronizer implements IRunnableWithProgress {
 		if (configuration != null && configuration.isDownloadBase() && monitor != null) {
 
 			monitor.beginTask(Messages.getString("synchronizer.info"), 15); //$NON-NLS-1$
-
-			// initiate
-			InputSource input = null;
-
-			TransfersXmlManager transfersXmlManager = null;
-			TeamsXmlManager teamsXmlManager = null;
-			TrainersXmlManager trainersXmlManager = null;
-			JuniorsXmlManager juniorsXmlManager = null;
-			ReportsXmlManager reportsXmlManager = null;
-			PlayersXmlManager playersXmlManager = null;
-			PlayerXmlManager playerXmlManager = null;
-			RegionXmlManager regionXmlManager = null;
-			CountriesXmlManager countriesXmlManager = null;
-			SystemXmlManager systemXmlManager = null;
-			MatchXmlManager matchXmlManager = null;
-			MatchesTeamXmlManager matchesTeamXmlManager = null;
-			LeagueXmlManager leagueXmlManager = null;
-			LeagueMatchesXmlManager leagueMatchesXmlManager = null;
-
-			Date currentDay = new Date(Calendar.getInstance());
-			List<Match> teamMatches = new ArrayList<Match>();
-
 			monitor.subTask(Messages.getString("synchronizer.login")); //$NON-NLS-1$
 
 			// auth
@@ -123,7 +100,7 @@ public class Synchronizer implements IRunnableWithProgress {
 			}
 
 			VarsXmlParser parser = new VarsXmlParser();
-			input = new InputSource(new StringReader(vars));
+			InputSource input = new InputSource(new StringReader(vars));
 
 			monitor.worked(1);
 			try {
@@ -133,7 +110,7 @@ public class Synchronizer implements IRunnableWithProgress {
 					input = new InputSource(new StringReader(XmlManagerUtils.filterCharacters(vars)));
 					parser.parseXmlSax(input);
 				}
-
+				Date currentDay = new Date(Calendar.getInstance());
 				currentDay.setSokkerDate(parser.sokkerDate);
 
 				int teamID = Integer.valueOf(downloader.getTeamID());
@@ -141,20 +118,20 @@ public class Synchronizer implements IRunnableWithProgress {
 				String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
 
 				// init managers
-				transfersXmlManager = new TransfersXmlManager(destination, downloader, currentDay);
-				teamsXmlManager = new TeamsXmlManager(destination, downloader, currentDay);
-				trainersXmlManager = new TrainersXmlManager(destination, downloader, currentDay);
-				juniorsXmlManager = new JuniorsXmlManager(destination, downloader, currentDay);
-				reportsXmlManager = new ReportsXmlManager(destination, downloader, currentDay);
-				playersXmlManager = new PlayersXmlManager(destination, downloader, currentDay);
-				playerXmlManager = new PlayerXmlManager(destination, downloader, currentDay);
-				regionXmlManager = new RegionXmlManager(destination, downloader, currentDay);
-				countriesXmlManager = new CountriesXmlManager(destination, downloader, currentDay);
-				systemXmlManager = new SystemXmlManager(destination, downloader, currentDay);
-				matchesTeamXmlManager = new MatchesTeamXmlManager(destination, downloader, currentDay);
-				leagueXmlManager = new LeagueXmlManager(destination, downloader, currentDay);
-				matchXmlManager = new MatchXmlManager(destination, downloader, currentDay);
-				leagueMatchesXmlManager = new LeagueMatchesXmlManager(destination, downloader, currentDay);
+				TransfersXmlManager transfersXmlManager = new TransfersXmlManager(destination, downloader, currentDay);
+				TeamsXmlManager teamsXmlManager = new TeamsXmlManager(destination, downloader, currentDay);
+				TrainersXmlManager trainersXmlManager = new TrainersXmlManager(destination, downloader, currentDay);
+				JuniorsXmlManager juniorsXmlManager = new JuniorsXmlManager(destination, downloader, currentDay);
+				ReportsXmlManager reportsXmlManager = new ReportsXmlManager(destination, downloader, currentDay);
+				PlayersXmlManager playersXmlManager = new PlayersXmlManager(destination, downloader, currentDay);
+				PlayerXmlManager playerXmlManager = new PlayerXmlManager(destination, downloader, currentDay);
+				RegionXmlManager regionXmlManager = new RegionXmlManager(destination, downloader, currentDay);
+				CountriesXmlManager countriesXmlManager = new CountriesXmlManager(destination, downloader, currentDay);
+				SystemXmlManager systemXmlManager = new SystemXmlManager(destination, downloader, currentDay);
+				MatchesTeamXmlManager matchesTeamXmlManager = new MatchesTeamXmlManager(destination, downloader, currentDay);
+				LeagueXmlManager leagueXmlManager = new LeagueXmlManager(destination, downloader, currentDay);
+				MatchXmlManager matchXmlManager = new MatchXmlManager(destination, downloader, currentDay);
+				LeagueMatchesXmlManager leagueMatchesXmlManager = new LeagueMatchesXmlManager(destination, downloader, currentDay);
 
 				// download xmls
 
@@ -210,7 +187,7 @@ public class Synchronizer implements IRunnableWithProgress {
 					reportsXmlManager.parseXML();
 					teamsXmlManager.parseXML();
 					monitor.worked(1);
-					teamMatches = matchesTeamXmlManager.parseXML();
+					List<Match> teamMatches = matchesTeamXmlManager.parseXML();
 
 					monitor.subTask(Messages.getString("synchronizer.download.league")); //$NON-NLS-1$
 					leagueXmlManager.download(teamMatches);

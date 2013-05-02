@@ -13,16 +13,16 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ApplicationsPage extends Page {
 
-	public final static String SOKKER_ORGANIZER = "SokkerOrganizer";//$NON-NLS-1$
-	public final static String SOKKER_VIEWER = "SokkerViewer";//$NON-NLS-1$
-	public final static String SOKKER_MANAGER = "SokkerManager";//$NON-NLS-1$
-	public final static String APOLLO = "Apollo";//$NON-NLS-1$
+	public static final String PAGE_NAME = "APPLICATIONS_PAGE"; //$NON-NLS-1$
+	public static final String SOKKER_ORGANIZER = "SokkerOrganizer";//$NON-NLS-1$
+	public static final String SOKKER_VIEWER = "SokkerViewer";//$NON-NLS-1$
+	public static final String SOKKER_MANAGER = "SokkerManager";//$NON-NLS-1$
+	public static final String APOLLO = "Apollo";//$NON-NLS-1$
 	private String application = SOKKER_VIEWER;
 	private Button svButton;
 	private Button soButton;
 	private Button smButton;
 	private Button apolloButton;
-	public static String PAGE_NAME = "APPLICATIONS_PAGE"; //$NON-NLS-1$
 	
 	public ApplicationsPage(Wizard parent) {
 		super(parent, Messages.getString("importer.page.applicationstitle"), PAGE_NAME); //$NON-NLS-1$

@@ -10,13 +10,13 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 
 public class SettingsManager {
 
-	private final static SettingsManager _instance = new SettingsManager();
+	private static SettingsManager instance = new SettingsManager();
 
 	private SettingsManager() {
 	}
 
 	public static SettingsManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void updateSettings(SokkerViewerSettings settings) throws FileNotFoundException, IOException, SVException {

@@ -3,9 +3,9 @@ package pl.pronux.sokker.downloader.managers;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -25,15 +25,15 @@ public class PlayerXmlManager extends XmlManager<Player> {
 		String value = "-3"; //$NON-NLS-1$
 		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
-		HashSet<Integer> hsPlayersToDownload = new HashSet<Integer>();
+		Set<Integer> playersToDownload = new HashSet<Integer>();
 
-		ArrayList<Integer> alUncompletedTransfers = transfersDao.getUncompletedTransfers();
-		hsPlayersToDownload.addAll(alUncompletedTransfers);
+		List<Integer> uncompletedTransfers = transfersDao.getUncompletedTransfers();
+		playersToDownload.addAll(uncompletedTransfers);
 		
-		if(limit - alUncompletedTransfers.size() > 0) {
-			limit -= alUncompletedTransfers.size();
-			ArrayList<Integer> alPlayersToDownload = playersArchiveDao.getIdPlayersNotInArchive(limit);
-			hsPlayersToDownload.addAll(alPlayersToDownload);
+		if(limit - uncompletedTransfers.size() > 0) {
+			limit -= uncompletedTransfers.size();
+			List<Integer> alPlayersToDownload = playersArchiveDao.getIdPlayersNotInArchive(limit);
+			playersToDownload.addAll(alPlayersToDownload);
 		}
 		
 		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
@@ -43,7 +43,7 @@ public class PlayerXmlManager extends XmlManager<Player> {
 		}
 
 		if (value.equals("0")) { //$NON-NLS-1$
-			for (Integer playerID : hsPlayersToDownload) {
+			for (Integer playerID : playersToDownload) {
 				try {
 					String xml = downloader.getPlayer(String.valueOf(playerID));
 					PlayerXmlParser parser = new PlayerXmlParser();

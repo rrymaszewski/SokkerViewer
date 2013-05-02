@@ -3,14 +3,13 @@ package pl.pronux.sokker.downloader.managers;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import pl.pronux.sokker.actions.CountriesManager;
 import pl.pronux.sokker.actions.ConfigurationManager;
+import pl.pronux.sokker.actions.CountriesManager;
 import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.CountriesXmlParser;
 import pl.pronux.sokker.model.Country;
@@ -18,7 +17,7 @@ import pl.pronux.sokker.model.Date;
 
 public class CountriesXmlManager extends XmlManager<Country> {
 
-	private ArrayList<Country> alCountries;
+	private List<Country> countries;
 	
 	private CountriesManager countriesManager = CountriesManager.instance();
 	private ConfigurationManager configurationManager = ConfigurationManager.instance();
@@ -43,7 +42,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		countriesManager.importCountries(this.alCountries);
+		countriesManager.importCountries(this.countries);
 	}
 
 	public List<Country> parseXML() throws SAXException {
@@ -65,8 +64,8 @@ public class CountriesXmlManager extends XmlManager<Country> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			countriesXmlParser.parseXmlSax(input, null);
 		}
-		this.alCountries = countriesXmlParser.getAlCountries();
-		return alCountries;
+		this.countries = countriesXmlParser.getCountries();
+		return countries;
 	}
 
 }

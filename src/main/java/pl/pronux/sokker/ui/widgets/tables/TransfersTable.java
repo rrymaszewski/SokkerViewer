@@ -22,7 +22,7 @@ import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 
 public class TransfersTable extends SVTable<Transfer> implements IViewSort<Transfer> {
 
-	private List<Transfer> alTransfers = new ArrayList<Transfer>();
+	private List<Transfer> transfers = new ArrayList<Transfer>();
 
 	private int idClub;
 
@@ -82,7 +82,7 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 
 	public void fill(List<Transfer> alTransfers, int idClub) {
 		this.idClub = idClub;
-		this.alTransfers = alTransfers;
+		this.transfers = alTransfers;
 		
 		// Turn off drawing to avoid flicker
 		this.setRedraw(false);
@@ -129,9 +129,9 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 	}
 
 	public void sort(SVComparator<Transfer> comparator) {
-		if (alTransfers != null) {
-			Collections.sort(alTransfers, comparator);
-			fill(alTransfers);
+		if (transfers != null) {
+			Collections.sort(transfers, comparator);
+			fill(transfers);
 		}
 	}
 

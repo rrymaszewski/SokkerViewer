@@ -18,7 +18,7 @@ import pl.pronux.sokker.model.Region;
 public class RegionXmlManager extends XmlManager<Region> {
 
 	private Region region;
-	private List<Region> lRegion = new ArrayList<Region>();
+	private List<Region> regions = new ArrayList<Region>();
 
 	private CountriesManager countriesManager = CountriesManager.instance();
 
@@ -65,9 +65,9 @@ public class RegionXmlManager extends XmlManager<Region> {
 		}
 		this.region = regionXMLParser.getRegion();
 
-		lRegion.add(region);
+		regions.add(region);
 
-		return lRegion;
+		return regions;
 	}
 
 }

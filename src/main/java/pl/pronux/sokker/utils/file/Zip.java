@@ -14,7 +14,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class Zip {
 
-	final public static int BUFFER_SIZE = 10240;
+	public static final int BUFFER_SIZE = 10240;
 
 	public static void createZipArchive(File archiveFile, File[] tobeZippedFiles) throws IOException {
 		byte buffer[] = new byte[BUFFER_SIZE];

@@ -2,7 +2,6 @@ package pl.pronux.sokker.actions;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +24,13 @@ import pl.pronux.sokker.resources.Messages;
 
 public class ConfigurationManager {
 
-	private final static ConfigurationManager _instance = new ConfigurationManager();
+	private static ConfigurationManager instance = new ConfigurationManager();
 
 	private ConfigurationManager() {
 	}
 
 	public static ConfigurationManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void updateDbRepairCoaches(boolean b) throws SQLException {
@@ -127,9 +126,9 @@ public class ConfigurationManager {
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 
-		ArrayList<ClubArenaName> clubArenaNameList = teamsDao.getClubArenaName(teamID);
-		ArrayList<ClubName> clubNameList = teamsDao.getClubName(teamID);
-		ArrayList<Rank> rankList = teamsDao.getRank(teamID);
+		List<ClubArenaName> clubArenaNameList = teamsDao.getClubArenaName(teamID);
+		List<ClubName> clubNameList = teamsDao.getClubName(teamID);
+		List<Rank> rankList = teamsDao.getRank(teamID);
 		Rank previousRank = null;
 		for (Rank rank : rankList) {
 			if (previousRank == null) {
@@ -167,13 +166,13 @@ public class ConfigurationManager {
 			}
 		}
 
-		ArrayList<Training> trainings = teamsDao.getTrainings();
+		List<Training> trainings = teamsDao.getTrainings();
 		Map<Integer, Training> trainingsMap = new HashMap<Integer, Training>();
 		for (Training training : trainings) {
 			trainingsMap.put(training.getDate().getSokkerDate().getTrainingWeek(), training);
 		}
 
-		ArrayList<PlayerSkills> skills = playersDao.getPlayerSkillsWithoutTrainingID();
+		List<PlayerSkills> skills = playersDao.getPlayerSkillsWithoutTrainingID();
 		for (PlayerSkills playerSkills : skills) {
 			Training training = trainingsMap.get(playerSkills.getDate().getSokkerDate().getTrainingWeek());
 			if (training != null) {

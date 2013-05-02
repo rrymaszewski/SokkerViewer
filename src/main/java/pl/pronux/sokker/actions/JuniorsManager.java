@@ -14,13 +14,13 @@ import pl.pronux.sokker.model.Training;
 
 public class JuniorsManager {
 
-	private final static JuniorsManager _instance = new JuniorsManager();
+	private static JuniorsManager instance = new JuniorsManager();
 
 	private JuniorsManager() {
 	}
 
 	public static JuniorsManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void addJuniors(List<Junior> juniors, Training training, int clubId) throws SQLException {

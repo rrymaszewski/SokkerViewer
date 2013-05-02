@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -41,7 +40,7 @@ public class ChartValueComposite extends Composite {
 
 	private ChartPanel cp;
 
-	PaintListener paintListener;
+//	private PaintListener paintListener;
 
 	public ChartValueComposite(Composite parent, int style) {
 		super(parent, style);

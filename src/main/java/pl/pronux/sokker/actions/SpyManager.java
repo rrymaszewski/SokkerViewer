@@ -32,15 +32,15 @@ import pl.pronux.sokker.resources.Messages;
 
 public class SpyManager {
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private static SpyManager instance = new SpyManager();
 
-	private final static SpyManager _instance = new SpyManager();
+	private PlayersManager playersManager = PlayersManager.instance();
 
 	private SpyManager() {
 	}
 
 	public static SpyManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public Club getTeam(int teamID) throws SVException, IOException, SQLException, SAXException {

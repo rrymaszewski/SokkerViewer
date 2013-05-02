@@ -1,6 +1,5 @@
 package pl.pronux.sokker.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +17,11 @@ public class Club {
 
 	private Arena arena;
 
-	private ArrayList<ClubSupporters> clubSupporters;
+	private List<ClubSupporters> clubSupporters;
 
-	private ArrayList<ClubBudget> clubBudget;
+	private List<ClubBudget> clubBudget;
 
-	private ArrayList<ClubName> clubName;
+	private List<ClubName> clubName;
 
 	private int country;
 
@@ -38,7 +37,7 @@ public class Club {
 
 	private int juniorsMax;
 
-	private ArrayList<Rank> rank;
+	private List<Rank> rank;
 
 	private Region region;
 
@@ -70,15 +69,15 @@ public class Club {
 		return arena;
 	}
 
-	public ArrayList<ClubSupporters> getClubSupporters() {
+	public List<ClubSupporters> getClubSupporters() {
 		return clubSupporters;
 	}
 
-	public ArrayList<ClubBudget> getClubBudget() {
+	public List<ClubBudget> getClubBudget() {
 		return clubBudget;
 	}
 
-	public ArrayList<ClubName> getClubName() {
+	public List<ClubName> getClubName() {
 		return clubName;
 	}
 
@@ -124,7 +123,7 @@ public class Club {
 		return juniorsMax;
 	}
 
-	public ArrayList<Rank> getRank() {
+	public List<Rank> getRank() {
 		return rank;
 	}
 
@@ -149,15 +148,15 @@ public class Club {
 		this.arena = arena;
 	}
 
-	public void setClubSupporters(ArrayList<ClubSupporters> supporters) {
+	public void setClubSupporters(List<ClubSupporters> supporters) {
 		clubSupporters = supporters;
 	}
 
-	public void setClubBudget(ArrayList<ClubBudget> budget) {
+	public void setClubBudget(List<ClubBudget> budget) {
 		clubBudget = budget;
 	}
 
-	public void setClubName(ArrayList<ClubName> clubName) {
+	public void setClubName(List<ClubName> clubName) {
 		this.clubName = clubName;
 	}
 
@@ -189,7 +188,7 @@ public class Club {
 		this.juniorsMax = juniorsMax;
 	}
 
-	public void setRank(ArrayList<Rank> rank) {
+	public void setRank(List<Rank> rank) {
 		this.rank = rank;
 	}
 

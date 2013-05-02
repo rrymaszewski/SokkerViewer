@@ -10,7 +10,7 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 
-abstract public class XmlManager<T> extends XmlManagerUtils implements IXmlManager<T> {
+public abstract class XmlManager<T> extends XmlManagerUtils implements IXmlManager<T> {
 
 	private String content;
 
@@ -36,23 +36,23 @@ abstract public class XmlManager<T> extends XmlManagerUtils implements IXmlManag
 	 * 
 	 * @see pl.pronux.sokker.downloader.managers.IXmlManager#download(pl.pronux.sokker.downloader.XMLDownloader)
 	 */
-	abstract public void download() throws IOException;
+	public abstract void download() throws IOException;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see pl.pronux.sokker.downloader.managers.IXmlManager#importToSQL()
 	 */
-	abstract public void importToSQL() throws SQLException;
+	public abstract void importToSQL() throws SQLException;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see pl.pronux.sokker.downloader.managers.IXmlManager#parseXML()
 	 */
-	abstract public List<T> parseXML(String xml) throws SAXException;
+	public abstract List<T> parseXML(String xml) throws SAXException;
 	
-	abstract public List<T> parseXML() throws SAXException;
+	public abstract List<T> parseXML() throws SAXException;
 	
 	public boolean write() throws IOException {
 		return write(getContent(), downloader.getTeamID());

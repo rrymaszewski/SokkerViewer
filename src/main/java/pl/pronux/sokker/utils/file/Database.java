@@ -11,10 +11,8 @@ public class Database {
 	public static boolean backup(SokkerViewerSettings settings, String filename) throws IOException {
 		File dbDir = new File(settings.getBackupDirectory());
 
-		if (!dbDir.exists()) {
-			if (!OperationOnFile.createDirectory(dbDir)) {
-				throw new IOException("Missing backup directory"); //$NON-NLS-1$
-			}
+		if (!dbDir.exists() && !OperationOnFile.createDirectory(dbDir)) {
+			throw new IOException("Missing backup directory"); //$NON-NLS-1$
 		}
 		if (new File(dbDir, settings.getUsername()).exists()) {
 			dbDir = new File(dbDir, settings.getUsername());

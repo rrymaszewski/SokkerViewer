@@ -15,13 +15,13 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
  *
  */
 public interface IPlugin extends SV {
-	final public static String IDENTIFIER = "IPlugin"; //$NON-NLS-1$
+	String IDENTIFIER = "IPlugin"; //$NON-NLS-1$
 	/**
 	 * method run before shell dispose
 	 * in this method all resources like fonts, images, colors 
 	 * should be disposed
 	 */
-	public void dispose();
+	void dispose();
 	
 	
 	/**
@@ -29,25 +29,25 @@ public interface IPlugin extends SV {
 	 * it should be used to clear objects in view
 	 * for example table.removeAll() etc. 
 	 */
-	public void clear();
+	void clear();
 	
 	/**
 	 * method run after get data into SokkerBean
 	 * it should set all objects in view
 	 */
-	public void set();
+	void set();
 	
 	/**
 	 * method run before get data into SokkerBean
 	 * initialize sokkerViewer and show defaults view
 	 * @param composite
 	 */
-	public void init(Composite composite);
+	void init(Composite composite);
 	
 	/**
 	 * only for tests
 	 */
-	public String getInfo();
+	String getInfo();
 
 //	/**
 //	 * Method is used to set default parameters for Composite
@@ -60,7 +60,7 @@ public interface IPlugin extends SV {
 	 * Method for set data for treeItem which is in mainTree
 	 * @param treeItem this handler should be used to set ico of item, text of item etc.
 	 */
-	public void setTreeItem(TreeItem treeItem);
+	void setTreeItem(TreeItem treeItem);
 	
 //	public void setSokkerBean(final SokkerBean sokkerBean);
 	
@@ -69,13 +69,13 @@ public interface IPlugin extends SV {
 	 * Body should contains <i>return this</i>;
 	 * @return Composite
 	 */
-	public Composite getComposite();
+	Composite getComposite();
 
 	/**
 	 * Method return string which is used to show current state in statusBar
 	 * @return String
 	 */
-	public String getStatusInfo();
+	String getStatusInfo();
 
 //	/**
 //	 * @deprecated
@@ -90,25 +90,25 @@ public interface IPlugin extends SV {
 	 * Methods sets default properties
 	 * @param sokkerViewerSettings Properties configuration file
 	 */
-	public void setSettings(SokkerViewerSettings sokkerViewerSettings);
+	void setSettings(SokkerViewerSettings sokkerViewerSettings);
 	
 	/**
 	 * Return TreeItem handler 
 	 * @return TreeItem
 	 */
-	public TreeItem getTreeItem();
+	TreeItem getTreeItem();
 	
 	/**
 	 * Method not used yet
 	 * @return Composite
 	 */
-	public IViewConfigure getConfigureComposite();
+	IViewConfigure getConfigureComposite();
 	
 	/**
 	 * insert bean with data
 	 * @param svBean
 	 */
-	public void setSvBean(SvBean svBean);
+	void setSvBean(SvBean svBean);
 	
-	public void reload();
+	void reload();
 }

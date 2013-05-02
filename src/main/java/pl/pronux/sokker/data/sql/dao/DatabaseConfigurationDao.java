@@ -18,40 +18,35 @@ public class DatabaseConfigurationDao {
 	}
 
 	public void setDbRepair(boolean b) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET repair_db = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET repair_db = ?"); //$NON-NLS-1$
 		ps.setBoolean(1, b);
 		ps.executeUpdate();
 		ps.close();
 	}
 	
 	public void setDbRepairJuniorsAge(boolean b) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET repair_juniors_age = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET repair_juniors_age = ?"); //$NON-NLS-1$
 		ps.setBoolean(1, b);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public void setDbCountry(boolean b) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET check_countries = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET check_countries = ?"); //$NON-NLS-1$
 		ps.setBoolean(1, b);
 		ps.executeUpdate();
 		ps.close();
 	}
 	
 	public void updateScanCounter(int scanCounter) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET scan_counter = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET scan_counter = ?"); //$NON-NLS-1$
 		ps.setInt(1, scanCounter);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public void setDbDate(Date date) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET last_modification_millis = ?, last_modification_sk_week = ?, last_modification_sk_day = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET last_modification_millis = ?, last_modification_sk_week = ?, last_modification_sk_day = ?"); //$NON-NLS-1$
 		ps.setLong(1, date.getMillis());
 		ps.setLong(2, date.getSokkerDate().getWeek());
 		ps.setLong(3, date.getSokkerDate().getDay());
@@ -60,31 +55,27 @@ public class DatabaseConfigurationDao {
 	}
 
 	public void setDbUpdate(boolean b) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET check_update_db = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET check_update_db = ?"); //$NON-NLS-1$
 		ps.setBoolean(1, b);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public void setDBVersion(int dbVersion) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET " + "version = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET " + "version = ?"); //$NON-NLS-1$ //$NON-NLS-2$
 		ps.setInt(1, dbVersion);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public DbProperties getDbProperties() throws SQLException {
-		Date date = null;
 		DbProperties dbProperties = null;
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT version, last_modification_millis, last_modification_sk_day, last_modification_sk_week, check_countries, check_update_db, repair_db, scan_counter, complete_juniors_age FROM system");
+		PreparedStatement ps = connection.prepareStatement("SELECT version, last_modification_millis, last_modification_sk_day, last_modification_sk_week, check_countries, check_update_db, repair_db, scan_counter, complete_juniors_age FROM system");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			dbProperties = new DbProperties();
 			dbProperties.setDbVersion(rs.getInt("version"));
-			date = new Date(rs.getLong("last_modification_millis"));
+			Date date = new Date(rs.getLong("last_modification_millis"));
 			date.setSokkerDate(new SokkerDate(rs.getInt("last_modification_sk_day"), rs.getInt("last_modification_sk_week")));
 			dbProperties.setLastModification(date);
 			dbProperties.setCheckCountries(rs.getBoolean("check_countries"));
@@ -100,12 +91,11 @@ public class DatabaseConfigurationDao {
 
 	public Date getMaxDate() throws SQLException {
 		Date date = null;
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 				.prepareStatement("SELECT c.last_modification_millis, c.last_modification_sk_day, c.last_modification_sk_week FROM system c WHERE c.last_modification_millis IN (SELECT max(last_modification_millis) FROM system)"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			date = new Date(rs.getLong(1));
+			date  = new Date(rs.getLong(1));
 			date.setSokkerDate(new SokkerDate(rs.getInt(2), rs.getInt(3)));
 		}
 		rs.close();
@@ -114,9 +104,8 @@ public class DatabaseConfigurationDao {
 	}
 
 	public int getTeamID() throws SQLException {
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("SELECT team_id from system "); //$NON-NLS-1$
 		int teamID = 0;
-		ps = connection.prepareStatement("SELECT team_id from system "); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			teamID = rs.getInt("team_id"); //$NON-NLS-1$
@@ -127,26 +116,22 @@ public class DatabaseConfigurationDao {
 	}
 
 	public void setDBTeamID(int teamID) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET " + "team_id = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET " + "team_id = ?"); //$NON-NLS-1$ //$NON-NLS-2$
 		ps.setInt(1, teamID);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public void setJuniorMinimumPop(double pop) throws SQLException {
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE system SET " + "junior_minimum_pop = ?"); //$NON-NLS-1$ //$NON-NLS-2$
+		PreparedStatement ps = connection.prepareStatement("UPDATE system SET " + "junior_minimum_pop = ?"); //$NON-NLS-1$ //$NON-NLS-2$
 		ps.setDouble(1, pop);
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public double getJuniorMinimumPop() throws SQLException {
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("SELECT junior_minimum_pop from system "); //$NON-NLS-1$
 		double pop = 0;
-		ps = connection.prepareStatement("SELECT junior_minimum_pop from system "); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			pop = rs.getDouble("junior_minimum_pop"); //$NON-NLS-1$

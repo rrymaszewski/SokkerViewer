@@ -41,7 +41,7 @@ import pl.pronux.sokker.ui.widgets.tables.ExchangeTable;
 public class ViewExchange implements IPlugin {
 
 	private TreeItem _treeItem;
-	private List<Exchange> alExchange;
+	private List<Exchange> exchanges;
 	private Composite composite;
 	private Button countButton;
 	private Exchange exchange;
@@ -49,7 +49,7 @@ public class ViewExchange implements IPlugin {
 	private ExchangeTable exchangeTable;
 	private Label valueLabel;
 	private Label currencyLabel;
-	private Map<String, Double> currencyHM;
+	private Map<String, Double> currenciesMap;
 	private Combo currencyCombo;
 	private List<Country> countries;
 	private Listener verifyCurrencyList;
@@ -117,8 +117,8 @@ public class ViewExchange implements IPlugin {
 	public void set() {
 		int id;
 		String text;
-		currencyHM = new HashMap<String,Double>();
-		alExchange = new ArrayList<Exchange>();
+		currenciesMap = new HashMap<String,Double>();
+		exchanges = new ArrayList<Exchange>();
 		countries = Cache.getCountries();
 
 		for(Country country : countries) {
@@ -127,7 +127,7 @@ public class ViewExchange implements IPlugin {
 			text = String.format("%s (%s)", Messages.getString("country." + id + ".name"), country.getCurrencyName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			currencyCombo.add(text);
-			currencyHM.put(text, country.getCurrencyRate());
+			currenciesMap.put(text, country.getCurrencyRate());
 		}
 		currencyCombo.setText(currencyCombo.getItem(0));
 
@@ -140,11 +140,11 @@ public class ViewExchange implements IPlugin {
 			exchange.setCurrency(country.getCurrencyName());
 			exchange.setExchange(country.getCurrencyRate());
 			exchange.setValue(0);
-			alExchange.add(exchange);
+			exchanges.add(exchange);
 		}
 		countButton.addListener(SWT.Selection, verifyCurrencyList);
 		
-		exchangeTable.fill(alExchange);
+		exchangeTable.fill(exchanges);
 	}
 
 	private void addViewComposite() {
@@ -209,14 +209,14 @@ public class ViewExchange implements IPlugin {
 				BigDecimal summary = BigDecimal.ZERO;
 				double value = Double.valueOf(string).doubleValue();
 				double tempSummary = 0;
-				tempSummary = value * Double.valueOf(currencyHM.get(currency));
+				tempSummary = value * Double.valueOf(currenciesMap.get(currency));
 
 
 
 					for(int i = 0; i < exchangeTable.getItemCount() ; i++) {
-						summary = new BigDecimal(tempSummary / alExchange.get(i).getExchange()).setScale(2, RoundingMode.HALF_UP);
+						summary = new BigDecimal(tempSummary / exchanges.get(i).getExchange()).setScale(2, RoundingMode.HALF_UP);
 
-						alExchange.get(i).setValue(summary.doubleValue());
+						exchanges.get(i).setValue(summary.doubleValue());
 						exchangeTable.getItem(i).setText(5,String.valueOf(summary));
 					}
 

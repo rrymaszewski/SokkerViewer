@@ -27,8 +27,7 @@ public class JuniorsDao {
 	}
 
 	public void addJunior(Junior junior) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("INSERT INTO junior(id_junior, name, surname, formation, status) VALUES (?,?,?,?,0)");
+		PreparedStatement pstm = connection.prepareStatement("INSERT INTO junior(id_junior, name, surname, formation, status) VALUES (?,?,?,?,0)");
 		pstm.setInt(1, junior.getId());
 		pstm.setString(2, junior.getName());
 		pstm.setString(3, junior.getSurname());
@@ -39,8 +38,7 @@ public class JuniorsDao {
 	}
 
 	public void addJuniorSkills(int id, JuniorSkills jSkills, Date date) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("INSERT INTO junior_skills (id_junior_fk,millis,weeks,skill, day, week, age) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO junior_skills (id_junior_fk,millis,weeks,skill, day, week, age) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
 		ps.setInt(3, jSkills.getWeeks());
@@ -78,8 +76,7 @@ public class JuniorsDao {
 	}
 
 	public void addJuniorSkills(int id, JuniorSkills jSkills, Training training) throws SQLException {
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("INSERT INTO junior_skills (id_junior_fk,millis,weeks,skill, id_training_fk, day, week, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 		ps.setInt(1, id);
 		ps.setLong(2, training.getDate().getMillis());
@@ -96,8 +93,7 @@ public class JuniorsDao {
 
 	public int getJuniorID(String name) throws SQLException {
 		int id = 0;
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_junior FROM junior WHERE name = ? AND status = 0"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT id_junior FROM junior WHERE name = ? AND status = 0"); //$NON-NLS-1$
 		ps.setString(1, name);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -117,14 +113,12 @@ public class JuniorsDao {
 	 */
 	public List<Junior> getJuniors(int status) throws SQLException {
 		List<Junior> juniors = new ArrayList<Junior>();
-		Junior junior;
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM junior WHERE status = ? ORDER BY surname"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM junior WHERE status = ? ORDER BY surname"); //$NON-NLS-1$
 		ps.setInt(1, status);
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			junior = new JuniorDto(rs).getJunior();
+			Junior junior = new JuniorDto(rs).getJunior();
 			juniors.add(junior);
 		}
 		rs.close();
@@ -134,13 +128,11 @@ public class JuniorsDao {
 
 	public List<Junior> getJuniorsFromTrash() throws SQLException {
 		List<Junior> juniors = new ArrayList<Junior>();
-		Junior junior;
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM junior WHERE status > 10 AND status < 20 ORDER BY surname"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM junior WHERE status > 10 AND status < 20 ORDER BY surname"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			junior = new JuniorDto(rs).getJunior();
+			Junior junior = new JuniorDto(rs).getJunior();
 			juniors.add(junior);
 		}
 		rs.close();
@@ -149,15 +141,12 @@ public class JuniorsDao {
 	}
 
 	public JuniorSkills[] getJuniorsSkills(Junior junior, Map<Integer, Training> trainingMap) throws SQLException {
-		JuniorSkills juniorSkills;
 		List<JuniorSkills> juniorsSkills = new ArrayList<JuniorSkills>();
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM junior_skills WHERE id_junior_fk = ? order by week, day");
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM junior_skills WHERE id_junior_fk = ? order by week, day");
 		ps.setInt(1, junior.getId());
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
+			JuniorSkills juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
 			juniorSkills.setTraining(trainingMap.get(rs.getInt("id_training_fk")));
 			if (trainingMap.get(rs.getInt("id_training_fk")) != null) {
 				trainingMap.get(rs.getInt("id_training_fk")).getJuniors().add(junior);
@@ -171,8 +160,7 @@ public class JuniorsDao {
 
 	public boolean existsJunior(int id) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_junior) FROM junior WHERE id_junior = ?");
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_junior) FROM junior WHERE id_junior = ?");
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -192,8 +180,7 @@ public class JuniorsDao {
 
 	public boolean existsJuniorHistory(int id) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_junior) FROM junior WHERE id_junior = ? AND status > 0"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_junior) FROM junior WHERE id_junior = ? AND status > 0"); //$NON-NLS-1$
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -212,15 +199,13 @@ public class JuniorsDao {
 	}
 
 	public List<JuniorSkills> getJuniorSkillsWithoutTrainingID() throws SQLException {
-		JuniorSkills juniorSkills;
 		List<JuniorSkills> juniorsSkills = new ArrayList<JuniorSkills>();
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT * FROM junior_skills WHERE id_training_fk is null order by week, day");
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM junior_skills WHERE id_training_fk is null order by week, day");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
+			JuniorSkills juniorSkills = new JuniorSkillsDto(rs).getJuniorSkills();
 			juniorsSkills.add(juniorSkills);
 		}
 		rs.close();
@@ -229,8 +214,7 @@ public class JuniorsDao {
 	}
 
 	public void updateJuniorTrainingID(JuniorSkills juniorSkills) throws SQLException {
-		PreparedStatement ps = null;
-		ps = connection.prepareStatement("UPDATE junior_skills SET id_training_fk = ? WHERE id_skill = ?");
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior_skills SET id_training_fk = ? WHERE id_skill = ?");
 		ps.setInt(1, juniorSkills.getTraining().getId());
 		ps.setInt(2, juniorSkills.getId());
 
@@ -239,12 +223,11 @@ public class JuniorsDao {
 	}
 
 	public JuniorSkills getJuniorSkills(Junior junior, Training training) throws SQLException {
-		PreparedStatement ps = null;
+		PreparedStatement ps = connection.prepareStatement("select * from junior_skills where ((day >= 5 and week = ?) or (day < 5 and week = ?)) and id_junior_fk = ?");
 		// SokkerDate sokkerDate = null;
 		JuniorSkills juniorSkills = null;
 		int week = training.getDate().getSokkerDate().getWeek();
 		int day = training.getDate().getSokkerDate().getDay();
-		ps = connection.prepareStatement("select * from junior_skills where ((day >= 5 and week = ?) or (day < 5 and week = ?)) and id_junior_fk = ?");
 		if (day >= SokkerDate.THURSDAY) {
 			ps.setInt(1, week);
 			ps.setInt(2, week + 1);
@@ -268,8 +251,7 @@ public class JuniorsDao {
 
 	public String moveTrainedJuniors(int clubId) throws SQLException {
 		String movedJuniors = "";
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("SELECT j.id_junior FROM junior j, junior_skills s WHERE status = 0 AND j.id_junior = s.id_junior_fk AND s.weeks = 0 AND s.weeks = (select min(weeks) from junior_skills WHERE id_junior_fk = j.id_junior)");
 
 		ResultSet rs = ps.executeQuery();
@@ -284,8 +266,7 @@ public class JuniorsDao {
 
 	public String moveTrainedJuniors(String sTemp, int clubId) throws SQLException {
 		StringBuilder movedJuniors = new StringBuilder();
-		PreparedStatement ps;
-		ps = connection
+		PreparedStatement ps = connection
 			.prepareStatement("SELECT j.id_junior FROM junior j, junior_skills s WHERE status = 0 AND j.id_junior = s.id_junior_fk AND s.weeks = 0 AND s.weeks = (select min(weeks) from junior_skills WHERE id_junior_fk = j.id_junior) AND j.id_junior NOT IN "
 							  + sTemp);
 
@@ -301,9 +282,8 @@ public class JuniorsDao {
 
 	public String removeTrainedJuniors(int clubId) throws SQLException {
 		StringBuilder deletedJuniors = new StringBuilder(); //$NON-NLS-1$
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0"); //$NON-NLS-1$
 		PlayersDao playersDao = new PlayersDao(connection);
-		ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 
@@ -322,9 +302,8 @@ public class JuniorsDao {
 
 	public String removeTrainedJuniors(String sTemp, int clubId) throws SQLException {
 		String deletedJuniors = ""; //$NON-NLS-1$
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0 AND j.id_junior NOT IN " + sTemp); //$NON-NLS-1$
 		PlayersDao playersDao = new PlayersDao(connection);
-		ps = connection.prepareStatement("SELECT j.id_junior,j.name,j.surname FROM junior j WHERE status = 0 AND j.id_junior NOT IN " + sTemp); //$NON-NLS-1$
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -375,8 +354,7 @@ public class JuniorsDao {
 
 	public static boolean usingJunior(int id) throws SQLException {
 
-		PreparedStatement ps;
-		ps = SQLSession.getConnection().prepareStatement("SELECT count(id_junior_fk) FROM player WHERE id_junior_fk = ? AND status = 0");
+		PreparedStatement ps = SQLSession.getConnection().prepareStatement("SELECT count(id_junior_fk) FROM player WHERE id_junior_fk = ? AND status = 0");
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -395,8 +373,7 @@ public class JuniorsDao {
 	}
 
 	public void updateJunior(Junior junior) throws SQLException {
-		PreparedStatement ps = null;
-		ps = connection.prepareStatement("UPDATE junior SET formation = ? WHERE id_junior = ?");
+		PreparedStatement ps = connection.prepareStatement("UPDATE junior SET formation = ? WHERE id_junior = ?");
 		ps.setInt(1, junior.getFormation());
 		ps.setInt(2, junior.getId());
 

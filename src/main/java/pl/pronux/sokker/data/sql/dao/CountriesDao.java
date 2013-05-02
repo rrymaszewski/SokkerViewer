@@ -21,8 +21,7 @@ public class CountriesDao {
 	}
 
 	public void addCountry(Country country) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("INSERT INTO countries(country_id,name,currency_name,currency_rate) VALUES (?,?,?,?)"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("INSERT INTO countries(country_id,name,currency_name,currency_rate) VALUES (?,?,?,?)"); //$NON-NLS-1$
 		pstm.setInt(1, country.getCountryID());
 		pstm.setString(2, country.getName());
 		pstm.setString(3, country.getCurrencyName());
@@ -33,14 +32,11 @@ public class CountriesDao {
 	}
 
 	public List<Country> getCountries() throws SQLException {
-		Country country;
 		List<Country> alCountries = new ArrayList<Country>();
-		PreparedStatement ps;
-
-		ps = connection.prepareStatement("SELECT country_id, name, currency_rate, currency_name FROM countries"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT country_id, name, currency_rate, currency_name FROM countries"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			country = new CountryDto(rs).getCountry();
+			Country country = new CountryDto(rs).getCountry();
 			alCountries.add(country);
 		}
 		rs.close();
@@ -49,9 +45,7 @@ public class CountriesDao {
 	}
 
 	public boolean existsCountry(int countryID) throws SQLException {
-
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(country_id) FROM countries WHERE country_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(country_id) FROM countries WHERE country_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, countryID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -70,21 +64,18 @@ public class CountriesDao {
 	}
 
 	public void updateCountry(Country country) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE countries SET currency_rate= ?, name = ? WHERE country_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE countries SET currency_rate= ?, name = ? WHERE country_id = ?"); //$NON-NLS-1$
 
 		ps.setDouble(1, country.getCurrencyRate());
 		ps.setString(2, country.getName());
 		ps.setInt(3, country.getCountryID());
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public boolean existsRegion(int regionID) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(region_id) FROM regions WHERE region_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(region_id) FROM regions WHERE region_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, regionID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -103,8 +94,7 @@ public class CountriesDao {
 	}
 
 	public void updateRegion(Region region) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE regions SET weather = ? WHERE region_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE regions SET weather = ? WHERE region_id = ?"); //$NON-NLS-1$
 
 		ps.setInt(1, region.getWeather());
 		ps.setInt(2, region.getRegionID());
@@ -114,8 +104,7 @@ public class CountriesDao {
 	}
 
 	public void addRegion(Region region) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("INSERT INTO regions(region_id,country_id,name,weather) VALUES (?,?,?,?)"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("INSERT INTO regions(region_id,country_id,name,weather) VALUES (?,?,?,?)"); //$NON-NLS-1$
 		pstm.setInt(1, region.getRegionID());
 		pstm.setInt(2, region.getIdCountryFK());
 		pstm.setString(3, region.getName());
@@ -126,9 +115,7 @@ public class CountriesDao {
 
 	public Region getRegion(int regionID) throws SQLException {
 		Region region = null;
-		PreparedStatement ps;
-
-		ps = connection.prepareStatement("SELECT * FROM regions WHERE region_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM regions WHERE region_id = ?"); //$NON-NLS-1$
 		ps.setInt(1, regionID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -54,7 +55,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 	private String cbData;
 
-	private ArrayList<Coach> coaches;
+	private List<Coach> coaches;
 
 	private DescriptionDoubleComposite coachView;
 
@@ -412,9 +413,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		cbData += coachView.getRightText();
 	}
 
-	private void setDescriptionComposite(ArrayList<Coach> coach) {
-
-		String[][] values;
+	private void setDescriptionComposite(List<Coach> coach) {
 		double allSalary = 0;
 		double allAge = 0;
 		int textSize = 0;
@@ -426,7 +425,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 			allAge += coach.get(i).getAge();
 		}
 
-		values = new String[4][2];
+		String[][] values = new String[4][2];
 		values[0][0] = Messages.getString("coach.allSalary"); //$NON-NLS-1$
 		values[1][0] = Messages.getString("coach.averageSalary"); //$NON-NLS-1$
 		values[2][0] = Messages.getString("coach.averageAge"); //$NON-NLS-1$
@@ -462,12 +461,9 @@ public class ViewCoachesFired implements IPlugin, ISort {
 	}
 
 	private void setStatsCoachInfo(Coach coach, DescriptionDoubleComposite description) {
-
-		String[][] values;
-
 		description.clearAll();
 
-		values = new String[7][2];
+		String[][] values = new String[7][2];
 		values[0][0] = Messages.getString("coach.id"); //$NON-NLS-1$
 		values[1][0] = Messages.getString("coach.name"); //$NON-NLS-1$
 		values[2][0] = Messages.getString("coach.surname"); //$NON-NLS-1$

@@ -10,13 +10,13 @@ import pl.pronux.sokker.model.Note;
 
 public class SchedulerManager {
 
-	private final static SchedulerManager _instance = new SchedulerManager();
+	private static SchedulerManager instance = new SchedulerManager();
 	
 	private SchedulerManager() {
 	}
 	
 	public static SchedulerManager instance() {
-		return _instance;
+		return instance;
 	}
 	
 	public void insertNote(Note note) throws SQLException {

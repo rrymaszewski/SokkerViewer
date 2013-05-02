@@ -17,10 +17,10 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class DirectoryPage extends Page {
 
+	public static final String PAGE_NAME = "DIRECTORY_PAGE"; //$NON-NLS-1$
 	private Label label;
 	private Text text;
 	private Button button;
-	public static String PAGE_NAME = "DIRECTORY_PAGE"; //$NON-NLS-1$
 	public DirectoryPage(Wizard parent) {
 		super(parent, Messages.getString("importer.page.directory.title"), PAGE_NAME); //$NON-NLS-1$
 	}

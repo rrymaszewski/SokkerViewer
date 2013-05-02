@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -19,21 +20,21 @@ import pl.pronux.sokker.utils.Log;
 public class CountriesXmlParser {
 
 	static int current_tag = 0;
-	static final int TAG_countries = 1;
+	static final int TAG_COUNTRIES = 1;
 
-	static final int TAG_country = 2;
+	static final int TAG_COUNTRY = 2;
 
-	static final int TAG_countryID =3;
+	static final int TAG_COUNTRY_ID =3;
 
-	static final int TAG_name = 4;
+	static final int TAG_NAME = 4;
 
-	static final int TAG_currencyName = 5;
+	static final int TAG_CURRENCY_NAME = 5;
 
-	static final int TAG_currencyRate = 6;
+	static final int TAG_CURRENCY_RATE = 6;
 
 	static int TAG_switch = 0;
 
-	public ArrayList<Country> alCountries;
+	public List<Country> countries;
 
 	private Country country;
 
@@ -46,16 +47,16 @@ public class CountriesXmlParser {
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
-				case TAG_countryID:
+				case TAG_COUNTRY_ID:
 					country.setCountryID(Integer.valueOf(message.toString()));
 					break;
-				case TAG_name:
+				case TAG_NAME:
 					country.setName(message.toString());
 					break;
-				case TAG_currencyName:
+				case TAG_CURRENCY_NAME:
 						country.setCurrencyName(message.toString());
 						break;
-				case TAG_currencyRate:
+				case TAG_CURRENCY_RATE:
 						country.setCurrencyRate(Double.valueOf(message.toString()));
 					break;
 				default:
@@ -72,13 +73,13 @@ public class CountriesXmlParser {
 				current_tag = 0;
 				if (localName.equals("country")) { //$NON-NLS-1$
 					if(country.getCountryID() != -1) {
-						alCountries.add(country);
+						countries.add(country);
 					}
 				}
 			}
 
 			public void startDocument() {
-				alCountries = new ArrayList<Country>();
+				countries = new ArrayList<Country>();
 			}
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
@@ -88,20 +89,20 @@ public class CountriesXmlParser {
 				}
 
 				if (localName.equals("country")) { //$NON-NLS-1$
-					TAG_switch = TAG_country;
+					TAG_switch = TAG_COUNTRY;
 					country = new Country();
 					country.setCountryID(-1);
 				}
 
-				if (TAG_switch == TAG_country) {
+				if (TAG_switch == TAG_COUNTRY) {
 					if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_countryID;
+						current_tag = TAG_COUNTRY_ID;
 					} else if (localName.equalsIgnoreCase("name")) { //$NON-NLS-1$
-						current_tag = TAG_name;
+						current_tag = TAG_NAME;
 					} else if (localName.equalsIgnoreCase("currencyName")) { //$NON-NLS-1$
-						current_tag = TAG_currencyName;
+						current_tag = TAG_CURRENCY_NAME;
 					} else if (localName.equalsIgnoreCase("currencyRate")) { //$NON-NLS-1$
-						current_tag = TAG_currencyRate;
+						current_tag = TAG_CURRENCY_RATE;
 					}
 				}
 			}
@@ -126,8 +127,8 @@ public class CountriesXmlParser {
 		}
 	}
 
-	public ArrayList<Country> getAlCountries() {
-		return alCountries;
+	public List<Country> getCountries() {
+		return countries;
 	}
 }
 

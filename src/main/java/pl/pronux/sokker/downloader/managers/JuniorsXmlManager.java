@@ -3,7 +3,6 @@ package pl.pronux.sokker.downloader.managers;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.InputSource;
@@ -20,7 +19,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 
 	private JuniorsManager juniorsManager = JuniorsManager.instance();
 	
-	private ArrayList<Junior> juniors;
+	private List<Junior> juniors;
 
 	public JuniorsXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -62,7 +61,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			juniorXmlParser.parseXmlSax(input, null);
 		}
-		this.juniors = juniorXmlParser.getAlJuniors();
+		this.juniors = juniorXmlParser.getJuniors();
 		return juniors;
 	}
 

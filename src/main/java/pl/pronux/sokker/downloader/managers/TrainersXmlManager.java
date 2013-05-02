@@ -18,7 +18,7 @@ import pl.pronux.sokker.model.Training;
 
 public class TrainersXmlManager extends XmlManager<Coach> {
 
-	private List<Coach> alTrainers;
+	private List<Coach> trainers;
 
 	private TrainersManager trainersManager = TrainersManager.instance();
 	
@@ -41,8 +41,8 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 		setContent(downloader.getTrainers());
 	}
 
-	public List<Coach> getAlTrainers() {
-		return alTrainers;
+	public List<Coach> getTrainers() {
+		return trainers;
 	}
 
 	public List<Coach> parseXML() throws SAXException {
@@ -50,13 +50,13 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 	}
 
 	public void repairCoaches() throws SQLException {
-		trainersManager.repairCoaches(this.alTrainers);
+		trainersManager.repairCoaches(this.trainers);
 		configurationManager.updateDbRepairCoaches(false);
 	}
 
 	@Override
 	public void importToSQL() throws SQLException {
-		trainersManager.importTrainers(alTrainers);
+		trainersManager.importTrainers(trainers);
 	}
 
 	@Override
@@ -69,16 +69,16 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			trainerXmlParser.parseXmlSax(input, null);
 		}
-		this.alTrainers = trainerXmlParser.getAlCoach();
-		return alTrainers;
+		this.trainers = trainerXmlParser.getAlCoach();
+		return trainers;
 	}
 
 	public void importCoachesAtTraining(Training training) throws SQLException {
 		if (training != null ) {
 			if((training.getStatus() & Training.NEW_TRAINING) != 0) {
-				trainersManager.importTrainersAtTraining(alTrainers, training);	
+				trainersManager.importTrainersAtTraining(trainers, training);	
 			} else if((training.getStatus() & Training.UPDATE_TRAINING) != 0) {
-				trainersManager.updateTrainersAtTraining(alTrainers, training);
+				trainersManager.updateTrainersAtTraining(trainers, training);
 			}
 			
 		}

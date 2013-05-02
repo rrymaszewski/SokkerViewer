@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -21,27 +22,27 @@ public class JuniorXmlParser  {
 
 	static int current_tag = 0;
 
-	static final int TAG_junior_id = 1;
+	private static final int TAG_JUNIOR_ID = 1;
 
-	static final int TAG_junior_name = 2;
+	private static final int TAG_JUNIOR_NAME = 2;
 
-	static final int TAG_junior_skill = 5;
+	private static final int TAG_JUNIOR_SKILL = 5;
 	
-	static final int TAG_formation = 6;
+	private static final int TAG_FORMATION = 6;
 	
-	static final int TAG_age = 7;
+	private static final int TAG_AGE = 7;
 
-	static final int TAG_junior_surname = 3;
+	private static final int TAG_JUNIOR_SURNAME = 3;
 
-	static final int TAG_junior_weeks = 4;
+	private static final int TAG_JUNIOR_WEEKS = 4;
 
-	static final int TAG_juniors = 0;
+//	private static final int TAG_JUNIORS = 0;
 
-	static final int TAG_junior = 5;
+	private static final int TAG_JUNIOR = 5;
 
 	static int TAG_switch = 0;
 
-	public ArrayList<Junior> alJuniors;
+	public List<Junior> juniors;
 
 	public int teamID;
 
@@ -58,25 +59,25 @@ public class JuniorXmlParser  {
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
-				case TAG_junior_id:
+				case TAG_JUNIOR_ID:
 					junior.setId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_junior_name:
+				case TAG_JUNIOR_NAME:
 					junior.setName(message.toString());
 					break;
-				case TAG_junior_surname:
+				case TAG_JUNIOR_SURNAME:
 					junior.setSurname(message.toString());
 					break;
-				case TAG_junior_weeks:
+				case TAG_JUNIOR_WEEKS:
 					juniorSkills[0].setWeeks(Integer.valueOf(message.toString()).byteValue());
 					break;
-				case TAG_junior_skill:
+				case TAG_JUNIOR_SKILL:
 					juniorSkills[0].setSkill(Integer.valueOf(message.toString()).byteValue());
 					break;
-				case TAG_formation:
+				case TAG_FORMATION:
 					junior.setFormation(Integer.valueOf(message.toString()).intValue());
 					break;
-				case TAG_age:
+				case TAG_AGE:
 					juniorSkills[0].setAge(Integer.valueOf(message.toString()).intValue());
 				default:
 					break;
@@ -93,13 +94,13 @@ public class JuniorXmlParser  {
 				if (localName.equals("junior")) { //$NON-NLS-1$
 					junior.setSkills(juniorSkills);
 					if (junior.getId() != -1) {
-						alJuniors.add(junior);
+						juniors.add(junior);
 					}
 				}
 			}
 
 			public void startDocument() {
-				alJuniors = new ArrayList<Junior>();
+				juniors = new ArrayList<Junior>();
 			}
 
 			StringBuilder message;
@@ -119,7 +120,7 @@ public class JuniorXmlParser  {
 				}
 
 				if (localName.equals("junior")) { //$NON-NLS-1$
-					TAG_switch = TAG_junior;
+					TAG_switch = TAG_JUNIOR;
 
 					junior = new Junior();
 					junior.setId(-1);
@@ -128,21 +129,21 @@ public class JuniorXmlParser  {
 
 				}
 
-				if (TAG_switch == TAG_junior) {
+				if (TAG_switch == TAG_JUNIOR) {
 					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_junior_name;
+						current_tag = TAG_JUNIOR_NAME;
 					} else if (localName.equals("surname")) { //$NON-NLS-1$
-						current_tag = TAG_junior_surname;
+						current_tag = TAG_JUNIOR_SURNAME;
 					} else if (localName.equals("weeks")) { //$NON-NLS-1$
-						current_tag = TAG_junior_weeks;
+						current_tag = TAG_JUNIOR_WEEKS;
 					} else if (localName.equals("skill")) { //$NON-NLS-1$
-						current_tag = TAG_junior_skill;
+						current_tag = TAG_JUNIOR_SKILL;
 					} else if (localName.equals("ID")) { //$NON-NLS-1$
-						current_tag = TAG_junior_id;
+						current_tag = TAG_JUNIOR_ID;
 					} else if (localName.equals("age")) {
-						current_tag = TAG_age;
+						current_tag = TAG_AGE;
 					} else if (localName.equals("formation")) {
-						current_tag = TAG_formation;
+						current_tag = TAG_FORMATION;
 					}
 				}
 			}
@@ -172,8 +173,8 @@ public class JuniorXmlParser  {
 	 *
 	 * @see pl.pronux.sokker.downloader.xml.parsers.JuniorXmlParserInterface#getAlJuniors()
 	 */
-	public ArrayList<Junior> getAlJuniors() {
-		return alJuniors;
+	public List<Junior> getJuniors() {
+		return juniors;
 	}
 }
 

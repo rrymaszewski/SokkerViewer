@@ -34,6 +34,14 @@ import pl.pronux.sokker.ui.widgets.items.ColorToolItem;
 
 public class ViewBBCode implements IPlugin {
 
+	private static final int BOLD = 1;
+
+	private static final int ITALIC = 2;
+
+	private static final int UNDERLINE = 3;
+
+	private static final int COLOR = 4;
+
 	private Composite composite;
 
 	private TreeItem treeItem;
@@ -41,14 +49,6 @@ public class ViewBBCode implements IPlugin {
 	private StyledText styledText;
 
 	private ColorToolItem colorItem;
-
-	private final int BOLD = 1;
-
-	private final int ITALIC = 2;
-
-	private final int UNDERLINE = 3;
-
-	private final int COLOR = 4;
 
 	private StyledText formattedText;
 

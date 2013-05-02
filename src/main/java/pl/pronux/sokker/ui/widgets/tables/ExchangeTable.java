@@ -22,7 +22,7 @@ import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchange> {
 
 	private ExchangeComparator comparator;
-	private List<Exchange> alExchange;
+	private List<Exchange> exchanges;
 
 	public ExchangeTable(Composite parent, int style) {
 		super(parent, style);
@@ -78,7 +78,7 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 	
 	public void fill(List<Exchange> alExchange) {
 		this.setRedraw(false);
-		this.alExchange = alExchange;
+		this.exchanges = alExchange;
 		this.remove(0, this.getItemCount()-1);
 
 		Collections.sort(alExchange, comparator);
@@ -101,9 +101,9 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 	
 	
 	public void sort(SVComparator<Exchange> comparator) {
-		if(alExchange != null) {
-			Collections.sort(alExchange, comparator);
-			fill(alExchange);
+		if(exchanges != null) {
+			Collections.sort(exchanges, comparator);
+			fill(exchanges);
 		}
 		
 	}

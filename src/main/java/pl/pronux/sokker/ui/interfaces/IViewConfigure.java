@@ -13,13 +13,13 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
  *
  */
 public interface IViewConfigure  {
-	public final static String IDENTIFIER = "IViewConfigure"; //$NON-NLS-1$
+	final static String IDENTIFIER = "IViewConfigure"; //$NON-NLS-1$
 	/**
 	 * method run before shell dispose
 	 * in this method all resources like fonts, images, colors 
 	 * should be disposed
 	 */
-	public void dispose();
+	void dispose();
 	
 	
 	/**
@@ -27,26 +27,26 @@ public interface IViewConfigure  {
 	 * it should be used to clear objects in view
 	 * for example table.removeAll() etc. 
 	 */
-	public void clear();
+	void clear();
 	
 	/**
 	 * method run after get data into SokkerBean
 	 * it should set all objects in view
 	 */
-	public void set();
+	void set();
 	
 	/**
 	 * method run before get data into SokkerBean
 	 * initialize sokkerViewer and show defaults view
 	 * @param composite
 	 */
-	public void init(Composite composite);
+	void init(Composite composite);
 	
 	/**
 	 * Method for set data for treeItem which is in mainTree
 	 * @param treeItem this handler should be used to set ico of item, text of item etc.
 	 */
-	public void setTreeItem(TreeItem treeItem);
+	void setTreeItem(TreeItem treeItem);
 	
 //	public void setSokkerBean(final SokkerBean sokkerBean);
 	
@@ -55,30 +55,30 @@ public interface IViewConfigure  {
 	 * Body should contains <i>return this</i>;
 	 * @return Composite
 	 */
-	public Composite getComposite();
+	Composite getComposite();
 
 	/**
 	 * Methods sets default properties
 	 * @param sokkerViewerSettings Properties configuration file
 	 */
-	public void setSettings(SokkerViewerSettings sokkerViewerSettings);
+	void setSettings(SokkerViewerSettings sokkerViewerSettings);
 	
 	/**
 	 * Return TreeItem handler 
 	 * @return TreeItem
 	 */
-	public TreeItem getTreeItem();
+	TreeItem getTreeItem();
 	
 	/**
 	 * Apply temporary changes
 	 * 
 	 */
-	public void applyChanges();
+	void applyChanges();
 
 	
 	/**
 	 * Restore changes
 	 */
-	public void restoreDefaultChanges();
+	void restoreDefaultChanges();
 		
 }

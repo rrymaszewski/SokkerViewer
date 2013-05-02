@@ -1,6 +1,6 @@
 package pl.pronux.sokker.ui.plugins;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -35,9 +35,9 @@ public class ViewTransfers implements IPlugin {
 
 	private TransfersTable table;
 
-	private ArrayList<Transfer> alTransfers;
+	private List<Transfer> transfers;
 
-	private int idClub;
+	private int clubId;
 
 	private Listener viewListener;
 
@@ -171,7 +171,7 @@ public class ViewTransfers implements IPlugin {
 		table.setLayoutData(viewFormData);
 	}
 
-	private void setDescription(Table table, ArrayList<Transfer> alTransfers) {
+	private void setDescription(Table table, List<Transfer> alTransfers) {
 		long income = 0;
 		long expanses = 0;
 		double incomeAverage = 0.0;
@@ -189,7 +189,7 @@ public class ViewTransfers implements IPlugin {
 				income += transfer.getPrice().toInt();
 				sales++;
 				if (transfer.getPlayer() != null) {
-					if (transfer.getPlayer().getYouthTeamID() == idClub) {
+					if (transfer.getPlayer().getYouthTeamID() == clubId) {
 						juniors += transfer.getPrice().toInt();
 					}
 				}
@@ -236,10 +236,10 @@ public class ViewTransfers implements IPlugin {
 	}
 
 	public void set() {
-		idClub = Cache.getClub().getId();
-		alTransfers = Cache.getTransfers();
-		table.fill(alTransfers, idClub);
-		setDescription(descriptionTable, alTransfers);
+		clubId = Cache.getClub().getId();
+		transfers = Cache.getTransfers();
+		table.fill(transfers, clubId);
+		setDescription(descriptionTable, transfers);
 	}
 
 	public void reload() {

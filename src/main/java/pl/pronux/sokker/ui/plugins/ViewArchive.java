@@ -3,8 +3,10 @@ package pl.pronux.sokker.ui.plugins;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -41,19 +43,19 @@ public class ViewArchive implements IPlugin, ISort {
 
 	private Composite composite;
 	private TreeItem treeItem;
-	private HashMap<Integer, PlayerArchive> hmPlayersArchive = new HashMap<Integer, PlayerArchive>();
+	private Map<Integer, PlayerArchive> hmPlayersArchive = new HashMap<Integer, PlayerArchive>();
 	private ArchiveSearchGroup archiveSearchGroup;
 	private Set<Entry<Integer, PlayerArchive>> setPlayersArchive = new HashSet<Entry<Integer, PlayerArchive>>();
-	private HashMap<String, ArrayList<PlayerArchive>> hmPlayerNameArchive = new HashMap<String, ArrayList<PlayerArchive>>();
-	private HashMap<String, ArrayList<PlayerArchive>> hmPlayerSurnameArchive = new HashMap<String, ArrayList<PlayerArchive>>();
-	private HashMap<Integer, ArrayList<PlayerArchive>> hmPlayerYouthTeamIDArchive = new HashMap<Integer, ArrayList<PlayerArchive>>();
+	private Map<String, List<PlayerArchive>> hmPlayerNameArchive = new HashMap<String, List<PlayerArchive>>();
+	private Map<String, List<PlayerArchive>> hmPlayerSurnameArchive = new HashMap<String, List<PlayerArchive>>();
+	private Map<Integer, List<PlayerArchive>> hmPlayerYouthTeamIDArchive = new HashMap<Integer, List<PlayerArchive>>();
 	private Set<PlayerArchive> stPlayerArchive = new HashSet<PlayerArchive>();
-	private ArrayList<PlayerArchive> players = new ArrayList<PlayerArchive>();
+	private List<PlayerArchive> players = new ArrayList<PlayerArchive>();
 	private PlayersArchiveTable playersArchiveTable;
 	private Menu menuPopUp;
 	private Menu menuClear;
 	private ArchiveInformationGroup archiveInformationGroup;
-	private HashMap<Integer, ArrayList<PlayerArchive>> hmPlayerCountryIDArchive = new HashMap<Integer, ArrayList<PlayerArchive>>();
+	private HashMap<Integer, List<PlayerArchive>> hmPlayerCountryIDArchive = new HashMap<Integer, List<PlayerArchive>>();
 
 	public void clear() {
 	}
@@ -294,10 +296,10 @@ public class ViewArchive implements IPlugin, ISort {
 	public void set() {
 		hmPlayersArchive = Cache.getPlayersArchiveMap();
 
-		hmPlayerNameArchive = new HashMap<String, ArrayList<PlayerArchive>>();
-		hmPlayerSurnameArchive = new HashMap<String, ArrayList<PlayerArchive>>();
-		hmPlayerYouthTeamIDArchive = new HashMap<Integer, ArrayList<PlayerArchive>>();
-		hmPlayerCountryIDArchive = new HashMap<Integer, ArrayList<PlayerArchive>>();
+		hmPlayerNameArchive = new HashMap<String, List<PlayerArchive>>();
+		hmPlayerSurnameArchive = new HashMap<String, List<PlayerArchive>>();
+		hmPlayerYouthTeamIDArchive = new HashMap<Integer, List<PlayerArchive>>();
+		hmPlayerCountryIDArchive = new HashMap<Integer, List<PlayerArchive>>();
 		setPlayersArchive = hmPlayersArchive.entrySet();
 		for (Entry<Integer, PlayerArchive> element : setPlayersArchive) {
 

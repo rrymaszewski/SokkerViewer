@@ -1,7 +1,7 @@
 package pl.pronux.sokker.ui.widgets.tables;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -23,7 +23,7 @@ import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 
 public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IViewSort<PlayerArchive> {
 	private PlayerArchiveComparator comparator;
-	private ArrayList<PlayerArchive> players;
+	private List<PlayerArchive> players;
 
 	public PlayersArchiveTable(Composite parent, int style) {
 		super(parent, style);
@@ -77,7 +77,7 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 		this.addNoteListener(PlayerArchive.class.getName(), PlayerArchiveComparator.NOTE);
 	}
 
-	public void fill(ArrayList<PlayerArchive> players) {
+	public void fill(List<PlayerArchive> players) {
 		this.players = players;
 		// Turn off drawing to avoid flicker
 		this.setRedraw(false);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -38,7 +39,8 @@ import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewMatches implements IPlugin {
 
-	final private static String MATCHES_IDENTIFIER = "matches"; //$NON-NLS-1$
+	private static final String MATCHES_IDENTIFIER = "matches"; //$NON-NLS-1$
+	
 	private Composite composite;
 
 	private TreeItem treeItem;
@@ -61,7 +63,7 @@ public class ViewMatches implements IPlugin {
 
 	private MatchesComposite seasonComposite;
 
-	private HashMap<Match, TreeItem> hmTreeItemMatch;
+	private Map<Match, TreeItem> hmTreeItemMatch;
 	
 	private MatchUIManager matchesManager = MatchUIManager.instance(); 
 
@@ -216,8 +218,8 @@ public class ViewMatches implements IPlugin {
 							}
 
 						} else if (item.getData(MATCHES_IDENTIFIER) != null && item.getData(MATCHES_IDENTIFIER) instanceof ArrayList) {
-							ArrayList<Match> alMatches = (ArrayList<Match>) item.getData(MATCHES_IDENTIFIER);
-							seasonComposite.fill(team.getId(), alMatches);
+							List<Match> matches = (List<Match>) item.getData(MATCHES_IDENTIFIER);
+							seasonComposite.fill(team.getId(), matches);
 							show(seasonComposite);
 						}
 
@@ -314,20 +316,20 @@ public class ViewMatches implements IPlugin {
 		TreeItem treeItemMatch;
 		TreeItem treeItemSeason = null;
 		int season = -1;
-		ArrayList<ArrayList<Match>> alSeasonsMatches = new ArrayList<ArrayList<Match>>();
+		List<List<Match>> seasonMatches = new ArrayList<List<Match>>();
 		Collections.sort(alMatches, comparator);
 		for (Match match : alMatches) {
 			if(match.getIsFinished() == Match.FINISHED) {
 				if (season != (match.getWeek() / 16)) {
-					alSeasonsMatches.add(new ArrayList<Match>());
+					seasonMatches.add(new ArrayList<Match>());
 					season = match.getWeek() / 16;
 					treeItemSeason = new TreeItem(treeItem, SWT.NONE);
 					treeItemSeason.setImage(ImageResources.getImageResources("matches_season.png")); //$NON-NLS-1$
-					treeItemSeason.setData(MATCHES_IDENTIFIER, alSeasonsMatches.get(alSeasonsMatches.size() - 1));
+					treeItemSeason.setData(MATCHES_IDENTIFIER, seasonMatches.get(seasonMatches.size() - 1));
 					treeItemSeason.setText(Messages.getString("league.season") + " " + season); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 
-				alSeasonsMatches.get(alSeasonsMatches.size() - 1).add(match);
+				seasonMatches.get(seasonMatches.size() - 1).add(match);
 
 				if (treeItemSeason != null) {
 					treeItemMatch = new TreeItem(treeItemSeason, SWT.NONE);

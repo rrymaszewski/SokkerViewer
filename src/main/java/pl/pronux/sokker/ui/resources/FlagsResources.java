@@ -9,11 +9,11 @@ import org.eclipse.swt.graphics.ImageData;
 
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 
-final public class FlagsResources {
+public final class FlagsResources {
 	private static final Map<Integer, Image> cache = new HashMap<Integer, Image>();
 
-	public final static int EMPTY_FLAG = 500;
-	public final static int QUESTION_FLAG = 501;
+	public static final int EMPTY_FLAG = 500;
+	public static final int QUESTION_FLAG = 501;
 	private static final String IMAGE_PATH = "/flags/"; //$NON-NLS-1$
 
 	static {
@@ -48,22 +48,18 @@ final public class FlagsResources {
 	public static Image getFlagLight(int idCountry) {
 		Image image;
 		image = cache.get(-idCountry);
-		
 		if (image == null || image.isDisposed()) {
 			image = loadImageLight(idCountry + ".png"); //$NON-NLS-1$
 			if (image == null) {
 				image = getFlagLight(QUESTION_FLAG);
 			}
-
 			cache.put(-idCountry, image);
-
 		}
 		return image;
 	}
 
 	public static Image getFlagVeryLight(int idCountry) {
-		Image image;
-			image = cache.get(-idCountry);
+		Image image = cache.get(-idCountry);
 		
 		if (image == null || image.isDisposed()) {
 			image = loadImageVeryLight(idCountry + ".png"); //$NON-NLS-1$
@@ -77,11 +73,9 @@ final public class FlagsResources {
 
 	private static Image loadImageLight(String filename) {
 		Image image = null;
-		ImageData id = null;
-		InputStream is;
-		is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
+		InputStream is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
 		if (is != null) {
-			id = new ImageData(is);
+			ImageData id = new ImageData(is);
 			if (id != null) {
 				for (int y = 0; y < id.height; y++) {
 					for (int x = 0; x < id.width; x++) {
@@ -96,11 +90,9 @@ final public class FlagsResources {
 
 	private static Image loadImageVeryLight(String filename) {
 		Image image = null;
-		ImageData id = null;
-		InputStream is;
-		is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
+		InputStream is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
 		if (is != null) {
-			id = new ImageData(is);
+			ImageData id = new ImageData(is);
 			if (id != null) {
 				for (int y = 0; y < id.height; y++) {
 					for (int x = 0; x < id.width; x++) {
@@ -115,8 +107,7 @@ final public class FlagsResources {
 
 	private static Image loadImage(String filename) {
 		Image image = null;
-		InputStream is;
-		is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
+		InputStream is = FlagsResources.class.getResourceAsStream(IMAGE_PATH + filename);
 		if (is != null) {
 			image = new Image(DisplayHandler.getDisplay(), is);
 		}

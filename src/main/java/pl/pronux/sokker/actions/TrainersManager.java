@@ -14,13 +14,17 @@ import pl.pronux.sokker.model.Training;
 
 public class TrainersManager {
 	
-	private final static TrainersManager _instance = new TrainersManager();
+	private static final int JUNIOR_COACH = 3;
+	private static final int ASSISTANT = 2;
+	private static final int HEAD_COACH = 1;
+	
+	private static TrainersManager instance = new TrainersManager();
 	
 	private TrainersManager(){
 	}
 	
 	public static TrainersManager instance() {
-		return _instance;
+		return instance;
 	}
 	
 	public void repairCoaches(List<Coach> coaches) throws SQLException {
@@ -34,15 +38,15 @@ public class TrainersManager {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 		trainersDao.deleteCoachesAtTraining(training);
 
-		ArrayList<Coach> alAssistants = new ArrayList<Coach>();
+		List<Coach> alAssistants = new ArrayList<Coach>();
 		training.setAssistants(alAssistants);
 
 		for (Coach trainer : trainers) {
-			if (trainer.getJob() == 1) {
+			if (trainer.getJob() == HEAD_COACH) {
 				training.setHeadCoach(trainer);
-			} else if (trainer.getJob() == 2) {
+			} else if (trainer.getJob() == ASSISTANT) {
 				training.getAssistants().add(trainer);
-			} else if (trainer.getJob() == 3) {
+			} else if (trainer.getJob() == JUNIOR_COACH) {
 				training.setJuniorCoach(trainer);
 			}
 		}
@@ -53,15 +57,15 @@ public class TrainersManager {
 	
 	public void importTrainersAtTraining(List<Coach> alTrainers, Training training) throws SQLException {
 
-		ArrayList<Coach> alAssistants = new ArrayList<Coach>();
+		List<Coach> alAssistants = new ArrayList<Coach>();
 		training.setAssistants(alAssistants);
 
 		for (Coach coach : alTrainers) {
-			if (coach.getJob() == 1) {
+			if (coach.getJob() == HEAD_COACH) {
 				training.setHeadCoach(coach);
-			} else if (coach.getJob() == 2) {
+			} else if (coach.getJob() == ASSISTANT) {
 				training.getAssistants().add(coach);
-			} else if (coach.getJob() == 3) {
+			} else if (coach.getJob() == HEAD_COACH) {
 				training.setJuniorCoach(coach);
 			}
 		}
@@ -152,38 +156,30 @@ public class TrainersManager {
 	}
 
 	
-	public ArrayList<Coach> getCoachesData() throws SQLException {
-		ArrayList<Coach> coach;
-	
+	public List<Coach> getCoachesData() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
-		coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_IN_CLUB);
+		List<Coach> coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_IN_CLUB);
 		SQLQuery.close(newConnection);
 		return coach;
 	}
 
-	public ArrayList<Coach> getCoachesFiredData() throws SQLException {
-		ArrayList<Coach> coach;
-	
+	public List<Coach> getCoachesFiredData() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
-		coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_SACKED);
+		List<Coach> coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_SACKED);
 		SQLQuery.close(newConnection);
 		return coach;
 	}
 
-	public ArrayList<Coach> getCoachesDeletedData() throws SQLException {
-		ArrayList<Coach> coach;
-	
+	public List<Coach> getCoachesDeletedData() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
-		coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_DELETED);
+		List<Coach> coach = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_DELETED);
 		SQLQuery.close(newConnection);
 		return coach;
 	}
 
-	public ArrayList<Coach> getCoachesFromTrashData() throws SQLException {
-		ArrayList<Coach> coaches;
+	public List<Coach> getCoachesFromTrashData() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
-		// pobieranie graczy
-		coaches = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_TRASH);
+		List<Coach> coaches = new TrainersDao(SQLSession.getConnection()).getCoaches(Coach.STATUS_TRASH);
 		SQLQuery.close(newConnection);
 		return coaches;
 	}

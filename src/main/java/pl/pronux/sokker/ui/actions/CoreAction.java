@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import pl.pronux.sokker.actions.AssistantManager;
 import pl.pronux.sokker.actions.ConfigurationManager;
@@ -247,7 +248,7 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setCoaches(trainersManager.getCoachesData());
 			Cache.setCoachesFired(trainersManager.getCoachesFiredData());
 
-			ArrayList<Coach> coachDeleted = trainersManager.getCoachesDeletedData();
+			List<Coach> coachDeleted = trainersManager.getCoachesDeletedData();
 
 			// coach map for quick searching
 			Cache.setCoachesMap(new HashMap<Integer, Coach>());

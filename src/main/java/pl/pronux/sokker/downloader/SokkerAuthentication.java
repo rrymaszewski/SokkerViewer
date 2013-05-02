@@ -108,7 +108,7 @@ public class SokkerAuthentication extends AbstractDownloader {
 	 *         <li>FAILED - not logged
 	 *         <li>OK - logged
 	 *         </ul>
-	 */
+v	 */
 	public String getStatus() {
 		return status;
 	}
@@ -231,9 +231,15 @@ public class SokkerAuthentication extends AbstractDownloader {
 		} catch (NullPointerException e) {
 			throw new SVException("Error connecting"); //$NON-NLS-1$
 		} finally {
-			if (in != null) in.close();
-			if (out != null) out.close();
-			if (connection != null) connection.disconnect();
+			if (in != null) {
+				in.close();
+			}
+			if (out != null) {
+				out.close();
+			}
+			if (connection != null) {
+				connection.disconnect();
+			}
 		}
 		return buffer.toString();
 	}

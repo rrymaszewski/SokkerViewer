@@ -15,7 +15,6 @@ package pl.pronux.sokker.ui.resources;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -70,7 +69,7 @@ public final class Fonts {
 
 	private static GC gc;
 
-	private static Map<Device, Map<FDArray, Font>> mapDeviceToMapFontDataToFont = new Hashtable<Device, Map<FDArray, Font>>();
+	private static Map<Device, Map<FDArray, Font>> mapDeviceToMapFontDataToFont = new HashMap<Device, Map<FDArray, Font>>();
 
 	private static FontMetrics metrics;
 

@@ -384,9 +384,9 @@ public class TeamsDao {
 		return false;
 	}
 
-	public ArrayList<Stand> getStands(int teamID) throws SQLException {
-		Stand stand;
-		ArrayList<Stand> alStands = new ArrayList<Stand>();
+	public List<Stand> getStands(int teamID) throws SQLException {
+		
+		List<Stand> alStands = new ArrayList<Stand>();
 
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM arena WHERE id IN (SELECT MAX(id) FROM arena WHERE team_id = ? GROUP BY location) AND team_id = ?"); //$NON-NLS-1$
 
@@ -395,7 +395,7 @@ public class TeamsDao {
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			stand = new StandDto(rs).getStand();
+			Stand stand = new StandDto(rs).getStand();
 			alStands.add(stand);
 		}
 		rs.close();
@@ -578,14 +578,13 @@ public class TeamsDao {
 		ps.close();
 	}
 
-	public ArrayList<ClubName> getClubName(int teamID) throws SQLException {
-		ClubName cName;
-		ArrayList<ClubName> alClubName = new ArrayList<ClubName>();
+	public List<ClubName> getClubName(int teamID) throws SQLException {
+		List<ClubName> alClubName = new ArrayList<ClubName>();
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM club_name WHERE id_club_fk = ?"); //$NON-NLS-1$
 		ps.setInt(1, teamID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			cName = new ClubNameDto(rs).getClubName();
+			ClubName cName = new ClubNameDto(rs).getClubName();
 			alClubName.add(cName);
 		}
 		rs.close();
@@ -593,14 +592,13 @@ public class TeamsDao {
 		return alClubName;
 	}
 
-	public ArrayList<ClubBudget> getClubDataMoney(int teamID) throws SQLException {
-		ClubBudget clubBudget;
-		ArrayList<ClubBudget> clubBudgets = new ArrayList<ClubBudget>();
+	public List<ClubBudget> getClubDataMoney(int teamID) throws SQLException {
+		List<ClubBudget> clubBudgets = new ArrayList<ClubBudget>();
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM club_data_money WHERE id_club_fk = ? ORDER BY week, day"); //$NON-NLS-1$
 		ps.setInt(1, teamID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			clubBudget = new ClubBudgetDto(rs).getClubBudget();
+			ClubBudget clubBudget = new ClubBudgetDto(rs).getClubBudget();
 			clubBudgets.add(clubBudget);
 		}
 		rs.close();
@@ -609,15 +607,14 @@ public class TeamsDao {
 		return clubBudgets;
 	}
 
-	public ArrayList<ClubSupporters> getClubDataFanclub(int id_club) throws SQLException {
-		ClubSupporters cData;
-		ArrayList<ClubSupporters> alClubDataFanclub = new ArrayList<ClubSupporters>();
+	public List<ClubSupporters> getClubDataFanclub(int id_club) throws SQLException {
+		List<ClubSupporters> alClubDataFanclub = new ArrayList<ClubSupporters>();
 
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM club_data_fanclub WHERE id_club_fk = ? ORDER BY week, day"); //$NON-NLS-1$
 		ps.setInt(1, id_club);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			cData = new ClubFanclubDto(rs).getClubFanclub();
+			ClubSupporters cData = new ClubFanclubDto(rs).getClubFanclub();
 			alClubDataFanclub.add(cData);
 		}
 		rs.close();
@@ -626,16 +623,15 @@ public class TeamsDao {
 		return alClubDataFanclub;
 	}
 
-	public ArrayList<ClubArenaName> getClubArenaName(int clubID) throws SQLException {
-		ClubArenaName cArenaName;
-		ArrayList<ClubArenaName> alClubArenaName = new ArrayList<ClubArenaName>();
+	public List<ClubArenaName> getClubArenaName(int clubID) throws SQLException {
+		List<ClubArenaName> alClubArenaName = new ArrayList<ClubArenaName>();
 
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM club_arena_name where id_club_fk = ? order by week,day"); //$NON-NLS-1$
 		ps.setInt(1, clubID);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			cArenaName = new ClubArenaNameDto(rs).getClubArenaName();
+			ClubArenaName cArenaName = new ClubArenaNameDto(rs).getClubArenaName();
 			alClubArenaName.add(cArenaName);
 		}
 		rs.close();
@@ -646,11 +642,11 @@ public class TeamsDao {
 
 	public List<Club> getClubs() throws SQLException {
 		List<Club> clubs = new ArrayList<Club>();
-		Club club;
+		
 		PreparedStatement ps = connection.prepareStatement("SELECT id,country,region, date_created FROM club"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			club = new Club();
+			Club club = new Club();
 			club.setId(rs.getInt("id")); //$NON-NLS-1$
 			club.setCountry(rs.getInt("country")); //$NON-NLS-1$
 			club.setRegionID(rs.getInt("region")); //$NON-NLS-1$
@@ -662,14 +658,13 @@ public class TeamsDao {
 		return clubs;
 	}
 
-	public ArrayList<Rank> getRank(int clubID) throws SQLException {
-		Rank rank;
-		ArrayList<Rank> alRank = new ArrayList<Rank>();
+	public List<Rank> getRank(int clubID) throws SQLException {
+		List<Rank> alRank = new ArrayList<Rank>();
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM rank WHERE id_club_fk = ? ORDER BY week DESC,day DESC"); //$NON-NLS-1$
 		ps.setInt(1, clubID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			rank = new RankDto(rs).getRankDto();
+			Rank rank = new RankDto(rs).getRankDto();
 			alRank.add(rank);
 		}
 		rs.close();
@@ -745,15 +740,13 @@ public class TeamsDao {
 
 	}
 
-	public ArrayList<Training> getTrainings() throws SQLException {
-		ArrayList<Training> alTraining = new ArrayList<Training>();
-		Training training;
-
+	public List<Training> getTrainings() throws SQLException {
+		List<Training> alTraining = new ArrayList<Training>();
 		PreparedStatement pstm = connection.prepareStatement("SELECT id_training, millis, type, formation, note, day, week, reported FROM training ORDER BY week DESC,day DESC"); //$NON-NLS-1$
 		ResultSet rs = pstm.executeQuery();
 
 		while (rs.next()) {
-			training = new TrainingDto(rs).getTraining();
+			Training training = new TrainingDto(rs).getTraining();
 			alTraining.add(training);
 		}
 		rs.close();
@@ -788,10 +781,8 @@ public class TeamsDao {
 		while (rs.next()) {
 			training = new TrainingDto(rs).getTraining();
 		}
-
 		rs.close();
 		ps.close();
-
 		return training;
 	}
 

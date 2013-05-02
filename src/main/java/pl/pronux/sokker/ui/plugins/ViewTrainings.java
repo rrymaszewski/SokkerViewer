@@ -2,6 +2,7 @@ package pl.pronux.sokker.ui.plugins;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -55,7 +56,7 @@ public class ViewTrainings implements IPlugin {
 
 	private TrainingTree trainingTree;
 
-	private ArrayList<Training> trainings;
+	private List<Training> trainings;
 
 	private TrainingsMenu menuPopUp;
 

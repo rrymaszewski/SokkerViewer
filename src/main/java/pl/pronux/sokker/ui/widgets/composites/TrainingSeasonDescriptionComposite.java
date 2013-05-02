@@ -18,7 +18,7 @@ import pl.pronux.sokker.ui.widgets.styledtexts.TrainingSeasonField;
 public class TrainingSeasonDescriptionComposite extends Composite {
 
 	private TrainingSeasonField trainingSeasonDescription;
-	private ArrayList<TrainingSeasonField> trainingsSeasons;
+	private List<TrainingSeasonField> trainingsSeasons;
 
 	public TrainingSeasonDescriptionComposite(Composite parent, int style) {
 		super(parent, style);

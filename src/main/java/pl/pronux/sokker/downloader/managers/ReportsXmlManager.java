@@ -3,7 +3,6 @@ package pl.pronux.sokker.downloader.managers;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.InputSource;
@@ -19,7 +18,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 
 	private TeamManager teamManager = TeamManager.instance();
 
-	private ArrayList<Report> alReports;
+	private List<Report> reports;
 
 	public ReportsXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
@@ -40,7 +39,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 
 	@Override
 	public void importToSQL() throws SQLException {
-		teamManager.importReports(this.alReports);
+		teamManager.importReports(this.reports);
 	}
 
 	public List<Report> parseXML() throws SAXException {
@@ -58,8 +57,8 @@ public class ReportsXmlManager extends XmlManager<Report> {
 			reportsXmlParser.parseXmlSax(input, null);
 		}
 
-		this.alReports = reportsXmlParser.getAlReports();
-		return alReports;
+		this.reports = reportsXmlParser.getAlReports();
+		return reports;
 	}
 
 }

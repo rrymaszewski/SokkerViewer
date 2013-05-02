@@ -47,9 +47,9 @@ public class Crypto {
 
 	public static boolean verifySignature(PublicKey publicKey, byte[] signature, byte[] buffer) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		Signature sig = Signature.getInstance("SHA1withRSA"); //$NON-NLS-1$
-    sig.initVerify(publicKey);
-    sig.update(buffer, 0, buffer.length);
-    return sig.verify(signature);
+		sig.initVerify(publicKey);
+		sig.update(buffer, 0, buffer.length);
+		return sig.verify(signature);
 	}
 
 	public static boolean verifySignature(PublicKey publicKey, byte[] signature, File file) {
@@ -147,11 +147,7 @@ public class Crypto {
 			ciphertextLength = in.length - remainder + blocksize;
 		}
 		byte[] out = new byte[ciphertextLength];
-
-		for (int i = 0; i < in.length; i++) {
-			out[i] = in[i];
-		}
-
+		System.arraycopy(in, 0, out, 0, in.length);
 		return out;
 	}
 

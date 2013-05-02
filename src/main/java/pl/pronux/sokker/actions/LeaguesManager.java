@@ -19,13 +19,13 @@ import pl.pronux.sokker.model.Match;
 
 public class LeaguesManager {
 
-	private final static LeaguesManager _instance = new LeaguesManager();
+	private static LeaguesManager instance = new LeaguesManager();
 
 	private LeaguesManager() {
 	}
 
 	public static LeaguesManager instance() {
-		return _instance;
+		return instance;
 	}
 
 	public void importLeagues(List<League> leagues) throws SQLException {

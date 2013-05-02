@@ -1,14 +1,15 @@
 package pl.pronux.sokker.ui.resources;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Display;
 
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 
-final public class CursorResources {
-	private static final HashMap<Integer, Cursor> cache = new HashMap<Integer, Cursor>();
+public final class CursorResources {
+	private static final Map<Integer, Cursor> cache = new HashMap<Integer, Cursor>();
 
 	static {
 		DisplayHandler.getDisplay().disposeExec(new Runnable() {

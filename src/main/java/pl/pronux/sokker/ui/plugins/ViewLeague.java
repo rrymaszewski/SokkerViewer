@@ -48,6 +48,8 @@ public class ViewLeague implements IPlugin {
 	private Map<Integer, Club> clubMap;
 
 	private Listener keyListener;
+	
+	private Composite current;
 
 	public void clear() {
 
@@ -233,8 +235,6 @@ public class ViewLeague implements IPlugin {
 		}
 
 	}
-
-	private Composite current;
 	
 	private void show(Composite composite) {
 		if(current == null) {

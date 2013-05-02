@@ -3,13 +3,14 @@ package pl.pronux.sokker.ui.resources;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.swt.graphics.Image;
 
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 
-final public class ImageResources {
-	private static final HashMap<String, Image> cache = new HashMap<String, Image>();
+public final class ImageResources {
+	private static final Map<String, Image> cache = new HashMap<String, Image>();
 
 	private static final String IMAGE_PATH = "/images/"; //$NON-NLS-1$
 

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -95,7 +96,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 
 	private Composite previousDesc;
 
-	private HashMap<Integer, TreeItem> treeItemMap;
+	private Map<Integer, TreeItem> treeItemMap;
 
 	// public ViewJuniorTrained(Composite parent, int style) {
 	// super(parent, style);

@@ -18,15 +18,15 @@ import pl.pronux.sokker.utils.Log;
 public class CountryXmlParser {
 
 	static int current_tag = 0;
-	static final int TAG_country = 1;
+	static final int TAG_COUNTRY = 1;
 
-	static final int TAG_countryID =2;
+	static final int TAG_COUNTRY_ID =2;
 
-	static final int TAG_name = 3;
+	static final int TAG_NAME = 3;
 
-	static final int TAG_currencyName = 4;
+	static final int TAG_CURRENCY_NAME = 4;
 
-	static final int TAG_currencyRate = 5;
+	static final int TAG_CURRENCY_RATE = 5;
 
 	static int TAG_switch = 0;
 
@@ -41,16 +41,16 @@ public class CountryXmlParser {
 				message.append(new String(ch, start, length));
 
 				switch (current_tag) {
-				case TAG_countryID:
+				case TAG_COUNTRY_ID:
 					country.setCountryID(Integer.valueOf(message.toString()));
 					break;
-				case TAG_name:
+				case TAG_NAME:
 					country.setName(message.toString());
 					break;
-				case TAG_currencyName:
+				case TAG_CURRENCY_NAME:
 						country.setCurrencyName(message.toString());
 						break;
-				case TAG_currencyRate:
+				case TAG_CURRENCY_RATE:
 						country.setCurrencyRate(Double.valueOf(message.toString()));
 					break;
 				default:
@@ -80,20 +80,20 @@ public class CountryXmlParser {
 				message = new StringBuilder();
 
 				if (localName.equals("country")) { //$NON-NLS-1$
-					TAG_switch = TAG_country;
+					TAG_switch = TAG_COUNTRY;
 					country = new Country();
 					country.setCountryID(-1);
 				}
 
-				if (TAG_switch == TAG_country) {
+				if (TAG_switch == TAG_COUNTRY) {
 					if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_countryID;
+						current_tag = TAG_COUNTRY_ID;
 					} else if (localName.equalsIgnoreCase("name")) { //$NON-NLS-1$
-						current_tag = TAG_name;
+						current_tag = TAG_NAME;
 					} else if (localName.equalsIgnoreCase("currencyName")) { //$NON-NLS-1$
-						current_tag = TAG_currencyName;
+						current_tag = TAG_CURRENCY_NAME;
 					} else if (localName.equalsIgnoreCase("currencyRate")) { //$NON-NLS-1$
-						current_tag = TAG_currencyRate;
+						current_tag = TAG_CURRENCY_RATE;
 					}
 				}
 			}
