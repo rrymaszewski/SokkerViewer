@@ -100,21 +100,6 @@ public class ViewArchive implements IPlugin, ISort {
 			}
 		});
 
-		// menuItem = new MenuItem(menuPopUp, SWT.SEPARATOR);
-		//		
-		// menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		// menuItem.setText(Messages.getString("popup.complete.archive.player"));
-		// menuItem.addListener(SWT.Selection, new Listener() {
-		// public void handleEvent(Event event) {
-		// if (menuPopUp.getData("item") != null) {
-		// Item item = (Item) menuPopUp.getData("item");
-		// if (item.getData(Player.IDENTIFIER) != null) {
-		// openNote(item);
-		// }
-		// }
-		// }
-		// });
-
 		menuClear = new Menu(composite.getShell(), SWT.POP_UP);
 	}
 
@@ -169,7 +154,6 @@ public class ViewArchive implements IPlugin, ISort {
 				if (!archiveSearchGroup.getPlayerSurname().isEmpty()) { 
 					search = search | surname;
 				}
-//				if (archiveSearchGroup.getPlayerCountryID() > 0 && archiveSearchGroup.getPlayerCountryID() < FlagsResources.EMPTY_FLAG) {
 				if(archiveSearchGroup.getPlayerCountryID() != FlagsResources.QUESTION_FLAG) {
 					search = search | countryID;
 				}
@@ -228,156 +212,6 @@ public class ViewArchive implements IPlugin, ISort {
 		playersArchiveTable = new PlayersArchiveTable(composite, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 		playersArchiveTable.setLayoutData(formData);
 		playersArchiveTable.setVisible(true);
-
-//		playersArchiveTable.addListener(SWT.MouseDoubleClick, new Listener() {
-//			public void handleEvent(Event event) {
-//				Rectangle clientArea = playersArchiveTable.getClientArea();
-//				Point pt = new Point(event.x, event.y);
-//				int index = playersArchiveTable.getTopIndex();
-//
-//				while (index < playersArchiveTable.getItemCount()) {
-//					boolean visible = false;
-//					TableItem item = playersArchiveTable.getItem(index);
-//					for (int i = 0; i < playersArchiveTable.getColumnCount(); i++) {
-//						Rectangle rect = item.getBounds(i);
-//						if (rect.contains(pt) && i == PlayerArchiveComparator.NOTE) {
-//							openNote(item);
-//						}
-//						if (!visible && rect.intersects(clientArea)) {
-//							visible = true;
-//						}
-//					}
-//					if (!visible) {
-//						return;
-//					}
-//					index++;
-//				}
-//			}
-//		});
-
-		// Disable native tooltip
-//		playersArchiveTable.setToolTipText(""); //$NON-NLS-1$
-//
-//		// Implement a "fake" tooltip
-//		final Listener labelListener = new Listener() {
-//			public void handleEvent(Event event) {
-//				Label label = (Label) event.widget;
-//				Shell shell = label.getShell();
-//				switch (event.type) {
-//				case SWT.MouseDown:
-//					Event e = new Event();
-//					e.item = (TableItem) label.getData("_TABLEITEM"); //$NON-NLS-1$
-//					// Assuming table is single select, set the selection as
-//					// if
-//					// the mouse down event went through to the table
-//					playersArchiveTable.setSelection(new TableItem[] {
-//						(TableItem) e.item
-//					});
-//					playersArchiveTable.notifyListeners(SWT.Selection, e);
-//					break;
-//				// fall through
-//				case SWT.MouseExit:
-//					shell.dispose();
-//					break;
-//				}
-//			}
-//		};
-//
-//		Listener tableListener = new Listener() {
-//
-//			Label label = null;
-//
-//			Shell shell = ViewerHandler.getViewer();
-//
-//			Shell tip = null;
-//
-//			public void handleEvent(Event event) {
-//				switch (event.type) {
-//				case SWT.Dispose:
-//				case SWT.KeyDown:
-//				case SWT.MouseMove: {
-//					if (tip == null) {
-//						break;
-//					}
-//					tip.dispose();
-//					tip = null;
-//					label = null;
-//					break;
-//				}
-//				case SWT.MouseHover: {
-//					Rectangle clientArea = playersArchiveTable.getClientArea();
-//					Point pt = new Point(event.x, event.y);
-//					TableItem item = playersArchiveTable.getItem(pt);
-//					if (item != null) {
-//						boolean visible = false;
-//						for (int i = 0; i < playersArchiveTable.getColumnCount(); i++) {
-//							Rectangle rect = item.getBounds(i);
-//							if (rect.contains(pt)) {
-//								if (!visible) {
-//									return;
-//								}
-//								if (i == PlayerArchiveComparator.NOTE) {
-//									if (tip != null && !tip.isDisposed()) {
-//										tip.dispose();
-//									}
-//
-//									int minSizeX = 200;
-//									int minSizeY = 80;
-//
-//									int maxSizeX = 400;
-//									int maxSizeY = 200;
-//
-//									PlayerArchive player = (PlayerArchive) item.getData(PlayerArchive.IDENTIFIER); //$NON-NLS-1$
-//									if (player.getNote() != null && !player.getNote().equals("")) { //$NON-NLS-1$
-//										tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
-//										tip.setLayout(new FillLayout());
-//										label = new Label(tip, SWT.NONE);
-//										label.setForeground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND));
-//										label.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-//										label.setData("_TABLEITEM", item); //$NON-NLS-1$
-//										label.setText(player.getNote());
-//										label.addListener(SWT.MouseExit, labelListener);
-//										label.addListener(SWT.MouseDown, labelListener);
-//
-//										Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-//
-//										if (size.x < minSizeX) {
-//											size.x = minSizeX;
-//										}
-//										if (size.y < minSizeY) {
-//											size.y = minSizeY;
-//										}
-//
-//										if (size.x > maxSizeX) {
-//											size.x = maxSizeX;
-//										}
-//
-//										if (size.y > maxSizeY) {
-//											size.y = maxSizeY;
-//										}
-//										
-//										Point ptDisplay = playersArchiveTable.toDisplay(event.x - size.x, event.y - size.y);
-//										tip.setBounds(ptDisplay.x, ptDisplay.y, size.x, size.y);
-//										tip.setVisible(true);
-//
-//									}
-//								}
-//							}
-//							if (!visible && rect.intersects(clientArea)) {
-//								visible = true;
-//							}
-//						}
-//
-//					}
-//				}
-//					break;
-//				}
-//			}
-//		};
-//		playersArchiveTable.addListener(SWT.Dispose, tableListener);
-//		playersArchiveTable.addListener(SWT.KeyDown, tableListener);
-//		playersArchiveTable.addListener(SWT.MouseMove, tableListener);
-//		playersArchiveTable.addListener(SWT.MouseHover, tableListener);
 
 		playersArchiveTable.addListener(SWT.MouseDown, new Listener() {
 

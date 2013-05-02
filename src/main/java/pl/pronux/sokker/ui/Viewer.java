@@ -159,7 +159,7 @@ public class Viewer extends Shell {
 		addFonts();
 
 		addTrayItem(this);
-		_defaultProperties = PropertiesResources.getProperties("default/default.properties"); //$NON-NLS-1$
+		_defaultProperties = PropertiesResources.getProperties("default.properties"); //$NON-NLS-1$
 		SettingsHandler.setDefaultProperties(_defaultProperties);
 
 		// loading default colors
