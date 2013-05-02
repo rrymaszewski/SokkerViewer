@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import pl.pronux.sokker.importer.controller.filters.XMLFilter;
 import pl.pronux.sokker.importer.controller.filters.sokkerorganizer.XMLDateFilter;
@@ -22,7 +23,7 @@ public class SOPackagesManager extends PackagesManager implements IRunnableWithP
 
 	private File directory;
 	private int teamID;
-	private ArrayList<IXMLpack> packages;
+	private List<IXMLpack> packages;
 
 	public SOPackagesManager(String directory, int teamID) {
 		this.teamID = teamID;
@@ -38,7 +39,7 @@ public class SOPackagesManager extends PackagesManager implements IRunnableWithP
 
 		packages = new ArrayList<IXMLpack>();
 
-		ArrayList<File> dateList = OperationOnFile.visitAllDirs(directory, new XMLOldFormatFilter(), new ArrayList<File>(), 1);
+		List<File> dateList = OperationOnFile.visitAllDirs(directory, new XMLOldFormatFilter(), new ArrayList<File>(), 1);
 		monitor.beginTask(String.format("%s (1/5)", Messages.getString("PackagesManager.build.old")), dateList.size()); //$NON-NLS-1$ //$NON-NLS-2$
 		for (File xmlFile : dateList) {
 			String date = xmlFile.getName().replaceAll(".xml", ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -59,7 +60,7 @@ public class SOPackagesManager extends PackagesManager implements IRunnableWithP
 		dateList = OperationOnFile.getFileChildren(directory, new XMLDateFilter(teamID), new ArrayList<File>(), monitor);
 		monitor.worked(1);
 		monitor.beginTask(String.format("%s (3/5)", Messages.getString("PackagesManager.build.new.all")), 1); //$NON-NLS-1$ //$NON-NLS-2$ 
-		ArrayList<File> fileList = OperationOnFile.getFileChildren(directory, new XMLFilter(".*"), new ArrayList<File>(), monitor); //$NON-NLS-1$
+		List<File> fileList = OperationOnFile.getFileChildren(directory, new XMLFilter(".*"), new ArrayList<File>(), monitor); //$NON-NLS-1$
 		monitor.worked(1);
 		monitor.beginTask(String.format("%s (4/5)", Messages.getString("PackagesManager.build.new")), dateList.size()); //$NON-NLS-1$ //$NON-NLS-2$ 
 		for (File dateFile : dateList) {
@@ -118,11 +119,11 @@ public class SOPackagesManager extends PackagesManager implements IRunnableWithP
 		monitor.done();
 	}
 
-	public ArrayList<IXMLpack> getPackages() {
+	public List<IXMLpack> getPackages() {
 		return packages;
 	}
 
-	public void setPackages(ArrayList<IXMLpack> packages) {
+	public void setPackages(List<IXMLpack> packages) {
 		this.packages = packages;
 	}
 

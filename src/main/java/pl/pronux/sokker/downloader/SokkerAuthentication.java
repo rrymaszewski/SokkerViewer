@@ -15,7 +15,10 @@ import pl.pronux.sokker.model.ProxySettings;
 
 public class SokkerAuthentication extends AbstractDownloader {
 
-	final private static int TIMEOUT_MS = 15000;
+	public static final String OK = "OK"; //$NON-NLS-1$
+	public static final String FAILED = "FAILED"; //$NON-NLS-1$
+	
+	private static final int TIMEOUT_MS = 15000;
 
 	private String errorno;
 
@@ -26,9 +29,6 @@ public class SokkerAuthentication extends AbstractDownloader {
 	private String status;
 
 	private String teamID;
-
-	final public static String OK = "OK"; //$NON-NLS-1$
-	final public static String FAILED = "FAILED"; //$NON-NLS-1$
 
 	/**
 	 * Constructor

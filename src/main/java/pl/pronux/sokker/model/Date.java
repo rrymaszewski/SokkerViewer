@@ -14,15 +14,7 @@ public class Date implements Serializable, DateConst, Comparable<Date> {
 	private SokkerDate sokkerDate;
 
 	public Season getSeason() {
-		Season season = null;
-		if (season == null) {
-			season = new Season(this.getMillis());
-		} else {
-			if (season.getMillis() != this.getMillis()) {
-				season = new Season(this.getMillis());
-			}
-		}
-		return season;
+		return new Season(this.getMillis());
 	}
 
 	private static NumberFormat monthFormat;

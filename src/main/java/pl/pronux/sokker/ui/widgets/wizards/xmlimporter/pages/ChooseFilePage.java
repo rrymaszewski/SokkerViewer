@@ -1,7 +1,7 @@
 package pl.pronux.sokker.ui.widgets.wizards.xmlimporter.pages;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -25,7 +25,7 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ChooseFilePage extends Page {
 
-	private ArrayList<IXMLpack> packages;
+	private List<IXMLpack> packages;
 	private ProgressBarCustom progressBar;
 	public static String PAGE_NAME = "CHOOSEFILE_PAGE"; //$NON-NLS-1$
 	private Table table;
@@ -82,7 +82,7 @@ public class ChooseFilePage extends Page {
 		setContainer(container);
 	}
 
-	public void fillTable(ArrayList<IXMLpack> list) {
+	public void fillTable(List<IXMLpack> list) {
 
 		table.remove(0, table.getItemCount() - 1);
 
@@ -101,7 +101,7 @@ public class ChooseFilePage extends Page {
 		}
 	}
 
-	public ArrayList<IXMLpack> getPackages() {
+	public List<IXMLpack> getPackages() {
 		return packages;
 	}
 
@@ -164,7 +164,7 @@ public class ChooseFilePage extends Page {
 		super.onCancelPage();
 	}
 
-	protected void setPackages(ArrayList<IXMLpack> list) {
+	protected void setPackages(List<IXMLpack> list) {
 		this.packages = list;
 	}
 }

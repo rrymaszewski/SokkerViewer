@@ -148,10 +148,10 @@ public class ViewStatistics implements IPlugin {
 
 		/*
 		 * Listener listener = new Listener() { public void handleEvent(Event event) { if(event.button == 1) { Point point = new Point(event.x, event.y);
-		 * TableItem item = currentComposite.getViewTable().getItem(point); if (item != null) { if ( currentComposite.getGraphComposite().getVisible() == true)
+		 * TableItem item = currentComposite.getViewTable().getItem(point); if (item != null) { if ( currentComposite.getGraphComposite().getVisible())
 		 * { currentComposite.getGraphComposite().setMarkers((Date)item.getData("date"), Calendar.MONDAY,
 		 * Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); } else
-		 * if(currentComposite.getDescriptionComposite().getVisible() == true) { // int index = item.getParent().indexOf(item); //
+		 * if(currentComposite.getDescriptionComposite().getVisible()) { // int index = item.getParent().indexOf(item); //
 		 * setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index); // showDescription(universalJuniorComposite);
 		 * } } } else if(event.button == 3) { // showDescription(previousDesc); } } };
 		 */
@@ -163,12 +163,12 @@ public class ViewStatistics implements IPlugin {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if (currentComposite.getGraphComposite().getVisible() == true) {
+						if (currentComposite.getGraphComposite().getVisible()) {
 							TableColumn tableColumn = item.getParent().getColumn(currentComposite.getGraphComposite().getColumn());
 							ArrayList<?> al = (ArrayList<?>) tableColumn.getData("data"); //$NON-NLS-1$
 							Object object = al.get(al.size() - 1 - item.getParent().indexOf(item));
 							currentComposite.getGraphComposite().setMarkers((Date) item.getData("date"), -1, object); //$NON-NLS-1$
-						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
 							// showDescription(universalJuniorComposite);
@@ -188,12 +188,12 @@ public class ViewStatistics implements IPlugin {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if (currentComposite.getGraphComposite().getVisible() == true) {
+						if (currentComposite.getGraphComposite().getVisible()) {
 							currentComposite
 								.getGraphComposite()
 								.setMarkers(
 											(Date) item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
 							// showDescription(universalJuniorComposite);
@@ -212,12 +212,12 @@ public class ViewStatistics implements IPlugin {
 					Point point = new Point(event.x, event.y);
 					TableItem item = currentComposite.getViewTable().getItem(point);
 					if (item != null) {
-						if (currentComposite.getGraphComposite().getVisible() == true) {
+						if (currentComposite.getGraphComposite().getVisible()) {
 							currentComposite
 								.getGraphComposite()
 								.setMarkers(
 											(Date) item.getData("date"), Calendar.SATURDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						} else if (currentComposite.getDescriptionComposite().getVisible() == true) {
+						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
 							// showDescription(universalJuniorComposite);

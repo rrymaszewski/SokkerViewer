@@ -322,7 +322,7 @@ public class ViewBBCode implements IPlugin {
 			}
 
 			if (style == UNDERLINE) {
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					range.underline = false;
 				} else {
 					range.underline = true;
@@ -353,7 +353,7 @@ public class ViewBBCode implements IPlugin {
 			if (ranges[i].fontStyle == SWT.BOLD) {
 				text += "[b]";
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[u]";
 				}
 
@@ -367,7 +367,7 @@ public class ViewBBCode implements IPlugin {
 					text += "[/color]";
 				}
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[/u]";
 				}
 
@@ -375,7 +375,7 @@ public class ViewBBCode implements IPlugin {
 
 			} else if (ranges[i].fontStyle == SWT.ITALIC) {
 				text += "[i]";
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[u]";
 				}
 				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
@@ -388,13 +388,13 @@ public class ViewBBCode implements IPlugin {
 					text += "[/color]";
 				}
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[/u]";
 				}
 				text += "[/i]";
 			} else if (ranges[i].fontStyle == SWT.NORMAL) {
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[u]";
 				}
 
@@ -408,12 +408,12 @@ public class ViewBBCode implements IPlugin {
 					text += "[/color]";
 				}
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[/u]";
 				}
 			} else if (ranges[i].fontStyle == (SWT.BOLD | SWT.ITALIC)) {
 				text += "[b][i]";
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[u]";
 				}
 				if (!ranges[i].foreground.equals(composite.getDisplay().getSystemColor(SWT.COLOR_BLACK))) {
@@ -426,7 +426,7 @@ public class ViewBBCode implements IPlugin {
 					text += "[/color]";
 				}
 
-				if (ranges[i].underline == true) {
+				if (ranges[i].underline) {
 					text += "[/u]";
 				}
 				text += "[/i][/b]";

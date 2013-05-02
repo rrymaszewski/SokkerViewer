@@ -6,7 +6,7 @@ import pl.pronux.sokker.interfaces.DateConst;
 
 public class Junior extends Person {
 
-	final public static int MINIMUM_AGE = 16;
+	public static final int MINIMUM_AGE = 16;
 	public static Money juniorCost = new Money(4000);
 
 	public static double minimumPop = 3.0;

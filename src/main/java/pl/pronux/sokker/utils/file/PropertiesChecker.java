@@ -22,11 +22,11 @@ public class PropertiesChecker {
 
 	private SVProperties sokkerProperties;
 
-	private static final String sep = File.separator;
+	private static final String SEP = File.separator;
 
 	public PropertiesChecker() {
 		baseDir = System.getProperty("user.dir");
-		File sokkerPropertiesFile = new File(baseDir + sep + "settings" + sep
+		File sokkerPropertiesFile = new File(baseDir + SEP + "settings" + SEP
 				+ "sokker.properties");
 		if (sokkerPropertiesFile.exists()) {
 			sokkerProperties = new SVProperties();
@@ -48,7 +48,7 @@ public class PropertiesChecker {
 	public boolean checkBackupProperties() {
 		File bakFile;
 		try {
-			bakFile = new File(baseDir + sep + "settings" + sep
+			bakFile = new File(baseDir + SEP + "settings" + SEP
 					+ "backup.properties");
 			if (bakFile.exists()) {
 				Properties bakProperties = new Properties();
@@ -112,7 +112,7 @@ public class PropertiesChecker {
 				|| sokkerProperties.getProperty("backup.dir").isEmpty()) {
 			sokkerProperties.setProperty("backup.dir", System
 					.getProperty("user.dir")
-					+ sep + "bak" + sep);
+					+ SEP + "bak" + SEP);
 		}
 
 		try {
@@ -127,7 +127,7 @@ public class PropertiesChecker {
 
 	public boolean checkPluginsProperties() {
 		try {
-			File pluginsFile = new File(baseDir + sep + "settings" + sep
+			File pluginsFile = new File(baseDir + SEP + "settings" + SEP
 					+ "plugins.properties");
 			SVProperties pluginsProperties;
 			if (pluginsFile.exists()) {
@@ -228,7 +228,7 @@ public class PropertiesChecker {
 	public boolean checkUserProperties() {
 
 		SVProperties userProperties = new SVProperties();
-		File file = new File(baseDir + sep + "settings" + sep
+		File file = new File(baseDir + SEP + "settings" + SEP
 				+ "user.properties");
 		if (file.exists()) {
 			try {

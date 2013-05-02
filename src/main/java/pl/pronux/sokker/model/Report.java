@@ -2,9 +2,9 @@ package pl.pronux.sokker.model;
 
 
 public class Report {
-	public final static int INFO = 1;
-	public final static int COST = 2;
-	public final static int INCOME = 3;
+	public static final int INFO = 1;
+	public static final int COST = 2;
+	public static final int INCOME = 3;
 
 	private int status;
 	

@@ -203,11 +203,11 @@ public class PlayerArchive  extends Person {
 
 	public PlayerArchive(Player player) {
 		super();
-		this.id = player.getId();
-		this.name = player.getName();
-		this.surname = player.getSurname();
-		this.countryID = player.getCountryfrom();
-		this.teamID = player.getTeamID();
+		this.setId(player.getId());
+		this.setName(player.getName());
+		this.setSurname(player.getSurname());
+		this.setCountryID(player.getCountryfrom());
+		this.setTeamID(player.getTeamID());
 		this.national = player.getNational();
 		this.transferList = player.getTransferList();
 		this.youthTeamID = player.getYouthTeamID();
@@ -229,7 +229,7 @@ public class PlayerArchive  extends Person {
 		this.skillExperience = player.getSkills()[0].getExperience();
 		this.skillTeamwork = player.getSkills()[0].getTeamwork();
 		this.skillDiscipline = player.getSkills()[0].getDiscipline();
-		this.note = player.getNote();
+		this.setNote(player.getNote());
 		this.existsInSokker = EXISTS_IN_SOKKER_TRUE;
 		this.height = player.getHeight();
 	}

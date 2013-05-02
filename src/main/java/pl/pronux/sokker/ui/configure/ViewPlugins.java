@@ -219,7 +219,7 @@ public class ViewPlugins implements IViewConfigure {
 		for (int i = 0; i < pluginsTable.getItemCount(); i++) {
 			TableItem item = pluginsTable.getItem(i);
 			pluginsDirection.append((String) item.getData("plugin")).append(";"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (item.getChecked() == true) {
+			if (item.getChecked()) {
 				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "1"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} else {
 				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

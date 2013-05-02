@@ -3,17 +3,6 @@ package pl.pronux.sokker.model;
 import java.math.BigDecimal;
 
 public class Stand {
-	public Stand() {
-	}
-	
-	public Stand(int location, int type, int size, int isRoof, Double constuctionDays) {
-		this.location = location;
-		this.type = type;
-		this.capacity = size;
-		this.isRoof = isRoof;
-		this.constructionDays = constuctionDays;
-	}
-	
 	public static final int N = 1;
 	public static final int S = 2;
 	public static final int W = 3;
@@ -67,6 +56,17 @@ public class Stand {
 
 	private Double constructionDays;
 
+	public Stand() {
+	}
+	
+	public Stand(int location, int type, int size, int isRoof, Double constuctionDays) {
+		this.location = location;
+		this.type = type;
+		this.capacity = size;
+		this.isRoof = isRoof;
+		this.constructionDays = constuctionDays;
+	}
+	
 	public Double getConstructionDays() {
 		return constructionDays;
 	}

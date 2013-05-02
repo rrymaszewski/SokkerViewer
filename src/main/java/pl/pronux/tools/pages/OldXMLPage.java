@@ -16,6 +16,8 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class OldXMLPage extends Page {
 
+	public static final String PAGE_NAME = "OLDXML_PAGE";
+
 	private Label label;
 	private Text windowsText;
 	private Text linuxText;
@@ -23,7 +25,6 @@ public class OldXMLPage extends Page {
 	private Button windowsButton;
 	private Button linuxButton;
 	private Button macButton;
-	public static String PAGE_NAME = "OLDXML_PAGE";
 	public OldXMLPage(Wizard parent) {
 		super(parent, "Old XML page", PAGE_NAME);
 	}

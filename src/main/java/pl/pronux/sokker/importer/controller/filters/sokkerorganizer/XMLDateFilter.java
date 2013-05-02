@@ -12,11 +12,7 @@ public class XMLDateFilter implements FileFilter {
 	}
 
 	public boolean accept(File file) {
-		if (file.isDirectory() || (file.getName().matches(".*_team-" + teamID + "\\.xml$") && file.getName().endsWith(".xml"))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			return true;
-		} else {
-			return false;
-		}
+		return file.isDirectory() || file.getName().matches(".*_team-" + teamID + "\\.xml$"); 
 	}
 
 }

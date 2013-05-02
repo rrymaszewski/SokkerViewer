@@ -3,7 +3,6 @@ package pl.pronux.sokker.importer.controller;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.InputSource;
@@ -51,9 +50,9 @@ public class ImportXMLAction implements IRunnableWithProgress {
 
 	private PlayersManager playersManager = PlayersManager.instance();
 
-	private ArrayList<IXMLpack> packages;
+	private List<IXMLpack> packages;
 
-	public ImportXMLAction(ArrayList<IXMLpack> packages) {
+	public ImportXMLAction(List<IXMLpack> packages) {
 		this.packages = packages;
 	}
 

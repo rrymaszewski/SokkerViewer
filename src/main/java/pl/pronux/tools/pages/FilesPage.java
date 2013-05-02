@@ -24,7 +24,7 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class FilesPage extends Page {
 
-	public static String PAGE_NAME = "FILES_PAGE";
+	public static final String PAGE_NAME = "FILES_PAGE";
 	private Table table;
 
 	private Set<String> files = new HashSet<String>();

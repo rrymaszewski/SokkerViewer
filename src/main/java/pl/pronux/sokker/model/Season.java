@@ -5,11 +5,11 @@ import java.util.Calendar;
 import pl.pronux.sokker.interfaces.DateConst;
 
 public class Season {
-	final public static long FIRST_SEASON_DATE = 1105570800000l;
+	public static final long FIRST_SEASON_DATE = 1105570800000l;
 
-	final public static int FIRST_SEASON = 5;
+	public static final int FIRST_SEASON = 5;
 	
-	final public static int FIRST_SEASON_WEEK = 0;
+	public static final int FIRST_SEASON_WEEK = 0;
 	
 	private long millis;
 	

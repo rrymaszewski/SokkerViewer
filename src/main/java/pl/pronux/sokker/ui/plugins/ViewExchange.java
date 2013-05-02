@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -40,7 +41,7 @@ import pl.pronux.sokker.ui.widgets.tables.ExchangeTable;
 public class ViewExchange implements IPlugin {
 
 	private TreeItem _treeItem;
-	private ArrayList<Exchange> alExchange;
+	private List<Exchange> alExchange;
 	private Composite composite;
 	private Button countButton;
 	private Exchange exchange;
@@ -48,7 +49,7 @@ public class ViewExchange implements IPlugin {
 	private ExchangeTable exchangeTable;
 	private Label valueLabel;
 	private Label currencyLabel;
-	private HashMap<String, Double> currencyHM;
+	private Map<String, Double> currencyHM;
 	private Combo currencyCombo;
 	private List<Country> countries;
 	private Listener verifyCurrencyList;
@@ -205,7 +206,7 @@ public class ViewExchange implements IPlugin {
 					e.doit = false;
 					return;
 				}
-				BigDecimal summary = new BigDecimal(0);
+				BigDecimal summary = BigDecimal.ZERO;
 				double value = Double.valueOf(string).doubleValue();
 				double tempSummary = 0;
 				tempSummary = value * Double.valueOf(currencyHM.get(currency));

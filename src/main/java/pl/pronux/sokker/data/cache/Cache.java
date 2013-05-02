@@ -28,7 +28,7 @@ public class Cache {
 
 	private static Club club;
 
-	private static ArrayList<Coach> coaches;
+	private static List<Coach> coaches;
 
 	private static ArrayList<Coach> coachesFired;
 
@@ -90,7 +90,7 @@ public class Cache {
 		return club;
 	}
 
-	public static ArrayList<Coach> getCoaches() {
+	public static List<Coach> getCoaches() {
 		return coaches;
 	}
 

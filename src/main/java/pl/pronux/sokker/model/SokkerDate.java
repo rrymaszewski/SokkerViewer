@@ -6,13 +6,21 @@ import pl.pronux.sokker.interfaces.DateConst;
 
 public class SokkerDate {
 
-	public final static byte SATURDAY = 0;
-	public final static byte SUNDAY = 1;
-	public final static byte MONDAY = 2;
-	public final static byte TUESDAY = 3;
-	public final static byte WEDNESDAY = 4;
-	public final static byte THURSDAY = 5;
-	public final static byte FRIDAY = 6;
+	public static final byte SATURDAY = 0;
+	public static final byte SUNDAY = 1;
+	public static final byte MONDAY = 2;
+	public static final byte TUESDAY = 3;
+	public static final byte WEDNESDAY = 4;
+	public static final byte THURSDAY = 5;
+	public static final byte FRIDAY = 6;
+
+//	public final static long beginDate = 1057470289859l - Date.day;
+//	public final static long BEGIN_DATE = 1057379449859l - DateConst.HOUR * 6 - DateConst.MINUTE * 30 - DateConst.SECOND * 49 - 859;
+	public static final long BEGIN_DATE = 1057356000000l + DateConst.SECOND;
+	
+	private int day;
+
+	private int week;
 
 	public SokkerDate() {
 	}
@@ -27,9 +35,6 @@ public class SokkerDate {
 		this.week = week;
 	}
 
-//	public final static long beginDate = 1057470289859l - Date.day;
-//	public final static long BEGIN_DATE = 1057379449859l - DateConst.HOUR * 6 - DateConst.MINUTE * 30 - DateConst.SECOND * 49 - 859;
-	public final static long BEGIN_DATE = 1057356000000l + DateConst.SECOND;
 
 	public static int convertMillisToDay(long millis) {
 		int offset = 0 ;
@@ -138,10 +143,6 @@ public class SokkerDate {
 		offset = ca2.get(Calendar.DST_OFFSET) - ca1.get(Calendar.DST_OFFSET);
 		return Long.valueOf((ca2.getTimeInMillis() - begin   + offset) / DateConst.WEEK).intValue();
 	}
-	private int day;
-
-	private int week;
-
 	public int getDay() {
 		return day;
 	}

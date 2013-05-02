@@ -2,11 +2,11 @@ package pl.pronux.sokker.model;
 
 public class ClubArenaName {
 
-	int id;
+	private int id;
 	
-	String arenaName;
+	private String arenaName;
 	
-	Date date;
+	private Date date;
 
 	public String getArenaName() {
 		return arenaName;

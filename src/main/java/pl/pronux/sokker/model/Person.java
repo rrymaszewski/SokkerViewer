@@ -8,19 +8,19 @@ public abstract class Person implements Serializable {
 	 */
 	private static final long serialVersionUID = -6288575437262792754L;
 
-	int id;
+	private int id;
 	
-	int status;
+	private int status;
 
-	String name = ""; //$NON-NLS-1$
+	private String name = ""; //$NON-NLS-1$
 
-	String surname = ""; //$NON-NLS-1$
+	private String surname = ""; //$NON-NLS-1$
 	
-	String clubName;
+	private String clubName;
 
-	String note = ""; //$NON-NLS-1$
+	private String note = ""; //$NON-NLS-1$
 	
-	int teamID;
+	private int teamID;
 	
 	public int getTeamID() {
 		return teamID;

@@ -4,16 +4,16 @@ import pl.pronux.sokker.model.Date;
 
 public interface IXMLpack {
 
-	public boolean isComplete();
+	boolean isComplete();
 
-	public void setComplete(boolean complete);
+	void setComplete(boolean complete);
 
-	public Date getDate();
+	Date getDate();
 
-	public void setDate(Date date);
+	void setDate(Date date);
 	
-	public boolean isImported();
+	boolean isImported();
 	
-	public void setImported(boolean imported);
+	void setImported(boolean imported);
 
 }

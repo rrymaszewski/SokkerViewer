@@ -10,9 +10,9 @@ public interface SVComparator<T> extends Comparator<T> {
 	 * @param column
 	 *            the column
 	 */
-	public abstract void setColumn(int column);
+	void setColumn(int column);
 
-	public abstract int getColumn();
+	int getColumn();
 
 	/**
 	 * Sets the direction for sorting
@@ -20,13 +20,13 @@ public interface SVComparator<T> extends Comparator<T> {
 	 * @param direction
 	 *            the direction
 	 */
-	public abstract void setDirection(int direction);
+	void setDirection(int direction);
 
-	public abstract int getDirection();
+	int getDirection();
 
 	/**
 	 * Reverses the direction
 	 */
-	public abstract void reverseDirection();
+	void reverseDirection();
 
 }

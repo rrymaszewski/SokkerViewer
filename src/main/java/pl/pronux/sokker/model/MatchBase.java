@@ -2,9 +2,9 @@ package pl.pronux.sokker.model;
 
 public class MatchBase {
 
-	public final static int FINISHED = 1;
+	public static final int FINISHED = 1;
 
-	public final static int NOT_FINISHED = 0;
+	public static final int NOT_FINISHED = 0;
 
 	private League league;
 

@@ -23,103 +23,103 @@ public class MatchXmlParser {
 
 	static int current_tag = 0;
 
-	static final int TAG_MATCH = 1;
+	private static final int TAG_MATCH = 1;
 
-	static final int TAG_INFO = 2;
+	private static final int TAG_INFO = 2;
 
-	static final int TAG_MATCH_ID = 3;
+	private static final int TAG_MATCH_ID = 3;
 
-	static final int TAG_HOME_TEAM_ID = 4;
+	private static final int TAG_HOME_TEAM_ID = 4;
 
-	static final int TAG_AWAY_TEAM_ID = 5;
+	private static final int TAG_AWAY_TEAM_ID = 5;
 
-	static final int TAG_HOME_TEAM_NAME = 6;
+	private static final int TAG_HOME_TEAM_NAME = 6;
 
-	static final int TAG_AWAY_TEAM_NAME = 7;
+	private static final int TAG_AWAY_TEAM_NAME = 7;
 
-	static final int TAG_LEAGUE_ID = 8;
+	private static final int TAG_LEAGUE_ID = 8;
 
-	static final int TAG_ROUND = 9;
+	private static final int TAG_ROUND = 9;
 
-	static final int TAG_SEASON = 10;
+	private static final int TAG_SEASON = 10;
 
-	static final int TAG_WEEK = 11;
+	private static final int TAG_WEEK = 11;
 
-	static final int TAG_DAY = 12;
+	private static final int TAG_DAY = 12;
 
-	static final int TAG_DATE_EXPECTED = 13;
+	private static final int TAG_DATE_EXPECTED = 13;
 
-	static final int TAG_DATE_STARTED = 14;
+	private static final int TAG_DATE_STARTED = 14;
 
-	static final int TAG_HOME_TEAM_SCORE = 15;
+	private static final int TAG_HOME_TEAM_SCORE = 15;
 
-	static final int TAG_AWAY_TEAM_SCORE = 16;
+	private static final int TAG_AWAY_TEAM_SCORE = 16;
 
-	static final int TAG_SUPPORTERS = 17;
+	private static final int TAG_SUPPORTERS = 17;
 
-	static final int TAG_WEATHER = 18;
+	private static final int TAG_WEATHER = 18;
 
-	static final int TAG_IS_FINISHED = 19;
+	private static final int TAG_IS_FINISHED = 19;
 
-	static final int TAG_TEAM_STATS = 20;
+	private static final int TAG_TEAM_STATS = 20;
 
-	static final int TAG_TEAM_ID = 21;
+	private static final int TAG_TEAM_ID = 21;
 
-	static final int TAG_TIME_ON_HALF = 22;
+	private static final int TAG_TIME_ON_HALF = 22;
 
-	static final int TAG_TIME_POSSESSION = 23;
+	private static final int TAG_TIME_POSSESSION = 23;
 
-	static final int TAG_OFFSIDES = 24;
+	private static final int TAG_OFFSIDES = 24;
 
-	static final int TAG_SHOOTS_INFO = 25;
+	private static final int TAG_SHOOTS_INFO = 25;
 
-	static final int TAG_FOULS_INFO = 26;
+	private static final int TAG_FOULS_INFO = 26;
 
-	static final int TAG_YELLOW_CARDS_INFO = 27;
+	private static final int TAG_YELLOW_CARDS_INFO = 27;
 
-	static final int TAG_RED_CARDS_INFO = 28;
+	private static final int TAG_RED_CARDS_INFO = 28;
 
-	static final int TAG_TACTIC_NAME = 29;
+	private static final int TAG_TACTIC_NAME = 29;
 
-	static final int TAG_RATING_SCORING = 30;
+	private static final int TAG_RATING_SCORING = 30;
 
-	static final int TAG_RATING_PASSING = 31;
+	private static final int TAG_RATING_PASSING = 31;
 
-	static final int TAG_RATING_DEFENDING = 32;
+	private static final int TAG_RATING_DEFENDING = 32;
 
-	static final int TAG_PLAYERS_STATS = 33;
+	private static final int TAG_PLAYERS_STATS = 33;
 
-	static final int TAG_PLAYER_STATS = 34;
+	private static final int TAG_PLAYER_STATS = 34;
 
-	static final int TAG_PLAYER_ID = 35;
+	private static final int TAG_PLAYER_ID = 35;
 
-	static final int TAG_NUMBER = 36;
+	private static final int TAG_NUMBER = 36;
 
-	static final int TAG_FORMATION = 37;
+	private static final int TAG_FORMATION = 37;
 
-	static final int TAG_TIME_IN = 38;
+	private static final int TAG_TIME_IN = 38;
 
-	static final int TAG_TIME_OUT = 39;
+	private static final int TAG_TIME_OUT = 39;
 
-	static final int TAG_YELLOW_CARDS_PLAYER = 40;
+	private static final int TAG_YELLOW_CARDS_PLAYER = 40;
 
-	static final int TAG_RED_CARDS_PLAYER = 41;
+	private static final int TAG_RED_CARDS_PLAYER = 41;
 
-	static final int TAG_IS_INJURED = 42;
+	private static final int TAG_IS_INJURED = 42;
 
-	static final int TAG_GOALS_PLAYER = 43;
+	private static final int TAG_GOALS_PLAYER = 43;
 
-	static final int TAG_ASSISTS_PLAYER = 44;
+	private static final int TAG_ASSISTS_PLAYER = 44;
 
-	static final int TAG_SHOOTS_PLAYER = 45;
+	private static final int TAG_SHOOTS_PLAYER = 45;
 
-	static final int TAG_RATING = 46;
+	private static final int TAG_RATING = 46;
 
-	static final int TAG_TIME_PLAYING = 47;
+	private static final int TAG_TIME_PLAYING = 47;
 
-	static final int TAG_TIME_DEFENDING = 48;
+	private static final int TAG_TIME_DEFENDING = 48;
 
-	static final int TAG_FOULS_PLAYER = 49;
+	private static final int TAG_FOULS_PLAYER = 49;
 
 	static int TAG_switch = 0;
 

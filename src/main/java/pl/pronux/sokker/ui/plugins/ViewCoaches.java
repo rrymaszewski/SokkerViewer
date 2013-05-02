@@ -49,7 +49,7 @@ public class ViewCoaches implements IPlugin, ISort {
 
 	private String cbData;
 
-	private ArrayList<Coach> coaches;
+	private List<Coach> coaches;
 
 	private DescriptionDoubleComposite coachView;
 

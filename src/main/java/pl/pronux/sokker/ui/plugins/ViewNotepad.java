@@ -305,7 +305,7 @@ public class ViewNotepad implements IPlugin, ISort {
 	}
 
 	private void saveNote() {
-		if (newDocument == true) {
+		if (newDocument) {
 			Note note = new Note();
 			note.setText(viewText.getText());
 			note.setTitle(viewTitle.getText());

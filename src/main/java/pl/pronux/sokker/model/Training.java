@@ -7,26 +7,26 @@ import pl.pronux.sokker.bean.TrainingSummary;
 
 public class Training {
 
-	final public static int FORMATION_GK = 0;
-	final public static int FORMATION_DEF = 1;
-	final public static int FORMATION_MID = 2;
-	final public static int FORMATION_ATT = 3;
-	final public static int FORMATION_ALL = 4;
+	public static final int FORMATION_GK = 0;
+	public static final int FORMATION_DEF = 1;
+	public static final int FORMATION_MID = 2;
+	public static final int FORMATION_ATT = 3;
+	public static final int FORMATION_ALL = 4;
 
-	final public static int TYPE_UNKNOWN = 0;
-	final public static int TYPE_STAMINA = 1;
-	final public static int TYPE_KEEPER = 2;
-	final public static int TYPE_PLAYMAKING = 3;
-	final public static int TYPE_PASSING = 4;
-	final public static int TYPE_TECHNIQUE = 5;
-	final public static int TYPE_DEFENDING = 6;
-	final public static int TYPE_STRIKER = 7;
-	final public static int TYPE_PACE = 8;
+	public static final int TYPE_UNKNOWN = 0;
+	public static final int TYPE_STAMINA = 1;
+	public static final int TYPE_KEEPER = 2;
+	public static final int TYPE_PLAYMAKING = 3;
+	public static final int TYPE_PASSING = 4;
+	public static final int TYPE_TECHNIQUE = 5;
+	public static final int TYPE_DEFENDING = 6;
+	public static final int TYPE_STRIKER = 7;
+	public static final int TYPE_PACE = 8;
 
-	final public static int NO_TRAINING = 1 << 1;
-	final public static int NEW_TRAINING = 1 << 2;
-	final public static int UPDATE_TRAINING = 1 << 3;
-	final public static int UPDATE_PLAYERS = 1 << 4;
+	public static final int NO_TRAINING = 1 << 1;
+	public static final int NEW_TRAINING = 1 << 2;
+	public static final int UPDATE_TRAINING = 1 << 3;
+	public static final int UPDATE_PLAYERS = 1 << 4;
 
 	private Date date;
 

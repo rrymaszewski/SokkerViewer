@@ -858,7 +858,7 @@ public class ViewTranslator implements IPlugin {
 
 			test[i] = test[i].replaceAll("^ +", "");
 
-			if (test[i].matches(".*\\p{L}+([ \t]+\\p{L}+)+.*") && nameMutex == true && !test[i].contains(langTranslatePropertiesFrom.getString("player.name")) && !test[i].contains(langTranslatePropertiesFrom.getString("player.surname"))) {
+			if (test[i].matches(".*\\p{L}+([ \t]+\\p{L}+)+.*") && nameMutex && !test[i].contains(langTranslatePropertiesFrom.getString("player.name")) && !test[i].contains(langTranslatePropertiesFrom.getString("player.surname"))) {
 
 				test[i] = test[i].replaceAll("[^\\p{L} ]", "");
 				test[i] = test[i].replaceAll("\t", " ");

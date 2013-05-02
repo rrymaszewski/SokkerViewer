@@ -16,10 +16,11 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class DestinationPage extends Page {
 
+	public static final String PAGE_NAME = "DESTINATION_PAGE";
+
 	private Label label;
 	private Text text;
 	private Button button;
-	public static String PAGE_NAME = "DESTINATION_PAGE";
 	public DestinationPage(Wizard parent) {
 		super(parent, "Destination page", PAGE_NAME);
 	}

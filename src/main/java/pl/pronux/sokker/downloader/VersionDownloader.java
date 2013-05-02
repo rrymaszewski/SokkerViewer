@@ -15,9 +15,9 @@ import pl.pronux.sokker.updater.xml.UpdateXMLParser;
 
 public class VersionDownloader {
 
-	private SokkerViewerSettings settings;
+	public static final String NO_UPDATES = "NO_UPDATES";
 
-	final public static String NO_UPDATES = "NO_UPDATES";
+	private SokkerViewerSettings settings;
 
 	public VersionDownloader(SokkerViewerSettings settings) {
 		this.settings = settings;

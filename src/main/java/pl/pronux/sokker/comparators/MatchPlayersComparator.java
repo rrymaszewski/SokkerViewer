@@ -12,29 +12,29 @@ public class MatchPlayersComparator implements SVComparator<PlayerStats>, ISort 
 
 	private int direction;
 
-	final public static int SUBSTITUTIONS = 0;
+	public static final int SUBSTITUTIONS = 0;
 
-	final public static int NUMBER = 1;
+	public static final int NUMBER = 1;
 
-	final public static int PLAYER = 2;
+	public static final int PLAYER = 2;
 
-	final public static int FORMATION = 3;
+	public static final int FORMATION = 3;
 
-	final public static int TIME = 4;
+	public static final int TIME = 4;
 
-	final public static int RATING = 5;
+	public static final int RATING = 5;
 
-	final public static int GOALS = 6;
+	public static final int GOALS = 6;
 
-	final public static int SHOOTS = 7;
+	public static final int SHOOTS = 7;
 
-	final public static int ASSISTS = 8;
+	public static final int ASSISTS = 8;
 	
-	final public static int FOULS = 9;
+	public static final int FOULS = 9;
 
-	final public static int INJURY = 10;
+	public static final int INJURY = 10;
 
-	final public static int CARDS = 11;
+	public static final int CARDS = 11;
 	
 	public MatchPlayersComparator() {
 	}
@@ -73,7 +73,7 @@ public class MatchPlayersComparator implements SVComparator<PlayerStats>, ISort 
 			} else if(ps1.getPlayer() == null && ps2.getPlayer() != null) {
 				rc = -1;
 			} else if(ps1.getPlayer() != null && ps2.getPlayer() != null) {
-				if(ps1.getPlayer().getSurname() == null && ps1.getPlayer().getSurname() == null) {
+				if(ps1.getPlayer().getSurname() == null && ps2.getPlayer().getSurname() == null) {
 					rc = (ps1.getPlayerID() < ps2.getPlayerID()) ? -1 : 1;
 				} else if(ps1.getPlayer().getSurname() == null) {
 					rc = 1;

@@ -3,8 +3,9 @@ package pl.pronux.sokker.updater.xml;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -63,7 +64,7 @@ public class UpdateXMLParser {
 
 	final static int TAG_CHANGELOG = 13;
 
-	public Hashtable<String, Package> alPackages = new Hashtable<String, Package>();
+	public Map<String, Package> alPackages = new HashMap<String, Package>();
 
 	private int currentTag = 0;
 
@@ -77,13 +78,10 @@ public class UpdateXMLParser {
 
 	public String changelog;
 
-	public ArrayList<Package> compareTo(UpdateXMLParser parser) {
-		ArrayList<Package> downloadedPackages = new ArrayList<Package>();
+	public List<Package> compareTo(UpdateXMLParser parser) {
+		List<Package> downloadedPackages = new ArrayList<Package>();
 		if (this.revision > parser.revision) {
-			Enumeration<String> e = alPackages.keys();
-			String key;
-			while (e.hasMoreElements()) {
-				key = e.nextElement();
+			for (String key : alPackages.keySet()) {
 				Package pkgOld = parser.alPackages.get(key);
 				Package pkgNew = alPackages.get(key);
 

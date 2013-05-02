@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -134,7 +135,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 	private FormData viewFormData;
 
-	private HashMap<Integer, Table> viewMap;
+	private Map<Integer, Table> viewMap;
 
 	private Composite composite;
 
@@ -630,7 +631,7 @@ public class ViewPlayers implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				if (event.widget instanceof MenuItem) {
 					Object o = ((MenuItem) event.widget).getParent().getData("item");
-					if (o != null && o instanceof TableItem) {
+					if (o instanceof TableItem) {
 						TableItem item = (TableItem) o;
 						if (item.getData("player_skill") != null && item.getData("player_skill") instanceof PlayerSkills) {
 							PlayerSkills pSkills = (PlayerSkills) item.getData("player_skill");

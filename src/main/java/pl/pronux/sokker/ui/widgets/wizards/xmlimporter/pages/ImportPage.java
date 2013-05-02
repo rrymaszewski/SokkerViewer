@@ -1,7 +1,7 @@
 package pl.pronux.sokker.ui.widgets.wizards.xmlimporter.pages;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -114,7 +114,7 @@ public class ImportPage extends Page {
 		getProgressBar().setVisible(true);
 		getWizard().getPreviousButton().setEnabled(false);
 		getWizard().getNextButton().setEnabled(false);
-		ArrayList<IXMLpack> packages = ((ChooseFilePage) getWizard().getPage(ChooseFilePage.PAGE_NAME)).getPackages();
+		List<IXMLpack> packages = ((ChooseFilePage) getWizard().getPage(ChooseFilePage.PAGE_NAME)).getPackages();
 		try {
 			progressBar.run(true, true, new ImportXMLAction(packages));
 		} catch (InterruptedException e) {
@@ -139,7 +139,7 @@ public class ImportPage extends Page {
 							getWizard().getNextButton().setEnabled(false);
 							getWizard().getFinishButton().setEnabled(true);
 							detailsButton.setEnabled(true);
-							ArrayList<IXMLpack> packages = ((ChooseFilePage) getWizard().getPage(ChooseFilePage.PAGE_NAME)).getPackages();
+							List<IXMLpack> packages = ((ChooseFilePage) getWizard().getPage(ChooseFilePage.PAGE_NAME)).getPackages();
 							fillTable(packages);
 							int imported = 0;
 							int failed = 0;
@@ -163,7 +163,7 @@ public class ImportPage extends Page {
 		super.onEnterPage();
 	}
 	
-	private void fillTable(ArrayList<IXMLpack> list) {
+	private void fillTable(List<IXMLpack> list) {
 
 		table.remove(0, table.getItemCount() - 1);
 

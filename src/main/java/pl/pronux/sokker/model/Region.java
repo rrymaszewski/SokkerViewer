@@ -1,13 +1,13 @@
 package pl.pronux.sokker.model;
 
 public class Region {
-	int idCountryFK;
+	private int idCountryFK;
 
-	int regionID;
+	private int regionID;
 
-	String name;
+	private String name;
 
-	int weather;
+	private int weather;
 
 	public int getIdCountryFK() {
 		return idCountryFK;

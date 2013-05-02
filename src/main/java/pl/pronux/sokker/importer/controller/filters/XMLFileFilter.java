@@ -12,11 +12,7 @@ public class XMLFileFilter implements FileFilter {
 	}
 
 	public boolean accept(File file) {
-		if (file != null && (file.isDirectory() || (file.getName().endsWith(".xml") && file.getName().contains(name)))) { //$NON-NLS-1$
-			return true;
-		} else {
-			return false;
-		}
+		return file != null && (file.isDirectory() || (file.getName().endsWith(".xml") && file.getName().contains(name)));
 	}
 
 }

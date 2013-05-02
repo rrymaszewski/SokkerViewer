@@ -22,15 +22,15 @@ import pl.pronux.sokker.utils.security.Crypto;
 
 public class BugReportAction {
 
-	private final String SECRET_KEY_128 = "vsXFsdVfeGFTyMdpOVhY4A=="; //$NON-NLS-1$
+	private static final String SECRET_KEY_128 = "vsXFsdVfeGFTyMdpOVhY4A=="; //$NON-NLS-1$
 
-	private final static String SYMMETRIC_KEY_TYPE = "Rijndael"; //$NON-NLS-1$
+	private static final String SYMMETRIC_KEY_TYPE = "Rijndael"; //$NON-NLS-1$
 
-	private final static String SYMMETRIC_KEY_SEQUENCE = "Rijndael/CBC/NoPadding"; //$NON-NLS-1$
+	private static final String SYMMETRIC_KEY_SEQUENCE = "Rijndael/CBC/NoPadding"; //$NON-NLS-1$
 
-	private final static String NT_DATABASE_ADDRESS = "http://www.sokkerviewer.net/bugs/"; //$NON-NLS-1$
+	private static final String NT_DATABASE_ADDRESS = "http://www.sokkerviewer.net/bugs/"; //$NON-NLS-1$
 
-	private final static String NT_DATABASE_ADDRESS_ADD = NT_DATABASE_ADDRESS + "sv_addbug.php"; //$NON-NLS-1$
+	private static final String NT_DATABASE_ADDRESS_ADD = NT_DATABASE_ADDRESS + "sv_addbug.php"; //$NON-NLS-1$
 
 	public String sendBug(String bug, SokkerViewerSettings settings) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
 		IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, ShortBufferException, IOException, BadArgumentException {

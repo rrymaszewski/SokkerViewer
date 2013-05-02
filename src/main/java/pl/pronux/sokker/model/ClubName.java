@@ -3,11 +3,11 @@ package pl.pronux.sokker.model;
 
 public class ClubName {
 	
-	int id;
+	private int id;
 	 
-	String name;
+	private String name;
 	
-	Date date;
+	private Date date;
 
 	public Date getDate() {
 		return date;

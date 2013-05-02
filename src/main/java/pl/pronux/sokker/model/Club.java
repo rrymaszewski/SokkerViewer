@@ -6,11 +6,11 @@ import java.util.Set;
 
 public class Club {
 
-	final public static double CREDIT_INTEREST = 0.045;
+	public static final double CREDIT_INTEREST = 0.045;
 
-	final public static int FANCLUB_TICKET = 500;
+	public static final int FANCLUB_TICKET = 500;
 
-	final public static double SPONSORS_BONUS_RATE = 1.5;
+	public static final double SPONSORS_BONUS_RATE = 1.5;
 
 	private Training training;
 

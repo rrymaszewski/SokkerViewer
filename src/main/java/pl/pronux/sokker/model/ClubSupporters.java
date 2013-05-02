@@ -2,11 +2,11 @@ package pl.pronux.sokker.model;
 
 public class ClubSupporters {
 	
-	Date date;
+	private Date date;
 	
-	int fanclubcount;
+	private int fanclubcount;
 
-	byte fanclubmood;
+	private byte fanclubmood;
 	
 	private int id;
 

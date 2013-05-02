@@ -61,10 +61,10 @@ public class Synchronizer implements IRunnableWithProgress {
 
 	private SynchronizerConfiguration configuration;
 
-	final public static String ERROR_MESSAGE_NULL = "-4"; //$NON-NLS-1$
-	final public static String ERROR_RESPONSE_UNKNOWN = "-1"; //$NON-NLS-1$
-	final public static String ERROR_WRITE = "-3";//$NON-NLS-1$
-	final public static String ERROR_DOWNLOAD = "-2"; //$NON-NLS-1$
+	public static final String ERROR_MESSAGE_NULL = "-4"; //$NON-NLS-1$
+	public static final String ERROR_RESPONSE_UNKNOWN = "-1"; //$NON-NLS-1$
+	public static final String ERROR_WRITE = "-3";//$NON-NLS-1$
+	public static final String ERROR_DOWNLOAD = "-2"; //$NON-NLS-1$
 
 	public Synchronizer(SokkerViewerSettings settings, SynchronizerConfiguration configuration) {
 		this.configuration = configuration;

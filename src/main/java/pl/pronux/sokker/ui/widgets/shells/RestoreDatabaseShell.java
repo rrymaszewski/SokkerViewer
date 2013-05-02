@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -44,7 +45,7 @@ public class RestoreDatabaseShell extends Shell {
 
 	private CLabel label;
 
-	private ArrayList<File> files;
+	private List<File> files;
 
 	@Override
 	protected void checkSubclass() {
@@ -120,7 +121,7 @@ public class RestoreDatabaseShell extends Shell {
 
 	}
 
-	public void addItems(ArrayList<File> files) {
+	public void addItems(List<File> files) {
 
 		this.files = files;
 
@@ -152,15 +153,11 @@ public class RestoreDatabaseShell extends Shell {
 		if (bakDir.exists() || SettingsHandler.getSokkerViewerSettings().getBackupDirectory() == null) {
 			FileFilter fileFilter = new FileFilter() {
 				public boolean accept(File file) {
-					if (file.isDirectory() || file.getName().endsWith(".bak")) { //$NON-NLS-1$
-						return true;
-					} else {
-						return false;
-					}
+					return file.isDirectory() || file.getName().endsWith(".bak");
 				}
 			};
-			ArrayList<File> files = OperationOnFile.visitAllDirs(bakDir, fileFilter, new ArrayList<File>());
-			if (files.size() > 0) {
+			List<File> files = OperationOnFile.visitAllDirs(bakDir, fileFilter, new ArrayList<File>());
+			if (!files.isEmpty()) {
 				this.addItems(files);
 			} else {
 				MessageDialog.openErrorMessage(this, Messages.getString("message.viewer.db.restore.error.text")); //$NON-NLS-1$

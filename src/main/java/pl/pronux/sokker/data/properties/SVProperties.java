@@ -14,7 +14,7 @@ public class SVProperties extends Properties {
 	 */
 	private static final long serialVersionUID = -2930553456447297635L;
 
-	String filename;
+	private String filename;
 	
 	public synchronized void loadFile(String filename) throws FileNotFoundException, IOException {
 		this.filename = filename;

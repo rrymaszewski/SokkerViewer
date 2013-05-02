@@ -1,7 +1,7 @@
 package pl.pronux.sokker.importer.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.pronux.sokker.importer.model.IXMLpack;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
@@ -12,8 +12,8 @@ public abstract class PackagesManager implements IRunnableWithProgress {
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 	}
 	
-	public abstract ArrayList<IXMLpack> getPackages();
+	public abstract List<IXMLpack> getPackages();
 
-	public abstract void setPackages(ArrayList<IXMLpack> packages) ;
+	public abstract void setPackages(List<IXMLpack> packages) ;
 
 }

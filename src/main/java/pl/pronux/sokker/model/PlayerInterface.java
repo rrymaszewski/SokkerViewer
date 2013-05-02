@@ -2,42 +2,42 @@ package pl.pronux.sokker.model;
 
 public interface PlayerInterface {
 
-	public int getCountryfrom();
+	int getCountryfrom();
 
-	public int getPosition();
+	int getPosition();
 
-	public PlayerSkills[] getSkills();
+	PlayerSkills[] getSkills();
 
-	public void setCountryfrom(int countryfrom);
+	void setCountryfrom(int countryfrom);
 
-	public void setPosition(int position);
+	void setPosition(int position);
 
-	public double[] getPositionTable();
+	double[] getPositionTable();
 
-	public void setPositionTable(double[] positionTable);
+	void setPositionTable(double[] positionTable);
 
-	public void setSkills(PlayerSkills[] skills);
+	void setSkills(PlayerSkills[] skills);
 
-	public Money getSoldPrice();
+	Money getSoldPrice();
 
-	public void setSoldPrice(double soldPrice);
+	void setSoldPrice(double soldPrice);
 
-	public Money getBuyPrice();
+	Money getBuyPrice();
 
-	public void setBuyPrice(double buyPrice);
+	void setBuyPrice(double buyPrice);
 
-	public void setJunior(Junior junior);
+	void setJunior(Junior junior);
 
-	public Junior getJunior();
+	Junior getJunior();
 
-	public Transfer getTransferSell();
+	Transfer getTransferSell();
 
-	public void setTransferSell(Transfer transferSell);
+	void setTransferSell(Transfer transferSell);
 
-	public Transfer getTransferBuy();
+	Transfer getTransferBuy();
 
-	public void setTransferBuy(Transfer transferBuy);
+	void setTransferBuy(Transfer transferBuy);
 
-	public int getId();
+	int getId();
 
 }

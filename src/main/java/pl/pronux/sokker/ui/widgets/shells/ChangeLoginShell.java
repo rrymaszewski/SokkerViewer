@@ -3,6 +3,7 @@ package pl.pronux.sokker.ui.widgets.shells;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -144,14 +145,10 @@ public class ChangeLoginShell extends Shell {
 		File dbDir = new File(settings.getBaseDirectory() + File.separator + "db" + File.separator); //$NON-NLS-1$
 		FileFilter fileFilter = new FileFilter() {
 			public boolean accept(File file) {
-				if (file.isDirectory() || file.getName().endsWith(".script")) { //$NON-NLS-1$
-					return true;
-				} else {
-					return false;
-				}
+				return file.isDirectory() || file.getName().endsWith(".script");
 			}
 		};
-		ArrayList<File> files = OperationOnFile.visitAllDirs(dbDir, fileFilter, new ArrayList<File>());
+		List<File> files = OperationOnFile.visitAllDirs(dbDir, fileFilter, new ArrayList<File>());
 
 		for (File file : files) {
 			String[] filename = file.getName().split("\\."); //$NON-NLS-1$

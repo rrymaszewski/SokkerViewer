@@ -61,7 +61,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 	private CoachTrashComparator coachComparator;
 
-	private ArrayList<Coach> coaches;
+	private List<Coach> coaches;
 
 	private Table coachesTable;
 
@@ -97,7 +97,7 @@ public class ViewTrash implements IPlugin, ISort {
 
 	private PlayerTrashComparator playerComparator;
 
-	private ArrayList<Player> players;
+	private List<Player> players;
 
 	private Table playersTable;
 
@@ -1604,7 +1604,7 @@ public class ViewTrash implements IPlugin, ISort {
 			cards = String.valueOf(player.getSkills()[maxSkill - 1].getCards());
 		}
 
-		values[9][1] = cards.toString();
+		values[9][1] = cards;
 
 		diffrents = player.getSkills()[maxSkill - 1].getCards();
 		if (diffrents < 3 && diffrents > 0) {

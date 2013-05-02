@@ -6,20 +6,20 @@ import java.util.List;
  * @author  rymek
  */
 public class League {
-	public final static int TYPE_LEAGUE = 0;
-	public final static int TYPE_CUP = 1;
-	public final static int TYPE_PLAYOFF = 2;
-	public final static int TYPE_FRIENDLY_MATCH = 3;
-	public final static int TYPE_NT_U21_LEAGUE = 4;
-	public final static int TYPE_NT_WORLD_CUP = 5;
-	public final static int TYPE_U21_WORLD_CUP = 6;
-	public final static int TYPE_JUNIOR_LEAGUE = 7;
-	public final static int TYPE_CHAMPIONS_CUP = 9;
-	public final static int TYPE_NT_U21_FRIENDLY_MATCH = 10;
-	public final static int OFFICIAL = 1;
-	public final static int NOT_OFFICIAL = 0;
-	public final static int CUP = 1;
-	public final static int NOT_CUP = 0;
+	public static final int TYPE_LEAGUE = 0;
+	public static final int TYPE_CUP = 1;
+	public static final int TYPE_PLAYOFF = 2;
+	public static final int TYPE_FRIENDLY_MATCH = 3;
+	public static final int TYPE_NT_U21_LEAGUE = 4;
+	public static final int TYPE_NT_WORLD_CUP = 5;
+	public static final int TYPE_U21_WORLD_CUP = 6;
+	public static final int TYPE_JUNIOR_LEAGUE = 7;
+	public static final int TYPE_CHAMPIONS_CUP = 9;
+	public static final int TYPE_NT_U21_FRIENDLY_MATCH = 10;
+	public static final int OFFICIAL = 1;
+	public static final int NOT_OFFICIAL = 0;
+	public static final int CUP = 1;
+	public static final int NOT_CUP = 0;
 
 	private List<LeagueTeam> leagueTeams;
 

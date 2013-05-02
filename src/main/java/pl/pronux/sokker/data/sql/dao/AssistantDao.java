@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AssistantDao {
 
@@ -15,7 +16,7 @@ public class AssistantDao {
 	}
 
 	public int[][] getAssistantData() throws SQLException {
-		ArrayList<int[]> alInt = new ArrayList<int[]>();
+		List<int[]> alInt = new ArrayList<int[]>();
 		PreparedStatement ps;
 		ps = connection
 			.prepareStatement("SELECT id_position, form, stamina, pace, technique, passing, keeper, defender, playmaker, scorer FROM assistant ORDER BY id_position"); //$NON-NLS-1$

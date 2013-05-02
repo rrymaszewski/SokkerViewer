@@ -13,6 +13,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
@@ -33,23 +35,34 @@ public class OperationOnFile {
 			filename += ".sv_"; //$NON-NLS-1$
 		}
 		FileOutputStream out = null;
+		ObjectOutputStream oos = null;
 		try {
 			out = new FileOutputStream(filename);
-			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos = new ObjectOutputStream(out);
 			oos.writeObject(player);
 			oos.flush();
 		} finally {
 			if (out != null) {
 				out.close();	
 			}
+			if (oos != null) {
+				oos.close();
+			}
 		}
 	}
 
 	public static PlayerInterface serializePlayer(String filename) throws Exception {
 		PlayerInterface player = null;
-		FileInputStream in = new FileInputStream(filename);
-		ObjectInputStream ois = new ObjectInputStream(in);
-		player = (PlayerInterface) (ois.readObject());
+		ObjectInputStream ois = null;
+		try {
+			FileInputStream in = new FileInputStream(filename);
+			ois = new ObjectInputStream(in);
+			player = (PlayerInterface) (ois.readObject());
+		} finally {
+			if (ois != null) {
+				ois.close();
+			}
+		}
 		return player;
 	}
 
@@ -117,7 +130,7 @@ public class OperationOnFile {
 		boolean success = source.renameTo(new File(destination));
 
 		if (success) {
-			ArrayList<File> files = getDirList(source);
+			List<File> files = getDirList(source);
 			for (File file : files) {
 				moveFile(file, destination);
 			}
@@ -208,7 +221,7 @@ public class OperationOnFile {
 		document.close();
 	}
 
-	public static ArrayList<File> visitAllDirs(File dir, FileFilter filter, ArrayList<File> listFiles) {
+	public static List<File> visitAllDirs(File dir, FileFilter filter, List<File> listFiles) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
@@ -222,7 +235,7 @@ public class OperationOnFile {
 		}
 	}
 
-	public static ArrayList<File> visitAllDirs(File dir, FileFilter filter, ArrayList<File> listFiles, int level) {
+	public static List<File> visitAllDirs(File dir, FileFilter filter, List<File> listFiles, int level) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
@@ -238,7 +251,7 @@ public class OperationOnFile {
 		}
 	}
 
-	public static ArrayList<File> getFileChildren(File dir, FileFilter filter, ArrayList<File> listFiles, IProgressMonitor monitor) {
+	public static List<File> getFileChildren(File dir, FileFilter filter, List<File> listFiles, IProgressMonitor monitor) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
 			monitor.beginTask(Messages.getString("OperationOnFile.scanning"), 1); //$NON-NLS-1$
@@ -256,7 +269,7 @@ public class OperationOnFile {
 		return listFiles;
 	}
 
-	public static ArrayList<String> getChildrensPath(File dir, FileFilter filter, ArrayList<String> listFiles, int level) {
+	public static List<String> getChildrensPath(File dir, FileFilter filter, List<String> listFiles, int level) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
@@ -272,17 +285,12 @@ public class OperationOnFile {
 		}
 	}
 
-	public static ArrayList<File> getDirList(File dir) {
+	public static List<File> getDirList(File dir) {
 		// This filter only returns directories
-		ArrayList<File> files = new ArrayList<File>();
 		File[] children = dir.listFiles();
-		if (children == null) {
-			// Either dir does not exist or is not a directory
-		} else {
-			for (int i = 0; i < children.length; i++) {
-				// Get filename of file or directory
-				files.add(children[i]);
-			}
+		List<File> files = new ArrayList<File>();
+		if (children != null) {
+			files.addAll(Arrays.asList(children));
 		}
 		return files;
 	}

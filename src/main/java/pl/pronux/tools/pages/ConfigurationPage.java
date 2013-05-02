@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ import pl.pronux.sokker.updater.xml.UpdateXMLParser;
 
 public class ConfigurationPage extends Page {
 
-	public static String PAGE_NAME = "CONFIGURATION_PAGE";
+	public static final String PAGE_NAME = "CONFIGURATION_PAGE";
 
 	private Set<String> files = new HashSet<String>();
 	private Map<String, WidgetsCollection> widgetsMap = new HashMap<String, WidgetsCollection>();
@@ -120,7 +119,7 @@ public class ConfigurationPage extends Page {
 			new BugReporter(getWizard().getShell()).openErrorMessage("Configuration Page" ,e);
 		}
 		
-		Hashtable<String, Package> packages = oldParser.alPackages;
+		Map<String, Package> packages = oldParser.alPackages;
 		Set<String> files = ((FilesPage) getWizard().getPage(FilesPage.PAGE_NAME)).getFiles();
 		for (String filename : files) {
 			addWidgetCollection(filename, packages);
@@ -132,7 +131,7 @@ public class ConfigurationPage extends Page {
 		super.onEnterPage();
 	}
 
-	public void addWidgetCollection(String filename, Hashtable<String, Package> packages) {
+	public void addWidgetCollection(String filename, Map<String, Package> packages) {
 		File file = new File(filename);
 
 		WidgetsCollection collection = new WidgetsCollection();

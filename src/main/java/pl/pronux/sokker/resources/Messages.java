@@ -2,6 +2,7 @@ package pl.pronux.sokker.resources;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -10,7 +11,7 @@ import pl.pronux.sokker.utils.Log;
 public class Messages {
 	private static String bundleName = "lang.sokker"; //$NON-NLS-1$
 
-	private static final HashMap<Locale, LangResources> cache = new HashMap<Locale, LangResources>();
+	private static final Map<Locale, LangResources> cache = new HashMap<Locale, LangResources>();
 
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName);
 

@@ -9,61 +9,57 @@ public class PlayerSkills implements Serializable {
 	 */
 	private static final long serialVersionUID = 7253914177113200851L;
 
-	public PlayerSkills() {
-		summarySkill = 0;
-	}
-
 	private int experience;
 
 	private int teamwork;
 
 	private int discipline;
 
-	int cards;
+	private int cards;
 
-	int goals;
+	private int goals;
 
-	int matches;
+	private int matches;
 
-	int assists;
+	private int assists;
 
-	double injurydays;
+	private double injurydays;
 
-	int idPlayerFK;
+	private int idPlayerFK;
 
-	int id;
+	private int id;
 
-	Date date;
+	private Date date;
 
-	byte age;
+	private byte age;
 
-	Money value;
+	private Money value;
 
-	Money salary;
+	private Money salary;
 
-	byte form;
+	private byte form;
 
-	byte stamina;
+	private byte stamina;
 
-	byte pace;
+	private byte pace;
 
-	byte technique;
+	private byte technique;
 
-	byte passing;
+	private byte passing;
 
-	byte keeper;
+	private byte keeper;
 
-	byte defender;
+	private byte defender;
 
-	byte playmaker;
+	private byte playmaker;
 
-	byte scorer;
+	private byte scorer;
 
-	int trainingID;
+	private int trainingID;
 	
-	boolean passTraining = true;
+	private boolean passTraining = true;
 
-	Training training;
+	private Training training;
 
 	public int[] getStatsTable() {
 		int[] intTable = {
