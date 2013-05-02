@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -65,19 +66,19 @@ public class Viewer extends Shell {
 
 	private SettingsManager settingsManager = SettingsManager.instance();
 	
-	private Properties _defaultProperties;
+	private Properties defaultProperties;
 
 	private Display display;
 
-	private Sash _mainShellSashVertical;
+	private Sash mainShellSashVertical;
 
-	private Monitor _monitor;
+	private Monitor monitor;
 
 	private StatusBar statusBar;
 
-	private SVProperties _userProperties;
+	private SVProperties userProperties;
 
-	private ArrayList<IPlugin> pluginsList;
+	private List<IPlugin> plugins;
 
 	private Clipboard cb;
 
@@ -99,7 +100,7 @@ public class Viewer extends Shell {
 
 	public Viewer(Display display, int style) throws Exception {
 		super(display, style);
-		_monitor = display.getPrimaryMonitor();
+		monitor = display.getPrimaryMonitor();
 		// checking OS
 		ViewerHandler.setViewer(this);
 
@@ -135,8 +136,8 @@ public class Viewer extends Shell {
 		// set title of mainShell
 		this.setText(Messages.getString("mainShell.title") + " " + SV.SK_VERSION); //$NON-NLS-1$ //$NON-NLS-2$
 
-		this.setLocation(_monitor.getClientArea().x, _monitor.getClientArea().y);
-		this.setSize(_monitor.getClientArea().width, _monitor.getClientArea().height);
+		this.setLocation(monitor.getClientArea().x, monitor.getClientArea().y);
+		this.setSize(monitor.getClientArea().width, monitor.getClientArea().height);
 		this.setEnabled(false);
 
 		// settings mainShell ICO
@@ -159,17 +160,17 @@ public class Viewer extends Shell {
 		addFonts();
 
 		addTrayItem(this);
-		_defaultProperties = PropertiesResources.getProperties("default.properties"); //$NON-NLS-1$
-		SettingsHandler.setDefaultProperties(_defaultProperties);
+		defaultProperties = PropertiesResources.getProperties("default.properties"); //$NON-NLS-1$
+		SettingsHandler.setDefaultProperties(defaultProperties);
 
 		// loading default colors
 		if (new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties").exists()) { //$NON-NLS-1$ //$NON-NLS-2$
-			_userProperties = new SVProperties();
-			_userProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties"); //$NON-NLS-1$ //$NON-NLS-2$
-			SettingsHandler.setUserProperties(_userProperties);
-			ConfigBean.setDefaults(_userProperties);
+			userProperties = new SVProperties();
+			userProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties"); //$NON-NLS-1$ //$NON-NLS-2$
+			SettingsHandler.setUserProperties(userProperties);
+			ConfigBean.setDefaults(userProperties);
 		} else {
-			ConfigBean.setDefaults(_defaultProperties);
+			ConfigBean.setDefaults(defaultProperties);
 		}
 
 		// adding menu
@@ -193,7 +194,7 @@ public class Viewer extends Shell {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.bottom = new FormAttachment(statusBar, 0);
-		formData.left = new FormAttachment(_mainShellSashVertical, 0);
+		formData.left = new FormAttachment(mainShellSashVertical, 0);
 		formData.right = new FormAttachment(100, -5);
 
 		viewGroup = new Group(this, SWT.NONE);
@@ -205,7 +206,7 @@ public class Viewer extends Shell {
 		pluginsProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties"); //$NON-NLS-1$ //$NON-NLS-2$
 		String[] viewClass = pluginsProperties.getProperty("plugins").split(";"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		pluginsList = new ArrayList<IPlugin>();
+		plugins = new ArrayList<IPlugin>();
 
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
@@ -234,7 +235,7 @@ public class Viewer extends Shell {
 				view.getInfo();
 				view.getTreeItem().setData(IPlugin.IDENTIFIER, view.getComposite());
 				view.getComposite().setVisible(false);
-				pluginsList.add(view);
+				plugins.add(view);
 			} catch (IllegalArgumentException e) {
 				new BugReporter(display).openErrorMessage("Viewer", e);
 			} catch (InstantiationException e) {
@@ -250,8 +251,8 @@ public class Viewer extends Shell {
 		}
 
 		// settings current ViewComposite
-		if (pluginsList.size() > 0) {
-			currentView = ((IPlugin) pluginsList.get(0)).getComposite();
+		if (plugins.size() > 0) {
+			currentView = ((IPlugin) plugins.get(0)).getComposite();
 			currentView.setVisible(true);
 		}
 
@@ -350,17 +351,17 @@ public class Viewer extends Shell {
 	}
 
 	private void addSashVertical(Shell parent) {
-		_mainShellSashVertical = new Sash(parent, SWT.VERTICAL);
+		mainShellSashVertical = new Sash(parent, SWT.VERTICAL);
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.bottom = new FormAttachment(statusBar, 0);
 		formData.left = new FormAttachment(0, 200);
-		_mainShellSashVertical.setLayoutData(formData);
-		_mainShellSashVertical.addSelectionListener(new SelectionAdapter() {
+		mainShellSashVertical.setLayoutData(formData);
+		mainShellSashVertical.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent event) {
-				((FormData) _mainShellSashVertical.getLayoutData()).left = new FormAttachment(0, event.x);
-				_mainShellSashVertical.getParent().layout();
+				((FormData) mainShellSashVertical.getLayoutData()).left = new FormAttachment(0, event.x);
+				mainShellSashVertical.getParent().layout();
 			}
 		});
 	}
@@ -390,7 +391,7 @@ public class Viewer extends Shell {
 		formData.top = new FormAttachment(0, 0);
 		formData.bottom = new FormAttachment(statusBar, 0);
 		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(_mainShellSashVertical, 0);
+		formData.right = new FormAttachment(mainShellSashVertical, 0);
 
 		treeGroup = new TreeGroup(parent, SWT.NONE);
 		treeGroup.setLayoutData(formData);
@@ -405,11 +406,11 @@ public class Viewer extends Shell {
 		DisplayHandler.getDisplay().syncExec(new Runnable() {
 
 			public void run() {
-				for (int i = 0; i < pluginsList.size(); i++) {
-					pluginsList.get(i).clear();
+				for (int i = 0; i < plugins.size(); i++) {
+					plugins.get(i).clear();
 				}
-				if (pluginsList.size() > 0) {
-					showView(pluginsList.get(0).getComposite());
+				if (plugins.size() > 0) {
+					showView(plugins.get(0).getComposite());
 				}
 				Viewer.this.getTree().selectTopItem();
 			}
@@ -500,12 +501,12 @@ public class Viewer extends Shell {
 		currentView.setVisible(true);
 	}
 
-	public ArrayList<IPlugin> getPluginsList() {
-		return pluginsList;
+	public List<IPlugin> getPlugins() {
+		return plugins;
 	}
 
-	public void setPluginsList(ArrayList<IPlugin> pluginsList) {
-		this.pluginsList = pluginsList;
+	public void setPluginsList(List<IPlugin> pluginsList) {
+		this.plugins = pluginsList;
 	}
 
 	public void setLastUpdateDate(final String date) {

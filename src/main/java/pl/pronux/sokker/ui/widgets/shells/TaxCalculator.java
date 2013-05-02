@@ -20,13 +20,13 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.listeners.VerifyMoneyListener;
 
 public class TaxCalculator extends Shell {
-	final private static String ORIGINAL_CLUB = "5.0"; //$NON-NLS-1$
+	private static final String ORIGINAL_CLUB = "5.0"; //$NON-NLS-1$
 
-	final private static String TAX = "4.0"; //$NON-NLS-1$
+	private static final String TAX = "4.0"; //$NON-NLS-1$
 
-	final private static int BRUTTO = 1;
+	private static final int BRUTTO = 1;
 
-	final private static int NETTO = 2;
+	private static final int NETTO = 2;
 
 	private int lastState = BRUTTO;
 

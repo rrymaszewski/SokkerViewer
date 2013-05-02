@@ -1,6 +1,7 @@
 package pl.pronux.sokker.ui.configure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -66,7 +67,7 @@ public class Configurator {
 
 	private Button applyButton;
 
-	private ArrayList<IViewConfigure> alView;
+	private ArrayList<IViewConfigure> views;
 
 	private ScrolledComposite sc1;
 	private CLabel info;
@@ -124,8 +125,8 @@ public class Configurator {
 		// okButton.pack();
 		info.setText(Messages.getString("message.information.restart")); //$NON-NLS-1$
 
-		if (alView.get(0).getComposite() != null) {
-			header.setText(alView.get(0).getTreeItem().getText());
+		if (views.get(0).getComposite() != null) {
+			header.setText(views.get(0).getTreeItem().getText());
 			currentComposite.getComposite().layout();
 		}
 		// shell.open();
@@ -174,8 +175,8 @@ public class Configurator {
 		cancelButton.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event event) {
-				for (int i = 0; i < alView.size(); i++) {
-					alView.get(i).restoreDefaultChanges();
+				for (int i = 0; i < views.size(); i++) {
+					views.get(i).restoreDefaultChanges();
 				}
 				shell.close();
 			}
@@ -191,8 +192,8 @@ public class Configurator {
 		okButton.setLayoutData(formData);
 		okButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				for (int i = 0; i < alView.size(); i++) {
-					alView.get(i).applyChanges();
+				for (int i = 0; i < views.size(); i++) {
+					views.get(i).applyChanges();
 				}
 				shell.close();
 			}
@@ -331,20 +332,20 @@ public class Configurator {
 		sc1.setExpandVertical(true);
 		sc1.setLayout(new FormLayout());
 
-		alView = new ArrayList<IViewConfigure>();
-		alView.add(new ViewGeneral());
-		alView.add(new ViewPlugins());
-		alView.add(new ViewLookAndFeel());
-		alView.add(new ViewProxy());
-		alView.add(new ViewPassword());
-		alView.add(new ViewBackup());
+		views = new ArrayList<IViewConfigure>();
+		views.add(new ViewGeneral());
+		views.add(new ViewPlugins());
+		views.add(new ViewLookAndFeel());
+		views.add(new ViewProxy());
+		views.add(new ViewPassword());
+		views.add(new ViewBackup());
 //		alView.add(new ViewTemplates());
 
-		ArrayList<IPlugin> alPlugins = ViewerHandler.getViewer().getPluginsList();
+		List<IPlugin> plugins = ViewerHandler.getViewer().getPlugins();
 
-		for (int i = 0; i < alPlugins.size(); i++) {
-			if (alPlugins.get(i).getConfigureComposite() != null) {
-				alView.add(alPlugins.get(i).getConfigureComposite());
+		for (int i = 0; i < plugins.size(); i++) {
+			if (plugins.get(i).getConfigureComposite() != null) {
+				views.add(plugins.get(i).getConfigureComposite());
 			}
 		}
 
@@ -353,8 +354,8 @@ public class Configurator {
 		cformData.left = new FormAttachment(0, 0);
 		cformData.right = new FormAttachment(100, 0);
 		cformData.bottom = new FormAttachment(100, 0);
-		for (int i = 0; i < alView.size(); i++) {
-			IViewConfigure view = alView.get(i);
+		for (int i = 0; i < views.size(); i++) {
+			IViewConfigure view = views.get(i);
 
 			view.setSettings(settings);
 
@@ -372,16 +373,16 @@ public class Configurator {
 			view.getComposite().setVisible(false);
 		}
 
-		if (alView.get(0).getComposite() != null) {
-			currentComposite = alView.get(0);
+		if (views.get(0).getComposite() != null) {
+			currentComposite = views.get(0);
 			showView(currentComposite);
-			header.setText(alView.get(0).getTreeItem().getText());
+			header.setText(views.get(0).getTreeItem().getText());
 		}
 	}
 
 	public void setView() {
-		for (int i = 0; i < alView.size(); i++) {
-			alView.get(i).set();
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).set();
 		}
 	}
 

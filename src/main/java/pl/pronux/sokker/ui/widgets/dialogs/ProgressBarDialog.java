@@ -34,9 +34,9 @@ public class ProgressBarDialog extends Shell {
 
 		init(this);
 		this.setSize(400, 150);
-		org.eclipse.swt.widgets.Monitor _monitor = shell.getDisplay().getPrimaryMonitor();
+		org.eclipse.swt.widgets.Monitor monitor = shell.getDisplay().getPrimaryMonitor();
 		Rectangle splashRect = this.getBounds();
-		Rectangle displayRect = _monitor.getBounds();
+		Rectangle displayRect = monitor.getBounds();
 		int x = (displayRect.width - splashRect.width) / 2;
 		int y = (displayRect.height - splashRect.height) / 2;
 		this.setLocation(x, y);

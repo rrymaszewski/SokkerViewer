@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.swt.SWT;
@@ -41,15 +43,15 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewLookAndFeel implements IViewConfigure {
 
-	private HashMap<Button, Label> buttonLabelMap;
+	private Map<Button, Label> buttonLabelMap;
 
-	private HashMap<Button, String> buttonMap;
+	private Map<Button, String> buttonMap;
 
 	private Group colorGroup;
 
-	private ArrayList<Label> colorLabelMap;
+	private List<Label> colorLabelMap;
 
-	private HashMap<String, Color> colorMap;
+	private Map<String, Color> colorMap;
 
 	final String[] colorTable = {
 			"color.decreaseTable", //$NON-NLS-1$
@@ -79,11 +81,11 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 	private Group fontGroup;
 
-	private HashMap<String, FontData> fontButtonMap;
+	private Map<String, FontData> fontButtonMap;
 
 	private TreeItem treeItem;
 
-	private HashMap<String, ColorButton> colorButtonMap;
+	private Map<String, ColorButton> colorButtonMap;
 
 	private Button systemDefaults;
 

@@ -9,13 +9,13 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 
 
 public class MatchUIManager {
-	private static final MatchUIManager _instance = new MatchUIManager();
+	private static MatchUIManager instance = new MatchUIManager();
 	
 	private MatchUIManager() {
 	}
 	
 	public static MatchUIManager instance() {
-		return _instance;
+		return instance;
 	}
 	
 	public Image getMatchImage(League league) {

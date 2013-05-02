@@ -17,7 +17,7 @@ import pl.pronux.sokker.ui.widgets.wizards.Wizard;
 import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class MirrorsPage extends Page {
-	public static String PAGE_NAME = "MIRRORS_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "MIRRORS_PAGE"; //$NON-NLS-1$
 	private Table mirrorTable;
 	private String mirror;
 

@@ -19,7 +19,7 @@ import pl.pronux.sokker.updater.actions.PackagesDownloader;
 import pl.pronux.sokker.updater.model.Package;
 
 public class DownloadPage extends Page {
-	public static String PAGE_NAME = "DOWNLOAD_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "DOWNLOAD_PAGE"; //$NON-NLS-1$
 	private ProgressBarCustom progressBar;
 	private Label information;
 	private String mirror;

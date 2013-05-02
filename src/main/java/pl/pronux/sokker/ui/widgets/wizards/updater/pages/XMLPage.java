@@ -18,7 +18,7 @@ import pl.pronux.sokker.updater.actions.PackagesXMLDownloader;
 import pl.pronux.sokker.updater.model.PackagesCollection;
 
 public class XMLPage extends Page {
-	public static String PAGE_NAME = "XML_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "XML_PAGE"; //$NON-NLS-1$
 //	private Text information;
 	private String mirror;
 	private String osType;

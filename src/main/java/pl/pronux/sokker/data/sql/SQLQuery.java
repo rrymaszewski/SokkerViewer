@@ -79,9 +79,12 @@ public class SQLQuery {
 		try {
 			stm = SQLSession.getConnection().createStatement();
 			stm.executeUpdate(expression);
-			stm.close();
 		} catch (SQLException e) {
 			throw e;
+		} finally {
+			if (stm != null) {
+				stm.close();
+			}
 		}
 	}
 

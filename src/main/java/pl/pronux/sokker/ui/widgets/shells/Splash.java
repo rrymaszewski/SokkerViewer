@@ -16,7 +16,7 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 public class Splash extends Shell {
 	private CLabel splashStatus;
 
-	private Monitor _monitor;
+	private Monitor monitor;
 
 	@Override
 	protected void checkSubclass() {
@@ -26,7 +26,7 @@ public class Splash extends Shell {
 	public Splash(Display display, int style) {
 		super(display, style);
 		
-		_monitor = display.getPrimaryMonitor();
+		monitor = display.getPrimaryMonitor();
 		this.setLayout(new FormLayout());
 		FormData labelData = new FormData();
 		labelData.right = new FormAttachment(100, 0);
@@ -46,7 +46,7 @@ public class Splash extends Shell {
 
 		this.pack();
 		Rectangle splashRect = this.getBounds();
-		Rectangle displayRect = _monitor.getBounds();
+		Rectangle displayRect = monitor.getBounds();
 		int x = (displayRect.width - splashRect.width) / 2;
 		int y = (displayRect.height - splashRect.height) / 2;
 		this.setLocation(x, y);

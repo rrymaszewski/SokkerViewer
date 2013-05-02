@@ -15,7 +15,7 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 import pl.pronux.sokker.updater.model.PackagesCollection;
 
 public class PackagesPage extends Page {
-	public static String PAGE_NAME = "PACKAGES_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "PACKAGES_PAGE"; //$NON-NLS-1$
 	private Tree treePackages;
 	private Text infoText;
 	private PackagesCollection packagesCollection;

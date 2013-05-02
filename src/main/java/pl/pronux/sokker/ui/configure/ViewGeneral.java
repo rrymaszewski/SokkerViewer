@@ -156,11 +156,9 @@ public class ViewGeneral implements IViewConfigure {
 		String text = confShellLangTypeCombo.getItem(confShellLangTypeCombo.getSelectionIndex());
 		String langCode = Language.getLanguageCode(text);
 
-		if (langCode != null) {
-			if (!langCode.equals(settings.getLangCode())) {
-				settings.setLangCode(langCode);
-				Messages.setDefault(new Locale(settings.getLangCode()));
-			}
+		if (langCode != null && !langCode.equals(settings.getLangCode())) {
+			settings.setLangCode(langCode);
+			Messages.setDefault(new Locale(settings.getLangCode()));
 		}
 		try {
 			settingsManager.updateSettings(settings);

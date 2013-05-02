@@ -12,9 +12,9 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 public class PaintStarListener implements Listener {
 
 	private int index;
-	private final static Image STAR_FULL = ImageResources.getImageResources("star_full.png"); //$NON-NLS-1$
-	private final static Image STAR_HALF = ImageResources.getImageResources("star_half.png"); //$NON-NLS-1$
-	private final static Image STAR_EMPTY = ImageResources.getImageResources("star_empty.png"); //$NON-NLS-1$
+	private static final Image STAR_FULL = ImageResources.getImageResources("star_full.png"); //$NON-NLS-1$
+	private static final Image STAR_HALF = ImageResources.getImageResources("star_half.png"); //$NON-NLS-1$
+	private static final Image STAR_EMPTY = ImageResources.getImageResources("star_empty.png"); //$NON-NLS-1$
 
 	public PaintStarListener(int index) {
 		this.index = index;

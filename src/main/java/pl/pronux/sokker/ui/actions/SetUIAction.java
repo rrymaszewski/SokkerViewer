@@ -1,7 +1,7 @@
 package pl.pronux.sokker.ui.actions;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.interfaces.IProgressMonitor;
@@ -13,7 +13,7 @@ import pl.pronux.sokker.ui.interfaces.IPlugin;
 public class SetUIAction implements IRunnableWithProgress {
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		ArrayList<IPlugin> pluginsList = ViewerHandler.getViewer().getPluginsList();
+		List<IPlugin> pluginsList = ViewerHandler.getViewer().getPlugins();
 		monitor.beginTask(Messages.getString("SetUIAction.info"), pluginsList.size()); //$NON-NLS-1$
 
 		for (IPlugin plugin : pluginsList) {

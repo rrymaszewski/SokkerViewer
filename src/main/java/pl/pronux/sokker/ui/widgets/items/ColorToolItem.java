@@ -16,12 +16,11 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 
 public class ColorToolItem extends ToolItem {
 
+	private Color color;
+
 	public ColorToolItem(ToolBar parent, int style) {
 		super(parent, style);
 	}
-
-	private Color color;
-
 
 	@Override
 	protected void checkSubclass() {

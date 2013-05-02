@@ -2,6 +2,7 @@ package pl.pronux.sokker.ui.widgets.shells;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -46,7 +47,7 @@ public class TrainingEditShell extends Shell {
 
 	private Training training;
 
-	private ArrayList<Coach> alCoaches;
+	private List<Coach> alCoaches;
 
 	private Date date;
 
@@ -58,7 +59,7 @@ public class TrainingEditShell extends Shell {
 
 	private Training tempTraining;
 
-	public TrainingEditShell(Shell parent, int style, ArrayList<Coach> coaches, Training training) {
+	public TrainingEditShell(Shell parent, int style, List<Coach> coaches, Training training) {
 		super(parent, style);
 
 		this.display = parent.getDisplay();
@@ -428,7 +429,7 @@ public class TrainingEditShell extends Shell {
 		this.setDefaultButton(okButton);
 	}
 
-	private void fillTableCoaches(Table table, ArrayList<Coach> coaches) {
+	private void fillTableCoaches(Table table, List<Coach> coaches) {
 		if (coaches == null) {
 			return;
 		}
