@@ -15,14 +15,14 @@ import pl.pronux.sokker.model.Person;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerArchive;
 
-public class PersonsManager {
+public final class PersonsManager {
 	
 	private static PersonsManager instance = new PersonsManager();
 	
 	private PersonsManager() {
 	}
 	
-	public static PersonsManager instance() {
+	public static PersonsManager getInstance() {
 		return instance;
 	}
 

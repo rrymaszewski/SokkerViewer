@@ -36,7 +36,7 @@ public class SVTree extends Tree {
 					while (item.getParentItem() != null) {
 						item = item.getParentItem();
 					}
-					ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); //$NON-NLS-1$
+					ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); 
 				}
 			}
 		});
@@ -50,7 +50,7 @@ public class SVTree extends Tree {
 					while (item.getParentItem() != null) {
 						item = item.getParentItem();
 					}
-					ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); //$NON-NLS-1$
+					ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); 
 				}
 			}
 		});
@@ -70,7 +70,7 @@ public class SVTree extends Tree {
 							while (item.getParentItem() != null) {
 								item = item.getParentItem();
 							}
-							ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); //$NON-NLS-1$
+							ViewerHandler.getViewer().showView(((Composite) item.getData(IPlugin.IDENTIFIER))); 
 						}
 					} else if (event.keyCode == SWT.ARROW_RIGHT) {
 						item.setExpanded(true);

@@ -30,16 +30,16 @@ import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 
-public class SpyManager {
+public final class SpyManager {
 
 	private static SpyManager instance = new SpyManager();
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private SpyManager() {
 	}
 
-	public static SpyManager instance() {
+	public static SpyManager getInstance() {
 		return instance;
 	}
 
@@ -47,12 +47,12 @@ public class SpyManager {
 		XMLDownloader downloader = new XMLDownloader();
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
-		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
+		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); 
 
 		downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 
-		if (!downloader.getStatus().equals("OK")) { //$NON-NLS-1$
-			throw new SVException(Messages.getString("login.error." + downloader.getErrorno())); //$NON-NLS-1$
+		if (!downloader.getStatus().equals("OK")) { 
+			throw new SVException(Messages.getString("login.error." + downloader.getErrorno())); 
 		}
 
 		TeamsXmlManager teamXMLManager = new TeamsXmlManager(destination, downloader, Cache.getDate());
@@ -83,7 +83,7 @@ public class SpyManager {
 
 				for (Match match : matches) {
 					if (match.getIsFinished() == Match.FINISHED) {
-						matchXmlManager.download(match.getMatchID());
+						matchXmlManager.download(match.getMatchId());
 					}
 				}
 
@@ -91,7 +91,7 @@ public class SpyManager {
 				MatchPlayersComparator matchPlayersComparator = new MatchPlayersComparator(MatchPlayersComparator.NUMBER, MatchPlayersComparator.ASCENDING);
 
 				for (Match match : matches) {
-					if (match.getAwayTeamID() == team.getId()) {
+					if (match.getAwayTeamId() == team.getId()) {
 						match.setAwayTeam(team);
 					} else {
 						match.setHomeTeam(team);
@@ -101,7 +101,7 @@ public class SpyManager {
 					Collections.sort(match.getHomeTeamStats().getPlayersStats(), matchPlayersComparator);
 					Collections.sort(match.getAwayTeamStats().getPlayersStats(), matchPlayersComparator);
 					for (PlayerStats playerStats : match.getHomeTeamStats().getPlayersStats()) {
-						Player player = playersMap.get(playerStats.getPlayerID());
+						Player player = playersMap.get(playerStats.getPlayerId());
 						if (player != null) {
 							playerStats.setPlayer(player);
 							if (player.getPlayerMatchStatistics() == null) {
@@ -110,8 +110,8 @@ public class SpyManager {
 							if (playerStats.getTimePlayed() > 0) {
 								player.getPlayerMatchStatistics().add(playerStats);
 							}
-						} else if (playerArchive.get(playerStats.getPlayerID()) != null) {
-							playerStats.setPlayer(playerArchive.get(playerStats.getPlayerID()).toPlayer());
+						} else if (playerArchive.get(playerStats.getPlayerId()) != null) {
+							playerStats.setPlayer(playerArchive.get(playerStats.getPlayerId()).toPlayer());
 						}
 						if (playerStats.getNumber() < 12) {
 							count++;
@@ -123,7 +123,7 @@ public class SpyManager {
 					sum = 0;
 					count = 0;
 					for (PlayerStats playerStats : match.getAwayTeamStats().getPlayersStats()) {
-						Player player = playersMap.get(playerStats.getPlayerID());
+						Player player = playersMap.get(playerStats.getPlayerId());
 
 						if (player != null) {
 							playerStats.setPlayer(player);
@@ -133,8 +133,8 @@ public class SpyManager {
 							if (playerStats.getTimePlayed() > 0) {
 								player.getPlayerMatchStatistics().add(playerStats);
 							}
-						} else if (playerArchive.get(playerStats.getPlayerID()) != null) {
-							playerStats.setPlayer(playerArchive.get(playerStats.getPlayerID()).toPlayer());
+						} else if (playerArchive.get(playerStats.getPlayerId()) != null) {
+							playerStats.setPlayer(playerArchive.get(playerStats.getPlayerId()).toPlayer());
 						}
 						if (playerStats.getNumber() < 12) {
 							count++;

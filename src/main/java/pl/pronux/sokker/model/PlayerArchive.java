@@ -10,10 +10,10 @@ public class PlayerArchive  extends Person {
 	public static final int EXISTS_IN_SOKKER_FALSE = 2;
 	public static final int EXISTS_IN_SOKKER_COMPLETED = 3;
 
-	private int countryID;
+	private int countryId;
 	private int national;
 	private int transferList;
-	private int youthTeamID;
+	private int youthTeamId;
 	private int age;
 	private Money value;
 	private Money wage;
@@ -33,12 +33,12 @@ public class PlayerArchive  extends Person {
 	private int existsInSokker;
 	private int height = 0;
 
-	public int getCountryID() {
-		return countryID;
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCountryID(int countryID) {
-		this.countryID = countryID;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	public int getNational() {
@@ -57,12 +57,12 @@ public class PlayerArchive  extends Person {
 		this.transferList = transferList;
 	}
 
-	public int getYouthTeamID() {
-		return youthTeamID;
+	public int getYouthTeamId() {
+		return youthTeamId;
 	}
 
-	public void setYouthTeamID(int youthTeamID) {
-		this.youthTeamID = youthTeamID;
+	public void setYouthTeamId(int youthTeamId) {
+		this.youthTeamId = youthTeamId;
 	}
 
 	public int getAge() {
@@ -206,11 +206,11 @@ public class PlayerArchive  extends Person {
 		this.setId(player.getId());
 		this.setName(player.getName());
 		this.setSurname(player.getSurname());
-		this.setCountryID(player.getCountryfrom());
-		this.setTeamID(player.getTeamID());
+		this.setCountryId(player.getCountryfrom());
+		this.setTeamId(player.getTeamId());
 		this.national = player.getNational();
 		this.transferList = player.getTransferList();
-		this.youthTeamID = player.getYouthTeamID();
+		this.youthTeamId = player.getYouthTeamId();
 		this.age = player.getSkills()[0].getAge();
 		this.value = player.getSkills()[0].getValue();
 		this.wage = player.getSkills()[0].getSalary();
@@ -242,9 +242,9 @@ public class PlayerArchive  extends Person {
 		player.setId(this.getId());
 		player.setName(this.getName());
 		player.setSurname(this.getSurname());
-		player.setCountryfrom(this.getCountryID());
+		player.setCountryfrom(this.getCountryId());
 		player.setExistsInSokker(this.getExistsInSokker());
-		player.setYouthTeamID(this.getYouthTeamID());
+		player.setYouthTeamId(this.getYouthTeamId());
 		player.setNote(this.getNote());
 		return player;
 	}

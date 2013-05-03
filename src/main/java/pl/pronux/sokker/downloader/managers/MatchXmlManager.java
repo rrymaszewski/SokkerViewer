@@ -27,66 +27,66 @@ public class MatchXmlManager extends XmlManager<Match> {
 
 	private Map<String, String> matchesMap = new HashMap<String, String>();
 
-	private MatchesManager matchesManager = MatchesManager.instance();
+	private MatchesManager matchesManager = MatchesManager.getInstance();
 	
 	public MatchXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("match", destination, downloader, currentDay); //$NON-NLS-1$
+		super("match", destination, downloader, currentDay); 
 	}
 
 	public MatchXmlManager() {
 		super(null, null, 0);
 	}
 	
-	public void completeMatches(int teamID, int limit) throws SQLException {
-		String value = "-3"; //$NON-NLS-1$
+	public void completeMatches(int teamId, int limit) throws SQLException {
+		String value = "-3"; 
 		List<Match> matches = new ArrayList<Match>();
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		
-		List<Match> alUncompletedMatches = leagueDao.getUncompletedLeague(teamID);
+		List<Match> uncompletedMatches = leagueDao.getUncompletedLeague(teamId);
 
-		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
-			value = "0"; //$NON-NLS-1$
+		if (downloader.getStatus().equals("OK")) { 
+			value = "0"; 
 		} else {
 			value = downloader.getErrorno();
 		}
 
-		if (value.equals("0")) { //$NON-NLS-1$
-			if (alUncompletedMatches.size() > 0) {
-				Match match = alUncompletedMatches.get(0);
+		if (value.equals("0")) { 
+			if (uncompletedMatches.size() > 0) {
+				Match match = uncompletedMatches.get(0);
 
-				for (Match itrmatch : alUncompletedMatches) {
-					matchesMap.put(String.valueOf(itrmatch.getMatchID()), ""); //$NON-NLS-1$
+				for (Match itrmatch : uncompletedMatches) {
+					matchesMap.put(String.valueOf(itrmatch.getMatchId()), ""); 
 				}
 
-				int matchID = match.getMatchID() - 1;
+				int matchId = match.getMatchId() - 1;
 				while (limit > 0) {
-					if (!matchesMap.containsKey(String.valueOf(matchID))) {
+					if (!matchesMap.containsKey(String.valueOf(matchId))) {
 						try {
-							download(matchID);
-							matches = parseXML(matchesMap.get(String.valueOf(matchID)));
+							download(matchId);
+							matches = parseXML(matchesMap.get(String.valueOf(matchId)));
 						} catch (Exception e) {
 							Log.warning(this.toString(), e);
 							continue;
 						}
-						if (matches.size() > 0 && matches.get(0).getLeagueID() == match.getLeagueID() && matches.get(0).getSeason() == match.getSeason()) {
+						if (matches.size() > 0 && matches.get(0).getLeagueId() == match.getLeagueId() && matches.get(0).getSeason() == match.getSeason()) {
 							matchesManager.importMatches(matches);
 							try {
-								write(matchesMap.get(String.valueOf(matchID)), String.valueOf(matchID));
+								write(matchesMap.get(String.valueOf(matchId)), String.valueOf(matchId));
 							} catch (IOException e) {
 							}
 						} else {
-							if (matchID > match.getMatchID()) {
+							if (matchId > match.getMatchId()) {
 								limit = 0;
 							} else {
-								matchID = match.getMatchID();
+								matchId = match.getMatchId();
 							}
 						}
 						limit--;
 					}
-					if (matchID < match.getMatchID()) {
-						matchID -= 1;
+					if (matchId < match.getMatchId()) {
+						matchId -= 1;
 					} else {
-						matchID += 1;
+						matchId += 1;
 					}
 				}
 			}
@@ -103,13 +103,13 @@ public class MatchXmlManager extends XmlManager<Match> {
 
 	public void download(List<Match> matches) throws IOException {
 		for (Match match : matches) {
-			String matchID = String.valueOf(match.getMatchID());
-			matchesMap.put(matchID, downloader.getMatch(matchID));
+			String matchId = String.valueOf(match.getMatchId());
+			matchesMap.put(matchId, downloader.getMatch(matchId));
 		}
 	}
 
-	public void download(int matchID) throws IOException {
-		matchesMap.put(String.valueOf(matchID), downloader.getMatch(String.valueOf(matchID)));
+	public void download(int matchId) throws IOException {
+		matchesMap.put(String.valueOf(matchId), downloader.getMatch(String.valueOf(matchId)));
 	}
 
 	@Override
@@ -159,8 +159,6 @@ public class MatchXmlManager extends XmlManager<Match> {
 				// return false;
 			}
 		}
-
 		return true;
 	}
-
 }

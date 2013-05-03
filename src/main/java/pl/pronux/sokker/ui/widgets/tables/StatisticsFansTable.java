@@ -28,11 +28,11 @@ public class StatisticsFansTable extends SVTable<Club> {
 		this.setHeaderVisible(true);
 		this.setLinesVisible(true);
 
-		String[] columns = { Messages.getString("table.date"), //$NON-NLS-1$
-							Messages.getString("statistics.fans.count"), //$NON-NLS-1$
-							Messages.getString("statistics.fans.mood"), //$NON-NLS-1$
-							Messages.getString("statistics.fans.diff"), //$NON-NLS-1$
-							"" //$NON-NLS-1$
+		String[] columns = { Messages.getString("table.date"), 
+							Messages.getString("statistics.fans.count"), 
+							Messages.getString("statistics.fans.mood"), 
+							Messages.getString("statistics.fans.diff"), 
+							"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -63,7 +63,7 @@ public class StatisticsFansTable extends SVTable<Club> {
 	public void fill(Club club) {
 		for (int i = club.getClubSupporters().size() - 1; i >= 0; i--) {
 			TableItem item = new TableItem(this, SWT.NONE);
-			item.setData("date", club.getClubSupporters().get(i).getDate()); //$NON-NLS-1$
+			item.setData("date", club.getClubSupporters().get(i).getDate()); 
 			item.setText(0, club.getClubSupporters().get(i).getDate().getTrainingDate(SokkerDate.MONDAY).toDateString());
 			item.setText(1, SVNumberFormat.formatInteger(club.getClubSupporters().get(i).getFanclubcount()));
 			item.setText(2, String.valueOf(club.getClubSupporters().get(i).getFanclubmood()));

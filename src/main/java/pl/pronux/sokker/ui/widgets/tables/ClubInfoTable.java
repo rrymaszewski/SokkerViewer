@@ -27,9 +27,9 @@ public class ClubInfoTable extends SVTable<Club> {
 		this.setFont(ConfigBean.getFontMain());
 
 		String[] column = {
-				"first", //$NON-NLS-1$
-				"second", //$NON-NLS-1$
-				"third" //$NON-NLS-1$
+				"first", 
+				"second", 
+				"third" 
 		};
 
 		for (int i = 0; i < column.length; i++) {
@@ -38,19 +38,19 @@ public class ClubInfoTable extends SVTable<Club> {
 		}
 
 		String[] firstColumn = {
-				Messages.getString("club.owner"), //$NON-NLS-1$
-				Messages.getString("club.id"), //$NON-NLS-1$
-				Messages.getString("club.name"), //$NON-NLS-1$
-				Messages.getString("club.date.created"), //$NON-NLS-1$
-				Messages.getString("club.rank"), //$NON-NLS-1$
-				Messages.getString("club.country"), //$NON-NLS-1$
-				Messages.getString("club.region"), //$NON-NLS-1$
-				Messages.getString("club.arenaname"), //$NON-NLS-1$
-				Messages.getString("club.money"), //$NON-NLS-1$
-				Messages.getString("club.credit.interest"), //$NON-NLS-1$
-				Messages.getString("club.fanclubcount"), //$NON-NLS-1$
-				Messages.getString("club.fanclubmood"), //$NON-NLS-1$
-				Messages.getString("club.end.seasons.fanclub") //$NON-NLS-1$
+				Messages.getString("club.owner"), 
+				Messages.getString("club.id"), 
+				Messages.getString("club.name"), 
+				Messages.getString("club.date.created"), 
+				Messages.getString("club.rank"), 
+				Messages.getString("club.country"), 
+				Messages.getString("club.region"), 
+				Messages.getString("club.arenaname"), 
+				Messages.getString("club.money"), 
+				Messages.getString("club.credit.interest"), 
+				Messages.getString("club.fanclubcount"), 
+				Messages.getString("club.fanclubmood"), 
+				Messages.getString("club.end.seasons.fanclub") 
 //				Messages.getString("club.end.seasons.sponsors")
 				
 		};
@@ -100,7 +100,7 @@ public class ClubInfoTable extends SVTable<Club> {
 		item = this.getItem(c++);
 		item.setText(firstColumn, club.getClubName().get(club.getClubName().size() - 1).getName());
 		if (club.getClubBudget().get(maxSkillMoney - 1).getMoney().toInt() < -1100000) {
-			item.setText(secondColumn, Messages.getString("club.warning")); //$NON-NLS-1$
+			item.setText(secondColumn, Messages.getString("club.warning")); 
 			item.setForeground(secondColumn, ConfigBean.getColorDecreaseDescription());
 		}
 
@@ -108,7 +108,7 @@ public class ClubInfoTable extends SVTable<Club> {
 		if(club.getDateCreated() != null) {
 			item.setText(firstColumn, club.getDateCreated().toDateTimeString());
 		} else {
-			item.setText(firstColumn, "-"); //$NON-NLS-1$
+			item.setText(firstColumn, "-"); 
 		}
 
 
@@ -116,7 +116,7 @@ public class ClubInfoTable extends SVTable<Club> {
 		if(club.getRank().size() > 0) {
 			item.setText(firstColumn, String.valueOf(club.getRank().get(0).getRank()));
 		} else {
-			item.setText(firstColumn, "-"); //$NON-NLS-1$
+			item.setText(firstColumn, "-"); 
 		}
 
 		if(club.getRank().size() > 1) {
@@ -134,7 +134,7 @@ public class ClubInfoTable extends SVTable<Club> {
 
 
 		item = this.getItem(c++);
-		item.setText(firstColumn, Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$
+		item.setText(firstColumn, Messages.getString("country." + club.getCountry() + ".name"));  
 
 
 		item = this.getItem(c++);
@@ -184,16 +184,16 @@ public class ClubInfoTable extends SVTable<Club> {
 				item.setText(secondColumn, SVNumberFormat.formatIntegerWithSignZero(diffrents));
 				item.setForeground(secondColumn, ConfigBean.getColorDecreaseDescription());
 			} else {
-				item.setText(secondColumn, ""); //$NON-NLS-1$
+				item.setText(secondColumn, ""); 
 				item.setForeground(secondColumn, this.getForeground());
 			}
 		} else {
-			item.setText(secondColumn, ""); //$NON-NLS-1$
+			item.setText(secondColumn, ""); 
 			item.setForeground(secondColumn, this.getForeground());
 		}
 
 		item = this.getItem(c++);
-		item.setText(firstColumn, String.format("%s [%d/6]", Messages.getString("fanclubmood." + club.getClubSupporters().get(maxSkillFanclub - 1).getFanclubmood()), club.getClubSupporters().get(maxSkillFanclub - 1).getFanclubmood())); //$NON-NLS-1$ //$NON-NLS-2$
+		item.setText(firstColumn, String.format("%s [%d/6]", Messages.getString("fanclubmood." + club.getClubSupporters().get(maxSkillFanclub - 1).getFanclubmood()), club.getClubSupporters().get(maxSkillFanclub - 1).getFanclubmood()));  
 
 		if (maxSkillFanclub > 1) {
 			diffrents = club.getClubSupporters().get(maxSkillFanclub - 1).getFanclubmood() - club.getClubSupporters().get(maxSkillFanclub - 2).getFanclubmood();
@@ -204,11 +204,11 @@ public class ClubInfoTable extends SVTable<Club> {
 				item.setText(secondColumn, SVNumberFormat.formatIntegerWithSignZero(diffrents));
 				item.setForeground(secondColumn, ConfigBean.getColorDecreaseDescription());
 			} else {
-				item.setText(secondColumn, ""); //$NON-NLS-1$
+				item.setText(secondColumn, ""); 
 				item.setForeground(secondColumn, this.getForeground());
 			}
 		} else {
-			item.setText(secondColumn, ""); //$NON-NLS-1$
+			item.setText(secondColumn, ""); 
 			item.setForeground(secondColumn, this.getForeground());
 		}
 		

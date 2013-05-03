@@ -67,7 +67,7 @@ public class Configurator {
 
 	private Button applyButton;
 
-	private ArrayList<IViewConfigure> views;
+	private List<IViewConfigure> views;
 
 	private ScrolledComposite sc1;
 	private CLabel info;
@@ -115,15 +115,15 @@ public class Configurator {
 
 		initView(shell);
 
-		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
-		applyButton.setText(Messages.getString("button.apply")); //$NON-NLS-1$
-		restoreDefaultButton.setText(Messages.getString("button.restore")); //$NON-NLS-1$
+		okButton.setText(Messages.getString("button.ok")); 
+		cancelButton.setText(Messages.getString("button.cancel")); 
+		applyButton.setText(Messages.getString("button.apply")); 
+		restoreDefaultButton.setText(Messages.getString("button.restore")); 
 		// restoreDefaultButton.pack();
 		// applyButton.pack();
 		// cancelButton.pack();
 		// okButton.pack();
-		info.setText(Messages.getString("message.information.restart")); //$NON-NLS-1$
+		info.setText(Messages.getString("message.information.restart")); 
 
 		if (views.get(0).getComposite() != null) {
 			header.setText(views.get(0).getTreeItem().getText());
@@ -249,7 +249,7 @@ public class Configurator {
 		header.setLayoutData(formData);
 		header.setAlignment(SWT.CENTER);
 		header.setBackground(ColorResources.getColor(248, 247, 243));
-		header.setFont(Fonts.getFont(shell.getDisplay(), "Arial", 13, SWT.BOLD)); //$NON-NLS-1$
+		header.setFont(Fonts.getFont(shell.getDisplay(), "Arial", 13, SWT.BOLD)); 
 
 		formData = new FormData();
 		formData.top = new FormAttachment(header, 10);
@@ -311,7 +311,7 @@ public class Configurator {
 					while (item.getParentItem() != null) {
 						item = item.getParentItem();
 					}
-					showView(((IViewConfigure) item.getData(IViewConfigure.IDENTIFIER))); //$NON-NLS-1$
+					showView(((IViewConfigure) item.getData(IViewConfigure.IDENTIFIER))); 
 					header.setText(item.getText());
 				}
 			}
@@ -368,7 +368,7 @@ public class Configurator {
 
 			view.getComposite().setLayoutData(cformData);
 
-			view.getTreeItem().setData(IViewConfigure.IDENTIFIER, view); //$NON-NLS-1$
+			view.getTreeItem().setData(IViewConfigure.IDENTIFIER, view); 
 
 			view.getComposite().setVisible(false);
 		}

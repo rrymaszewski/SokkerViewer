@@ -74,7 +74,7 @@ public class ViewExchange implements IPlugin {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoExchange"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoExchange"); 
 	}
 
 	public void init(Composite composite) {
@@ -97,9 +97,9 @@ public class ViewExchange implements IPlugin {
 
 		this._treeItem = treeItem;
 
-		_treeItem.setText(Messages.getString("tree.ViewExchange")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewExchange")); 
 
-		_treeItem.setImage(ImageResources.getImageResources("calc.png")); //$NON-NLS-1$
+		_treeItem.setImage(ImageResources.getImageResources("calc.png")); 
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event event) {
@@ -122,9 +122,9 @@ public class ViewExchange implements IPlugin {
 		countries = Cache.getCountries();
 
 		for(Country country : countries) {
-			id = country.getCountryID();
+			id = country.getCountryId();
 
-			text = String.format("%s (%s)", Messages.getString("country." + id + ".name"), country.getCurrencyName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("%s (%s)", Messages.getString("country." + id + ".name"), country.getCurrencyName());   
 
 			currencyCombo.add(text);
 			currenciesMap.put(text, country.getCurrencyRate());
@@ -133,9 +133,9 @@ public class ViewExchange implements IPlugin {
 
 		for(Country country : countries) {
 			exchange = new Exchange();
-			id = country.getCountryID();
+			id = country.getCountryId();
 			exchange.setId(id);
-			exchange.setName(Messages.getString("country." + id + ".name")); //$NON-NLS-1$ //$NON-NLS-2$
+			exchange.setName(Messages.getString("country." + id + ".name"));  
 			exchange.setOriginalName(country.getName());
 			exchange.setCurrency(country.getCurrencyName());
 			exchange.setExchange(country.getCurrencyRate());
@@ -157,7 +157,7 @@ public class ViewExchange implements IPlugin {
 
 		valueLabel = new Label(composite, SWT.NONE);
 		valueLabel.setLayoutData(formData);
-		valueLabel.setText(Messages.getString("exchange.valueLabel")); //$NON-NLS-1$
+		valueLabel.setText(Messages.getString("exchange.valueLabel")); 
 		valueLabel.setFont(ConfigBean.getFontMain());
 		valueLabel.pack();
 
@@ -172,7 +172,7 @@ public class ViewExchange implements IPlugin {
 		valueText.addListener(SWT.FocusOut, new SelectNoneListener());
 		valueText.addListener(SWT.Verify, new VerifyMoneyListener());
 		valueText.setTextLimit(20);
-		valueText.setText("0"); //$NON-NLS-1$
+		valueText.setText("0"); 
 		valueText.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData(fieldWidth, fieldHigh);
@@ -181,7 +181,7 @@ public class ViewExchange implements IPlugin {
 
 		currencyLabel = new Label(composite, SWT.NONE);
 		currencyLabel.setLayoutData(formData);
-		currencyLabel.setText(Messages.getString("exchange.currencyLabel")); //$NON-NLS-1$
+		currencyLabel.setText(Messages.getString("exchange.currencyLabel")); 
 		currencyLabel.setFont(ConfigBean.getFontMain());
 
 
@@ -198,10 +198,10 @@ public class ViewExchange implements IPlugin {
 			public void handleEvent(Event e) {
 				String string = valueText.getText();
 				String currency = currencyCombo.getText();
-				if(!string.matches("[0-9]+(.[0-9]{2}){0,1}")) { //$NON-NLS-1$
+				if(!string.matches("[0-9]+(.[0-9]{2}){0,1}")) { 
 					MessageBox messageBox = new MessageBox(composite.getShell(), SWT.OK | SWT.APPLICATION_MODAL | SWT.ICON_ERROR);
-					messageBox.setText(Messages.getString("message.error")); //$NON-NLS-1$
-					messageBox.setMessage(Messages.getString("message.badValueFormat")); //$NON-NLS-1$
+					messageBox.setText(Messages.getString("message.error")); 
+					messageBox.setMessage(Messages.getString("message.badValueFormat")); 
 					messageBox.open();
 					e.doit = false;
 					return;
@@ -231,7 +231,7 @@ public class ViewExchange implements IPlugin {
 
 		countButton = new Button(composite, SWT.NONE);
 		countButton.setLayoutData(formData);
-		countButton.setText(Messages.getString("button.count")); //$NON-NLS-1$
+		countButton.setText(Messages.getString("button.count")); 
 		countButton.setFont(ConfigBean.getFontMain());
 		countButton.pack();
 

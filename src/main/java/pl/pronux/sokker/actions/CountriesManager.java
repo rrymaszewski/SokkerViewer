@@ -9,21 +9,21 @@ import pl.pronux.sokker.data.sql.dao.CountriesDao;
 import pl.pronux.sokker.model.Country;
 import pl.pronux.sokker.model.Region;
 
-public class CountriesManager {
+public final class CountriesManager {
 
 	private static CountriesManager instance = new CountriesManager();
 	
 	private CountriesManager() {
 	}
 	
-	public static CountriesManager instance() {
+	public static CountriesManager getInstance() {
 		return instance;
 	}
 	
 	public void importCountries(List<Country> countries) throws SQLException {
 		CountriesDao countriesDao = new CountriesDao(SQLSession.getConnection());
 		for (Country country : countries) {
-			if (!countriesDao.existsCountry(country.getCountryID())) {
+			if (!countriesDao.existsCountry(country.getCountryId())) {
 				countriesDao.addCountry(country);
 			} else {
 				countriesDao.updateCountry(country);
@@ -33,7 +33,7 @@ public class CountriesManager {
 	
 	public void importRegion(Region region) throws SQLException {
 		CountriesDao countriesDao = new CountriesDao(SQLSession.getConnection());
-		if (!countriesDao.existsRegion(region.getRegionID())) {
+		if (!countriesDao.existsRegion(region.getRegionId())) {
 			countriesDao.addRegion(region);
 		} else {
 			countriesDao.updateRegion(region);

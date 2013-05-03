@@ -13,10 +13,10 @@ public RegionDto(ResultSet rs) {
 }
 
 public Region getRegion() throws SQLException {
-	this.setName(rs.getString("name")); //$NON-NLS-1$
-	this.setRegionID(rs.getInt("region_id")); //$NON-NLS-1$
-	this.setWeather(rs.getInt("weather")); //$NON-NLS-1$
-	this.setIdCountryFK(rs.getInt("country_id")); //$NON-NLS-1$
+	this.setName(rs.getString("name")); 
+	this.setRegionId(rs.getInt("region_id")); 
+	this.setWeather(rs.getInt("weather")); 
+	this.setCountryId(rs.getInt("country_id")); 
 	return this;
 }
 

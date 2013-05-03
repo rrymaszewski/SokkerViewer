@@ -15,11 +15,11 @@ public class ClubFanclubDto extends ClubSupporters {
 	}
 	
 	public ClubSupporters getClubFanclub() throws SQLException {
-		this.setId(rs.getInt("id_data")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.setFanclubcount(rs.getInt("fanclubcount")); //$NON-NLS-1$
-		this.setFanclubmood(rs.getByte("fanclubmood")); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setId(rs.getInt("id_data")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.setFanclubcount(rs.getInt("fanclubcount")); 
+		this.setFanclubmood(rs.getByte("fanclubmood")); 
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
 		return this;
 	}
 }

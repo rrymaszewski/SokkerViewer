@@ -28,7 +28,7 @@ public class OpponentTeamInformationGroup extends Group {
 		this.setLayout(new FormLayout());
 		FormData formData;
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("team.info")); //$NON-NLS-1$
+		this.setText(Messages.getString("team.info")); 
 		this.setForeground(Colors.getBlueDescription());
 
 		clubInfoTable = new OpponentTeamInformationTable(this, SWT.FULL_SELECTION);

@@ -41,28 +41,28 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 		this.setHeaderVisible(true);
 		this.setFont(ConfigBean.getFontTable());
 
-		String[] titles = { "", //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
+		String[] titles = { "", 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
 				Messages.getString("table.height"),
-				Messages.getString("table.value"), //$NON-NLS-1$
-				Messages.getString("table.salary"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.form"), //$NON-NLS-1$
-				Messages.getString("table.discipline"), //$NON-NLS-1$
-				Messages.getString("table.experience"), //$NON-NLS-1$
-				Messages.getString("table.teamwork"), //$NON-NLS-1$
-				Messages.getString("table.matches"), //$NON-NLS-1$
-				Messages.getString("table.goals"), //$NON-NLS-1$
-				Messages.getString("table.assists"), //$NON-NLS-1$
-				Messages.getString("table.rating.avg.short"),//$NON-NLS-1$
-				Messages.getString("table.rating.max.short"), //$NON-NLS-1$
-				Messages.getString("table.rating.min.short"), //$NON-NLS-1$
-				Messages.getString("table.formation"),//$NON-NLS-1$
-				Messages.getString("table.cards"), //$NON-NLS-1$
-				Messages.getString("table.injury"), //$NON-NLS-1$
-				// Messages.getString("table.note.short"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.value"), 
+				Messages.getString("table.salary"), 
+				Messages.getString("table.age"), 
+				Messages.getString("table.form"), 
+				Messages.getString("table.discipline"), 
+				Messages.getString("table.experience"), 
+				Messages.getString("table.teamwork"), 
+				Messages.getString("table.matches"), 
+				Messages.getString("table.goals"), 
+				Messages.getString("table.assists"), 
+				Messages.getString("table.rating.avg.short"),
+				Messages.getString("table.rating.max.short"), 
+				Messages.getString("table.rating.min.short"), 
+				Messages.getString("table.formation"),
+				Messages.getString("table.cards"), 
+				Messages.getString("table.injury"), 
+				// Messages.getString("table.note.short"), 
+				"" 
 		};
 
 		for (int j = 0; j < titles.length; j++) {
@@ -157,28 +157,28 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			item.setText(c++, Messages.getString("formation." + player.getPreferredPosition()));
 
 			if (player.getSkills()[max].getCards() == 1) {
-				item.setImage(c++, ImageResources.getImageResources("yellow_card.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("yellow_card.png")); 
 			} else if (player.getSkills()[max].getCards() == 2) {
-				item.setImage(c++, ImageResources.getImageResources("2_yellow_cards.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("2_yellow_cards.png")); 
 			} else if (player.getSkills()[max].getCards() >= 3) {
-				item.setImage(c++, ImageResources.getImageResources("red_card.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("red_card.png")); 
 			} else {
 				c++;
 			}
 
 			if (player.getSkills()[max].getInjurydays() > 0) {
-				item.setImage(c, ImageResources.getImageResources("injury.png")); //$NON-NLS-1$
+				item.setImage(c, ImageResources.getImageResources("injury.png")); 
 				item.setText(c++, BigDecimal.valueOf(player.getSkills()[max].getInjurydays()).setScale(0, BigDecimal.ROUND_UP).toString());
 			} else {
 				c++;
 			}
 
 			// if (player.getNote() != null) {
-			// if (player.getNote().equals("")) { //$NON-NLS-1$
+			// if (player.getNote().equals("")) { 
 			// c++;
 			// } else {
 			// item.setImage(c++, ImageResources.getImageResources("note.png"));
-			// //$NON-NLS-1$
+			// 
 			// }
 			// }
 

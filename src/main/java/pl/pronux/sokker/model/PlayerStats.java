@@ -14,11 +14,11 @@ public class PlayerStats {
 
 	public static final int NOT_INJURED = 0;
 
-	private int playerID;
+	private int playerId;
 
-	private int matchID;
+	private int matchId;
 
-	private int teamID;
+	private int teamId;
 
 	private int number;
 
@@ -110,12 +110,12 @@ public class PlayerStats {
 		this.number = number;
 	}
 
-	public int getPlayerID() {
-		return playerID;
+	public int getPlayerId() {
+		return playerId;
 	}
 
-	public void setPlayerID(int playerID) {
-		this.playerID = playerID;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 
 	public int getRating() {
@@ -215,19 +215,19 @@ public class PlayerStats {
 		this.injuryDays = injury;
 	}
 
-	public int getMatchID() {
-		return matchID;
+	public int getMatchId() {
+		return matchId;
 	}
 
-	public void setMatchID(int matchID) {
-		this.matchID = matchID;
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
 	}
 
-	public int getTeamID() {
-		return teamID;
+	public int getTeamId() {
+		return teamId;
 	}
 
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }

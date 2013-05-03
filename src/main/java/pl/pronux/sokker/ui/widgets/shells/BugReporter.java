@@ -42,7 +42,7 @@ public class BugReporter extends Shell {
 		Display display = BugReporter.this.getDisplay();
 		Monitor monitor = display.getPrimaryMonitor();
 		settings = SettingsHandler.getSokkerViewerSettings();
-		this.setText("Error"); //$NON-NLS-1$
+		this.setText("Error"); 
 		this.setSize(450, 150);
 		this.setLayout(new FormLayout());
 
@@ -187,17 +187,17 @@ public class BugReporter extends Shell {
 
 	public void openErrorMessage(final String message, final Throwable e) {
 		Log.error(message, e);
-		messageLabel.setText(String.format("%s", message)); //$NON-NLS-1$
+		messageLabel.setText(String.format("%s", message)); 
 
-		detailText.setText(String.format("%s\n%s", detailText.getText(), e.toString())); //$NON-NLS-1$
+		detailText.setText(String.format("%s\n%s", detailText.getText(), e.toString())); 
 		for (int i = 0; i < e.getStackTrace().length; i++) {
-			detailText.setText(String.format("%s\n%s", detailText.getText(), e.getStackTrace()[i])); //$NON-NLS-1$
+			detailText.setText(String.format("%s\n%s", detailText.getText(), e.getStackTrace()[i])); 
 		}
 		Throwable caused = e.getCause();
 		while (caused != null) {
-			detailText.setText(String.format("%s\nCaused by: %s", detailText.getText(), caused.toString())); //$NON-NLS-1$
+			detailText.setText(String.format("%s\nCaused by: %s", detailText.getText(), caused.toString())); 
 			for (int i = 0; i < caused.getStackTrace().length; i++) {
-				detailText.setText(String.format("%s\n%s", detailText.getText(), caused.getStackTrace()[i])); //$NON-NLS-1$
+				detailText.setText(String.format("%s\n%s", detailText.getText(), caused.getStackTrace()[i])); 
 			}
 			caused = caused.getCause();
 		}

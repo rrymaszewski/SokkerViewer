@@ -17,21 +17,21 @@ import pl.pronux.sokker.model.LeagueSeason;
 import pl.pronux.sokker.model.LeagueTeam;
 import pl.pronux.sokker.model.Match;
 
-public class LeaguesManager {
+public final class LeaguesManager {
 
 	private static LeaguesManager instance = new LeaguesManager();
 
 	private LeaguesManager() {
 	}
 
-	public static LeaguesManager instance() {
+	public static LeaguesManager getInstance() {
 		return instance;
 	}
 
 	public void importLeagues(List<League> leagues) throws SQLException {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		for (League league : leagues) {
-			if (!leagueDao.existsLeague(league.getLeagueID())) {
+			if (!leagueDao.existsLeague(league.getLeagueId())) {
 				leagueDao.addLeague(league);
 			}
 			for (LeagueTeam leagueTeam : league.getLeagueTeams()) {
@@ -93,12 +93,12 @@ public class LeaguesManager {
 		leagues = leagueDao.getUncompletedRounds();
 		List<LeagueTeam> leagueTeamToComplete = new ArrayList<LeagueTeam>();
 		int currentSeason = -1;
-		int currentLeagueID = -1;
+		int currentLeagueId = -1;
 		List<LeagueRound> rounds = new ArrayList<LeagueRound>();
 		for (LeagueSeason leagueSeason : leagues) {
-			if (currentSeason != leagueSeason.getSeason() || currentLeagueID != leagueSeason.getLeagueID()) {
+			if (currentSeason != leagueSeason.getSeason() || currentLeagueId != leagueSeason.getLeagueId()) {
 				currentSeason = leagueSeason.getSeason();
-				currentLeagueID = leagueSeason.getLeagueID();
+				currentLeagueId = leagueSeason.getLeagueId();
 				rounds = leagueDao.getRounds(leagueSeason, new HashMap<Integer, Club>());
 			}
 
@@ -110,16 +110,16 @@ public class LeaguesManager {
 				for (Match match : matches) {
 					LeagueTeam homeLeagueTeam = new LeagueTeam();
 					LeagueTeam awayLeagueTeam = new LeagueTeam();
-					homeLeagueTeam.setTeamID(match.getHomeTeamID());
-					awayLeagueTeam.setTeamID(match.getAwayTeamID());
+					homeLeagueTeam.setTeamId(match.getHomeTeamId());
+					awayLeagueTeam.setTeamId(match.getAwayTeamId());
 					homeLeagueTeam.setGoalsScored(match.getHomeTeamScore());
 					awayLeagueTeam.setGoalsScored(match.getAwayTeamScore());
 					homeLeagueTeam.setRound(match.getRound());
 					awayLeagueTeam.setRound(match.getRound());
 					homeLeagueTeam.setSeason(match.getSeason());
 					awayLeagueTeam.setSeason(match.getSeason());
-					homeLeagueTeam.setLeagueID(match.getLeagueID());
-					awayLeagueTeam.setLeagueID(match.getLeagueID());
+					homeLeagueTeam.setLeagueId(match.getLeagueId());
+					awayLeagueTeam.setLeagueId(match.getLeagueId());
 					if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
 						homeLeagueTeam.setPoints(3);
 						awayLeagueTeam.setPoints(0);
@@ -146,23 +146,23 @@ public class LeaguesManager {
 						homeLeagueTeam
 							.setRankTotal(String
 								.format(
-										"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+										"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); 
 					} else {
 						homeLeagueTeam
 							.setRankTotal(String
 								.format(
-										"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+										"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); 
 					}
 					if (awayLeagueTeam.getPoints() > 0) {
 						awayLeagueTeam
 							.setRankTotal(String
 								.format(
-										"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+										"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); 
 					} else {
 						awayLeagueTeam
 							.setRankTotal(String
 								.format(
-										"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+										"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); 
 					}
 					round.getLeagueTeams().add(homeLeagueTeam);
 					round.getLeagueTeams().add(awayLeagueTeam);
@@ -184,24 +184,24 @@ public class LeaguesManager {
 				if (completed && previousRound.getLeagueTeams().size() == 8) {
 					Map<Integer, LeagueTeam> previousRoundMap = new HashMap<Integer, LeagueTeam>();
 					for (LeagueTeam leagueTeam : previousRound.getLeagueTeams()) {
-						previousRoundMap.put(leagueTeam.getTeamID(), leagueTeam);
+						previousRoundMap.put(leagueTeam.getTeamId(), leagueTeam);
 					}
 
 					for (Match match : matches) {
 						LeagueTeam homeLeagueTeam = new LeagueTeam();
 						LeagueTeam awayLeagueTeam = new LeagueTeam();
-						LeagueTeam previousHomeLeagueTeam = previousRoundMap.get(match.getHomeTeamID());
-						LeagueTeam previousAwayLeagueTeam = previousRoundMap.get(match.getAwayTeamID());
-						homeLeagueTeam.setTeamID(match.getHomeTeamID());
-						awayLeagueTeam.setTeamID(match.getAwayTeamID());
+						LeagueTeam previousHomeLeagueTeam = previousRoundMap.get(match.getHomeTeamId());
+						LeagueTeam previousAwayLeagueTeam = previousRoundMap.get(match.getAwayTeamId());
+						homeLeagueTeam.setTeamId(match.getHomeTeamId());
+						awayLeagueTeam.setTeamId(match.getAwayTeamId());
 						homeLeagueTeam.setGoalsScored(match.getHomeTeamScore() + previousHomeLeagueTeam.getGoalsScored());
 						awayLeagueTeam.setGoalsScored(match.getAwayTeamScore() + previousAwayLeagueTeam.getGoalsScored());
 						homeLeagueTeam.setRound(match.getRound());
 						awayLeagueTeam.setRound(match.getRound());
 						homeLeagueTeam.setSeason(match.getSeason());
 						awayLeagueTeam.setSeason(match.getSeason());
-						homeLeagueTeam.setLeagueID(match.getLeagueID());
-						awayLeagueTeam.setLeagueID(match.getLeagueID());
+						homeLeagueTeam.setLeagueId(match.getLeagueId());
+						awayLeagueTeam.setLeagueId(match.getLeagueId());
 						awayLeagueTeam.setLosses(previousAwayLeagueTeam.getLosses());
 						awayLeagueTeam.setWins(previousAwayLeagueTeam.getWins());
 						awayLeagueTeam.setDraws(previousAwayLeagueTeam.getDraws());
@@ -235,23 +235,23 @@ public class LeaguesManager {
 							homeLeagueTeam
 								.setRankTotal(String
 									.format(
-											"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+											"%d%d%03d%03d%03d", homeLeagueTeam.getPoints(), 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); 
 						} else {
 							homeLeagueTeam
 								.setRankTotal(String
 									.format(
-											"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+											"%d%03d%03d%03d", 500 + homeLeagueTeam.getGoalsScored() - homeLeagueTeam.getGoalsLost(), homeLeagueTeam.getGoalsScored(), homeLeagueTeam.getWins(), homeLeagueTeam.getBeginPlace())); 
 						}
 						if (awayLeagueTeam.getPoints() > 0) {
 							awayLeagueTeam
 								.setRankTotal(String
 									.format(
-											"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+											"%d%d%03d%03d%03d", awayLeagueTeam.getPoints(), 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); 
 						} else {
 							awayLeagueTeam
 								.setRankTotal(String
 									.format(
-											"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); //$NON-NLS-1$
+											"%d%03d%03d%03d", 500 + awayLeagueTeam.getGoalsScored() - awayLeagueTeam.getGoalsLost(), awayLeagueTeam.getGoalsScored(), awayLeagueTeam.getWins(), awayLeagueTeam.getBeginPlace())); 
 						}
 						round.getLeagueTeams().add(homeLeagueTeam);
 						round.getLeagueTeams().add(awayLeagueTeam);

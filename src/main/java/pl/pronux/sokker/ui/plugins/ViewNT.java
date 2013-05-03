@@ -116,7 +116,7 @@ public class ViewNT implements IPlugin {
 
 	private TreeItem _treeItem;
 
-	protected Club club;
+	private Club club;
 
 	private Combo trainingCombo;
 
@@ -245,7 +245,7 @@ public class ViewNT implements IPlugin {
 					Player player = (Player) noteShell.getData(Player.class.getName());
 
 					if (player != null) {
-						int training_type = trainingCombo.getSelectionIndex();
+						int trainingType = trainingCombo.getSelectionIndex();
 						String parameters = "";
 
 						String comment = note.getText();
@@ -262,7 +262,7 @@ public class ViewNT implements IPlugin {
 												   + player.getSkills()[0].getStamina() + ";;" + player.getSkills()[0].getPace() + ";;"
 												   + player.getSkills()[0].getTechnique() + ";;" + player.getSkills()[0].getPassing() + ";;"
 												   + player.getSkills()[0].getKeeper() + ";;" + player.getSkills()[0].getDefender() + ";;"
-												   + player.getSkills()[0].getPlaymaker() + ";;" + player.getSkills()[0].getScorer() + ";;" + training_type
+												   + player.getSkills()[0].getPlaymaker() + ";;" + player.getSkills()[0].getScorer() + ";;" + trainingType
 												   + ";;" + comment).getBytes("UTF-8"), skey, SYMMETRIC_KEY_SEQUENCE));
 							parameters = URLEncoder.encode(parameters, "UTF-8");
 						} catch (InvalidKeyException e2) {
@@ -705,8 +705,8 @@ public class ViewNT implements IPlugin {
 					} else {
 						throw new SVException(xmlDownloader.getErrorno());
 					}
-					String teamXML = xmlDownloader.getTeam(xmlDownloader.getTeamID());
-					String playersXML = xmlDownloader.getPlayers(xmlDownloader.getTeamID());
+					String teamXML = xmlDownloader.getTeam(xmlDownloader.getTeamId());
+					String playersXML = xmlDownloader.getPlayers(xmlDownloader.getTeamId());
 
 					InputSource input;
 					TeamXmlParser teamXMLparser = new TeamXmlParser();
@@ -728,9 +728,9 @@ public class ViewNT implements IPlugin {
 					}
 
 					club = teamXMLparser.getClub();
-					players = playersXMLparser.getAlPlayers();
+					players = playersXMLparser.getPlayers();
 
-					fillTable(table, playersXMLparser.getAlPlayers(), comparator);
+					fillTable(table, playersXMLparser.getPlayers(), comparator);
 				} catch (IOException e) {
 					new BugReporter(composite.getShell()).openErrorMessage(Messages.getString("message.file.ioexception"), e);
 				} catch (SAXException e) {

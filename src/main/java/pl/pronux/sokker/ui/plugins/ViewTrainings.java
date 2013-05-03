@@ -38,7 +38,7 @@ import pl.pronux.sokker.ui.widgets.tree.TrainingTree;
 
 public class ViewTrainings implements IPlugin {
 
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 	
 	private Composite composite;
 

@@ -59,7 +59,7 @@ public class RestoreDatabaseShell extends Shell {
 		
 		this.setLayout(new FormLayout());
 		this.setSize(350, 150);
-		this.setText(Messages.getString("shell.restore.db.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("shell.restore.db.title")); 
 		
 		backupDbListener = new Listener() {
 
@@ -67,8 +67,8 @@ public class RestoreDatabaseShell extends Shell {
 				try {
 					if(files.size() > 0) {
 						MessageBox msg = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_INFORMATION);
-						msg.setText(Messages.getString("message.db.restore.question.title")); //$NON-NLS-1$
-						msg.setMessage(Messages.getString("message.db.restore.question.text")); //$NON-NLS-1$
+						msg.setText(Messages.getString("message.db.restore.question.title")); 
+						msg.setMessage(Messages.getString("message.db.restore.question.text")); 
 						if (msg.open() == SWT.YES) {
 							File file = files.get(combo.getSelectionIndex());
 							Database.restore(SettingsHandler.getSokkerViewerSettings(), file.getName());
@@ -89,7 +89,7 @@ public class RestoreDatabaseShell extends Shell {
 
 		label = new CLabel(this, SWT.NONE);
 		label.setLayoutData(formData);
-		label.setText(Messages.getString("viewer.label.backup.text")); //$NON-NLS-1$
+		label.setText(Messages.getString("viewer.label.backup.text")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
@@ -109,7 +109,7 @@ public class RestoreDatabaseShell extends Shell {
 		button = new Button(this, SWT.NONE);
 		button.setLayoutData(formData);
 		button.setFont(ConfigBean.getFontMain());
-		button.setText(Messages.getString("button.database.restore")); //$NON-NLS-1$
+		button.setText(Messages.getString("button.database.restore")); 
 		button.addListener(SWT.Selection, backupDbListener);
 
 		// shell.pack();
@@ -130,13 +130,13 @@ public class RestoreDatabaseShell extends Shell {
 		comparator.setColumn(BackupDBComparator.LONG);
 
 		Collections.sort(files, comparator);
-		combo.setData("files", files); //$NON-NLS-1$
+		combo.setData("files", files); 
 		for (File file : files) {
-			String[] filename = file.getName().split("\\."); //$NON-NLS-1$
-			if (filename[0].matches("[0-9]+")) { //$NON-NLS-1$
-				combo.add(String.format("%s (%s %s [%.2f kb] )", file.getName(), new Date(Long.valueOf(filename[0]).longValue()).toString(), new Time(Long.valueOf(filename[0]).longValue()).toString(),Double.valueOf(file.length() / 1000))); //$NON-NLS-1$
-			} else if (filename[0].matches("autobackup-[0-9]+")) { //$NON-NLS-1$ 
-				combo.add(String.format("%s (%s %s [%.2f kb] )", file.getName(), new Date(Long.valueOf(file.lastModified()).longValue()).toString(), new Time(Long.valueOf(file.lastModified())).toString(),Double.valueOf(file.length() / 1000))); //$NON-NLS-1$				
+			String[] filename = file.getName().split("\\."); 
+			if (filename[0].matches("[0-9]+")) { 
+				combo.add(String.format("%s (%s %s [%.2f kb] )", file.getName(), new Date(Long.valueOf(filename[0]).longValue()).toString(), new Time(Long.valueOf(filename[0]).longValue()).toString(),Double.valueOf(file.length() / 1000))); 
+			} else if (filename[0].matches("autobackup-[0-9]+")) {  
+				combo.add(String.format("%s (%s %s [%.2f kb] )", file.getName(), new Date(Long.valueOf(file.lastModified()).longValue()).toString(), new Time(Long.valueOf(file.lastModified())).toString(),Double.valueOf(file.length() / 1000))); 				
 			}
 		}
 		if (combo.getItemCount() == 0) {
@@ -160,7 +160,7 @@ public class RestoreDatabaseShell extends Shell {
 			if (!files.isEmpty()) {
 				this.addItems(files);
 			} else {
-				MessageDialog.openErrorMessage(this, Messages.getString("message.viewer.db.restore.error.text")); //$NON-NLS-1$
+				MessageDialog.openErrorMessage(this, Messages.getString("message.viewer.db.restore.error.text")); 
 			}
 		}
 		super.open();

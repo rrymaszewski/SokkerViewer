@@ -2,17 +2,17 @@ package pl.pronux.sokker.model;
 
 public class Country {
 
-	private int countryID;
+	private int countryId;
 	private String name;
 	private String currencyName;
 	private Double currencyRate;
 
-	public int getCountryID() {
-		return countryID;
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCountryID(int countryID) {
-		this.countryID = countryID;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getCurrencyName() {

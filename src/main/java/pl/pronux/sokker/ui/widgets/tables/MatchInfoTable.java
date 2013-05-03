@@ -34,16 +34,16 @@ public class MatchInfoTable extends SVTable<Match> {
 		TableItem item;
 		
 		item = new TableItem(this, SWT.NONE);
-		item.setText(1,Messages.getString("table.date")); //$NON-NLS-1$
+		item.setText(1,Messages.getString("table.date")); 
 		
 		item = new TableItem(this, SWT.NONE);
-		item.setText(1,Messages.getString("match.type")); //$NON-NLS-1$
+		item.setText(1,Messages.getString("match.type")); 
 		
 		item = new TableItem(this, SWT.NONE);
-		item.setText(1,Messages.getString("match.stadium")); //$NON-NLS-1$
+		item.setText(1,Messages.getString("match.stadium")); 
 		
 		item = new TableItem(this, SWT.NONE);
-		item.setText(1,Messages.getString("match.supporters")); //$NON-NLS-1$
+		item.setText(1,Messages.getString("match.supporters")); 
 		
 		for (int i = 0; i < this.getItemCount(); i++) {
 			if ((i % 2) == 1) {
@@ -91,20 +91,20 @@ public class MatchInfoTable extends SVTable<Match> {
 		this.setRedraw(false);
 		if(match.getIsFinished() == Match.NOT_FINISHED) {
 			this.getItem(0).setText(2, match.getDateExpected().toDateString());
-			this.getItem(1).setText(2, Messages.getString("match.type." + match.getLeague().getIsOfficial() + "-" + match.getLeague().getType() + "-" + match.getLeague().getIsCup())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			this.getItem(2).setText(2, ""); //$NON-NLS-1$
-			this.getItem(3).setText(2, ""); //$NON-NLS-1$
+			this.getItem(1).setText(2, Messages.getString("match.type." + match.getLeague().getIsOfficial() + "-" + match.getLeague().getType() + "-" + match.getLeague().getIsCup()));   
+			this.getItem(2).setText(2, ""); 
+			this.getItem(3).setText(2, ""); 
 		} else {
 			this.getItem(0).setText(2, match.getDateStarted().toDateTimeString());
 			if(match.getLeague() != null) {
-				this.getItem(1).setText(2, Messages.getString("match.type." + match.getLeague().getIsOfficial() + "-" + match.getLeague().getType() + "-" + match.getLeague().getIsCup())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
+				this.getItem(1).setText(2, Messages.getString("match.type." + match.getLeague().getIsOfficial() + "-" + match.getLeague().getType() + "-" + match.getLeague().getIsCup()));   				
 			} else {
-				this.getItem(2).setText(2, ""); //$NON-NLS-1$
+				this.getItem(2).setText(2, ""); 
 			}
 			if(match.getHomeTeam() != null && match.getHomeTeam().getArena() != null && match.getHomeTeam().getArena().getArenaNames().size() > 0 && match.getHomeTeam().getArena().getArenaNames().get(0).getArenaName() != null) {
 				this.getItem(2).setText(2, match.getHomeTeam().getArena().getArenaNames().get(match.getHomeTeam().getArena().getArenaNames().size() - 1).getArenaName());
 			} else {
-				this.getItem(2).setText(2, "?");				 //$NON-NLS-1$
+				this.getItem(2).setText(2, "?");				 
 			}
 			this.getItem(3).setText(2, String.valueOf(match.getSupporters()));
 		}

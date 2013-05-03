@@ -12,29 +12,29 @@ public class MatchPlayersDetailsComparator implements SVComparator<PlayerStats>,
 
 	private int direction;
 
-	final public static int SUBSTITUTIONS = 0;
+	public static final int SUBSTITUTIONS = 0;
 
-	final public static int NUMBER = 1;
+	public static final int NUMBER = 1;
 
-	final public static int PLAYER = 2;
+	public static final int PLAYER = 2;
 
-	final public static int FORMATION = 3;
+	public static final int FORMATION = 3;
 
-	final public static int TIME = 4;
+	public static final int TIME = 4;
 
-	final public static int STARS = 5;
+	public static final int STARS = 5;
 
-	final public static int GOALS = 6;
+	public static final int GOALS = 6;
 
-	final public static int SHOOTS = 7;
+	public static final int SHOOTS = 7;
 
-	final public static int ASSISTS = 8;
+	public static final int ASSISTS = 8;
 	
-	final public static int FOULS = 9;
+	public static final int FOULS = 9;
 
-	final public static int INJURY = 10;
+	public static final int INJURY = 10;
 
-	final public static int CARDS = 11;
+	public static final int CARDS = 11;
 	
 	public MatchPlayersDetailsComparator() {
 	}
@@ -67,7 +67,7 @@ public class MatchPlayersDetailsComparator implements SVComparator<PlayerStats>,
 			break;
 		case PLAYER:
 			if(ps1.getPlayer() == null && ps2.getPlayer() == null) {
-				rc = (ps1.getPlayerID() < ps2.getPlayerID()) ? -1 : 1;
+				rc = (ps1.getPlayerId() < ps2.getPlayerId()) ? -1 : 1;
 			} else if(ps1.getPlayer() != null && ps2.getPlayer() == null) {
 				rc = 1;
 			} else if(ps1.getPlayer() == null && ps2.getPlayer() != null) {

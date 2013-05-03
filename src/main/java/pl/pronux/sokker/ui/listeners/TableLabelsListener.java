@@ -24,7 +24,7 @@ public class TableLabelsListener<T> implements Listener {
 		this.table = table;
 		
 		// Disable native tooltip
-		table.setToolTipText(""); //$NON-NLS-1$
+		table.setToolTipText(""); 
 
 		// Implement a "fake" tooltip
 		labelListener = new Listener() {
@@ -34,7 +34,7 @@ public class TableLabelsListener<T> implements Listener {
 				switch (event.type) {
 				case SWT.MouseDown:
 					Event e = new Event();
-					e.item = (TableItem) label.getData("_TABLEITEM"); //$NON-NLS-1$
+					e.item = (TableItem) label.getData("_TABLEITEM"); 
 					// Assuming table is single select, set the selection as
 					// if
 					// the mouse down event went through to the table
@@ -75,16 +75,15 @@ public class TableLabelsListener<T> implements Listener {
 						if (!visible) {
 							return;
 						}
-						if (tip != null && !tip.isDisposed())
+						if (tip != null && !tip.isDisposed()) {
 							tip.dispose();
-
-						
+						}
 						tip = new Shell(shell, SWT.ON_TOP | SWT.TOOL);
 						tip.setLayout(new FillLayout());
 						label = new Label(tip, SWT.NONE);
 						label.setForeground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND));
 						label.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-						label.setData("_TABLEITEM", item); //$NON-NLS-1$
+						label.setData("_TABLEITEM", item); 
 						label.addListener(SWT.MouseExit, labelListener);
 						label.addListener(SWT.MouseDown, labelListener);
 						label.setSize(0,0);

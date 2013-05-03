@@ -21,8 +21,8 @@ public class CountriesDao {
 	}
 
 	public void addCountry(Country country) throws SQLException {
-		PreparedStatement pstm = connection.prepareStatement("INSERT INTO countries(country_id,name,currency_name,currency_rate) VALUES (?,?,?,?)"); //$NON-NLS-1$
-		pstm.setInt(1, country.getCountryID());
+		PreparedStatement pstm = connection.prepareStatement("INSERT INTO countries(country_id,name,currency_name,currency_rate) VALUES (?,?,?,?)"); 
+		pstm.setInt(1, country.getCountryId());
 		pstm.setString(2, country.getName());
 		pstm.setString(3, country.getCurrencyName());
 		pstm.setDouble(4, country.getCurrencyRate());
@@ -32,21 +32,21 @@ public class CountriesDao {
 	}
 
 	public List<Country> getCountries() throws SQLException {
-		List<Country> alCountries = new ArrayList<Country>();
-		PreparedStatement ps = connection.prepareStatement("SELECT country_id, name, currency_rate, currency_name FROM countries"); //$NON-NLS-1$
+		List<Country> countries = new ArrayList<Country>();
+		PreparedStatement ps = connection.prepareStatement("SELECT country_id, name, currency_rate, currency_name FROM countries"); 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Country country = new CountryDto(rs).getCountry();
-			alCountries.add(country);
+			countries.add(country);
 		}
 		rs.close();
 		ps.close();
-		return alCountries;
+		return countries;
 	}
 
-	public boolean existsCountry(int countryID) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("SELECT count(country_id) FROM countries WHERE country_id = ?"); //$NON-NLS-1$
-		ps.setInt(1, countryID);
+	public boolean existsCountry(int countryId) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("SELECT count(country_id) FROM countries WHERE country_id = ?"); 
+		ps.setInt(1, countryId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			if (rs.getInt(1) > 0) {
@@ -64,19 +64,19 @@ public class CountriesDao {
 	}
 
 	public void updateCountry(Country country) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("UPDATE countries SET currency_rate= ?, name = ? WHERE country_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE countries SET currency_rate= ?, name = ? WHERE country_id = ?"); 
 
 		ps.setDouble(1, country.getCurrencyRate());
 		ps.setString(2, country.getName());
-		ps.setInt(3, country.getCountryID());
+		ps.setInt(3, country.getCountryId());
 		ps.executeUpdate();
 		ps.close();
 	}
 
-	public boolean existsRegion(int regionID) throws SQLException {
+	public boolean existsRegion(int regionId) throws SQLException {
 
-		PreparedStatement ps = connection.prepareStatement("SELECT count(region_id) FROM regions WHERE region_id = ?"); //$NON-NLS-1$
-		ps.setInt(1, regionID);
+		PreparedStatement ps = connection.prepareStatement("SELECT count(region_id) FROM regions WHERE region_id = ?"); 
+		ps.setInt(1, regionId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			if (rs.getInt(1) > 0) {
@@ -94,29 +94,29 @@ public class CountriesDao {
 	}
 
 	public void updateRegion(Region region) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("UPDATE regions SET weather = ? WHERE region_id = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE regions SET weather = ? WHERE region_id = ?"); 
 
 		ps.setInt(1, region.getWeather());
-		ps.setInt(2, region.getRegionID());
+		ps.setInt(2, region.getRegionId());
 		ps.executeUpdate();
 		ps.close();
 
 	}
 
 	public void addRegion(Region region) throws SQLException {
-		PreparedStatement pstm = connection.prepareStatement("INSERT INTO regions(region_id,country_id,name,weather) VALUES (?,?,?,?)"); //$NON-NLS-1$
-		pstm.setInt(1, region.getRegionID());
-		pstm.setInt(2, region.getIdCountryFK());
+		PreparedStatement pstm = connection.prepareStatement("INSERT INTO regions(region_id,country_id,name,weather) VALUES (?,?,?,?)"); 
+		pstm.setInt(1, region.getRegionId());
+		pstm.setInt(2, region.getCountryId());
 		pstm.setString(3, region.getName());
 		pstm.setInt(4, region.getWeather());
 		pstm.executeUpdate();
 		pstm.close();
 	}
 
-	public Region getRegion(int regionID) throws SQLException {
+	public Region getRegion(int regionId) throws SQLException {
 		Region region = null;
-		PreparedStatement ps = connection.prepareStatement("SELECT * FROM regions WHERE region_id = ?"); //$NON-NLS-1$
-		ps.setInt(1, regionID);
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM regions WHERE region_id = ?"); 
+		ps.setInt(1, regionId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			region = new RegionDto(rs).getRegion();

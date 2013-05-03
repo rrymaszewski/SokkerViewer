@@ -23,35 +23,35 @@ public class Coach extends Person {
 
 	public static final int JOB_JUNIORS = 3;
 	
-	byte signed;
+	private byte signed;
 
-	int job;
+	private int job;
 
-	int countryfrom;
+	private int countryfrom;
 
-	byte age;
+	private byte age;
 
-	Money salary;
+	private Money salary;
 
-	byte generalskill;
+	private byte generalskill;
 
-	byte stamina;
+	private byte stamina;
 
-	byte pace;
+	private byte pace;
 
-	byte technique;
+	private byte technique;
 
-	byte passing;
+	private byte passing;
 
-	byte keepers;
+	private byte keepers;
 
-	byte defenders;
+	private byte defenders;
 
-	byte playmakers;
+	private byte playmakers;
 
-	byte scorers;
+	private byte scorers;
 
-	int summarySkill;
+	private int summarySkill;
 
 	public int getSummarySkill() {
 		return summarySkill;

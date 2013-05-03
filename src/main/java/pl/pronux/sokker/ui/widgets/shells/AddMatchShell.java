@@ -32,7 +32,7 @@ public class AddMatchShell extends Shell {
 		// super.checkSubclass();
 	}
 
-	private MatchesManager matchesManager = MatchesManager.instance();
+	private MatchesManager matchesManager = MatchesManager.getInstance();
 	
 	public AddMatchShell(final Shell parent, int style) {
 		super(parent, style);
@@ -46,7 +46,7 @@ public class AddMatchShell extends Shell {
 		formData.top = new FormAttachment(0, 10);
 
 		CLabel label = new CLabel(this, SWT.NONE);
-		label.setText(Messages.getString("addmatchshell.label")); //$NON-NLS-1$
+		label.setText(Messages.getString("addmatchshell.label")); 
 		label.setLayoutData(formData);
 
 		formData = new FormData();
@@ -63,7 +63,7 @@ public class AddMatchShell extends Shell {
 		formData.top = new FormAttachment(text, 5);
 
 		Button button = new Button(this, SWT.PUSH);
-		button.setText(Messages.getString("button.import")); //$NON-NLS-1$
+		button.setText(Messages.getString("button.import")); 
 		button.setLayoutData(formData);
 		button.addListener(SWT.Selection, new Listener() {
 
@@ -74,35 +74,35 @@ public class AddMatchShell extends Shell {
 					case MatchesManager.OK:
 						ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_MATCHES, new Event());
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_INFORMATION);
-						msg.setMessage(Messages.getString("download.match.error.0")); //$NON-NLS-1$
+						msg.setMessage(Messages.getString("download.match.error.0")); 
 						msg.open();
 						break;
 					case MatchesManager.ERROR_DOESNT_CONTAIN:
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_ERROR);
-						msg.setMessage(Messages.getString("download.match.error.-1")); //$NON-NLS-1$
+						msg.setMessage(Messages.getString("download.match.error.-1")); 
 						msg.open();
 						break;
 					case MatchesManager.ERROR_ALREADY_EXIST:
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_ERROR);
-						msg.setMessage(Messages.getString("download.match.error.-3")); //$NON-NLS-1$
+						msg.setMessage(Messages.getString("download.match.error.-3")); 
 						msg.open();
 						break;
 					case 4:
 						msg = new MessageBox(ViewerHandler.getViewer(), SWT.OK | SWT.ICON_ERROR);
-						msg.setMessage(Messages.getString("download.match.error.-4")); //$NON-NLS-1$
+						msg.setMessage(Messages.getString("download.match.error.-4")); 
 						msg.open();
 						break;
 					default:
 						break;
 					}
 				} catch (NumberFormatException e) {
-					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); //$NON-NLS-1$
+					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); 
 				} catch (IOException e) {
-					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); //$NON-NLS-1$
+					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); 
 				} catch (SAXException e) {
-					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); //$NON-NLS-1$
+					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); 
 				} catch (SQLException e) {
-					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); //$NON-NLS-1$
+					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), Messages.getString("download.match.error.-5")); 
 				} catch (SVException e) {
 					MessageDialog.openErrorMessage(ViewerHandler.getViewer(), e.getMessage());
 				}

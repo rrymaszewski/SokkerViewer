@@ -22,7 +22,7 @@ import pl.pronux.sokker.model.Date;
 
 public class TeamsXmlManager extends XmlManager<Club> {
 
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 	
 	private Map<String, String> teamsStringMap = new HashMap<String, String>();
 
@@ -43,34 +43,34 @@ public class TeamsXmlManager extends XmlManager<Club> {
 	}
 
 	public TeamsXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("team", destination, downloader, currentDay); //$NON-NLS-1$
+		super("team", destination, downloader, currentDay); 
 	}
 	
-	public TeamsXmlManager(String content, Date currentDay, int teamID) {
-		super(content, currentDay, teamID);
-		teamsStringMap.put(String.valueOf(teamID), content);
-		this.teamID = teamID;
+	public TeamsXmlManager(String content, Date currentDay, int teamId) {
+		super(content, currentDay, teamId);
+		teamsStringMap.put(String.valueOf(teamId), content);
+		this.teamId = teamId;
 	}
 
 	@Override
 	public void download() throws IOException {
-		String xml = downloader.getTeam(downloader.getTeamID());
+		String xml = downloader.getTeam(downloader.getTeamId());
 		setContent(xml);
-		teamsStringMap.put(downloader.getTeamID(), xml);
+		teamsStringMap.put(downloader.getTeamId(), xml);
 	}
 
-	public void download(String teamID) throws IOException {
-		teamsStringMap.put(teamID, downloader.getTeam(teamID));
+	public void download(String teamId) throws IOException {
+		teamsStringMap.put(teamId, downloader.getTeam(teamId));
 	}
 
 	@Override
 	public void importToSQL() throws SQLException {
-		int teamID = 0;
-		if(downloader.getTeamID() != null && downloader.getTeamID().matches("[0-9]+")) { //$NON-NLS-1$
-			teamID = Integer.valueOf(downloader.getTeamID());
+		int teamId = 0;
+		if(downloader.getTeamId() != null && downloader.getTeamId().matches("[0-9]+")) { 
+			teamId = Integer.valueOf(downloader.getTeamId());
 		}
 		for(Club team : teams) {
-			if(team.getId() == teamID) {
+			if(team.getId() == teamId) {
 				teamManager.importTeam(team, currentDay);		
 			} else {
 				teamManager.importForeignClub(team, currentDay);	
@@ -78,8 +78,8 @@ public class TeamsXmlManager extends XmlManager<Club> {
 		}
 	}
 
-	public Club parseXML(int teamID) throws SAXException {
-		List<Club> list = parseXML(teamsStringMap.get(String.valueOf(teamID)));
+	public Club parseXML(int teamId) throws SAXException {
+		List<Club> list = parseXML(teamsStringMap.get(String.valueOf(teamId)));
 		if(list.size() > 0) {
 			return list.get(0);
 		} else {
@@ -96,7 +96,7 @@ public class TeamsXmlManager extends XmlManager<Club> {
 		}
 		
 		for (Club team : teams) {
-			if(team.getId() == Integer.valueOf(downloader.getTeamID())) {
+			if(team.getId() == Integer.valueOf(downloader.getTeamId())) {
 				this.setClub(team);
 			}
 		}
@@ -136,7 +136,7 @@ public class TeamsXmlManager extends XmlManager<Club> {
 
 	@Override
 	public boolean write() throws IOException {
-		write(getContent(), downloader.getTeamID());
+		write(getContent(), downloader.getTeamId());
 
 		Set<String> teamsStringSet = teamsStringMap.keySet();
 

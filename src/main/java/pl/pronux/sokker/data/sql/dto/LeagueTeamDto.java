@@ -13,15 +13,15 @@ public class LeagueTeamDto extends LeagueTeam {
 	}
 
 	public LeagueTeam getLeagueTeam() throws SQLException {
-		this.setTeamID(rs.getInt("team_id")); //$NON-NLS-1$
-		this.setPoints(rs.getInt("points")); //$NON-NLS-1$
-		this.setWins(rs.getInt("wins")); //$NON-NLS-1$
-		this.setDraws(rs.getInt("draws")); //$NON-NLS-1$
-		this.setLosses(rs.getInt("losses")); //$NON-NLS-1$
-		this.setGoalsScored(rs.getInt("goals_scored")); //$NON-NLS-1$
-		this.setGoalsLost(rs.getInt("goals_lost")); //$NON-NLS-1$
-		this.setRankTotal(rs.getString("rank_total")); //$NON-NLS-1$
-		this.setTeamName(rs.getString("team_name")); //$NON-NLS-1$
+		this.setTeamId(rs.getInt("team_id")); 
+		this.setPoints(rs.getInt("points")); 
+		this.setWins(rs.getInt("wins")); 
+		this.setDraws(rs.getInt("draws")); 
+		this.setLosses(rs.getInt("losses")); 
+		this.setGoalsScored(rs.getInt("goals_scored")); 
+		this.setGoalsLost(rs.getInt("goals_lost")); 
+		this.setRankTotal(rs.getString("rank_total")); 
+		this.setTeamName(rs.getString("team_name")); 
 		return this;
 	}
 }

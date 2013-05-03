@@ -41,7 +41,7 @@ public class Club {
 
 	private Region region;
 
-	private int regionID;
+	private int regionId;
 
 	private Money sponsorsBonus;
 
@@ -131,8 +131,8 @@ public class Club {
 		return region;
 	}
 
-	public int getRegionID() {
-		return regionID;
+	public int getRegionId() {
+		return regionId;
 	}
 
 	public Money getSponsorsBonus() {
@@ -196,8 +196,8 @@ public class Club {
 		this.region = region;
 	}
 
-	public void setRegionID(int region) {
-		this.regionID = region;
+	public void setRegionId(int regionId) {
+		this.regionId = regionId;
 	}
 
 	public void setSponsorsBonus(Money sponsorsBonus) {

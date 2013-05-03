@@ -16,7 +16,7 @@ public class JuniorSkillsDto extends JuniorSkills {
 	
 	public JuniorSkills getJuniorSkills() throws SQLException {
 		this.setId(rs.getInt("id_skill"));
-		this.setIdJuniorFK(rs.getInt("id_junior_fk"));
+		this.setJuniorId(rs.getInt("id_junior_fk"));
 		this.setDate(new Date(rs.getLong("millis")));
 		this.setWeeks(rs.getInt("weeks"));
 		this.setSkill(rs.getInt("skill"));

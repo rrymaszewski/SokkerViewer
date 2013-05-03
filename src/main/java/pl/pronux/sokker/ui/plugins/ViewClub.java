@@ -44,13 +44,13 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewClub implements IPlugin {
 
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 	
 	private TreeItem _treeItem;
 
 	private Composite composite;
 
-	protected String cbData;
+	private String cbData;
 
 	private Menu menuPopUpParentTree;
 
@@ -84,7 +84,7 @@ public class ViewClub implements IPlugin {
 		// added popup menu
 		menuPopUpParentTree = new Menu(composite.getShell(), SWT.POP_UP);
 		MenuItem menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 
@@ -109,7 +109,7 @@ public class ViewClub implements IPlugin {
 
 		imageGroup = new ImageGroup(composite, SWT.NONE);
 		imageGroup.setLayoutData(formData);
-		imageGroup.setText(Messages.getString("club.logo")); //$NON-NLS-1$
+		imageGroup.setText(Messages.getString("club.logo")); 
 		
 		formData = new FormData(250, 100);
 		formData.left = new FormAttachment(0, 5);
@@ -139,7 +139,7 @@ public class ViewClub implements IPlugin {
 
 		invitedCountriesGroup = new ClubCountriesGroup(composite, SWT.NONE);
 		invitedCountriesGroup.setLayoutData(formData);
-		invitedCountriesGroup.setText(Messages.getString("club.countries.invited")); //$NON-NLS-1$
+		invitedCountriesGroup.setText(Messages.getString("club.countries.invited")); 
 		
 		formData = new FormData(250,180);
 		formData.top = new FormAttachment(centerLabel, 10);
@@ -147,7 +147,7 @@ public class ViewClub implements IPlugin {
 
 		visitedCountriesGroup = new ClubCountriesGroup(composite, SWT.NONE);
 		visitedCountriesGroup.setLayoutData(formData);
-		visitedCountriesGroup.setText(Messages.getString("club.countries.visited")); //$NON-NLS-1$
+		visitedCountriesGroup.setText(Messages.getString("club.countries.visited")); 
 
 		formData = new FormData(250,180);
 		formData.top = new FormAttachment(centerLabel, 10);
@@ -207,12 +207,12 @@ public class ViewClub implements IPlugin {
 	public void setTreeItem(TreeItem treeItem) {
 
 		this._treeItem = treeItem;
-		_treeItem.setText(Messages.getString("tree.ViewClub")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewClub")); 
 		// _treeItem.setData("view", this);
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoClub"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoClub"); 
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
@@ -291,7 +291,7 @@ public class ViewClub implements IPlugin {
 
 			imagePathButton = new Button(this.composite, SWT.NONE | SWT.FLAT);
 			imagePathButton.setEnabled(false);
-			imagePathButton.setText("..."); //$NON-NLS-1$
+			imagePathButton.setText("..."); 
 			imagePathButton.setLayoutData(formData);
 			imagePathButton.pack();
 
@@ -300,10 +300,10 @@ public class ViewClub implements IPlugin {
 				public void handleEvent(Event arg0) {
 
 					FileDialog fileDialog = new FileDialog(composite.getShell(), SWT.OPEN);
-					fileDialog.setText(Messages.getString("confShell.chooser.title")); //$NON-NLS-1$
-					fileDialog.setFilterPath(System.getProperty("user.dir")); //$NON-NLS-1$
+					fileDialog.setText(Messages.getString("confShell.chooser.title")); 
+					fileDialog.setFilterPath(System.getProperty("user.dir")); 
 					fileDialog.setFilterExtensions(new String[] {
-							"*.jpg; *.png; *.bmp; *.gif" //$NON-NLS-1$
+							"*.jpg; *.png; *.bmp; *.gif" 
 					});
 
 					String tempPropsFile = fileDialog.open();
@@ -313,7 +313,7 @@ public class ViewClub implements IPlugin {
 						if(imageData.height <= 240 && imageData.width <= 240) {
 							imagePathText.setText(tempPropsFile);	
 						} else {
-							MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("error.image.toobig")); //$NON-NLS-1$
+							MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("error.image.toobig")); 
 						}
 					}
 				}
@@ -328,8 +328,8 @@ public class ViewClub implements IPlugin {
 			imagePathText = new Text(this.composite, SWT.BORDER);
 			imagePathText.setLayoutData(formData);
 			imagePathText.setFont(ConfigBean.getFontMain());
-			this.treeItem.setText(Messages.getString("tree.ViewClub")); //$NON-NLS-1$
-			this.imageCLabel.setText(Messages.getString("club.configure.image.label")); //$NON-NLS-1$
+			this.treeItem.setText(Messages.getString("tree.ViewClub")); 
+			this.imageCLabel.setText(Messages.getString("club.configure.image.label")); 
 
 			this.composite.layout(true);
 

@@ -34,7 +34,7 @@ public class TreeGroup extends Group {
 		toolBar.setLayoutData(formData);
 
 		ToolItem collapse = new ToolItem(toolBar, SWT.NONE);
-		collapse.setImage(ImageResources.getImageResources("tree_collapse.png")); //$NON-NLS-1$
+		collapse.setImage(ImageResources.getImageResources("tree_collapse.png")); 
 		collapse.setSelection(false);
 
 		collapse.addSelectionListener(new SelectionListener() {

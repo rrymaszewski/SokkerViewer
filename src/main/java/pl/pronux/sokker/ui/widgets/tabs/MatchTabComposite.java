@@ -10,15 +10,15 @@ import pl.pronux.sokker.ui.widgets.composites.views.MatchComposite;
 
 public class MatchTabComposite extends SVTabFolder {
 
-	public static final String MAIN = "main"; //$NON-NLS-1$
-	public static final String HOME = "home"; //$NON-NLS-1$
-	public static final String AWAY = "away"; //$NON-NLS-1$
+	public static final String MAIN = "main"; 
+	public static final String HOME = "home"; 
+	public static final String AWAY = "away"; 
 	
 	public MatchTabComposite(Composite parent, int style) {
 		super(parent, style);
 		this.addItem(MAIN, new MatchComposite(this, SWT.NONE));
 		this.setSelection(this.getItem(MAIN));
-		this.setText(MAIN, Messages.getString("match")); //$NON-NLS-1$
+		this.setText(MAIN, Messages.getString("match")); 
 		this.addItem(HOME, new MatchTeamComposite(this, SWT.NONE));
 		this.addItem(AWAY, new MatchTeamComposite(this, SWT.NONE));
 		this.setSimple(false);
@@ -34,7 +34,7 @@ public class MatchTabComposite extends SVTabFolder {
 			MatchTeamComposite matches = (MatchTeamComposite)this.getComposite(HOME);
 			matches.fill(match.getHomeTeamStats());
 			if(match.getHomeTeamName() == null) {
-				this.setText(HOME, String.valueOf(match.getHomeTeamID()));
+				this.setText(HOME, String.valueOf(match.getHomeTeamId()));
 			} else {
 				this.setText(HOME, match.getHomeTeamName());	
 			}
@@ -44,7 +44,7 @@ public class MatchTabComposite extends SVTabFolder {
 			MatchTeamComposite matches = (MatchTeamComposite)this.getComposite(AWAY);
 			matches.fill(match.getAwayTeamStats());
 			if(match.getAwayTeamName() == null) {
-				this.setText(AWAY, String.valueOf(match.getAwayTeamID()));
+				this.setText(AWAY, String.valueOf(match.getAwayTeamId()));
 			} else {
 				this.setText(AWAY, match.getAwayTeamName());	
 			}

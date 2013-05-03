@@ -12,9 +12,9 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 public class PaintStarListener implements Listener {
 
 	private int index;
-	private static final Image STAR_FULL = ImageResources.getImageResources("star_full.png"); //$NON-NLS-1$
-	private static final Image STAR_HALF = ImageResources.getImageResources("star_half.png"); //$NON-NLS-1$
-	private static final Image STAR_EMPTY = ImageResources.getImageResources("star_empty.png"); //$NON-NLS-1$
+	private static final Image STAR_FULL = ImageResources.getImageResources("star_full.png"); 
+	private static final Image STAR_HALF = ImageResources.getImageResources("star_half.png"); 
+	private static final Image STAR_EMPTY = ImageResources.getImageResources("star_empty.png"); 
 
 	public PaintStarListener(int index) {
 		this.index = index;
@@ -32,16 +32,16 @@ public class PaintStarListener implements Listener {
 				int x = event.x;
 				Rectangle rect = STAR_FULL.getBounds();
 				int offset = Math.max(0, (event.height - rect.height) / 2);
-				int stars_full = rating / 10;
-				for (int i = 0; i < stars_full; i++) {
+				int starsFull = rating / 10;
+				for (int i = 0; i < starsFull; i++) {
 					event.gc.drawImage(STAR_FULL, x + i * rect.width + 1, event.y + offset);
 				}
-				int stars_half = (rating / 5) - (2 * stars_full);
-				for (int i = stars_full; i < stars_half + stars_full; i++) {
+				int starsHalf = (rating / 5) - (2 * starsFull);
+				for (int i = starsFull; i < starsHalf + starsFull; i++) {
 					event.gc.drawImage(STAR_HALF, x + i * rect.width + 1, event.y + offset);
 				}
-				int stars_empty = 10 - stars_full - stars_half;
-				for (int i = stars_full + stars_half; i < stars_empty + stars_full + stars_half; i++) {
+				int stars_empty = 10 - starsFull - starsHalf;
+				for (int i = starsFull + starsHalf; i < stars_empty + starsFull + starsHalf; i++) {
 					event.gc.drawImage(STAR_EMPTY, x + i * rect.width + 1, event.y + offset);
 				}
 				break;

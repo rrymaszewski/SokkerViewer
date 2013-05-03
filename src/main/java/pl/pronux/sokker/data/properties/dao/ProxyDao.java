@@ -20,17 +20,17 @@ public class ProxyDao {
 		return new ProxyDto(properties);
 	}
 	
-	public void updateProxySettings(ProxySettings proxySettings) throws FileNotFoundException, IOException {
+	public void updateProxySettings(ProxySettings proxySettings) throws IOException {
 		if (proxySettings.isEnabled()) {
-			properties.setProperty("proxy.turn", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("proxy.turn", "1");  
 		} else {
-			properties.setProperty("proxy.turn", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("proxy.turn", "0");  
 		}
 
-		properties.setProperty("proxy.host", proxySettings.getHostname()); //$NON-NLS-1$
-		properties.setProperty("proxy.port", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
-		properties.setProperty("proxy.user", proxySettings.getUsername()); //$NON-NLS-1$
-		properties.setProperty("proxy.password", Crypto.encodeBase64(proxySettings.getPassword().getBytes())); //$NON-NLS-1$
+		properties.setProperty("proxy.host", proxySettings.getHostname()); 
+		properties.setProperty("proxy.port", String.valueOf(proxySettings.getPort())); 
+		properties.setProperty("proxy.user", proxySettings.getUsername()); 
+		properties.setProperty("proxy.password", Crypto.encodeBase64(proxySettings.getPassword().getBytes())); 
 		
 		PropertiesDatabase.getSession().save();
 	}

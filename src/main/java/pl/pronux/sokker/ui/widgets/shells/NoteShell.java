@@ -21,7 +21,7 @@ import pl.pronux.sokker.resources.Messages;
 
 public class NoteShell extends Shell {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 	
 	private StyledText note;
 
@@ -61,7 +61,7 @@ public class NoteShell extends Shell {
 		notePlugin = new Group(this, SWT.NONE);
 		notePlugin.setLayout(new FormLayout());
 		notePlugin.setLayoutData(formData);
-		notePlugin.setText(Messages.getString("table.note")); //$NON-NLS-1$
+		notePlugin.setText(Messages.getString("table.note")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
@@ -74,7 +74,7 @@ public class NoteShell extends Shell {
 		note.setTextLimit(500);
 		note.addListener(SWT.Modify, new Listener() {
 			public void handleEvent(Event arg0) {
-				charLimit.setText(Messages.getString("viewnt.message.limit.label") + ": " + (note.getTextLimit() - note.getText().length())); //$NON-NLS-1$ //$NON-NLS-2$
+				charLimit.setText(Messages.getString("viewnt.message.limit.label") + ": " + (note.getTextLimit() - note.getText().length()));  
 			}
 		});
 
@@ -85,7 +85,7 @@ public class NoteShell extends Shell {
 
 		charLimit = new Label(notePlugin, SWT.NONE);
 		charLimit.setLayoutData(formData);
-		charLimit.setText(Messages.getString("viewnt.message.limit.label") + note.getTextLimit()); //$NON-NLS-1$
+		charLimit.setText(Messages.getString("viewnt.message.limit.label") + note.getTextLimit()); 
 		charLimit.pack();
 
 		formData = new FormData();
@@ -115,7 +115,7 @@ public class NoteShell extends Shell {
 		};
 
 		okButton = new Button(this, SWT.NONE);
-		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
+		okButton.setText(Messages.getString("button.ok")); 
 		okButton.setLayoutData(formData);
 		okButton.pack();
 		okButton.addListener(SWT.Selection, okListener);
@@ -129,7 +129,7 @@ public class NoteShell extends Shell {
 
 		cancelButton.setLayoutData(formData);
 		cancelButton.pack();
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
+		cancelButton.setText(Messages.getString("button.cancel")); 
 		cancelButton.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
@@ -153,7 +153,7 @@ public class NoteShell extends Shell {
 	public void setPerson(Person person) {
 		this.person = person;
 		note.setText(person.getNote());
-		this.setText(person.getSurname() + " " + person.getName()); //$NON-NLS-1$
+		this.setText(person.getSurname() + " " + person.getName()); 
 	}
 
 	@Override

@@ -30,18 +30,18 @@ public class LeagueTable extends SVTable<LeagueRound> {
 		this.setBackground(parent.getBackground());
 
 		String[] titles = new String[] {
-				Messages.getString("league.position"), //$NON-NLS-1$
-				Messages.getString("league.team"), //$NON-NLS-1$
-				Messages.getString("matches"), //$NON-NLS-1$
-				Messages.getString("league.points"), //$NON-NLS-1$
-				Messages.getString("league.wins"), //$NON-NLS-1$
-				Messages.getString("league.draws"), //$NON-NLS-1$
-				Messages.getString("league.looses"), //$NON-NLS-1$
-				Messages.getString("league.goals"), //$NON-NLS-1$
+				Messages.getString("league.position"), 
+				Messages.getString("league.team"), 
+				Messages.getString("matches"), 
+				Messages.getString("league.points"), 
+				Messages.getString("league.wins"), 
+				Messages.getString("league.draws"), 
+				Messages.getString("league.looses"), 
+				Messages.getString("league.goals"), 
 				// Messages.getString("league.goals.gained"),
 				// Messages.getString("league.goals.lost"),
 				// Messages.getString("league.ranktotal"),
-				"" //$NON-NLS-1$
+				"" 
 		};
 
 		for (int i = 0; i < titles.length; i++) {
@@ -103,7 +103,7 @@ public class LeagueTable extends SVTable<LeagueRound> {
 				Club club = leagueTeam.getClub();
 				item.setText(i++, club.getClubName().get(0).getName());
 			} else {
-				item.setText(i++, String.valueOf(leagueTeam.getTeamID()));
+				item.setText(i++, String.valueOf(leagueTeam.getTeamId()));
 			}
 
 			item.setText(i++, String.valueOf(leagueRound.getRoundNumber()));
@@ -111,7 +111,7 @@ public class LeagueTable extends SVTable<LeagueRound> {
 			item.setText(i++, String.valueOf(leagueTeam.getWins()));
 			item.setText(i++, String.valueOf(leagueTeam.getDraws()));
 			item.setText(i++, String.valueOf(leagueTeam.getLosses()));
-			item.setText(i++, String.valueOf(leagueTeam.getGoalsScored() + "-" + leagueTeam.getGoalsLost())); //$NON-NLS-1$
+			item.setText(i++, String.valueOf(leagueTeam.getGoalsScored() + "-" + leagueTeam.getGoalsLost())); 
 			// item.setText(i++, String.valueOf(leagueTeam.getGoalsLost()));
 			// item.setText(i++, String.valueOf(leagueTeam.getRankTotal()));
 

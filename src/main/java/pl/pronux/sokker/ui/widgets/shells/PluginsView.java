@@ -25,7 +25,7 @@ public class PluginsView extends Shell {
 
 	private Button button;
 
-	protected String login;
+//	private String login;
 
 	private Table pluginsTable;
 
@@ -39,20 +39,20 @@ public class PluginsView extends Shell {
 	public PluginsView(final Shell parent, int style) {
 		super(parent, style);
 		this.setLayout(new FormLayout());
-		this.setText(Messages.getString("viewer.plugins.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("viewer.plugins.title")); 
 		
 		FormData formData;
 
 		pluginsProperties = new Properties();
 		try {
-			pluginsProperties.load(new FileInputStream(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties")); //$NON-NLS-1$ //$NON-NLS-2$
+			pluginsProperties.load(new FileInputStream(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties"));  
 		} catch (FileNotFoundException e) {
 			new BugReporter(PluginsView.this.getDisplay()).openErrorMessage("Plugins ViewComposite", e);
 		} catch (IOException e) {
 			new BugReporter(PluginsView.this.getDisplay()).openErrorMessage("Plugins ViewComposite", e);
 		}
 
-		String[] plugins = pluginsProperties.getProperty("plugins").split(";"); //$NON-NLS-1$ //$NON-NLS-2$
+		String[] plugins = pluginsProperties.getProperty("plugins").split(";");  
 
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
@@ -73,11 +73,11 @@ public class PluginsView extends Shell {
 		pluginsTable.setLayoutData(formData);
 
 		String[] columns = {
-				Messages.getString("configure.plugins.table.name"), //$NON-NLS-1$
-				Messages.getString("configure.plugins.table.className"), //$NON-NLS-1$
-				Messages.getString("configure.plugins.table.author"), //$NON-NLS-1$
-				Messages.getString("configure.plugins.table.version"), //$NON-NLS-1$
-				Messages.getString("configure.plugins.table.description") //$NON-NLS-1$
+				Messages.getString("configure.plugins.table.name"), 
+				Messages.getString("configure.plugins.table.className"), 
+				Messages.getString("configure.plugins.table.author"), 
+				Messages.getString("configure.plugins.table.version"), 
+				Messages.getString("configure.plugins.table.description") 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -91,19 +91,19 @@ public class PluginsView extends Shell {
 
 		for (int i = 0; i < plugins.length; i++) {
 			String viewName = plugins[i];
-			String[] viewNameTmp = viewName.split("\\."); //$NON-NLS-1$
+			String[] viewNameTmp = viewName.split("\\."); 
 			String viewSimpleName = viewNameTmp[viewNameTmp.length - 1];
 
 			item = new TableItem(pluginsTable, SWT.NONE);
 
-			item.setText(0, Messages.getString("tree." + viewSimpleName)); //$NON-NLS-1$
+			item.setText(0, Messages.getString("tree." + viewSimpleName)); 
 			item.setText(1, viewName);
-			item.setText(2, pluginsProperties.getProperty(viewName + ".author")); //$NON-NLS-1$
-			item.setText(3, pluginsProperties.getProperty(viewName + ".version")); //$NON-NLS-1$
-			item.setText(4, Messages.getString(viewName + ".description")); //$NON-NLS-1$
-			item.setData("plugin", plugins[i]); //$NON-NLS-1$
+			item.setText(2, pluginsProperties.getProperty(viewName + ".author")); 
+			item.setText(3, pluginsProperties.getProperty(viewName + ".version")); 
+			item.setText(4, Messages.getString(viewName + ".description")); 
+			item.setData("plugin", plugins[i]); 
 
-			if(!pluginsProperties.getProperty(viewName + ".turn").equals("1")) { //$NON-NLS-1$ //$NON-NLS-2$
+			if(!pluginsProperties.getProperty(viewName + ".turn").equals("1")) {  
 				item.setForeground(ColorResources.getGray());
 			}
 		}

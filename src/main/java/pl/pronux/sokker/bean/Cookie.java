@@ -1,15 +1,15 @@
 package pl.pronux.sokker.bean;
 
 public class Cookie {
-	String cookieValue = ""; //$NON-NLS-1$
+	private String cookieValue = ""; 
 
-	String expires = ""; //$NON-NLS-1$
+	private String expires = ""; 
 
-	String path = ""; //$NON-NLS-1$
+	private String path = ""; 
 
-	String domain = ""; //$NON-NLS-1$
+	private String domain = ""; 
 
-	boolean secure = false;
+	private boolean secure = false;
 
 	public String getCookieValue() {
 		return cookieValue;

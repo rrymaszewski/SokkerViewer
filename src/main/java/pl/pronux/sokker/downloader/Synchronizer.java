@@ -53,17 +53,17 @@ public class Synchronizer implements IRunnableWithProgress {
 
 	private SokkerViewerSettings settings;
 
-	private MatchesManager matchesManager = MatchesManager.instance();
-	private ConfigurationManager configurationManager = ConfigurationManager.instance();
-	private JuniorsManager juniorsManager = JuniorsManager.instance();
-	private LeaguesManager leaguesManager = LeaguesManager.instance();
+	private MatchesManager matchesManager = MatchesManager.getInstance();
+	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+	private JuniorsManager juniorsManager = JuniorsManager.getInstance();
+	private LeaguesManager leaguesManager = LeaguesManager.getInstance();
 
 	private SynchronizerConfiguration configuration;
 
-	public static final String ERROR_MESSAGE_NULL = "-4"; //$NON-NLS-1$
-	public static final String ERROR_RESPONSE_UNKNOWN = "-1"; //$NON-NLS-1$
-	public static final String ERROR_WRITE = "-3";//$NON-NLS-1$
-	public static final String ERROR_DOWNLOAD = "-2"; //$NON-NLS-1$
+	public static final String ERROR_MESSAGE_NULL = "-4"; 
+	public static final String ERROR_RESPONSE_UNKNOWN = "-1"; 
+	public static final String ERROR_WRITE = "-3";
+	public static final String ERROR_DOWNLOAD = "-2"; 
 
 	public Synchronizer(SokkerViewerSettings settings, SynchronizerConfiguration configuration) {
 		this.configuration = configuration;
@@ -73,8 +73,8 @@ public class Synchronizer implements IRunnableWithProgress {
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		if (configuration != null && configuration.isDownloadBase() && monitor != null) {
 
-			monitor.beginTask(Messages.getString("synchronizer.info"), 15); //$NON-NLS-1$
-			monitor.subTask(Messages.getString("synchronizer.login")); //$NON-NLS-1$
+			monitor.beginTask(Messages.getString("synchronizer.info"), 15); 
+			monitor.subTask(Messages.getString("synchronizer.login")); 
 
 			// auth
 			XMLDownloader downloader = new XMLDownloader();
@@ -83,20 +83,20 @@ public class Synchronizer implements IRunnableWithProgress {
 				downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 			} catch (SVException e) {
 				throw new InvocationTargetException(
-					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
+					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); 
 			} catch (IOException e) {
 				throw new InvocationTargetException(
-					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); //$NON-NLS-1$
+					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); 
 			}
 			if (downloader.getStatus().equals(SokkerAuthentication.OK)) {
 				try {
 					vars = downloader.getVars();
 				} catch (IOException e) {
 					throw new InvocationTargetException(
-						new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
+						new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); 
 				}
 			} else {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + downloader.getErrorno()))); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + downloader.getErrorno()))); 
 			}
 
 			VarsXmlParser parser = new VarsXmlParser();
@@ -111,11 +111,11 @@ public class Synchronizer implements IRunnableWithProgress {
 					parser.parseXmlSax(input);
 				}
 				Date currentDay = new Date(Calendar.getInstance());
-				currentDay.setSokkerDate(parser.sokkerDate);
+				currentDay.setSokkerDate(parser.getSokkerDate());
 
-				int teamID = Integer.valueOf(downloader.getTeamID());
+				int teamID = Integer.valueOf(downloader.getTeamId());
 				// write xmls
-				String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
+				String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); 
 
 				// init managers
 				TransfersXmlManager transfersXmlManager = new TransfersXmlManager(destination, downloader, currentDay);
@@ -136,39 +136,39 @@ public class Synchronizer implements IRunnableWithProgress {
 				// download xmls
 
 				if (configuration.isDownloadBase()) {
-					monitor.subTask(Messages.getString("synchronizer.download.players")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.players")); 
 					playersXmlManager.download();
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.teams")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.teams")); 
 					teamsXmlManager.download();
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.juniors")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.juniors")); 
 					juniorsXmlManager.download();
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.transfers")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.transfers")); 
 					transfersXmlManager.download();
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.reports")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.reports")); 
 					reportsXmlManager.download();
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.matches")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.matches")); 
 					matchesTeamXmlManager.download();
 					monitor.worked(1);
 				}
 
 				if (configuration.isDownloadBase() || configuration.isRepairDb()) {
-					monitor.subTask(Messages.getString("synchronizer.download.trainers")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.trainers")); 
 					trainersXmlManager.download();
 					monitor.worked(1);
 				}
 
 				if (configuration.isDownloadCountries()) {
-					monitor.subTask(Messages.getString("synchronizer.download.countries")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.countries")); 
 					countriesXmlManager.download();
 				}
 
 				// parse xmls
-				monitor.subTask(Messages.getString("synchronizer.parse")); //$NON-NLS-1$
+				monitor.subTask(Messages.getString("synchronizer.parse")); 
 				if (configuration.isDownloadCountries()) {
 					countriesXmlManager.parseXML();
 					countriesXmlManager.write();
@@ -189,31 +189,31 @@ public class Synchronizer implements IRunnableWithProgress {
 					monitor.worked(1);
 					List<Match> teamMatches = matchesTeamXmlManager.parseXML();
 
-					monitor.subTask(Messages.getString("synchronizer.download.league")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.league")); 
 					leagueXmlManager.download(teamMatches);
 					monitor.worked(1);
 					List<League> leagues = leagueXmlManager.parseXML();
 
-					monitor.subTask(Messages.getString("synchronizer.download.league.matches")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.league.matches")); 
 					leagueMatchesXmlManager.download(leagues);
 					List<Match> leagueMatches = leagueMatchesXmlManager.parseXML();
 					teamMatches.addAll(leagueMatches);
 
 					List<Match> alNotFinishedMatches = matchesManager.getNotFinishedMatches(teamMatches);
 					monitor.worked(1);
-					monitor.subTask(Messages.getString("synchronizer.download.matches")); //$NON-NLS-1$
+					monitor.subTask(Messages.getString("synchronizer.download.matches")); 
 					matchXmlManager.download(alNotFinishedMatches);
 					matchXmlManager.parseXML();
 
 					monitor.worked(1);
 					// download & parse region
-					monitor.subTask(Messages.getString("synchronizer.download.region")); //$NON-NLS-1$
-					regionXmlManager.download(teamsXmlManager.getClub().getRegionID());
+					monitor.subTask(Messages.getString("synchronizer.download.region")); 
+					regionXmlManager.download(teamsXmlManager.getClub().getRegionId());
 					regionXmlManager.parseXML();
 					regionXmlManager.write();
 					monitor.worked(1);
 				}
-				monitor.subTask(Messages.getString("synchronizer.write")); //$NON-NLS-1$
+				monitor.subTask(Messages.getString("synchronizer.write")); 
 				// write xmls
 				transfersXmlManager.write();
 				juniorsXmlManager.write();
@@ -227,14 +227,14 @@ public class Synchronizer implements IRunnableWithProgress {
 				monitor.worked(1);
 				// import xmls
 
-				monitor.subTask(Messages.getString("synchronizer.sql.update")); //$NON-NLS-1$
+				monitor.subTask(Messages.getString("synchronizer.sql.update")); 
 				SQLSession.beginTransaction();
 
-				teamID = configurationManager.getTeamID();
+				teamID = configurationManager.getTeamId();
 				if (teamID == 0) {
-					systemXmlManager.updateDbTeamID(Integer.valueOf(downloader.getTeamID()));
-				} else if (Integer.valueOf(downloader.getTeamID()) != teamID) {
-					throw new SVException("synchronizer -> teamID != getTeamID"); //$NON-NLS-1$
+					systemXmlManager.updateDbTeamId(Integer.valueOf(downloader.getTeamId()));
+				} else if (Integer.valueOf(downloader.getTeamId()) != teamID) {
+					throw new SVException("synchronizer -> teamID != getTeamID"); 
 				}
 
 				if (configuration.isRepairDb()) {
@@ -269,7 +269,7 @@ public class Synchronizer implements IRunnableWithProgress {
 					systemXmlManager.updateDbUpdate(false);
 				}
 
-				monitor.subTask(Messages.getString("synchronizer.data.complete")); //$NON-NLS-1$
+				monitor.subTask(Messages.getString("synchronizer.data.complete")); 
 
 				if (configuration.isDownloadBase()) {
 					new MatchXmlManager(destination, downloader, currentDay).completeMatches(teamID, 9);
@@ -289,17 +289,17 @@ public class Synchronizer implements IRunnableWithProgress {
 				try {
 					SQLSession.rollback();
 				} catch (SQLException e1) {
-					Log.error("Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+					Log.error("Synchronizer -> SQL Importing Rollback", e1); 
 				}
-				throw new InvocationTargetException(new SVSynchronizerCriticalException("Synchronizer -> SQL Importing", e)); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException("Synchronizer -> SQL Importing", e)); 
 			} catch (IOException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_WRITE), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_WRITE), e)); 
 			} catch (NullPointerException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); 
 			} catch (SVException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_DOWNLOAD), e)); 
 			} catch (SAXException e) {
-				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("message.error.login"), e)); //$NON-NLS-1$
+				throw new InvocationTargetException(new SVSynchronizerCriticalException(Messages.getString("message.error.login"), e)); 
 			} finally {
 				try {
 					SQLSession.endTransaction();

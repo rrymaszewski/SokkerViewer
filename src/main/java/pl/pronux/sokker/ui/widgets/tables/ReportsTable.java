@@ -41,9 +41,9 @@ public class ReportsTable extends SVTable<Report> implements IViewSort<Report> {
 
 		String[] columns = {
 				" ",
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.event"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.date"), 
+				Messages.getString("table.event"), 
+				"" 
 		};
 
 		for (int j = 0; j < columns.length; j++) {

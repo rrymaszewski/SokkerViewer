@@ -15,9 +15,9 @@ public ClubArenaNameDto(ResultSet rs) {
 }
 
 public ClubArenaName getClubArenaName() throws SQLException {
-	this.setArenaName(rs.getString("arena_name")); //$NON-NLS-1$
-	this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-	this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+	this.setArenaName(rs.getString("arena_name")); 
+	this.setDate(new Date(rs.getLong("millis"))); 
+	this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
 	return this;
 }
 }

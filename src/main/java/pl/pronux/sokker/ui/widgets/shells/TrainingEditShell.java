@@ -1,7 +1,6 @@
 package pl.pronux.sokker.ui.widgets.shells;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -37,7 +36,7 @@ import pl.pronux.sokker.ui.resources.Fonts;
 
 public class TrainingEditShell extends Shell {
 	
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 	
 	private Combo typeCombo;
 
@@ -47,7 +46,7 @@ public class TrainingEditShell extends Shell {
 
 	private Training training;
 
-	private List<Coach> alCoaches;
+	private List<Coach> coaches;
 
 	private Date date;
 
@@ -70,25 +69,25 @@ public class TrainingEditShell extends Shell {
 
 		this.tempTraining = training.clone();
 
-		this.alCoaches = coaches;
+		this.coaches = coaches;
 
-		alCoaches.remove(training.getHeadCoach());
-		alCoaches.remove(training.getJuniorCoach());
-		alCoaches.removeAll(training.getAssistants());
+		coaches.remove(training.getHeadCoach());
+		coaches.remove(training.getJuniorCoach());
+		coaches.removeAll(training.getAssistants());
 
 		this.setSize(650, 550);
 		this.setMinimumSize(new org.eclipse.swt.graphics.Point(650, 550));
 		this.setLocation(monitor.getClientArea().width / 2 - this.getSize().x / 2, monitor.getClientArea().height / 2 - this.getSize().y / 2);
 		this.setFont(ConfigBean.getFontMain());
 
-		this.setText(Messages.getString("confShell.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("confShell.title")); 
 
 		this.setLayout(new FormLayout());
 
 		addBody();
 
 		fillTableTraining(trainingTable, this.tempTraining);
-		fillTableCoaches(coachesTable, alCoaches);
+		fillTableCoaches(coachesTable, this.coaches);
 
 		this.addListener(SWT.Traverse, new Listener() {
 			public void handleEvent(Event e) {
@@ -100,8 +99,8 @@ public class TrainingEditShell extends Shell {
 
 	}
 
-	public void setAlCoaches(ArrayList<Coach> coaches) {
-		this.alCoaches = coaches;
+	public void setCoaches(List<Coach> coaches) {
+		this.coaches = coaches;
 	}
 
 	private void addBody() {
@@ -115,10 +114,10 @@ public class TrainingEditShell extends Shell {
 
 		Label labelTitle = new Label(this, SWT.NONE);
 		labelTitle.setLayoutData(formData);
-		labelTitle.setText(Messages.getString("training.title")); //$NON-NLS-1$
+		labelTitle.setText(Messages.getString("training.title")); 
 		labelTitle.setAlignment(SWT.CENTER);
 
-		Font font = Fonts.getFont(DisplayHandler.getDisplay(), "Arial", 20, SWT.BOLD); //$NON-NLS-1$
+		Font font = Fonts.getFont(DisplayHandler.getDisplay(), "Arial", 20, SWT.BOLD); 
 
 		labelTitle.setFont(font);
 
@@ -130,10 +129,10 @@ public class TrainingEditShell extends Shell {
 
 		Label labelDate = new Label(this, SWT.NONE);
 		labelDate.setLayoutData(formData);
-		labelDate.setText(String.format("%s: %s (%s)", Messages.getString("training.date"), date.toDateString(), date.toTimeString())); //$NON-NLS-1$ //$NON-NLS-2$
+		labelDate.setText(String.format("%s: %s (%s)", Messages.getString("training.date"), date.toDateString(), date.toTimeString()));  
 		labelDate.setAlignment(SWT.CENTER);
 
-		Font fontDate = Fonts.getFont(DisplayHandler.getDisplay(), "Arial", 16, SWT.BOLD); //$NON-NLS-1$
+		Font fontDate = Fonts.getFont(DisplayHandler.getDisplay(), "Arial", 16, SWT.BOLD); 
 
 		labelDate.setFont(fontDate);
 
@@ -146,7 +145,7 @@ public class TrainingEditShell extends Shell {
 		Label labelSeason = new Label(this, SWT.NONE);
 		labelSeason.setLayoutData(formData);
 
-		labelSeason.setText(Messages.getString("training.week") + " " + date.getSokkerDate().getWeek()); //$NON-NLS-1$ //$NON-NLS-2$
+		labelSeason.setText(Messages.getString("training.week") + " " + date.getSokkerDate().getWeek());  
 		labelSeason.setAlignment(SWT.CENTER);
 		labelSeason.setFont(fontDate);
 
@@ -157,7 +156,7 @@ public class TrainingEditShell extends Shell {
 
 		Label label1 = new Label(this, SWT.NONE);
 		label1.setLayoutData(formData);
-		label1.setText(Messages.getString("training.type")); //$NON-NLS-1$
+		label1.setText(Messages.getString("training.type")); 
 		label1.pack();
 
 		formData = new FormData();
@@ -168,15 +167,15 @@ public class TrainingEditShell extends Shell {
 		typeCombo = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
 		typeCombo.setLayoutData(formData);
 
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_STAMINA)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_KEEPER)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PLAYMAKING)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PASSING)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_TECHNIQUE)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_DEFENDING)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_STRIKER)); //$NON-NLS-1$
-		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PACE)); //$NON-NLS-1$
-		typeCombo.setText(Messages.getString("training.type." + tempTraining.getType())); //$NON-NLS-1$
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_STAMINA)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_KEEPER)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PLAYMAKING)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PASSING)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_TECHNIQUE)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_DEFENDING)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_STRIKER)); 
+		typeCombo.add(Messages.getString("training.type." + Training.TYPE_PACE)); 
+		typeCombo.setText(Messages.getString("training.type." + tempTraining.getType())); 
 
 		typeCombo.setVisibleItemCount(10);
 
@@ -187,7 +186,7 @@ public class TrainingEditShell extends Shell {
 
 		Label label2 = new Label(this, SWT.NONE);
 		label2.setLayoutData(formData);
-		label2.setText(Messages.getString("formation")); //$NON-NLS-1$
+		label2.setText(Messages.getString("formation")); 
 		label2.pack();
 
 		formData = new FormData();
@@ -197,11 +196,11 @@ public class TrainingEditShell extends Shell {
 		formData.height = height;
 		formationCombo = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
 		formationCombo.setLayoutData(formData);
-		formationCombo.add(Messages.getString("formation." + Training.FORMATION_GK)); //$NON-NLS-1$
-		formationCombo.add(Messages.getString("formation." + Training.FORMATION_DEF)); //$NON-NLS-1$
-		formationCombo.add(Messages.getString("formation." + Training.FORMATION_MID)); //$NON-NLS-1$
-		formationCombo.add(Messages.getString("formation." + Training.FORMATION_ATT)); //$NON-NLS-1$
-		formationCombo.setText(Messages.getString("formation." + tempTraining.getFormation())); //$NON-NLS-1$
+		formationCombo.add(Messages.getString("formation." + Training.FORMATION_GK)); 
+		formationCombo.add(Messages.getString("formation." + Training.FORMATION_DEF)); 
+		formationCombo.add(Messages.getString("formation." + Training.FORMATION_MID)); 
+		formationCombo.add(Messages.getString("formation." + Training.FORMATION_ATT)); 
+		formationCombo.setText(Messages.getString("formation." + tempTraining.getFormation())); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 10);
@@ -211,7 +210,7 @@ public class TrainingEditShell extends Shell {
 
 		Label label3 = new Label(this, SWT.NONE);
 		label3.setLayoutData(formData);
-		label3.setText(Messages.getString("coach.training")); //$NON-NLS-1$
+		label3.setText(Messages.getString("coach.training")); 
 		label3.pack();
 
 		formData = new FormData();
@@ -225,7 +224,7 @@ public class TrainingEditShell extends Shell {
 		trainingTable.setHeaderVisible(false);
 		trainingTable.setLayoutData(formData);
 
-		String[] columns = { "name_surname", "job", "" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String[] columns = { "name_surname", "job", "" };   
 
 		for (int j = 0; j < columns.length; j++) {
 			TableColumn column = new TableColumn(trainingTable, SWT.LEFT);
@@ -250,7 +249,7 @@ public class TrainingEditShell extends Shell {
 
 		Label label4 = new Label(this, SWT.NONE);
 		label4.setLayoutData(formData);
-		label4.setText(Messages.getString("coach.available")); //$NON-NLS-1$
+		label4.setText(Messages.getString("coach.available")); 
 		label4.pack();
 
 		formData = new FormData();
@@ -264,11 +263,11 @@ public class TrainingEditShell extends Shell {
 		coachesTable.setHeaderVisible(false);
 		coachesTable.setLayoutData(formData);
 
-		String[] columns_coaches = { "name_surname", "" }; //$NON-NLS-1$ //$NON-NLS-2$
+		String[] coachesColumns = { "name_surname", "" };  
 
-		for (int j = 0; j < columns_coaches.length; j++) {
+		for (int j = 0; j < coachesColumns.length; j++) {
 			TableColumn column = new TableColumn(coachesTable, SWT.LEFT);
-			column.setText(columns_coaches[j]);
+			column.setText(coachesColumns[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
 			if (columns[j].isEmpty()) {
@@ -289,10 +288,10 @@ public class TrainingEditShell extends Shell {
 		final CCombo coachesCombo = new CCombo(this, SWT.FLAT | SWT.READ_ONLY);
 		coachesCombo.setLayoutData(formData);
 
-		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_HEAD)); //$NON-NLS-1$
-		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); //$NON-NLS-1$
-		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_JUNIORS)); //$NON-NLS-1$
-		coachesCombo.setText(Messages.getString("coach.job." + Coach.JOB_HEAD)); //$NON-NLS-1$
+		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_HEAD)); 
+		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); 
+		coachesCombo.add(Messages.getString("coach.job." + Coach.JOB_JUNIORS)); 
+		coachesCombo.setText(Messages.getString("coach.job." + Coach.JOB_HEAD)); 
 
 		formData = new FormData();
 		formData.right = new FormAttachment(coachesTable, -4);
@@ -300,7 +299,7 @@ public class TrainingEditShell extends Shell {
 		formData.bottom = new FormAttachment(coachesCombo, -5);
 		Button moveLeftButton = new Button(this, SWT.FLAT);
 		moveLeftButton.setLayoutData(formData);
-		moveLeftButton.setText("<"); //$NON-NLS-1$
+		moveLeftButton.setText("<"); 
 		moveLeftButton.pack();
 
 		moveLeftButton.addListener(SWT.Selection, new Listener() {
@@ -314,29 +313,29 @@ public class TrainingEditShell extends Shell {
 
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_HEAD) {
 					if (tempTraining.getHeadCoach() != null) {
-						alCoaches.add(tempTraining.getHeadCoach());
+						coaches.add(tempTraining.getHeadCoach());
 					}
 					tempTraining.setHeadCoach(coach);
 					coach.setJob(Coach.JOB_HEAD);
-					alCoaches.remove(coach);
+					coaches.remove(coach);
 				}
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_JUNIORS) {
 					if (tempTraining.getJuniorCoach() != null) {
-						alCoaches.add(tempTraining.getJuniorCoach());
+						coaches.add(tempTraining.getJuniorCoach());
 					}
 					tempTraining.setJuniorCoach(coach);
 					coach.setJob(Coach.JOB_JUNIORS);
-					alCoaches.remove(coach);
+					coaches.remove(coach);
 				}
 				if (coachesCombo.getSelectionIndex() + 1 == Coach.JOB_ASSISTANT) {
 					tempTraining.getAssistants().add(coach);
 					coach.setJob(Coach.JOB_ASSISTANT);
-					alCoaches.remove(coach);
+					coaches.remove(coach);
 				}
 				items[0].dispose();
 
 				fillTableTraining(trainingTable, tempTraining);
-				fillTableCoaches(coachesTable, alCoaches);
+				fillTableCoaches(coachesTable, coaches);
 			}
 
 		});
@@ -348,7 +347,7 @@ public class TrainingEditShell extends Shell {
 
 		Button moveRightButton = new Button(this, SWT.FLAT);
 		moveRightButton.setLayoutData(formData);
-		moveRightButton.setText(">"); //$NON-NLS-1$
+		moveRightButton.setText(">"); 
 		moveRightButton.pack();
 
 		moveRightButton.addListener(SWT.Selection, new Listener() {
@@ -362,25 +361,25 @@ public class TrainingEditShell extends Shell {
 
 				if (coach.equals(tempTraining.getHeadCoach())) {
 					tempTraining.setHeadCoach(null);
-					alCoaches.add(coach);
+					coaches.add(coach);
 				}
 				if (coach.equals(tempTraining.getJuniorCoach())) {
 					tempTraining.setJuniorCoach(null);
-					alCoaches.add(coach);
+					coaches.add(coach);
 				}
 				if (tempTraining.getAssistants().contains(coach)) {
 					tempTraining.getAssistants().remove(coach);
-					alCoaches.add(coach);
+					coaches.add(coach);
 				}
 				items[0].dispose();
 
-				fillTableCoaches(coachesTable, alCoaches);
+				fillTableCoaches(coachesTable, coaches);
 			}
 
 		});
 
 		Button okButton = new Button(this, SWT.NONE);
-		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
+		okButton.setText(Messages.getString("button.ok")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, (this.getClientArea().width / 2) - 60 - 10);
@@ -419,7 +418,7 @@ public class TrainingEditShell extends Shell {
 
 		Button closeButton = new Button(this, SWT.NONE);
 		closeButton.setLayoutData(formData);
-		closeButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
+		closeButton.setText(Messages.getString("button.cancel")); 
 
 		closeButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -443,7 +442,7 @@ public class TrainingEditShell extends Shell {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
 			item.setData(Coach.class.getName(), coach);
-			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
+			item.setText(c++, coach.getSurname() + " " + coach.getName()); 
 		}
 		for (int i = 0; i < table.getColumnCount() - 1; i++) {
 			table.getColumn(i).pack();
@@ -467,8 +466,8 @@ public class TrainingEditShell extends Shell {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
 			item.setData(Coach.class.getName(), coach); 
-			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
-			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_HEAD)); //$NON-NLS-1$
+			item.setText(c++, coach.getSurname() + " " + coach.getName()); 
+			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_HEAD)); 
 		}
 
 		coach = training.getJuniorCoach();
@@ -476,8 +475,8 @@ public class TrainingEditShell extends Shell {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
 			item.setData(Coach.class.getName(), coach); 
-			item.setText(c++, coach.getSurname() + " " + coach.getName()); //$NON-NLS-1$
-			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_JUNIORS)); //$NON-NLS-1$
+			item.setText(c++, coach.getSurname() + " " + coach.getName()); 
+			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_JUNIORS)); 
 		}
 
 		// We remove all the table entries, sort our
@@ -487,8 +486,8 @@ public class TrainingEditShell extends Shell {
 			item = new TableItem(table, SWT.NONE);
 			c = 0;
 			item.setData(Coach.class.getName(), assistant); 
-			item.setText(c++, assistant.getSurname() + " " + assistant.getName()); //$NON-NLS-1$
-			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); //$NON-NLS-1$
+			item.setText(c++, assistant.getSurname() + " " + assistant.getName()); 
+			item.setText(c++, Messages.getString("coach.job." + Coach.JOB_ASSISTANT)); 
 		}
 		for (int i = 0; i < table.getColumnCount() - 1; i++) {
 			table.getColumn(i).pack();

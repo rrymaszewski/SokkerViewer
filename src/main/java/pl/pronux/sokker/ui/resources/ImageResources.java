@@ -10,9 +10,10 @@ import org.eclipse.swt.graphics.Image;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 
 public final class ImageResources {
-	private static final Map<String, Image> cache = new HashMap<String, Image>();
 
-	private static final String IMAGE_PATH = "/images/"; //$NON-NLS-1$
+	private static final String IMAGE_PATH = "/images/"; 
+
+	private static Map<String, Image> cache = new HashMap<String, Image>();
 
 	static {
 		DisplayHandler.getDisplay().disposeExec(new Runnable() {

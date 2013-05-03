@@ -120,13 +120,13 @@ public class ViewPassword implements IViewConfigure {
 
 		for (int i = 0; i < 5; i++) {
 			TableColumn column = new TableColumn(passwordTable, SWT.NONE);
-			column.setText("         "); //$NON-NLS-1$
+			column.setText("         "); 
 		}
 
 
 		for (int i = 0; i < 10; i++) {
 			TableItem item = new TableItem(passwordTable, SWT.NONE);
-			item.setText("         "); //$NON-NLS-1$
+			item.setText("         "); 
 		}
 
 		for(int i = 0; i < passwordTable.getColumnCount(); i++) {
@@ -148,10 +148,10 @@ public class ViewPassword implements IViewConfigure {
 
 		});
 
-		generatePasswordButton.setText(Messages.getString("configure.password.button.generate")); //$NON-NLS-1$
-		generatePasswordLabel.setText(Messages.getString("configure.password.label.generate")); //$NON-NLS-1$
-		generatePasswordLabel.setText(Messages.getString("configure.password.label.check")); //$NON-NLS-1$
-		treeItem.setText(Messages.getString("configure.password")); //$NON-NLS-1$
+		generatePasswordButton.setText(Messages.getString("configure.password.button.generate")); 
+		generatePasswordLabel.setText(Messages.getString("configure.password.label.generate")); 
+		generatePasswordLabel.setText(Messages.getString("configure.password.label.check")); 
+		treeItem.setText(Messages.getString("configure.password")); 
 
 		composite.layout(true);
 	}
@@ -176,7 +176,7 @@ public class ViewPassword implements IViewConfigure {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		treeItem.setText(Messages.getString("configure.password")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("configure.password")); 
 
 	}
 

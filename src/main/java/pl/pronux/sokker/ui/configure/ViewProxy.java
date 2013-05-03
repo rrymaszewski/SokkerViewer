@@ -32,19 +32,11 @@ public class ViewProxy implements IViewConfigure {
 	// private Group proxyGroup;
 	private Button proxyTurnButton;
 
-	private CLabel proxyHostLabel;
-
 	private Text proxyHostText;
-
-	private CLabel proxyPortLabel;
 
 	private Text proxyPortText;
 
-	private CLabel proxyUserLabel;
-
 	private Text proxyUserText;
-
-	private CLabel proxyPasswordLabel;
 
 	private Text proxyPasswordText;
 
@@ -116,7 +108,7 @@ public class ViewProxy implements IViewConfigure {
 		// formData.right = new FormAttachment(100, -10);
 		// formData.height = 25;
 
-		proxyHostLabel = new CLabel(composite, SWT.NONE);
+		CLabel proxyHostLabel = new CLabel(composite, SWT.NONE);
 		proxyHostLabel.setLayoutData(formData);
 		proxyHostLabel.pack();
 
@@ -135,7 +127,7 @@ public class ViewProxy implements IViewConfigure {
 		// formData.right = new FormAttachment(100, -10);
 		// formData.height = 25;
 
-		proxyPortLabel = new CLabel(composite, SWT.NONE);
+		CLabel proxyPortLabel = new CLabel(composite, SWT.NONE);
 		proxyPortLabel.setLayoutData(formData);
 		proxyPortLabel.pack();
 
@@ -168,7 +160,7 @@ public class ViewProxy implements IViewConfigure {
 		// formData.right = new FormAttachment(100, -10);
 		// formData.height = 25;
 
-		proxyUserLabel = new CLabel(composite, SWT.NONE);
+		CLabel proxyUserLabel = new CLabel(composite, SWT.NONE);
 		proxyUserLabel.setLayoutData(formData);
 		proxyUserLabel.pack();
 
@@ -187,7 +179,7 @@ public class ViewProxy implements IViewConfigure {
 		// formData.right = new FormAttachment(100, -10);
 		// formData.height = 25;
 
-		proxyPasswordLabel = new CLabel(composite, SWT.NONE);
+		CLabel proxyPasswordLabel = new CLabel(composite, SWT.NONE);
 		proxyPasswordLabel.setLayoutData(formData);
 		proxyPasswordLabel.pack();
 
@@ -208,14 +200,14 @@ public class ViewProxy implements IViewConfigure {
 
 		setWidgets();
 
-		treeItem.setText(Messages.getString("configure.proxy")); //$NON-NLS-1$
-		proxyTurnButton.setText(Messages.getString("configure.proxy.turn.button")); //$NON-NLS-1$
-		proxyPasswordLabel.setText(Messages.getString("configure.proxy.password.label")); //$NON-NLS-1$
-		proxyPasswordLabel.setText(Messages.getString("configure.proxy.password.label")); //$NON-NLS-1$
-		proxyUserLabel.setText(Messages.getString("configure.proxy.user.label")); //$NON-NLS-1$
-		proxyPortLabel.setText(Messages.getString("configure.proxy.port.label")); //$NON-NLS-1$
-		proxyHostLabel.setText(Messages.getString("configure.proxy.host.label")); //$NON-NLS-1$
-		proxyTurnButton.setText(Messages.getString("configure.proxy.turn.button")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("configure.proxy")); 
+		proxyTurnButton.setText(Messages.getString("configure.proxy.turn.button")); 
+		proxyPasswordLabel.setText(Messages.getString("configure.proxy.password.label")); 
+		proxyPasswordLabel.setText(Messages.getString("configure.proxy.password.label")); 
+		proxyUserLabel.setText(Messages.getString("configure.proxy.user.label")); 
+		proxyPortLabel.setText(Messages.getString("configure.proxy.port.label")); 
+		proxyHostLabel.setText(Messages.getString("configure.proxy.host.label")); 
+		proxyTurnButton.setText(Messages.getString("configure.proxy.turn.button")); 
 
 		composite.layout(true);
 	}
@@ -267,11 +259,11 @@ public class ViewProxy implements IViewConfigure {
 		proxySettings.setPassword(proxyPasswordText.getText());
 
 		if (proxySettings.isEnabled()) {
-			System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-			System.setProperty("http.proxyHost", proxyHostText.getText()); //$NON-NLS-1$
-			System.setProperty("http.proxyPort", proxyPortText.getText()); //$NON-NLS-1$
-			System.setProperty("http.proxyUser", proxyUserText.getText()); //$NON-NLS-1$
-			System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
+			System.setProperty("proxySet", "true");  
+			System.setProperty("http.proxyHost", proxyHostText.getText()); 
+			System.setProperty("http.proxyPort", proxyPortText.getText()); 
+			System.setProperty("http.proxyUser", proxyUserText.getText()); 
+			System.setProperty("http.proxyPassword", proxySettings.getPassword()); 
 		}
 
 		try {

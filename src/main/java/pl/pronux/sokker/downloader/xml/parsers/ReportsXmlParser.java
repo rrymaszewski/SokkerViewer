@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -20,29 +21,29 @@ import pl.pronux.sokker.utils.Log;
 
 public class ReportsXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_reports = 1;
+//	private static final int TAG_reports = 1;
 
-	static final int TAG_report = 2;
+	private static final int TAG_REPORT = 2;
 
-	static final int TAG_reportID = 3;
+	private static final int TAG_REPORT_ID = 3;
 
-	static final int TAG_type = 4;
+	private static final int TAG_TYPE = 4;
 
-	static final int TAG_playerID = 5;
+	private static final int TAG_PLAYER_ID = 5;
 
-	static final int TAG_date = 6;
+	private static final int TAG_DATE = 6;
 
-	static final int TAG_value = 7;
+	private static final int TAG_VALUE = 7;
 
-	static final int TAG_week = 8;
+	private static final int TAG_WEEK = 8;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
-	public ArrayList<Report> alReports;
+	private List<Report> reports;
 
-	public int teamID;
+	private int teamId;
 
 	private Report report;
 
@@ -53,28 +54,28 @@ public class ReportsXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuilder message;
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
-				case TAG_reportID:
-					report.setReportID(Long.valueOf(message.toString()));
+				switch (currentTag) {
+				case TAG_REPORT_ID:
+					report.setReportId(Long.valueOf(message.toString()));
 					break;
-				case TAG_type:
+				case TAG_TYPE:
 					report.setType(Integer.valueOf(message.toString()));
 					break;
-				case TAG_playerID:
-						report.setPersonID(Integer.valueOf(message.toString()));
+				case TAG_PLAYER_ID:
+						report.setPersonId(Integer.valueOf(message.toString()));
 						break;
-				case TAG_date:
+				case TAG_DATE:
 						report.setDate(new Date(message.toString()));
 					break;
-				case TAG_value:
+				case TAG_VALUE:
 					report.setValue(Integer.valueOf(message.toString()));
 				break;
-				case TAG_week:
+				case TAG_WEEK:
 					report.getDate().setSokkerDate(new SokkerDate(0,Integer.valueOf(message.toString())));
 					break;
 				default:
@@ -88,50 +89,50 @@ public class ReportsXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("report")) { //$NON-NLS-1$
-					if(report.getReportID() != -1) {
-						alReports.add(report);
+				currentTag = 0;
+				if (localName.equals("report")) { 
+					if(report.getReportId() != -1) {
+						reports.add(report);
 					}
 				}
 			}
 
 			public void startDocument() {
-				alReports = new ArrayList<Report>();
+				reports = new ArrayList<Report>();
 			}
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
-				if (localName.equals("reports")) { //$NON-NLS-1$
+				if (localName.equals("reports")) { 
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("teamID")) { //$NON-NLS-1$
-							teamID = Integer.valueOf(value);
+						if (name.equalsIgnoreCase("teamID")) { 
+							teamId = Integer.valueOf(value);
 						}
 					}
 				}
 
-				if (localName.equals("report")) { //$NON-NLS-1$
-					TAG_switch = TAG_report;
+				if (localName.equals("report")) { 
+					tagSwitch = TAG_REPORT;
 					report = new Report();
-					report.setReportID(-1);
+					report.setReportId(-1);
 				}
-				if (TAG_switch == TAG_report) {
-					if (localName.equals("reportID")) { //$NON-NLS-1$
-						current_tag = TAG_reportID;
-					} else if (localName.equalsIgnoreCase("type")) { //$NON-NLS-1$
-						current_tag = TAG_type;
-					} else if (localName.equalsIgnoreCase("playerID")) { //$NON-NLS-1$
-						current_tag = TAG_playerID;
-					} else if (localName.equalsIgnoreCase("date")) { //$NON-NLS-1$
-						current_tag = TAG_date;
-					} else if (localName.equals("value")) { //$NON-NLS-1$
-						current_tag = TAG_value;
-					} else if (localName.equals("week")) { //$NON-NLS-1$
-						current_tag = TAG_week;
+				if (tagSwitch == TAG_REPORT) {
+					if (localName.equals("reportID")) { 
+						currentTag = TAG_REPORT_ID;
+					} else if (localName.equalsIgnoreCase("type")) { 
+						currentTag = TAG_TYPE;
+					} else if (localName.equalsIgnoreCase("playerID")) { 
+						currentTag = TAG_PLAYER_ID;
+					} else if (localName.equalsIgnoreCase("date")) { 
+						currentTag = TAG_DATE;
+					} else if (localName.equals("value")) { 
+						currentTag = TAG_VALUE;
+					} else if (localName.equals("week")) { 
+						currentTag = TAG_WEEK;
 					}
 				}
 			}
@@ -147,7 +148,7 @@ public class ReportsXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();
@@ -159,8 +160,8 @@ public class ReportsXmlParser {
 	/* (non-Javadoc)
 	 * @see pl.pronux.sokker.downloader.xml.parsers.ReportsXmlParserInterface#getAlReports()
 	 */
-	public ArrayList<Report> getAlReports() {
-		return alReports;
+	public List<Report> getReports() {
+		return reports;
 	}
 }
 

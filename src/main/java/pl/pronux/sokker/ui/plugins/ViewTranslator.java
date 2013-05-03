@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,7 +88,7 @@ public class ViewTranslator implements IPlugin {
 
 	private Text text;
 
-	protected Player player;
+	private Player player;
 
 	private Combo comboFormat;
 
@@ -292,7 +293,7 @@ public class ViewTranslator implements IPlugin {
 		comboLangTo.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
-				String langCode = "";
+				String langCode = Language.getLanguageCode(text);
 				// confProperties.setProperty("lang.type", text);
 //				String[] table = settings.getProperty("lang.list").split(";");
 //				String[] codeTable = settings.getProperty("lang.codelist").split(";");
@@ -302,8 +303,6 @@ public class ViewTranslator implements IPlugin {
 //						langCode = codeTable[i];
 //					}
 //				}
-				
-				langCode = Language.getLanguageCode(text);
 				
 				String[] temp = langCode.split("_");
 				if(temp.length > 1) {
@@ -377,16 +376,9 @@ public class ViewTranslator implements IPlugin {
 
 	private double convertMoney(double value, int selectionIndexFrom, int selectionIndexTo) {
 		Double currencyFrom = currencyValueTable[selectionIndexFrom];
-
 		Double currencyTo = currencyValueTable[selectionIndexTo];
-
-		double tempSummary = 0;
-
-		tempSummary = value * currencyFrom;
-
-		value = new BigDecimal(tempSummary / currencyTo).setScale(0, RoundingMode.HALF_UP).intValue();
-
-		return value;
+		double tempSummary = (value * currencyFrom)/currencyTo;
+		return new BigDecimal(tempSummary).setScale(0, RoundingMode.HALF_UP).intValue();
 	}
 
 	private void addCurrencyItems(Combo comboCurrency) {
@@ -396,7 +388,7 @@ public class ViewTranslator implements IPlugin {
 		currencyTable = new String[countries.size()];
 		int i = 0;
 		for (Country country : countries) {
-			comboCurrency.add(Messages.getString("country." + country.getCountryID() + ".name") + " (" + country.getCurrencyName() + ")");
+			comboCurrency.add(Messages.getString("country." + country.getCountryId() + ".name") + " (" + country.getCurrencyName() + ")");
 			// getProperty("country." + countryId[i] + ".currency")
 			comboCurrency.setText(Messages.getString("country." + Cache.getClub().getCountry() + ".name") + " (" + country.getCurrencyName() + ")");
 			currencyValueTable[i] = country.getCurrencyRate();
@@ -790,7 +782,7 @@ public class ViewTranslator implements IPlugin {
 		addDescriptionComposite();
 	}
 
-	private Player parsePlayer(String text) throws Exception {
+	private Player parsePlayer(String text) {
 
 		country = "";
 
@@ -804,7 +796,7 @@ public class ViewTranslator implements IPlugin {
 		comparator.setColumn(StringLengthComparator.LENGTH);
 		comparator.setDirection(StringLengthComparator.DESCENDING);
 
-		HashMap<String, Integer> skillsHM = new HashMap<String, Integer>();
+		Map<String, Integer> skillsHM = new HashMap<String, Integer>();
 
 		// text = text.replaceAll(":", "");
 		text = text.replaceAll("\r", "");
@@ -815,7 +807,7 @@ public class ViewTranslator implements IPlugin {
 		text = text.replaceAll("\\(.*\\)", "");
 		text = text.replaceAll(",", "\n");
 
-		ArrayList<String> langReplace = new ArrayList<String>();
+		List<String> langReplace = new ArrayList<String>();
 		for (int i = 17; i >= 0; i--) {
 			langReplace.add(langTranslatePropertiesFrom.getString("skill.a" + i));
 			langReplace.add(langTranslatePropertiesFrom.getString("skill.b" + i));

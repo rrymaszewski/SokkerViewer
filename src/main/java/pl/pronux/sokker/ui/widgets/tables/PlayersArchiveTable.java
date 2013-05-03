@@ -36,13 +36,13 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 		this.setHeaderVisible(true);
 		this.setFont(ConfigBean.getFontTable());
 
-		String[] columns = { "", //$NON-NLS-1$
-				Messages.getString("table.id"), //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.youthTeamId"), //$NON-NLS-1$
-				Messages.getString("table.note"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+		String[] columns = { "", 
+				Messages.getString("table.id"), 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
+				Messages.getString("table.youthTeamId"), 
+				Messages.getString("table.note"), 
+				"" 
 		};
 
 		for (int j = 0; j < columns.length; j++) {
@@ -89,9 +89,9 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 		for (PlayerArchive player : players) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(PlayerArchive.class.getName(), player); //$NON-NLS-1$
-			if (player.getCountryID() > 0) {
-				item.setImage(c++, FlagsResources.getFlag(player.getCountryID()));
+			item.setData(PlayerArchive.class.getName(), player); 
+			if (player.getCountryId() > 0) {
+				item.setImage(c++, FlagsResources.getFlag(player.getCountryId()));
 			} else {
 				item.setImage(c++, FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
 			}
@@ -99,11 +99,11 @@ public class PlayersArchiveTable extends SVTable<PlayerArchive> implements IView
 			item.setText(c++, String.valueOf(player.getId()));
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
-			item.setText(c++, String.valueOf(player.getYouthTeamID()));
+			item.setText(c++, String.valueOf(player.getYouthTeamId()));
 			if (player.getNote().isEmpty()) {
 				c++;
 			} else {
-				item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("note.png")); 
 			}
 
 		}

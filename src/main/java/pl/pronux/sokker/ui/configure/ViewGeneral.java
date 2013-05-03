@@ -24,7 +24,7 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewGeneral implements IViewConfigure {
 
-	private SettingsManager settingsManager = SettingsManager.instance();
+	private SettingsManager settingsManager = SettingsManager.getInstance();
 	
 	private TreeItem treeItem;
 
@@ -99,7 +99,7 @@ public class ViewGeneral implements IViewConfigure {
 		formData.height = 15;
 
 		confShellLangTypeLabel = new Label(composite, SWT.VERTICAL | SWT.SHADOW_NONE);
-		confShellLangTypeLabel.setText(Messages.getString("confShell.langtype")); //$NON-NLS-1$
+		confShellLangTypeLabel.setText(Messages.getString("confShell.langtype")); 
 		confShellLangTypeLabel.setLayoutData(formData);
 		confShellLangTypeLabel.pack();
 
@@ -115,11 +115,11 @@ public class ViewGeneral implements IViewConfigure {
 		confShellLangTypeCombo.pack();
 
 		setWidgets();
-		startupButton.setText(Messages.getString("configure.startup")); //$NON-NLS-1$
-		downloadButton.setText(Messages.getString("configure.startup.download")); //$NON-NLS-1$
-		closeButton.setText(Messages.getString("configure.info.close")); //$NON-NLS-1$
-		treeItem.setText(Messages.getString("configure.general")); //$NON-NLS-1$
-		confShellLangTypeLabel.setText(Messages.getString("confShell.langtype")); //$NON-NLS-1$
+		startupButton.setText(Messages.getString("configure.startup")); 
+		downloadButton.setText(Messages.getString("configure.startup.download")); 
+		closeButton.setText(Messages.getString("configure.info.close")); 
+		treeItem.setText(Messages.getString("configure.general")); 
+		confShellLangTypeLabel.setText(Messages.getString("confShell.langtype")); 
 		confShellLangTypeLabel.pack();
 		composite.layout(true);
 	}

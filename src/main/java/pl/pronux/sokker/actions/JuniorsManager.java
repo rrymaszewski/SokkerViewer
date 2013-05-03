@@ -12,14 +12,14 @@ import pl.pronux.sokker.model.JuniorSkills;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.model.Training;
 
-public class JuniorsManager {
+public final class JuniorsManager {
 
 	private static JuniorsManager instance = new JuniorsManager();
 
 	private JuniorsManager() {
 	}
 
-	public static JuniorsManager instance() {
+	public static JuniorsManager getInstance() {
 		return instance;
 	}
 
@@ -43,7 +43,7 @@ public class JuniorsManager {
 			}
 		}
 
-		sTemp = "("; //$NON-NLS-1$
+		sTemp = "("; 
 
 		for (int i = 0; i < juniors.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
@@ -51,9 +51,9 @@ public class JuniorsManager {
 				sTemp += juniors.get(i).getId();
 				break;
 			}
-			sTemp += juniors.get(i).getId() + ","; //$NON-NLS-1$
+			sTemp += juniors.get(i).getId() + ","; 
 		}
-		sTemp += ")"; //$NON-NLS-1$
+		sTemp += ")"; 
 
 		if (juniors.size() > 0) {
 			juniorsDao.moveTrainedJuniors(sTemp, clubId);

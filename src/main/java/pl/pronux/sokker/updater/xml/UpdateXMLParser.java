@@ -64,7 +64,7 @@ public class UpdateXMLParser {
 
 	private static final int TAG_CHANGELOG = 13;
 
-	public Map<String, Package> alPackages = new HashMap<String, Package>();
+	private Map<String, Package> packages = new HashMap<String, Package>();
 
 	private int currentTag = 0;
 
@@ -72,18 +72,18 @@ public class UpdateXMLParser {
 
 	private Package pack;
 
-	public int revision;
+	private int revision;
 
-	public String version;
+	private String version;
 
-	public String changelog;
+	private String changelog;
 
 	public List<Package> compareTo(UpdateXMLParser parser) {
 		List<Package> downloadedPackages = new ArrayList<Package>();
-		if (this.revision > parser.revision) {
-			for (String key : alPackages.keySet()) {
-				Package pkgOld = parser.alPackages.get(key);
-				Package pkgNew = alPackages.get(key);
+		if (this.getRevision() > parser.getRevision()) {
+			for (String key : getPackages().keySet()) {
+				Package pkgOld = parser.getPackages().get(key);
+				Package pkgNew = getPackages().get(key);
 
 				if (pkgOld == null) {
 					downloadedPackages.add(pkgNew);
@@ -102,7 +102,7 @@ public class UpdateXMLParser {
 
 		class SAXHandler extends DefaultHandler {
 
-			StringBuilder message;
+			private StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
 
@@ -110,7 +110,7 @@ public class UpdateXMLParser {
 
 				switch (currentTag) {
 				case TAG_SOKKERDATA:
-					if (message.toString().equalsIgnoreCase("empty")) { //$NON-NLS-1$
+					if (message.toString().equalsIgnoreCase("empty")) { 
 						throw new SAXException();
 					}
 					break;
@@ -133,13 +133,13 @@ public class UpdateXMLParser {
 					pack.setSignature(message.toString());
 					break;
 				case TAG_REVISION:
-					revision = Integer.valueOf(message.toString());
+					setRevision(Integer.valueOf(message.toString()));
 					break;
 				case TAG_VERSION:
-					version = message.toString();
+					setVersion(message.toString());
 					break;
 				case TAG_CHANGELOG:
-					changelog = message.toString();
+					setChangelog(message.toString());
 					break;
 				case TAG_DESCRIPTION:
 					pack.setDescription(message.toString());
@@ -158,8 +158,8 @@ public class UpdateXMLParser {
 
 				currentTag = 0;
 
-				if (localName.equals("package")) { //$NON-NLS-1$
-					alPackages.put(pack.getName(), pack);
+				if (localName.equals("package")) { 
+					getPackages().put(pack.getName(), pack);
 				}
 
 			}
@@ -174,15 +174,15 @@ public class UpdateXMLParser {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("sokkerviewer")) { //$NON-NLS-1$
+				if (localName.equalsIgnoreCase("sokkerviewer")) { 
 					tagSwitch = TAG_SOKKERVIEWER;
 				}
 
-				if (localName.equalsIgnoreCase("packages")) { //$NON-NLS-1$
+				if (localName.equalsIgnoreCase("packages")) { 
 					tagSwitch = TAG_PACKAGES;
 				}
 
-				if (localName.equals("package")) { //$NON-NLS-1$
+				if (localName.equals("package")) { 
 					tagSwitch = TAG_PACKAGE;
 
 					pack = new Package();
@@ -191,34 +191,34 @@ public class UpdateXMLParser {
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("revision")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("revision")) { 
 							pack.setRevision(Integer.valueOf(value).intValue());
 						}
 					}
 				}
 
 				if (tagSwitch == TAG_PACKAGE) {
-					if (localName.equals("name")) { //$NON-NLS-1$
+					if (localName.equals("name")) { 
 						currentTag = TAG_NAME;
-					} else if (localName.equals("signature")) { //$NON-NLS-1$
+					} else if (localName.equals("signature")) { 
 						currentTag = TAG_SIGNATURE;
-					} else if (localName.equals("path")) { //$NON-NLS-1$
+					} else if (localName.equals("path")) { 
 						currentTag = TAG_PATH;
-					} else if (localName.equals("author")) { //$NON-NLS-1$
+					} else if (localName.equals("author")) { 
 						currentTag = TAG_AUTHOR;
-					} else if (localName.equals("localpath")) { //$NON-NLS-1$
+					} else if (localName.equals("localpath")) { 
 						currentTag = TAG_LOCALPATH;
-					} else if (localName.equals("filename")) { //$NON-NLS-1$
+					} else if (localName.equals("filename")) { 
 						currentTag = TAG_FILENAME;
-					} else if (localName.equals("description")) { //$NON-NLS-1$
+					} else if (localName.equals("description")) { 
 						currentTag = TAG_DESCRIPTION;
 					}
 				} else if (tagSwitch == TAG_SOKKERVIEWER) {
-					if (localName.equals("revision")) { //$NON-NLS-1$
+					if (localName.equals("revision")) { 
 						currentTag = TAG_REVISION;
-					} else if (localName.equals("version")) { //$NON-NLS-1$
+					} else if (localName.equals("version")) { 
 						currentTag = TAG_VERSION;
-					} else if (localName.equals("changelog")) { //$NON-NLS-1$
+					} else if (localName.equals("changelog")) { 
 						currentTag = TAG_CHANGELOG;
 					}
 				}
@@ -242,5 +242,37 @@ public class UpdateXMLParser {
 			}
 			throw e;
 		}
+	}
+
+	public Map<String, Package> getPackages() {
+		return packages;
+	}
+
+	public void setPackages(Map<String, Package> packages) {
+		this.packages = packages;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getChangelog() {
+		return changelog;
+	}
+
+	public void setChangelog(String changelog) {
+		this.changelog = changelog;
+	}
+
+	public int getRevision() {
+		return revision;
+	}
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 }

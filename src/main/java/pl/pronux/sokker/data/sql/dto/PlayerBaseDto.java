@@ -18,9 +18,9 @@ public class PlayerBaseDto extends Player {
 	}
 	
 	public Player getPlayer() throws SQLException {
-		this.setName(rs.getString("name")); //$NON-NLS-1$
-		this.setSurname(rs.getString("surname")); //$NON-NLS-1$
-		this.setCountryfrom(rs.getInt("countryfrom")); //$NON-NLS-1$
+		this.setName(rs.getString("name")); 
+		this.setSurname(rs.getString("surname")); 
+		this.setCountryfrom(rs.getInt("countryfrom")); 
 		return this;
 	}
 }

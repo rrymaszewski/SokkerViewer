@@ -26,7 +26,7 @@ public class StatsGroup extends Group {
 		
 		FormData formData;
 		
-		this.setText(Messages.getString("table")); //$NON-NLS-1$
+		this.setText(Messages.getString("table")); 
 		this.setForeground(Colors.getBlueDescription());
 		
 		leagueTable = new LeagueTable(this, SWT.FULL_SELECTION);
@@ -44,7 +44,7 @@ public class StatsGroup extends Group {
 	}
 	
 	public void fill(LeagueRound leagueRound) {
-		this.setText(String.format("%s %s %d", Messages.getString("table"),Messages.getString("round"),leagueRound.getRoundNumber())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		this.setText(String.format("%s %s %d", Messages.getString("table"),Messages.getString("round"),leagueRound.getRoundNumber()));   
 //		this.headerLabel.update();
 		leagueTable.fill(leagueRound);
 	}

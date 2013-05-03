@@ -14,10 +14,10 @@ public class PlayerNtSkillsDto extends NtSkills {
 	}
 	
 	public NtSkills getNtSkill() throws SQLException {
-		this.setNtMatches(rs.getInt("nt_matches")); //$NON-NLS-1$
-		this.setNtGoals(rs.getInt("nt_goals")); //$NON-NLS-1$
-		this.setNtAssists(rs.getInt("nt_assists")); //$NON-NLS-1$
-		this.setNtCards(rs.getInt("nt_cards")); //$NON-NLS-1$
+		this.setNtMatches(rs.getInt("nt_matches")); 
+		this.setNtGoals(rs.getInt("nt_goals")); 
+		this.setNtAssists(rs.getInt("nt_assists")); 
+		this.setNtCards(rs.getInt("nt_cards")); 
 		return this;
 	}
 }

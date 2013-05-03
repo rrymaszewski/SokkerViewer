@@ -17,13 +17,10 @@ public class Password {
 	
 	private String generatePassword() {
 		SecureRandom random = new SecureRandom();
-		StringBuilder password;
-		
+		StringBuilder password = new StringBuilder();
 		do {
-			password = new StringBuilder();
-			
 			String pass = Crypto.encodeBase64(String.valueOf(random.nextLong()).getBytes());
-			pass = pass.replaceAll("=", ""); //$NON-NLS-1$ //$NON-NLS-2$
+			pass = pass.replaceAll("=", "");  
 			int digitPlace = random.nextInt(10);
 			for(int i = 0; i < 9; i++) {
 				if(i == digitPlace) {
@@ -63,26 +60,26 @@ public class Password {
 			counter += password.length();
 		}
 		
-		pattern = Pattern.compile("[A-Z]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[A-Z]"); 
 		matcher = pattern.matcher(password);
 		
 		if(matcher.find()) {
 			counter += 2;
 		}
 		
-		pattern = Pattern.compile("[a-z]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[a-z]"); 
 		matcher = pattern.matcher(password);
 		if(matcher.find()) {
 			counter += 2;
 		}
 		
-		pattern = Pattern.compile("[0-9]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[0-9]"); 
 		matcher = pattern.matcher(password);
 		if(matcher.find()) {
 			counter += 2;
 		}
 		
-		pattern = Pattern.compile("[^A-Za-z0-9]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[^A-Za-z0-9]"); 
 		matcher = pattern.matcher(password);
 		if(matcher.find()) {
 			counter += 2;
@@ -95,20 +92,20 @@ public class Password {
 		Matcher matcher;
 		Pattern pattern;
 		
-		pattern = Pattern.compile("[A-Z]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[A-Z]"); 
 		matcher = pattern.matcher(password);
 		
 		if(!matcher.find()) {
 			return false;
 		}
 		
-		pattern = Pattern.compile("[a-z]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[a-z]"); 
 		matcher = pattern.matcher(password);
 		if(!matcher.find()) {
 			return false;
 		}
 		
-		pattern = Pattern.compile("[0-9]"); //$NON-NLS-1$
+		pattern = Pattern.compile("[0-9]"); 
 		matcher = pattern.matcher(password);
 		
 		if(!matcher.find()) {

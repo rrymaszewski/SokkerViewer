@@ -16,7 +16,7 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 		super(parent, style);
 
 		// this.setDescriptionStringFormat(40, 15);
-		this.setDescriptionStringFormat("%-40s%-35s\r\n"); //$NON-NLS-1$
+		this.setDescriptionStringFormat("%-40s%-35s\r\n"); 
 		this.setFirstColumnSize(40);
 		this.setSecondColumnSize(35);
 
@@ -50,12 +50,12 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 		// aktualizujemy srednie wartosci
 		values = new String[6][2];
 
-		values[0][0] = Messages.getString("player.allValue"); //$NON-NLS-1$
-		values[1][0] = Messages.getString("player.averageValue"); //$NON-NLS-1$
-		values[2][0] = Messages.getString("player.allSalary"); //$NON-NLS-1$
-		values[3][0] = Messages.getString("player.averageSalary"); //$NON-NLS-1$
-		values[4][0] = Messages.getString("player.averageAge"); //$NON-NLS-1$
-		values[5][0] = Messages.getString("player.allPlayers"); //$NON-NLS-1$
+		values[0][0] = Messages.getString("player.allValue"); 
+		values[1][0] = Messages.getString("player.averageValue"); 
+		values[2][0] = Messages.getString("player.allSalary"); 
+		values[3][0] = Messages.getString("player.averageSalary"); 
+		values[4][0] = Messages.getString("player.averageAge"); 
+		values[5][0] = Messages.getString("player.allPlayers"); 
 
 		textSize = textSize + this.checkFirstTextSize(values[0][0]);
 
@@ -63,12 +63,12 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 
 		if (teamValue - teamValuePast > 0) {
 
-			values[0][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamValue - teamValuePast)); //$NON-NLS-1$
+			values[0][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamValue - teamValuePast)); 
 			this.colorText(textSize, values[0][1].length(), ConfigBean.getColorIncreaseDescription());
 
 		} else if (teamValue - teamValuePast < 0) {
 
-			values[0][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamValue - teamValuePast)); //$NON-NLS-1$
+			values[0][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamValue - teamValuePast)); 
 			this.colorText(textSize, values[0][1].length(), ConfigBean.getColorDecreaseDescription());
 		}
 
@@ -87,10 +87,10 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 			values[2][1] = Money.formatDoubleCurrencySymbol(teamSalary);
 
 			if (teamSalary - teamSalaryPast > 0) {
-				values[2][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamSalary - teamSalaryPast)); //$NON-NLS-1$
+				values[2][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamSalary - teamSalaryPast)); 
 				this.colorText(textSize, values[2][1].length(), ConfigBean.getColorIncreaseDescription());
 			} else if (teamSalary - teamSalaryPast < 0) {
-				values[2][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamSalary - teamSalaryPast)); //$NON-NLS-1$
+				values[2][1] += String.format(" (%s)", Money.formatDoubleSignCurrencySymbol(teamSalary - teamSalaryPast)); 
 				this.colorText(textSize, values[2][1].length(), ConfigBean.getColorDecreaseDescription());
 			}
 
@@ -104,13 +104,13 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 
 			textSize = textSize + this.checkFirstTextSize(values[4][0]);
 
-			values[4][1] = BigDecimal.valueOf(averAge / players.size()).setScale(2, BigDecimal.ROUND_HALF_UP).toString() + "   "; //$NON-NLS-1$
+			values[4][1] = BigDecimal.valueOf(averAge / players.size()).setScale(2, BigDecimal.ROUND_HALF_UP).toString() + "   "; 
 
 			textSize = textSize + this.checkSecondTextSize(values[4][1]);
 
 			textSize = textSize + this.checkFirstTextSize(values[5][0]);
 
-			values[5][1] = String.valueOf(players.size()) + "   "; //$NON-NLS-1$
+			values[5][1] = players.size() + "   "; 
 
 			textSize = textSize + this.checkSecondTextSize(values[5][0]);
 
@@ -118,8 +118,8 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 			values[1][1] = Money.formatDouble(0);
 			values[2][1] = Money.formatDoubleCurrencySymbol(teamSalary);
 			values[3][1] = Money.formatDouble(0);
-			values[4][1] = "0   "; //$NON-NLS-1$
-			values[5][1] = "0   "; //$NON-NLS-1$
+			values[4][1] = "0   "; 
+			values[5][1] = "0   "; 
 		}
 
 		for (int i = 0; i < values.length; i++) {

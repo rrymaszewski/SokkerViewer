@@ -28,7 +28,7 @@ import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
 
-public class MatchesManager {
+public final class MatchesManager {
 	
 	public static final int OK = 0;
 	public static final int ERROR_DOESNT_CONTAIN = 2;
@@ -39,32 +39,32 @@ public class MatchesManager {
 	private MatchesManager() {
 	}
 
-	public static MatchesManager instance() {
+	public static MatchesManager getInstance() {
 		return instance;
 	}
 
 	public void importMatches(List<Match> matches) throws SQLException {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		for (Match match : matches) {
-			if (leagueDao.existsMatch(match.getMatchID())) {
+			if (leagueDao.existsMatch(match.getMatchId())) {
 				leagueDao.updateMatch(match);
 			} else {
 				leagueDao.addMatch(match);
 			}
 
 			if (match.getIsFinished() == 1) {
-				if (!leagueDao.existsTeamStats(match.getMatchID(), match.getAwayTeamID()) && match.getAwayTeamStats() != null) {
-					leagueDao.addTeamStats(match.getMatchID(), match.getAwayTeamStats());
+				if (!leagueDao.existsTeamStats(match.getMatchId(), match.getAwayTeamId()) && match.getAwayTeamStats() != null) {
+					leagueDao.addTeamStats(match.getMatchId(), match.getAwayTeamStats());
 					List<PlayerStats> stats = match.getAwayTeamStats().getPlayersStats();
 					for (PlayerStats playerStats : stats) {
-						leagueDao.addPlayersStats(match.getMatchID(), match.getAwayTeamID(), playerStats);
+						leagueDao.addPlayersStats(match.getMatchId(), match.getAwayTeamId(), playerStats);
 					}
 				}
-				if (!leagueDao.existsTeamStats(match.getMatchID(), match.getHomeTeamID()) && match.getHomeTeamStats() != null) {
-					leagueDao.addTeamStats(match.getMatchID(), match.getHomeTeamStats());
+				if (!leagueDao.existsTeamStats(match.getMatchId(), match.getHomeTeamId()) && match.getHomeTeamStats() != null) {
+					leagueDao.addTeamStats(match.getMatchId(), match.getHomeTeamStats());
 					List<PlayerStats> stats = match.getHomeTeamStats().getPlayersStats();
 					for (PlayerStats playerStats : stats) {
-						leagueDao.addPlayersStats(match.getMatchID(), match.getHomeTeamID(), playerStats);
+						leagueDao.addPlayersStats(match.getMatchId(), match.getHomeTeamId(), playerStats);
 					}
 				}
 			}
@@ -78,7 +78,7 @@ public class MatchesManager {
 
 		List<Match> filteredMatches = new ArrayList<Match>();
 		for (Match match : matches) {
-			if (!leagueDao.existsFinishedMatch(match.getMatchID())) {
+			if (!leagueDao.existsFinishedMatch(match.getMatchId())) {
 				filteredMatches.add(match);
 			}
 		}
@@ -92,80 +92,80 @@ public class MatchesManager {
 		LeagueDao leagueDao = new LeagueDao(SQLSession.getConnection());
 		matches = leagueDao.getMatches(club);
 		for (Match match : matches) {
-			match.setAwayTeam(clubMap.get(match.getAwayTeamID()));
-			match.setHomeTeam(clubMap.get(match.getHomeTeamID()));
-			match.setLeague(hmLeague.get(match.getLeagueID()));
-			match.setAwayTeamStats(leagueDao.getTeamStats(match, match.getAwayTeamID()));
+			match.setAwayTeam(clubMap.get(match.getAwayTeamId()));
+			match.setHomeTeam(clubMap.get(match.getHomeTeamId()));
+			match.setLeague(hmLeague.get(match.getLeagueId()));
+			match.setAwayTeamStats(leagueDao.getTeamStats(match, match.getAwayTeamId()));
 			if (match.getAwayTeamStats() != null) {
-				match.getAwayTeamStats().setPlayersStats(leagueDao.getPlayersStats(match, match.getAwayTeamID(), playersMap, archivePlayerMap));
+				match.getAwayTeamStats().setPlayersStats(leagueDao.getPlayersStats(match, match.getAwayTeamId(), playersMap, archivePlayerMap));
 			}
-			match.setHomeTeamStats(leagueDao.getTeamStats(match, match.getHomeTeamID()));
+			match.setHomeTeamStats(leagueDao.getTeamStats(match, match.getHomeTeamId()));
 			if (match.getHomeTeamStats() != null) {
-				match.getHomeTeamStats().setPlayersStats(leagueDao.getPlayersStats(match, match.getHomeTeamID(), playersMap, archivePlayerMap));
+				match.getHomeTeamStats().setPlayersStats(leagueDao.getPlayersStats(match, match.getHomeTeamId(), playersMap, archivePlayerMap));
 			}
 		}
 		SQLSession.close(newConnection);
 		return matches;
 	}
 
-	public int importMatch(String matchID) throws SQLException, IOException, SAXException, SVException {
+	public int importMatch(String matchId) throws SQLException, IOException, SAXException, SVException {
 		XMLDownloader downloader = new XMLDownloader();
 		Match match;
 		League league;
 		String value;
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
-		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); //$NON-NLS-1$
+		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); 
 		downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 
-		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
-			value = "0"; //$NON-NLS-1$
+		if (downloader.getStatus().equals("OK")) { 
+			value = "0"; 
 		} else {
 			value = downloader.getErrorno();
 		}
 		// download xmls
 		try {
-			if (value.equals("0")) { //$NON-NLS-1$
-				if (matchID.matches("[0-9]+") || matchID.matches("http://online\\.sokker\\.org/comment\\.php\\?matchID=[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+			if (value.equals("0")) { 
+				if (matchId.matches("[0-9]+") || matchId.matches("http://online\\.sokker\\.org/comment\\.php\\?matchID=[0-9]+")) {  
 					SQLSession.connect();
 					MatchXmlManager manager = new MatchXmlManager(destination, downloader, Cache.getDate());
-					manager.download(Integer.valueOf(matchID.replaceAll("[^0-9]", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+					manager.download(Integer.valueOf(matchId.replaceAll("[^0-9]", "")));  
 					List<Match> matches = manager.parseXML();
 					if (matches.get(0) != null) {
 						match = matches.get(0);
-						if ((match.getAwayTeamID() == Integer.valueOf(downloader.getTeamID()) || match.getHomeTeamID() == Integer.valueOf(downloader
-							.getTeamID()))
+						if ((match.getAwayTeamId() == Integer.valueOf(downloader.getTeamId()) || match.getHomeTeamId() == Integer.valueOf(downloader
+							.getTeamId()))
 							&& match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1) {
 							manager.write();
 							// if(!SQLQuery.ifExistsLeague(manager.getMatch().getLeagueID())) {
-							if (Cache.getLeaguesMap().get(match.getLeagueID()) == null) {
+							if (Cache.getLeaguesMap().get(match.getLeagueId()) == null) {
 								LeagueXmlManager leagueManager = new LeagueXmlManager(destination, downloader, Cache.getDate());
-								leagueManager.download(match.getLeagueID());
+								leagueManager.download(match.getLeagueId());
 								List<League> leagues = leagueManager.parseXML();
 								leagueManager.importToSQL();
 								for (int i = 0; i < leagues.size(); i++) {
 									league = leagues.get(i);
 									// Cache.getLeagues().add(league);
-									Cache.getLeaguesMap().put(league.getLeagueID(), league);
+									Cache.getLeaguesMap().put(league.getLeagueId(), league);
 								}
 							} else {
-								league = Cache.getLeaguesMap().get(match.getLeagueID());
+								league = Cache.getLeaguesMap().get(match.getLeagueId());
 							}
 
-							if (!new LeagueDao(SQLSession.getConnection()).existsFinishedMatch(match.getMatchID())) {
+							if (!new LeagueDao(SQLSession.getConnection()).existsFinishedMatch(match.getMatchId())) {
 								manager.importToSQL();
 
-								match.setLeague(Cache.getLeaguesMap().get(match.getLeagueID()));
+								match.setLeague(Cache.getLeaguesMap().get(match.getLeagueId()));
 								if (match.getAwayTeamStats() != null) {
 									List<PlayerStats> playersStats = match.getAwayTeamStats().getPlayersStats();
 									for (PlayerStats playerStats : playersStats) {
-										playerStats.setPlayer(Cache.getPlayersMap().get(playerStats.getPlayerID()));
+										playerStats.setPlayer(Cache.getPlayersMap().get(playerStats.getPlayerId()));
 									}
 								}
 								if (match.getHomeTeamStats() != null) {
 									List<PlayerStats> playersStats = match.getHomeTeamStats().getPlayersStats();
 									for (PlayerStats playerStats : playersStats) {
-										playerStats.setPlayer(Cache.getPlayersMap().get(playerStats.getPlayerID()));
+										playerStats.setPlayer(Cache.getPlayersMap().get(playerStats.getPlayerId()));
 									}
 								}
 
@@ -184,7 +184,7 @@ public class MatchesManager {
 
 				}
 			} else {
-				throw new SVException(Messages.getString("login.error." + value)); //$NON-NLS-1$
+				throw new SVException(Messages.getString("login.error." + value)); 
 			}
 		} finally {
 			SQLSession.close();

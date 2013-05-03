@@ -30,20 +30,20 @@ public class ArenaStandGroup extends Group {
 		type.setLocation(5, 10);
 		type.setSize(140, 30);
 		type.setItems(new String[] {
-				Messages.getString("arena.standingPlaces"), //$NON-NLS-1$
-				Messages.getString("arena.terraces"), //$NON-NLS-1$
-				Messages.getString("arena.terracesUnderRoof"), //$NON-NLS-1$
-				Messages.getString("arena.benches"), //$NON-NLS-1$
-				Messages.getString("arena.benchesUnderRoof"), //$NON-NLS-1$
-				Messages.getString("arena.seats"), //$NON-NLS-1$
-				Messages.getString("arena.seatsUnderRoof") //$NON-NLS-1$
+				Messages.getString("arena.standingPlaces"), 
+				Messages.getString("arena.terraces"), 
+				Messages.getString("arena.terracesUnderRoof"), 
+				Messages.getString("arena.benches"), 
+				Messages.getString("arena.benchesUnderRoof"), 
+				Messages.getString("arena.seats"), 
+				Messages.getString("arena.seatsUnderRoof") 
 				});
 		type.setFont(ConfigBean.getFontMain());
 
 		Listener resetStandingPlacesList = new Listener() {
 			public void handleEvent(Event event) {
 				if (((Combo) (event.widget)).getSelectionIndex() == 0) {
-					((Text) ((Combo) (event.widget)).getParent().getChildren()[1]).setText("100"); //$NON-NLS-1$
+					((Text) ((Combo) (event.widget)).getParent().getChildren()[1]).setText("100"); 
 				}
 			}
 		};
@@ -88,7 +88,7 @@ public class ArenaStandGroup extends Group {
 		days.setSize(120, 15);
 		days.setFont(ConfigBean.getFontMain());
 
-		this.setToolTipText(""); //$NON-NLS-1$
+		this.setToolTipText(""); 
 	}
 
 	public void setDays(String days) {
@@ -107,38 +107,38 @@ public class ArenaStandGroup extends Group {
 		this.setType(getNameOfSeatArena(stand));
 		this.setCapacity(String.valueOf(stand.getCapacity()));
 		if (stand.getConstructionDays() > 0) {
-			this.setDays(Messages.getString("arena.days") + stand.getConstructionDays()); //$NON-NLS-1$
+			this.setDays(Messages.getString("arena.days") + stand.getConstructionDays()); 
 		}
 	}
 
 	private String getNameOfSeatArena(Stand stand) {
-		String arenaNameOfSeat = ""; //$NON-NLS-1$
+		String arenaNameOfSeat = ""; 
 
 		if (stand.getIsRoof() == Stand.ROOF_TRUE) {
 			switch (stand.getType()) {
 				case Stand.TYPE_TERRACES:
-					arenaNameOfSeat = Messages.getString("arena.terracesUnderRoof"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.terracesUnderRoof"); 
 					break;
 				case Stand.TYPE_BENCHES:
-					arenaNameOfSeat = Messages.getString("arena.benchesUnderRoof"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.benchesUnderRoof"); 
 					break;
 				case Stand.TYPE_SEATS:
-					arenaNameOfSeat = Messages.getString("arena.seatsUnderRoof"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.seatsUnderRoof"); 
 					break;
 			}
 		} else {
 			switch (stand.getType()) {
 				case Stand.TYPE_STANDING:
-					arenaNameOfSeat = Messages.getString("arena.standingPlaces"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.standingPlaces"); 
 					break;
 				case Stand.TYPE_TERRACES:
-					arenaNameOfSeat = Messages.getString("arena.terraces"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.terraces"); 
 					break;
 				case Stand.TYPE_BENCHES:
-					arenaNameOfSeat = Messages.getString("arena.benches"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.benches"); 
 					break;
 				case Stand.TYPE_SEATS:
-					arenaNameOfSeat = Messages.getString("arena.seats"); //$NON-NLS-1$
+					arenaNameOfSeat = Messages.getString("arena.seats"); 
 					break;
 			}
 		}

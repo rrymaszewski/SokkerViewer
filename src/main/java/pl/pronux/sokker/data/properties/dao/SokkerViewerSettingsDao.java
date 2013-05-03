@@ -24,46 +24,46 @@ public class SokkerViewerSettingsDao {
 		return settings;
 	}
 
-	public void updateSokkerViewerSettings(SokkerViewerSettings sokkerViewerSettings) throws FileNotFoundException, IOException, SVException {
-		properties.setProperty("sk.login", sokkerViewerSettings.getUsername()); //$NON-NLS-1$
+	public void updateSokkerViewerSettings(SokkerViewerSettings sokkerViewerSettings) throws IOException, SVException {
+		properties.setProperty("sk.login", sokkerViewerSettings.getUsername()); 
 		
-		properties.setProperty("sk.dir", sokkerViewerSettings.getBaseDirectory()); //$NON-NLS-1$
-		properties.setProperty("backup.dir", sokkerViewerSettings.getBackupDirectory()); //$NON-NLS-1$
+		properties.setProperty("sk.dir", sokkerViewerSettings.getBaseDirectory()); 
+		properties.setProperty("backup.dir", sokkerViewerSettings.getBackupDirectory()); 
 		if(sokkerViewerSettings.isUpdate()) {
-			properties.setProperty("conf.getXML", "1");	 //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("conf.getXML", "1");	  
 		} else {
-			properties.setProperty("conf.getXML", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("conf.getXML", "0");  
 		}
 		if(sokkerViewerSettings.isSavePassword()) {
-			properties.setProperty("sk.password", Crypto.encodeBase64(sokkerViewerSettings.getPassword().getBytes())); //$NON-NLS-1$
-			properties.setProperty("conf.savepass", "1");	 //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("sk.password", Crypto.encodeBase64(sokkerViewerSettings.getPassword().getBytes())); 
+			properties.setProperty("conf.savepass", "1");	  
 		} else {
-			properties.setProperty("sk.password", Crypto.encodeBase64("".getBytes())); //$NON-NLS-1$ //$NON-NLS-2$
-			properties.setProperty("conf.savepass", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("sk.password", Crypto.encodeBase64("".getBytes()));  
+			properties.setProperty("conf.savepass", "0");  
 		}
 		if(sokkerViewerSettings.isInfoUpdate()) {
-			properties.setProperty("info.update", "1");	 //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("info.update", "1");	  
 		} else {
-			properties.setProperty("info.update", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("info.update", "0");  
 		}
 		if(sokkerViewerSettings.isInfoClose()) {
-			properties.setProperty("info.close", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("info.close", "1");  
 		} else {
-			properties.setProperty("info.close", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("info.close", "0");  
 		}
 		if(sokkerViewerSettings.isCheckProperties()) {
-			properties.setProperty("check.properties", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("check.properties", "1");  
 		} else {
-			properties.setProperty("check.properties", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("check.properties", "0");  
 		}
 		
 		if(sokkerViewerSettings.isStartup()) {
-			properties.setProperty("sv.startup", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("sv.startup", "1");  
 		} else {
-			properties.setProperty("sv.startup", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+			properties.setProperty("sv.startup", "0");  
 		}
 		
-		properties.setProperty("lang.code", sokkerViewerSettings.getLangCode()); //$NON-NLS-1$
+		properties.setProperty("lang.code", sokkerViewerSettings.getLangCode()); 
 
 		PropertiesDatabase.getSession().save();
 		

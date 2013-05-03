@@ -33,19 +33,7 @@ public class ConfigurationPage extends Page {
 	private Set<String> files = new HashSet<String>();
 	private Map<String, WidgetsCollection> widgetsMap = new HashMap<String, WidgetsCollection>();
 
-	private Text packageName;
-	private Combo packageOS;
-	private Spinner packageRevision;
-
-	private Combo packageLocalpath;
-
-	private Text packageAuthor;
-
 	private Composite container;
-
-	private Text packageLocalDirectory;
-
-	private Text packageLocalFilename;
 
 	private Text versionText;
 
@@ -119,7 +107,7 @@ public class ConfigurationPage extends Page {
 			new BugReporter(getWizard().getShell()).openErrorMessage("Configuration Page" ,e);
 		}
 		
-		Map<String, Package> packages = oldParser.alPackages;
+		Map<String, Package> packages = oldParser.getPackages();
 		Set<String> files = ((FilesPage) getWizard().getPage(FilesPage.PAGE_NAME)).getFiles();
 		for (String filename : files) {
 			addWidgetCollection(filename, packages);
@@ -140,14 +128,14 @@ public class ConfigurationPage extends Page {
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
 
-		packageName = new Text(container, SWT.BORDER);
+		Text packageName = new Text(container, SWT.BORDER);
 		packageName.setLayoutData(data);
 		packageName.setText(file.getName().replaceAll("(\\.|-|[0-9]).*", "").toLowerCase());
 		collection.setPackageName(packageName);
 		
 		Package pkg = packages.get(packageName.getText());
 		
-		packageAuthor = new Text(container, SWT.BORDER);
+		Text packageAuthor = new Text(container, SWT.BORDER);
 
 		packageAuthor.setLayoutData(data);
 		collection.setPackageAuthor(packageAuthor);
@@ -157,7 +145,7 @@ public class ConfigurationPage extends Page {
 			packageAuthor.setText("rym3k");
 		}
 
-		packageLocalpath = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN);
+		Combo packageLocalpath = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN);
 		packageLocalpath.setItems(new String[] { "/", "/resources/", "/lib/", "/fonts/", "/sql/" });
 		if (pkg != null) {
 			packageLocalpath.setText(pkg.getLocalpath());
@@ -171,7 +159,7 @@ public class ConfigurationPage extends Page {
 
 		collection.setPackageLocalpath(packageLocalpath);
 
-		packageOS = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN);
+		Combo packageOS = new Combo(container, SWT.READ_ONLY | SWT.DROP_DOWN);
 		packageOS.setItems(new String[] { "", "windows/", "linux/", "mac/" });
 
 //		if (pkg != null) {
@@ -198,7 +186,7 @@ public class ConfigurationPage extends Page {
 
 		collection.setPackageOS(packageOS);
 
-		packageRevision = new Spinner(container, SWT.BORDER);
+		Spinner packageRevision = new Spinner(container, SWT.BORDER);
 		packageRevision.setMinimum(0);
 		if (pkg != null) {
 			packageRevision.setSelection(pkg.getRevision());
@@ -216,7 +204,7 @@ public class ConfigurationPage extends Page {
 		data.horizontalAlignment = GridData.FILL;
 		data.horizontalSpan = 3;
 
-		packageLocalDirectory = new Text(container, SWT.BORDER | SWT.READ_ONLY);
+		Text packageLocalDirectory = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		packageLocalDirectory.setLayoutData(data);
 		packageLocalDirectory.setText(file.getParent());
 		collection.setPackageLocalDirectory(packageLocalDirectory);
@@ -226,7 +214,7 @@ public class ConfigurationPage extends Page {
 		data.horizontalAlignment = GridData.FILL;
 		data.horizontalSpan = 2;
 
-		packageLocalFilename = new Text(container, SWT.BORDER | SWT.READ_ONLY);
+		Text packageLocalFilename = new Text(container, SWT.BORDER | SWT.READ_ONLY);
 		packageLocalFilename.setEnabled(false);
 		packageLocalFilename.setLayoutData(data);
 		packageLocalFilename.setText(file.getName());

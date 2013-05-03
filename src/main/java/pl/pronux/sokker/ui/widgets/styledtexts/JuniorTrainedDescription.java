@@ -41,15 +41,15 @@ public class JuniorTrainedDescription extends StyledText implements IDescription
 
 	private String getNumberSkill(int before, int now) {
 		if (now - before != 0) {
-			return String.format("[%s %s]", now, SVNumberFormat.formatIntegerWithSignZero(now - before)); //$NON-NLS-1$
+			return String.format("[%s %s]", now, SVNumberFormat.formatIntegerWithSignZero(now - before)); 
 		} else {
-			return String.format("[%s]", now); //$NON-NLS-1$
+			return String.format("[%s]", now); 
 		}
 	}
 
 	private void addSkill(String name, String value, int now, int begin, int offset) {
-		String text = ""; //$NON-NLS-1$
-		text = String.format("%8s%s %s", getNumberSkill(begin, now), value, name); //$NON-NLS-1$
+		String text = ""; 
+		text = String.format("%8s%s %s", getNumberSkill(begin, now), value, name); 
 		this.addText(text);
 		addStyle(offset, 8, ColorResources.getDarkGray(), SWT.NONE);
 		addStyle(offset + 8, value.length(), ColorResources.getColor(142, 3, 121), SWT.BOLD);
@@ -58,9 +58,9 @@ public class JuniorTrainedDescription extends StyledText implements IDescription
 	}
 	
 	private void addPlayerSkill(String name, String value, int now, int offset) {
-		String text1 = ""; //$NON-NLS-1$
-		text1 = String.format("%8s%s %s", getNumberSkill(now, now), value, name); //$NON-NLS-1$
-		this.addText(String.format("%-35s", text1)); //$NON-NLS-1$
+		String text1 = ""; 
+		text1 = String.format("%8s%s %s", getNumberSkill(now, now), value, name); 
+		this.addText(String.format("%-35s", text1)); 
 		addStyle(offset, 8, ColorResources.getDarkGray(), SWT.NONE);
 		addStyle(offset + 8, value.length(), ColorResources.getBlack(), SWT.BOLD);
 		// addStyle(offset + text1.length(), text2.length(),
@@ -81,49 +81,49 @@ public class JuniorTrainedDescription extends StyledText implements IDescription
 		// Send all output to the Appendable object sb
 		int max = junior.getSkills().length - 1 - index;
 		String text;
-		this.setText(""); //$NON-NLS-1$
+		this.setText(""); 
 
 		if (junior.getPlayer() != null) {
-			this.addText(String.format(" %s %s, %s: %d ", junior.getName(), junior.getSurname(), Messages.getString("player.age"), junior.getPlayer().getSkills()[0].getAge())); //$NON-NLS-1$ //$NON-NLS-2$
+			this.addText(String.format(" %s %s, %s: %d ", junior.getName(), junior.getSurname(), Messages.getString("player.age"), junior.getPlayer().getSkills()[0].getAge()));  
 			addStyle(1, junior.getName().length() + junior.getSurname().length() + 1, ColorResources.getBlack(), SWT.BOLD);
 			addStyle(getText().length() - 3, 2, ColorResources.getBlack(), SWT.BOLD);
 		} else {
-			this.addText(String.format("%s %s ", junior.getName(), junior.getSurname())); //$NON-NLS-1$
+			this.addText(String.format("%s %s ", junior.getName(), junior.getSurname())); 
 		}
 
-		text = String.format("[%s]", SVNumberFormat.formatIntegerWithSign(junior.getEstimatedAge())); //$NON-NLS-1$
+		text = String.format("[%s]", SVNumberFormat.formatIntegerWithSign(junior.getEstimatedAge())); 
 		this.addText(text);
 		
-		text = String.format("\t(ID %d)", junior.getId()); //$NON-NLS-1$
+		text = String.format("\t(ID %d)", junior.getId()); 
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
 		this.addText(NEW_LINE);
 		
-		addSkill(Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[0].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+		addSkill(Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[0].getSkill(), getText().length());  
 		
 		if(junior.getWeeksWithoutJump() > 0) {
-			text = String.format(" %s", SVNumberFormat.formatIntegerWithSignZero(junior.getWeeksWithoutJump())); //$NON-NLS-1$
+			text = String.format(" %s", SVNumberFormat.formatIntegerWithSignZero(junior.getWeeksWithoutJump())); 
 			this.addText(text);
 		}
 		
 		if(junior.getAveragePops() > 0 && junior.getPops() < 2) {
-			text = String.format(" (%d,?)", junior.getSkills()[max].getSkill()); //$NON-NLS-1$
+			text = String.format(" (%d,?)", junior.getSkills()[max].getSkill()); 
 			this.addText(text);
 		} else {
-			text = String.format(" (%.2f)", junior.getSkills()[max].getSkill() + (junior.getWeeksWithoutJump()/ junior.getAveragePops())); //$NON-NLS-1$
+			text = String.format(" (%.2f)", junior.getSkills()[max].getSkill() + (junior.getWeeksWithoutJump()/ junior.getAveragePops())); 
 			this.addText(text);
 		}
 
 		this.addText(NEW_LINE);
 		
-		text = String.format("%8s%s: ", "", Messages.getString("junior.averageJumps")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		text = String.format("%8s%s: ", "", Messages.getString("junior.averageJumps"));   
 		this.addText(text);
 		if(junior.getPops() < 2) {
-			text = String.format("~%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //$NON-NLS-1$
+			text = String.format("~%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); 
 			this.addText(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.BOLD);
 		} else {
-			text = String.format("%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); //$NON-NLS-1$
+			text = String.format("%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); 
 			this.addText(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), ColorResources.getColor(142, 3, 121), SWT.BOLD);
 		}
@@ -133,36 +133,36 @@ public class JuniorTrainedDescription extends StyledText implements IDescription
 
 			this.addText(NEW_LINE);
 			
-			addPlayerSkill(Messages.getString("player.form"), Messages.getString("skill.b" + player.getSkills()[0].getForm()), player.getSkills()[0].getForm(), getText().length());			 //$NON-NLS-1$ //$NON-NLS-2$
+			addPlayerSkill(Messages.getString("player.form"), Messages.getString("skill.b" + player.getSkills()[0].getForm()), player.getSkills()[0].getForm(), getText().length());			  
 			this.addText(NEW_LINE);
 			this.addText(NEW_LINE);
 
-			addPlayerSkill(Messages.getString("player.stamina"), Messages.getString("skill.b" + player.getSkills()[0].getStamina()), player.getSkills()[0].getStamina(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
-			addPlayerSkill(Messages.getString("player.keeper"), Messages.getString("skill.a" + player.getSkills()[0].getKeeper()), player.getSkills()[0].getKeeper(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addPlayerSkill(Messages.getString("player.stamina"), Messages.getString("skill.b" + player.getSkills()[0].getStamina()), player.getSkills()[0].getStamina(), getText().length());  
+			addPlayerSkill(Messages.getString("player.keeper"), Messages.getString("skill.a" + player.getSkills()[0].getKeeper()), player.getSkills()[0].getKeeper(), getText().length());  
 			this.addText(NEW_LINE);
 			
-			addPlayerSkill(Messages.getString("player.pace"), Messages.getString("skill.b" + player.getSkills()[0].getPace()), player.getSkills()[0].getPace(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
-			addPlayerSkill(Messages.getString("player.defender"), Messages.getString("skill.a" + player.getSkills()[0].getDefender()), player.getSkills()[0].getDefender(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addPlayerSkill(Messages.getString("player.pace"), Messages.getString("skill.b" + player.getSkills()[0].getPace()), player.getSkills()[0].getPace(), getText().length());  
+			addPlayerSkill(Messages.getString("player.defender"), Messages.getString("skill.a" + player.getSkills()[0].getDefender()), player.getSkills()[0].getDefender(), getText().length());  
 			this.addText(NEW_LINE);
 			
-			addPlayerSkill(Messages.getString("player.technique"), Messages.getString("skill.b" + player.getSkills()[0].getTechnique()), player.getSkills()[0].getTechnique(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
-			addPlayerSkill(Messages.getString("player.playmaker"), Messages.getString("skill.a" + player.getSkills()[0].getPlaymaker()), player.getSkills()[0].getPlaymaker(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addPlayerSkill(Messages.getString("player.technique"), Messages.getString("skill.b" + player.getSkills()[0].getTechnique()), player.getSkills()[0].getTechnique(), getText().length());  
+			addPlayerSkill(Messages.getString("player.playmaker"), Messages.getString("skill.a" + player.getSkills()[0].getPlaymaker()), player.getSkills()[0].getPlaymaker(), getText().length());  
 			this.addText(NEW_LINE);
 			
-			addPlayerSkill(Messages.getString("player.passing"), Messages.getString("skill.c" + player.getSkills()[0].getPassing()), player.getSkills()[0].getPassing(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
-			addPlayerSkill(Messages.getString("player.scorer"), Messages.getString("skill.a" + player.getSkills()[0].getScorer()), player.getSkills()[0].getScorer(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+			addPlayerSkill(Messages.getString("player.passing"), Messages.getString("skill.c" + player.getSkills()[0].getPassing()), player.getSkills()[0].getPassing(), getText().length());  
+			addPlayerSkill(Messages.getString("player.scorer"), Messages.getString("skill.a" + player.getSkills()[0].getScorer()), player.getSkills()[0].getScorer(), getText().length());  
 			this.addText(NEW_LINE);
 			this.addText(NEW_LINE);
 			
 			String sum = String.valueOf(player.getSkills()[0].getSummarySkill() + player.getSkills()[0].getStamina());
-			text = String.format(" %s: [%s]", Messages.getString("player.sum"), sum); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format(" %s: [%s]", Messages.getString("player.sum"), sum);  
 			this.addText(text);
 			addStyle(this.getText().length() - sum.length()-2, sum.length()+2, ColorResources.getColor(142, 3, 121), SWT.NORMAL);
 			
-			text = String.format(" = [%d]", player.getSkills()[0].getSummarySkill()); //$NON-NLS-1$
+			text = String.format(" = [%d]", player.getSkills()[0].getSummarySkill()); 
 			this.addText(text);
 			
-			text = String.format(" + [%d] %s", player.getSkills()[0].getStamina(), Messages.getString("player.stamina")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format(" + [%d] %s", player.getSkills()[0].getStamina(), Messages.getString("player.stamina"));  
 			this.addText(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 		}
@@ -172,7 +172,7 @@ public class JuniorTrainedDescription extends StyledText implements IDescription
 		
 		for(int i = 0 ; i <= max; i++) {
 			String value = String.valueOf(junior.getSkills()[i].getSkill());
-			text = String.format("%s ", value); //$NON-NLS-1$
+			text = String.format("%s ", value); 
 			this.addText(text);
 			this.addStyle(this.getText().length() - value.length() - 1, value.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 			if(i > 0 && (junior.getSkills()[i].getSkill() - junior.getSkills()[i-1].getSkill() > 0)) {

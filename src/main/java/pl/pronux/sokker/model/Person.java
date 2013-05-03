@@ -12,22 +12,22 @@ public abstract class Person implements Serializable {
 	
 	private int status;
 
-	private String name = ""; //$NON-NLS-1$
+	private String name = ""; 
 
-	private String surname = ""; //$NON-NLS-1$
+	private String surname = ""; 
 	
 	private String clubName;
 
-	private String note = ""; //$NON-NLS-1$
+	private String note = ""; 
 	
-	private int teamID;
+	private int teamId;
 	
-	public int getTeamID() {
-		return teamID;
+	public int getTeamId() {
+		return teamId;
 	}
 
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 
 	/* (non-Javadoc)
@@ -82,7 +82,7 @@ public abstract class Person implements Serializable {
 	 */
 	public void setName(String name) {
 		if(name == null) {
-			this.name = ""; //$NON-NLS-1$
+			this.name = ""; 
 		} else {
 			this.name = name;	
 		}
@@ -122,7 +122,7 @@ public abstract class Person implements Serializable {
 
 	public void setNote(String note) {
 		if(note == null) { 
-			this.note = ""; //$NON-NLS-1$
+			this.note = ""; 
 		} else {
 			this.note = note;	
 		}

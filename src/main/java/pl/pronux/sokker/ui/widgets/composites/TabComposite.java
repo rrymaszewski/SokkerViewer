@@ -63,11 +63,11 @@ public class TabComposite extends Composite {
 		descriptionComposite.setVisible(true);
 		descriptionComposite.setFont(ConfigBean.getFontDescription());
 
-		descriptionComposite.setLeftDescriptionStringFormat("%-20s%-15s\r\n"); //$NON-NLS-1$
+		descriptionComposite.setLeftDescriptionStringFormat("%-20s%-15s\r\n"); 
 		descriptionComposite.setLeftFirstColumnSize(20);
 		descriptionComposite.setLeftSecondColumnSize(15);
 
-		descriptionComposite.setRightDescriptionStringFormat("%-20s%-15s\r\n"); //$NON-NLS-1$
+		descriptionComposite.setRightDescriptionStringFormat("%-20s%-15s\r\n"); 
 		descriptionComposite.setRightFirstColumnSize(20);
 		descriptionComposite.setRightSecondColumnSize(15);
 		

@@ -66,14 +66,14 @@ public class ViewPlugins implements IViewConfigure {
 
 		pluginsProperties = new SVProperties();
 		try {
-			pluginsProperties.load(new FileInputStream(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties")); //$NON-NLS-1$ //$NON-NLS-2$
+			pluginsProperties.load(new FileInputStream(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties"));  
 		} catch (FileNotFoundException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite plugins", e);
 		} catch (IOException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite plugins", e);
 		}
 
-		plugins = pluginsProperties.getProperty("plugins").split(";"); //$NON-NLS-1$ //$NON-NLS-2$
+		plugins = pluginsProperties.getProperty("plugins").split(";");  
 
 		formData = new FormData(50, 25);
 		formData.left = new FormAttachment(50, -formData.width - 10);
@@ -95,7 +95,7 @@ public class ViewPlugins implements IViewConfigure {
 							tableItem.setText(i, tableItems[0].getText(i));
 						}
 
-						tableItem.setData("plugin", tableItems[0].getData("plugin")); //$NON-NLS-1$ //$NON-NLS-2$
+						tableItem.setData("plugin", tableItems[0].getData("plugin"));  
 						tableItem.setChecked(tableItems[0].getChecked());
 						tableItems[0].dispose();
 						pluginsTable.setSelection(index - 1);
@@ -124,7 +124,7 @@ public class ViewPlugins implements IViewConfigure {
 							tableItem.setText(i, tableItems[0].getText(i));
 						}
 
-						tableItem.setData("plugin", tableItems[0].getData("plugin")); //$NON-NLS-1$ //$NON-NLS-2$
+						tableItem.setData("plugin", tableItems[0].getData("plugin"));  
 						tableItem.setChecked(tableItems[0].getChecked());
 						tableItems[0].dispose();
 						pluginsTable.setSelection(index + 1);
@@ -153,8 +153,8 @@ public class ViewPlugins implements IViewConfigure {
 		pluginsTable.setLayoutData(formData);
 
 		String[] columns = {
-				Messages.getString("configure.plugins.table.name"), //$NON-NLS-1$
-				Messages.getString("configure.plugins.table.description") //$NON-NLS-1$
+				Messages.getString("configure.plugins.table.name"), 
+				Messages.getString("configure.plugins.table.description") 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -164,7 +164,7 @@ public class ViewPlugins implements IViewConfigure {
 			column.setMoveable(false);
 		}
 
-		treeItem.setText(Messages.getString("configure.plugins")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("configure.plugins")); 
 		
 		fillTable(pluginsTable, plugins);
 
@@ -178,16 +178,16 @@ public class ViewPlugins implements IViewConfigure {
 
 		for (int i = 0; i < plugins.length; i++) {
 			String viewName = plugins[i];
-			String[] viewNameTmp = viewName.split("\\."); //$NON-NLS-1$
+			String[] viewNameTmp = viewName.split("\\."); 
 			String viewSimpleName = viewNameTmp[viewNameTmp.length - 1];
 
-			int pluginTurn = Integer.valueOf(pluginsProperties.getProperty(viewName + ".turn")).intValue(); //$NON-NLS-1$
+			int pluginTurn = Integer.valueOf(pluginsProperties.getProperty(viewName + ".turn")).intValue(); 
 
 			item = new TableItem(pluginsTable, SWT.NONE);
 
-			item.setText(0, Messages.getString("tree." + viewSimpleName)); //$NON-NLS-1$
-			item.setText(1, Messages.getString(viewName + ".description")); //$NON-NLS-1$
-			item.setData("plugin", plugins[i]); //$NON-NLS-1$
+			item.setText(0, Messages.getString("tree." + viewSimpleName)); 
+			item.setText(1, Messages.getString(viewName + ".description")); 
+			item.setData("plugin", plugins[i]); 
 
 			if (pluginTurn == 1) {
 				item.setChecked(true);
@@ -218,18 +218,18 @@ public class ViewPlugins implements IViewConfigure {
 		StringBuilder pluginsDirection = new StringBuilder();
 		for (int i = 0; i < pluginsTable.getItemCount(); i++) {
 			TableItem item = pluginsTable.getItem(i);
-			pluginsDirection.append((String) item.getData("plugin")).append(";"); //$NON-NLS-1$ //$NON-NLS-2$
+			pluginsDirection.append((String) item.getData("plugin")).append(";");  
 			if (item.getChecked()) {
-				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "1"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "1");   
 			} else {
-				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				pluginsProperties.setProperty((String) item.getData("plugin") + ".turn", "0");   
 			}
 		}
 
-		pluginsProperties.setProperty("plugins", pluginsDirection.toString()); //$NON-NLS-1$
+		pluginsProperties.setProperty("plugins", pluginsDirection.toString()); 
 
 		try {
-			pluginsProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties")), ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			pluginsProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties")), "");   
 		} catch (FileNotFoundException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite plugins", e);
 		} catch (IOException e) {

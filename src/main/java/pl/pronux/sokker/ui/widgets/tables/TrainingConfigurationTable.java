@@ -38,12 +38,12 @@ public class TrainingConfigurationTable extends Table {
 //		this.setBackground(parent.getBackground());
 
 		String[] columns = {
-				Messages.getString(""), //$NON-NLS-1$
-				Messages.getString(""), //$NON-NLS-1$
-				Messages.getString(""), //$NON-NLS-1$
-				Messages.getString(""), //$NON-NLS-1$
-				Messages.getString(""), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString(""), 
+				Messages.getString(""), 
+				Messages.getString(""), 
+				Messages.getString(""), 
+				Messages.getString(""), 
+				"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -67,8 +67,7 @@ public class TrainingConfigurationTable extends Table {
 			}
 		}
 
-		TableItem item;
-		item = new TableItem(this, SWT.NONE);
+		TableItem item = new TableItem(this, SWT.NONE);
 		item.setText(1, Messages.getString("formation.0"));
 		item.setText(2, Messages.getString("formation.1"));
 		item.setText(3, Messages.getString("formation.2"));
@@ -190,8 +189,9 @@ public class TrainingConfigurationTable extends Table {
 							visible = true;
 						}
 					}
-					if (!visible)
+					if (!visible) {
 						return;
+					}
 				}
 			}
 		});

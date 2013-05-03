@@ -15,13 +15,13 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 import pl.pronux.sokker.updater.model.PackagesCollection;
 
 public class PackagesPage extends Page {
-	public static final String PAGE_NAME = "PACKAGES_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "PACKAGES_PAGE"; 
 	private Tree treePackages;
 	private Text infoText;
 	private PackagesCollection packagesCollection;
 
 	public PackagesPage(Wizard parent) {
-		super(parent, Messages.getString("updater.page.packages"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("updater.page.packages"), PAGE_NAME); 
 	}
 
 	@Override

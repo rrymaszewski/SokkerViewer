@@ -45,7 +45,7 @@ import pl.pronux.sokker.ui.widgets.tables.CoachFiredTable;
 
 public class ViewCoachesFired implements IPlugin, ISort {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 	
 	private TreeItem _treeItem;
 
@@ -106,7 +106,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoCoachesFired"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoCoachesFired"); 
 	}
 
 	public TreeItem getTreeItem() {
@@ -156,9 +156,9 @@ public class ViewCoachesFired implements IPlugin, ISort {
 
 		this._treeItem = treeItem;
 
-		_treeItem.setText(Messages.getString("tree.ViewCoachesFired")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewCoachesFired")); 
 
-		_treeItem.setImage(ImageResources.getImageResources("sacked_trainer.png")); //$NON-NLS-1$
+		_treeItem.setImage(ImageResources.getImageResources("sacked_trainer.png")); 
 
 		_treeItem.getParent().addListener(SWT.MouseDown, viewListener);
 
@@ -184,11 +184,11 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		coachView.setLayoutData(descriptionFormData);
 		coachView.setVisible(false);
 
-		coachView.setLeftDescriptionStringFormat("%-20s%-15s\r\n"); //$NON-NLS-1$
+		coachView.setLeftDescriptionStringFormat("%-20s%-15s\r\n"); 
 		coachView.setLeftFirstColumnSize(20);
 		coachView.setLeftSecondColumnSize(15);
 
-		coachView.setRightDescriptionStringFormat("%-20s%-15s\r\n"); //$NON-NLS-1$
+		coachView.setRightDescriptionStringFormat("%-20s%-15s\r\n"); 
 		coachView.setRightFirstColumnSize(20);
 		coachView.setRightSecondColumnSize(15);
 
@@ -227,7 +227,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		descriptionComposite.setVisible(true);
 
 		// descriptionComposite.setDescriptionStringFormat(40, 15);
-		descriptionComposite.setDescriptionStringFormat("%-40s%15s\r\n"); //$NON-NLS-1$
+		descriptionComposite.setDescriptionStringFormat("%-40s%15s\r\n"); 
 		descriptionComposite.setFirstColumnSize(40);
 		descriptionComposite.setSecondColumnSize(15);
 
@@ -247,7 +247,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		menuPopUp = new Menu(composite.getShell(), SWT.POP_UP);
 
 		MenuItem menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 
@@ -261,12 +261,12 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		});
 
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.move")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.move")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
-				messageBox.setMessage(Messages.getString("message.playerMove.text")); //$NON-NLS-1$
-				messageBox.setText(Messages.getString("message.playerMove.title")); //$NON-NLS-1$
+				messageBox.setMessage(Messages.getString("message.playerMove.text")); 
+				messageBox.setText(Messages.getString("message.playerMove.title")); 
 
 				if (messageBox.open() == SWT.YES) {
 					Coach coach = currentCoach;
@@ -296,7 +296,7 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		menuPopUpParentTree = new Menu(composite.getShell(), SWT.POP_UP);
 
 		MenuItem menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 
@@ -310,13 +310,13 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		});
 
 		menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.moveAll")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.moveAll")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				try {
 					MessageBox messageBox = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
-					messageBox.setMessage(Messages.getString("message.coachMoveAll.text")); //$NON-NLS-1$
-					messageBox.setText(Messages.getString("message.coachMoveAll.title")); //$NON-NLS-1$
+					messageBox.setMessage(Messages.getString("message.coachMoveAll.text")); 
+					messageBox.setText(Messages.getString("message.coachMoveAll.title")); 
 
 					if (messageBox.open() == SWT.YES) {
 
@@ -426,10 +426,10 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		}
 
 		String[][] values = new String[4][2];
-		values[0][0] = Messages.getString("coach.allSalary"); //$NON-NLS-1$
-		values[1][0] = Messages.getString("coach.averageSalary"); //$NON-NLS-1$
-		values[2][0] = Messages.getString("coach.averageAge"); //$NON-NLS-1$
-		values[3][0] = Messages.getString("coach.allCoaches"); //$NON-NLS-1$
+		values[0][0] = Messages.getString("coach.allSalary"); 
+		values[1][0] = Messages.getString("coach.averageSalary"); 
+		values[2][0] = Messages.getString("coach.averageAge"); 
+		values[3][0] = Messages.getString("coach.allCoaches"); 
 
 		values[0][1] = Money.formatDoubleCurrencySymbol(allSalary);
 		textSize = descriptionComposite.checkFirstTextSize(values[0][0]) + descriptionComposite.checkSecondTextSize(values[0][1]);
@@ -439,19 +439,19 @@ public class ViewCoachesFired implements IPlugin, ISort {
 			values[1][1] = Money.formatDoubleCurrencySymbol(BigDecimal.valueOf(allSalary / coach.size()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
 
-			values[2][1] = BigDecimal.valueOf(allAge / coach.size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "   "; //$NON-NLS-1$
+			values[2][1] = BigDecimal.valueOf(allAge / coach.size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "   "; 
 			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
 
 		} else {
 			values[1][1] = Money.formatDoubleCurrencySymbol(0);
 			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
 
-			values[2][1] = BigDecimal.valueOf(0).toString() + "   "; //$NON-NLS-1$
+			values[2][1] = BigDecimal.valueOf(0).toString() + "   "; 
 			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
 
 		}
 
-		values[3][1] = String.valueOf(coach.size()).toString() + "   "; //$NON-NLS-1$
+		values[3][1] = String.valueOf(coach.size()).toString() + "   "; 
 		textSize += descriptionComposite.checkFirstTextSize(values[3][0]) + descriptionComposite.checkSecondTextSize(values[3][1]);
 
 		for (int i = 0; i < values.length; i++) {
@@ -464,20 +464,20 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		description.clearAll();
 
 		String[][] values = new String[7][2];
-		values[0][0] = Messages.getString("coach.id"); //$NON-NLS-1$
-		values[1][0] = Messages.getString("coach.name"); //$NON-NLS-1$
-		values[2][0] = Messages.getString("coach.surname"); //$NON-NLS-1$
-		values[3][0] = Messages.getString("coach.general"); //$NON-NLS-1$
-		values[4][0] = Messages.getString("coach.age"); //$NON-NLS-1$
-		values[5][0] = Messages.getString("coach.country"); //$NON-NLS-1$
-		values[6][0] = Messages.getString("coach.salary"); //$NON-NLS-1$
+		values[0][0] = Messages.getString("coach.id"); 
+		values[1][0] = Messages.getString("coach.name"); 
+		values[2][0] = Messages.getString("coach.surname"); 
+		values[3][0] = Messages.getString("coach.general"); 
+		values[4][0] = Messages.getString("coach.age"); 
+		values[5][0] = Messages.getString("coach.country"); 
+		values[6][0] = Messages.getString("coach.salary"); 
 
 		values[0][1] = String.valueOf(coach.getId());
 		values[1][1] = coach.getName();
 		values[2][1] = coach.getSurname();
-		values[3][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getGeneralskill()), coach.getGeneralskill()); //$NON-NLS-1$ //$NON-NLS-2$
+		values[3][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getGeneralskill()), coach.getGeneralskill());  
 		values[4][1] = String.valueOf(coach.getAge());
-		values[5][1] = Messages.getString("country." + coach.getCountryfrom() + ".name"); //$NON-NLS-1$ //$NON-NLS-2$
+		values[5][1] = Messages.getString("country." + coach.getCountryfrom() + ".name");  
 		values[6][1] = coach.getSalary().formatDoubleCurrencySymbol();
 
 		for (int i = 0; i < values.length; i++) {
@@ -487,26 +487,26 @@ public class ViewCoachesFired implements IPlugin, ISort {
 		// statsLeft.setStyleRanges(leftStyle);
 
 		values = new String[10][2];
-		values[0][0] = Messages.getString("coach.training"); //$NON-NLS-1$
-		values[1][0] = Messages.getString("coach.stamina"); //$NON-NLS-1$
-		values[2][0] = Messages.getString("coach.pace"); //$NON-NLS-1$
-		values[3][0] = Messages.getString("coach.technique"); //$NON-NLS-1$
-		values[4][0] = Messages.getString("coach.passing"); //$NON-NLS-1$
-		values[5][0] = Messages.getString("coach.keeper"); //$NON-NLS-1$
-		values[6][0] = Messages.getString("coach.defender"); //$NON-NLS-1$
-		values[7][0] = Messages.getString("coach.playmaker"); //$NON-NLS-1$
-		values[8][0] = Messages.getString("coach.scorer"); //$NON-NLS-1$
-		values[9][0] = Messages.getString("coach.general"); //$NON-NLS-1$
-		values[0][1] = ""; //$NON-NLS-1$
-		values[1][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getStamina()), coach.getStamina()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[2][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPace()), coach.getPace()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[3][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getTechnique()), coach.getTechnique()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[4][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPassing()), coach.getPassing()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[5][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getKeepers()), coach.getKeepers()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[6][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getDefenders()), coach.getDefenders()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[7][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPlaymakers()), coach.getPlaymakers()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[8][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getScorers()), coach.getScorers()); //$NON-NLS-1$ //$NON-NLS-2$
-		values[9][1] = String.format("[%d]", coach.getSummarySkill()); //$NON-NLS-1$
+		values[0][0] = Messages.getString("coach.training"); 
+		values[1][0] = Messages.getString("coach.stamina"); 
+		values[2][0] = Messages.getString("coach.pace"); 
+		values[3][0] = Messages.getString("coach.technique"); 
+		values[4][0] = Messages.getString("coach.passing"); 
+		values[5][0] = Messages.getString("coach.keeper"); 
+		values[6][0] = Messages.getString("coach.defender"); 
+		values[7][0] = Messages.getString("coach.playmaker"); 
+		values[8][0] = Messages.getString("coach.scorer"); 
+		values[9][0] = Messages.getString("coach.general"); 
+		values[0][1] = ""; 
+		values[1][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getStamina()), coach.getStamina());  
+		values[2][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPace()), coach.getPace());  
+		values[3][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getTechnique()), coach.getTechnique());  
+		values[4][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPassing()), coach.getPassing());  
+		values[5][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getKeepers()), coach.getKeepers());  
+		values[6][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getDefenders()), coach.getDefenders());  
+		values[7][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getPlaymakers()), coach.getPlaymakers());  
+		values[8][1] = String.format("%s [%d]", Messages.getString("skill.a" + coach.getScorers()), coach.getScorers());  
+		values[9][1] = String.format("[%d]", coach.getSummarySkill()); 
 
 		for (int i = 0; i < values.length; i++) {
 			description.addRightText(values[i]);

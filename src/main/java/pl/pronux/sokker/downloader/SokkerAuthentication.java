@@ -15,20 +15,20 @@ import pl.pronux.sokker.model.ProxySettings;
 
 public class SokkerAuthentication extends AbstractDownloader {
 
-	public static final String OK = "OK"; //$NON-NLS-1$
-	public static final String FAILED = "FAILED"; //$NON-NLS-1$
+	public static final String OK = "OK"; 
+	public static final String FAILED = "FAILED"; 
 	
-	private static final int TIMEOUT_MS = 15000;
+	public static final int TIMEOUT_MS = 15000;
 
 	private String errorno;
 
 	private String message;
 
-	private String sessionID;
+	private String sessionId;
 
 	private String status;
 
-	private String teamID;
+	private String teamId;
 
 	/**
 	 * Constructor
@@ -55,8 +55,8 @@ public class SokkerAuthentication extends AbstractDownloader {
 			connection = getDefaultConnection(urlString, GET);
 			connection.setConnectTimeout(TIMEOUT_MS);
 			connection.setReadTimeout(TIMEOUT_MS);
-			connection.setRequestProperty("Cookie", sessionID); //$NON-NLS-1$
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
+			connection.setRequestProperty("Cookie", sessionId); 
+			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); 
 
 			String line;
 			while ((line = in.readLine()) != null) {
@@ -64,8 +64,12 @@ public class SokkerAuthentication extends AbstractDownloader {
 				buffer.append('\n');
 			}
 		} finally {
-			if (connection != null) connection.disconnect();
-			if (in != null) in.close();
+			if (connection != null) {
+				connection.disconnect();
+			}
+			if (in != null) {
+				in.close();
+			}
 		}
 
 		return buffer.toString();
@@ -118,8 +122,8 @@ v	 */
 	 * 
 	 * @return logged teamID or null if there were problem with logging
 	 */
-	public String getTeamID() {
-		return teamID;
+	public String getTeamId() {
+		return teamId;
 	}
 
 	protected String getXML(String urlString) throws IOException {
@@ -127,13 +131,14 @@ v	 */
 	}
 
 	protected String getXML(String urlString, int tries) throws IOException {
-		String response = ""; //$NON-NLS-1$
-		while (tries > 0 && response.isEmpty()) {
-			tries--;
+		String response = ""; 
+		int remainingTries = tries;
+		while (remainingTries > 0 && response.isEmpty()) {
+			remainingTries--;
 			try {
 				response = getContent(urlString);
 			} catch (IOException ioex) {
-				if (tries == 0) {
+				if (remainingTries == 0) {
 					throw ioex;
 				}
 			}
@@ -149,7 +154,7 @@ v	 */
 
 		try {
 			this.message = postDataToPage(
-										  "http://217.17.40.90/start.php?session=xml", "ilogin=" + URLEncoder.encode(login, "UTF-8") + "&ipassword=" + URLEncoder.encode(password, "UTF-8"), "http://online.sokker.org/xmlinfo.php"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+										  "http://217.17.40.90/start.php?session=xml", "ilogin=" + URLEncoder.encode(login, "UTF-8") + "&ipassword=" + URLEncoder.encode(password, "UTF-8"), "http://online.sokker.org/xmlinfo.php");      
 		} catch (UnsupportedEncodingException e) {
 			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
@@ -168,21 +173,21 @@ v	 */
 			this.status = SokkerAuthentication.FAILED;
 			this.errorno = Synchronizer.ERROR_MESSAGE_NULL;
 		} else {
-			Pattern p1 = Pattern.compile("^OK teamID=[0-9]+\n$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+			Pattern p1 = Pattern.compile("^OK teamID=[0-9]+\n$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); 
 			Matcher m1 = p1.matcher(message);
-			Pattern p2 = Pattern.compile("FAILED errorno=[0-9]+\n$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+			Pattern p2 = Pattern.compile("FAILED errorno=[0-9]+\n$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); 
 			Matcher m2 = p2.matcher(message);
 
 			if (m1.matches() || m2.matches()) {
-				String[] msgTable = this.message.split(" "); //$NON-NLS-1$
+				String[] msgTable = this.message.split(" "); 
 				if (msgTable.length == 2) {
 					this.status = msgTable[0];
 					this.errorno = msgTable[1];
 					if (status.equals(SokkerAuthentication.OK)) {
-						this.teamID = msgTable[1].split("=")[1].replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						this.teamId = msgTable[1].split("=")[1].replaceAll("[^0-9]", "");   
 					}
 					if (status.equalsIgnoreCase(SokkerAuthentication.FAILED)) {
-						this.errorno = msgTable[1].split("=")[1].replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						this.errorno = msgTable[1].split("=")[1].replaceAll("[^0-9]", "");   
 					}
 
 				} else {
@@ -209,7 +214,7 @@ v	 */
 			// connection.setInstanceFollowRedirects(false);
 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
+			connection.setRequestProperty("Referer", referer); 
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setUseCaches(true);
@@ -218,18 +223,15 @@ v	 */
 			out.writeBytes(parameters);
 			out.flush();
 
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
+			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); 
 
 			String line;
 			while ((line = in.readLine()) != null) {
-				buffer.append(line.replaceAll("&", "&amp;")); //$NON-NLS-1$ //$NON-NLS-2$
+				buffer.append(line.replaceAll("&", "&amp;"));  
 				buffer.append('\n');
 			}
 
-			this.sessionID = connection.getHeaderField("Set-Cookie"); //$NON-NLS-1$
-
-		} catch (NullPointerException e) {
-			throw new SVException("Error connecting"); //$NON-NLS-1$
+			this.sessionId = connection.getHeaderField("Set-Cookie"); 
 		} finally {
 			if (in != null) {
 				in.close();

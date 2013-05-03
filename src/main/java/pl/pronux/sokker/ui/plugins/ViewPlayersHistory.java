@@ -69,9 +69,9 @@ import pl.pronux.sokker.utils.pdf.PDFexport;
 
 public class ViewPlayersHistory implements IPlugin, ISort {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private TreeItem _treeItem;
 

@@ -25,11 +25,11 @@ public class League {
 
 	private List<LeagueSeason> leagueSeasons;
 
-	private int leagueID;
+	private int leagueId;
 
 	private String name;
 
-	private int countryID;
+	private int countryId;
 
 	private int division;
 
@@ -43,18 +43,18 @@ public class League {
 
 	private int isCup;
 
-	private int userID;
+	private int userId;
 
-	private int idData;
+	private int dataId;
 
 
-	public int getCountryID() {
-		return countryID;
+	public int getCountryId() {
+		return countryId;
 	}
 
 
-	public void setCountryID(int countryID) {
-		this.countryID = countryID;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 
@@ -85,12 +85,12 @@ public class League {
 		this.isOfficial = isOfficial;
 	}
 
-	public int getLeagueID() {
-		return leagueID;
+	public int getLeagueId() {
+		return leagueId;
 	}
 
-	public void setLeagueID(int leagueID) {
-		this.leagueID = leagueID;
+	public void setLeagueId(int leagueId) {
+		this.leagueId = leagueId;
 	}
 
 	public String getName() {
@@ -128,13 +128,13 @@ public class League {
 		this.type = type;
 	}
 
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public List<LeagueTeam> getLeagueTeams() {
@@ -147,13 +147,13 @@ public class League {
 	}
 
 
-	public int getIdData() {
-		return idData;
+	public int getDataId() {
+		return dataId;
 	}
 
 
-	public void setIdData(int idData) {
-		this.idData = idData;
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 
 
@@ -162,8 +162,8 @@ public class League {
 	}
 
 
-	public void setLeagueSeasons(List<LeagueSeason> alLeagueSeasons) {
-		this.leagueSeasons = alLeagueSeasons;
+	public void setLeagueSeasons(List<LeagueSeason> leagueSeasons) {
+		this.leagueSeasons = leagueSeasons;
 	}
 
 }

@@ -90,7 +90,7 @@ public class Wizard extends Shell {
 
 		cancelButton = new Button(composite, SWT.NONE);
 		cancelButton.setLayoutData(formData);
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
+		cancelButton.setText(Messages.getString("button.cancel")); 
 		cancelButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event arg0) {
 				if(currentPage != null) {
@@ -107,7 +107,7 @@ public class Wizard extends Shell {
 
 		finishButton = new Button(composite, SWT.NONE);
 		finishButton.setLayoutData(formData);
-		finishButton.setText(Messages.getString("button.finish")); //$NON-NLS-1$
+		finishButton.setText(Messages.getString("button.finish")); 
 		finishButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event arg0) {
 				if(currentPage != null) {
@@ -146,7 +146,7 @@ public class Wizard extends Shell {
 				sc1.setMinSize(sc1.getContent().computeSize(r.width - 30, SWT.DEFAULT));
 			}
 		});
-		nextButton.setText(Messages.getString("button.next")); //$NON-NLS-1$
+		nextButton.setText(Messages.getString("button.next")); 
 
 		formData = new FormData();
 		formData.top = new FormAttachment(centerPoint, 0, SWT.CENTER);
@@ -175,7 +175,7 @@ public class Wizard extends Shell {
 			}
 		});
 
-		previousButton.setText(Messages.getString("button.previous")); //$NON-NLS-1$
+		previousButton.setText(Messages.getString("button.previous")); 
 
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 1);
@@ -232,7 +232,7 @@ public class Wizard extends Shell {
 		header.setLayoutData(formData);
 		header.setAlignment(SWT.CENTER);
 		header.setBackground(ColorResources.getColor(248, 247, 243));
-		header.setFont(Fonts.getFont(this.getDisplay(), "Arial", 13, SWT.BOLD)); //$NON-NLS-1$
+		header.setFont(Fonts.getFont(this.getDisplay(), "Arial", 13, SWT.BOLD)); 
 
 		formData = new FormData();
 		formData.top = new FormAttachment(header, 10);

@@ -32,7 +32,7 @@ public class Splash extends Shell {
 		labelData.right = new FormAttachment(100, 0);
 		labelData.left = new FormAttachment(0, 0);
 		Label label = new Label(this, SWT.NONE);
-		label.setImage(ImageResources.getImageResources("splash.png")); //$NON-NLS-1$
+		label.setImage(ImageResources.getImageResources("splash.png")); 
 		label.setLayoutData(labelData);
 
 		FormData formData = new FormData();

@@ -47,7 +47,7 @@ public class JuniorChartsComposite extends Composite {
 		spinner.setValues(1, 1, 1, 0, 1, 1);
 
 		Button button = new Button(composite, SWT.PUSH);
-		button.setText(Messages.getString("button.show")); //$NON-NLS-1$
+		button.setText(Messages.getString("button.show")); 
 		button.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -93,7 +93,7 @@ public class JuniorChartsComposite extends Composite {
 			date.add(skills[i].getDate().getTrainingDate(SokkerDate.THURSDAY));
 			skill.add(skills[i].getSkill());
 		}
-		skillGraph.fillGraph(skill, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("junior.skill")); //$NON-NLS-1$
+		skillGraph.fillGraph(skill, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("junior.skill")); 
 	}
 
 }

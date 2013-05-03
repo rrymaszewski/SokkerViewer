@@ -16,10 +16,10 @@ public class ClubBudgetDto extends ClubBudget {
 	}
 	
 	public ClubBudget getClubBudget() throws SQLException {
-		this.setId(rs.getInt("id_data")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.setMoney(new Money(rs.getInt("money"))); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setId(rs.getInt("id_data")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.setMoney(new Money(rs.getInt("money"))); 
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
 		return this;
 	}
 }

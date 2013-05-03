@@ -18,7 +18,7 @@ public class SVTrayItem extends TrayItem{
 
 	public SVTrayItem(Tray tray, int style) {
 		super(tray, style);
-		this.setToolTipText("SokkerViewer " + SV.SK_VERSION); //$NON-NLS-1$
+		this.setToolTipText("SokkerViewer " + SV.SK_VERSION); 
 
 		this.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -33,7 +33,7 @@ public class SVTrayItem extends TrayItem{
 		final Menu menu = new Menu(ViewerHandler.getViewer(), SWT.POP_UP);
 
 		MenuItem item = new MenuItem(menu, SWT.PUSH);
-		item.setText(Messages.getString("viewer.menu.tools.preferences")); //$NON-NLS-1$
+		item.setText(Messages.getString("viewer.menu.tools.preferences")); 
 		item.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				ViewerHandler.getViewer().getConfigurator().setVisible(true);
@@ -42,7 +42,7 @@ public class SVTrayItem extends TrayItem{
 		item = new MenuItem(menu, SWT.SEPARATOR);
 
 		item = new MenuItem(menu, SWT.PUSH);
-		item.setText(Messages.getString("button.update")); //$NON-NLS-1$
+		item.setText(Messages.getString("button.update")); 
 		item.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				new UpdaterWizard(ViewerHandler.getViewer()).open();
@@ -51,7 +51,7 @@ public class SVTrayItem extends TrayItem{
 		item = new MenuItem(menu, SWT.SEPARATOR);
 
 		item = new MenuItem(menu, SWT.PUSH);
-		item.setText(Messages.getString("button.close")); //$NON-NLS-1$
+		item.setText(Messages.getString("button.close")); 
 		item.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				ViewerHandler.getViewer().close();
@@ -63,7 +63,7 @@ public class SVTrayItem extends TrayItem{
 				menu.setVisible(true);
 			}
 		});
-		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[16x16].png")); //$NON-NLS-1$
+		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[16x16].png")); 
 	}
 	
 	@Override

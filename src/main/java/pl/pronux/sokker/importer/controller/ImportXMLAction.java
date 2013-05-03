@@ -40,15 +40,15 @@ import pl.pronux.sokker.utils.file.OperationOnFile;
 
 public class ImportXMLAction implements IRunnableWithProgress {
 
-	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 
-	private TrainersManager trainersManager = TrainersManager.instance();
+	private TrainersManager trainersManager = TrainersManager.getInstance();
 
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 
-	private JuniorsManager juniorsManager = JuniorsManager.instance();
+	private JuniorsManager juniorsManager = JuniorsManager.getInstance();
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private List<IXMLpack> packages;
 
@@ -57,16 +57,16 @@ public class ImportXMLAction implements IRunnableWithProgress {
 	}
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-		monitor.beginTask(Messages.getString("ImportXMLAction.start"), packages.size()); //$NON-NLS-1$
+		monitor.beginTask(Messages.getString("ImportXMLAction.start"), packages.size()); 
 		try {
 			SQLSession.connect();
-			int teamID = configurationManager.getTeamID();
+			int teamID = configurationManager.getTeamId();
 			for (IXMLpack child : packages) {
 				if (monitor.isCanceled()) {
 					throw new InterruptedException();
 				}
 
-				monitor.setTaskName(Messages.getString("ImportXMLAction.import")); //$NON-NLS-1$
+				monitor.setTaskName(Messages.getString("ImportXMLAction.import")); 
 				monitor.subTask(child.getDate().toDateTimeString());
 				if (child instanceof XMLpack) {
 					XMLpack pack = (XMLpack) child;
@@ -81,11 +81,11 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							// countriesManager.importToSQL();
 							// }
 							TeamsXmlManager teamXmlManager = new TeamsXmlManager(
-								OperationOnFile.readFromFile(pack.getTeam(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+								OperationOnFile.readFromFile(pack.getTeam(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 							PlayersXmlManager playersXmlManager = new PlayersXmlManager(
-								OperationOnFile.readFromFile(pack.getPlayers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+								OperationOnFile.readFromFile(pack.getPlayers(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 							JuniorsXmlManager juniorsXmlManager = new JuniorsXmlManager(
-								OperationOnFile.readFromFile(pack.getJuniors(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+								OperationOnFile.readFromFile(pack.getJuniors(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 							TrainersXmlManager trainersXMLManager;
 							TransfersXmlManager transfersManager;
 							ReportsXmlManager reportsManager;
@@ -96,7 +96,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 							List<Junior> juniors = juniorsXmlManager.parseXML();
 
 							if (club.getId() == teamID) {
-								if (club.getId() == pack.getTeamID()) {
+								if (club.getId() == pack.getTeamId()) {
 									teamManager.importerTeam(club, pack.getDate());
 								}
 
@@ -106,7 +106,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 									training = club.getTraining();
 									if (pack.getTrainers() != null) {
 										trainersXMLManager = new TrainersXmlManager(
-											OperationOnFile.readFromFile(pack.getTrainers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+											OperationOnFile.readFromFile(pack.getTrainers(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 										trainers = trainersXMLManager.parseXML();
 										trainersManager.importerTrainers(trainers);
 										trainersXMLManager.importCoachesAtTraining(training);
@@ -117,7 +117,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 
 								if (pack.getReports() != null) {
 									reportsManager = new ReportsXmlManager(
-										OperationOnFile.readFromFile(pack.getReports(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+										OperationOnFile.readFromFile(pack.getReports(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 									List<Report> reports = reportsManager.parseXML();
 									teamManager.importerReports(reports);
 								}
@@ -137,7 +137,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 
 								if (pack.getTransfers() != null) {
 									transfersManager = new TransfersXmlManager(
-										OperationOnFile.readFromFile(pack.getTransfers(), "UTF-8"), pack.getDate(), pack.getTeamID()); //$NON-NLS-1$
+										OperationOnFile.readFromFile(pack.getTransfers(), "UTF-8"), pack.getDate(), pack.getTeamId()); 
 									List<Transfer> transfers = transfersManager.parseXML();
 									teamManager.importerTransfers(transfers);
 								}
@@ -171,7 +171,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 						} catch (Exception e) {
 							pack.setImported(false);
 							SQLSession.rollback();
-							Log.error("XML Importer ", e); //$NON-NLS-1$
+							Log.error("XML Importer ", e); 
 						} finally {
 							SQLSession.endTransaction();
 						}
@@ -181,11 +181,11 @@ public class ImportXMLAction implements IRunnableWithProgress {
 					try {
 
 						// FIXME: data zmiany kodowania z ISO-8859-2 na utf 24.03.2006
-						// BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(importXMLTable.getItem(i).getText(0)), "ISO-8859-2")); //$NON-NLS-1$
+						// BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(importXMLTable.getItem(i).getText(0)), "ISO-8859-2")); 
 
 						SQLSession.beginTransaction();
 						OldXmlParser oldXMLParser = new OldXmlParser();
-						String xml = OperationOnFile.readFromFile(pack.getFile(), "UTF-8"); //$NON-NLS-1$
+						String xml = OperationOnFile.readFromFile(pack.getFile(), "UTF-8"); 
 						InputSource input = new InputSource(new StringReader(xml));
 						try {
 							oldXMLParser.parseXmlSax(input, null);
@@ -218,7 +218,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 					} catch (Exception e) {
 						pack.setImported(false);
 						SQLSession.rollback();
-						Log.error("XML Importer ", e); //$NON-NLS-1$
+						Log.error("XML Importer ", e); 
 					} finally {
 						SQLSession.endTransaction();
 					}
@@ -235,9 +235,9 @@ public class ImportXMLAction implements IRunnableWithProgress {
 				SQLSession.rollback();
 				SQLSession.close();
 			} catch (SQLException e1) {
-				Log.error("Synchronizer -> SQL Importing Rollback", e1); //$NON-NLS-1$
+				Log.error("Synchronizer -> SQL Importing Rollback", e1); 
 			}
-			Log.error("Synchronizer -> SQL Importing", e); //$NON-NLS-1$
+			Log.error("Synchronizer -> SQL Importing", e); 
 		} finally {
 			monitor.done();
 		}

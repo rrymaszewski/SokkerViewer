@@ -27,10 +27,10 @@ public class MatchSummaryTable extends SVTable<Match> {
 		this.setBackground(parent.getBackground());
 		this.setFont(ConfigBean.getFontTable());
 		table = this;
-		String[] columns = { "", //$NON-NLS-1$
-							"", //$NON-NLS-1$
-							"", //$NON-NLS-1$
-							"" //$NON-NLS-1$
+		String[] columns = { "", 
+							"", 
+							"", 
+							"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -89,62 +89,62 @@ public class MatchSummaryTable extends SVTable<Match> {
 			return;
 		}
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															homeTeamStats.getTacticName(), Messages.getString("match.tactic"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															homeTeamStats.getTacticName(), Messages.getString("match.tactic"), 
 															awayTeamStats.getTacticName() });
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															String.valueOf(homeTeamStats.getShoots()), Messages.getString("match.shoots"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															String.valueOf(homeTeamStats.getShoots()), Messages.getString("match.shoots"), 
 															String.valueOf(awayTeamStats.getShoots()) });
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															String.valueOf(homeTeamStats.getFouls()), Messages.getString("match.fouls"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															String.valueOf(homeTeamStats.getFouls()), Messages.getString("match.fouls"), 
 															String.valueOf(awayTeamStats.getFouls()) });
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															String.valueOf(homeTeamStats.getOffsides()), Messages.getString("match.offsides"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															String.valueOf(homeTeamStats.getOffsides()), Messages.getString("match.offsides"), 
 															String.valueOf(awayTeamStats.getOffsides()) });
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															String.valueOf(homeTeamStats.getYellowCards()), Messages.getString("match.cards.yellow"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															String.valueOf(homeTeamStats.getYellowCards()), Messages.getString("match.cards.yellow"), 
 															String.valueOf(awayTeamStats.getYellowCards()) });
 
-		new TableItem(this, SWT.NONE).setText(new String[] { "", //$NON-NLS-1$
-															String.valueOf(homeTeamStats.getRedCards()), Messages.getString("match.cards.red"), //$NON-NLS-1$
+		new TableItem(this, SWT.NONE).setText(new String[] { "", 
+															String.valueOf(homeTeamStats.getRedCards()), Messages.getString("match.cards.red"), 
 															String.valueOf(awayTeamStats.getRedCards()) });
 
 		new TableItem(this, SWT.NONE).setText(new String[] {
-															"", //$NON-NLS-1$
+															"", 
 															SVNumberFormat.formatDouble(homeTeamStats.getAverageRating()),
-															Messages.getString("table.match.rating.average"), //$NON-NLS-1$
+															Messages.getString("table.match.rating.average"), 
 															SVNumberFormat.formatDouble(awayTeamStats.getAverageRating()) });
 
 		new TableItem(this, SWT.NONE)
 			.setText(new String[] {
-								   "", //$NON-NLS-1$
-								   String.format("%s [%d]", Messages.getString("skill.c" + homeTeamStats.getRatingScoring()), homeTeamStats.getRatingScoring()), //$NON-NLS-1$ //$NON-NLS-2$
-								   Messages.getString("match.shooting"), //$NON-NLS-1$
-								   String.format("%s [%d]", Messages.getString("skill.c" + awayTeamStats.getRatingScoring()), awayTeamStats.getRatingScoring()) //$NON-NLS-1$ //$NON-NLS-2$
+								   "", 
+								   String.format("%s [%d]", Messages.getString("skill.c" + homeTeamStats.getRatingScoring()), homeTeamStats.getRatingScoring()),  
+								   Messages.getString("match.shooting"), 
+								   String.format("%s [%d]", Messages.getString("skill.c" + awayTeamStats.getRatingScoring()), awayTeamStats.getRatingScoring())  
 			});
 
 		new TableItem(this, SWT.NONE)
 			.setText(new String[] {
-								   "", //$NON-NLS-1$
-								   String.format("%s [%d]", Messages.getString("skill.c" + homeTeamStats.getRatingPassing()), homeTeamStats.getRatingPassing()), //$NON-NLS-1$ //$NON-NLS-2$
-								   Messages.getString("match.passing"), //$NON-NLS-1$
-								   String.format("%s [%d]", Messages.getString("skill.c" + awayTeamStats.getRatingPassing()), awayTeamStats.getRatingPassing()) //$NON-NLS-1$ //$NON-NLS-2$
+								   "", 
+								   String.format("%s [%d]", Messages.getString("skill.c" + homeTeamStats.getRatingPassing()), homeTeamStats.getRatingPassing()),  
+								   Messages.getString("match.passing"), 
+								   String.format("%s [%d]", Messages.getString("skill.c" + awayTeamStats.getRatingPassing()), awayTeamStats.getRatingPassing())  
 			});
 
 		new TableItem(this, SWT.NONE)
 			.setText(new String[] {
-								   "", //$NON-NLS-1$
+								   "", 
 								   String
 									   .format(
-											   "%s [%d]", Messages.getString("skill.b" + homeTeamStats.getRatingDefending()), homeTeamStats.getRatingDefending()), //$NON-NLS-1$ //$NON-NLS-2$
-								   Messages.getString("match.defending"), //$NON-NLS-1$
+											   "%s [%d]", Messages.getString("skill.b" + homeTeamStats.getRatingDefending()), homeTeamStats.getRatingDefending()),  
+								   Messages.getString("match.defending"), 
 								   String
 									   .format(
-											   "%s [%d]", Messages.getString("skill.b" + awayTeamStats.getRatingDefending()), awayTeamStats.getRatingDefending()) //$NON-NLS-1$ //$NON-NLS-2$
+											   "%s [%d]", Messages.getString("skill.b" + awayTeamStats.getRatingDefending()), awayTeamStats.getRatingDefending())  
 			});
 
 		for (int i = 0; i < this.getItemCount(); i++) {

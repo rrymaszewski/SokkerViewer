@@ -16,19 +16,19 @@ public abstract class XmlManager<T> extends XmlManagerUtils implements IXmlManag
 
 	protected XMLDownloader downloader;
 	
-	protected int teamID;
+	protected int teamId;
 
 	public XmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, currentDay);
 		this.downloader = downloader;
-		this.teamID = Integer.valueOf(downloader.getTeamID());
+		this.teamId = Integer.valueOf(downloader.getTeamId());
 		OperationOnFile.createDirectory(destination);
 	}
 	
-	public XmlManager(String content, Date currentDay, int teamID) {
+	public XmlManager(String content, Date currentDay, int teamId) {
 		super(currentDay);
 		this.content = content;
-		this.teamID = teamID;
+		this.teamId = teamId;
 	}
 
 	/*
@@ -55,7 +55,7 @@ public abstract class XmlManager<T> extends XmlManagerUtils implements IXmlManag
 	public abstract List<T> parseXML() throws SAXException;
 	
 	public boolean write() throws IOException {
-		return write(getContent(), downloader.getTeamID());
+		return write(getContent(), downloader.getTeamId());
 	}
 	
 	protected String getContent() {

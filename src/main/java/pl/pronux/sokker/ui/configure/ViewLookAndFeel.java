@@ -53,23 +53,23 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 	private Map<String, Color> colorMap;
 
-	final String[] colorTable = {
-			"color.decreaseTable", //$NON-NLS-1$
-			"color.decreaseDescription", //$NON-NLS-1$
-			"color.error", //$NON-NLS-1$
-			"color.increaseTable", //$NON-NLS-1$
-			"color.increaseDescription", //$NON-NLS-1$
-			"color.injuryBg", //$NON-NLS-1$
-			"color.injuryFg", //$NON-NLS-1$
-			"color.newTableItem", //$NON-NLS-1$
-			"color.newTreeItem", //$NON-NLS-1$
-			"color.trainedJunior" //$NON-NLS-1$
+	private static final String[] COLOR_TABLE = {
+			"color.decreaseTable", 
+			"color.decreaseDescription", 
+			"color.error", 
+			"color.increaseTable", 
+			"color.increaseDescription", 
+			"color.injuryBg", 
+			"color.injuryFg", 
+			"color.newTableItem", 
+			"color.newTreeItem", 
+			"color.trainedJunior" 
 	};
 
-	final String[] fontTable = {
-			"font.table", //$NON-NLS-1$
-			"font.description", //$NON-NLS-1$
-			"font.main" //$NON-NLS-1$
+	private static final String[] FONT_TABLE = {
+			"font.table", 
+			"font.description", 
+			"font.main" 
 	};
 
 	private Composite composite;
@@ -96,19 +96,19 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 		defaultProperties = SettingsHandler.getUserProperties();
 
-		for (int i = 0; i < colorTable.length; i++) {
-			setColor(colorTable[i], colorMap.get(colorTable[i]));
+		for (int i = 0; i < COLOR_TABLE.length; i++) {
+			setColor(COLOR_TABLE[i], colorMap.get(COLOR_TABLE[i]));
 		}
 
-		for (int i = 0; i < fontTable.length; i++) {
-			defaultProperties.setProperty(fontTable[i], fontButtonMap.get(fontTable[i]).toString());
+		for (int i = 0; i < FONT_TABLE.length; i++) {
+			defaultProperties.setProperty(FONT_TABLE[i], fontButtonMap.get(FONT_TABLE[i]).toString());
 		}
 
 		ConfigBean.setDefaults(defaultProperties);
 		reloadMaps();
 
 		try {
-			defaultProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties")), ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			defaultProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties")), "");   
 		} catch (FileNotFoundException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite LookAndFeel FNF", e);
 		} catch (IOException e) {
@@ -164,7 +164,7 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 		colorLabelMap = new ArrayList<Label>();
 
-		for (int i = 0; i < colorTable.length; i++) {
+		for (int i = 0; i < COLOR_TABLE.length; i++) {
 			formData = new FormData(50, 25);
 			formData.top = new FormAttachment(0, 30 * i + 10);
 			formData.left = new FormAttachment(0, 20);
@@ -173,8 +173,8 @@ public class ViewLookAndFeel implements IViewConfigure {
 			button.setLayoutData(formData);
 
 			// button.setImage(new Image(composite.getDisplay(), 40, 12));
-			buttonMap.put(button, colorTable[i]);
-			colorButtonMap.put(colorTable[i], button);
+			buttonMap.put(button, COLOR_TABLE[i]);
+			colorButtonMap.put(COLOR_TABLE[i], button);
 
 			// setImageBackgroundColor(button.getImage(),
 			// colorMap.get(buttonMap.get(button)));
@@ -203,8 +203,8 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 			Label label = new Label(colorGroup, SWT.NONE);
 			label.setLayoutData(formData);
-			label.setText(Messages.getString(colorTable[i]));
-			label.setData("lang", colorTable[i]); //$NON-NLS-1$
+			label.setText(Messages.getString(COLOR_TABLE[i]));
+			label.setData("lang", COLOR_TABLE[i]); 
 
 			colorLabelMap.add(label);
 		}
@@ -223,18 +223,18 @@ public class ViewLookAndFeel implements IViewConfigure {
 		fontGroup.setLayoutData(formData);
 		fontGroup.setLayout(new FormLayout());
 
-		for (int i = 0; i < fontTable.length; i++) {
+		for (int i = 0; i < FONT_TABLE.length; i++) {
 			formData = new FormData(50, 25);
 			formData.top = new FormAttachment(0, 30 * i + 10);
 			formData.left = new FormAttachment(0, 20);
 
 			final ColorButton button = new ColorButton(fontGroup, SWT.NONE);
-			button.setText("Abc"); //$NON-NLS-1$
+			button.setText("Abc"); 
 
-			button.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(defaultProperties.getProperty(fontTable[i]))}));
+			button.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(defaultProperties.getProperty(FONT_TABLE[i]))}));
 			button.setLayoutData(formData);
-			buttonMap.put(button, fontTable[i]);
-			colorButtonMap.put(fontTable[i], button);
+			buttonMap.put(button, FONT_TABLE[i]);
+			colorButtonMap.put(FONT_TABLE[i], button);
 
 			button.addListener(SWT.Selection, new Listener() {
 				public void handleEvent(Event event) {
@@ -263,9 +263,9 @@ public class ViewLookAndFeel implements IViewConfigure {
 
 			Label label = new Label(fontGroup, SWT.NONE);
 			label.setLayoutData(formData);
-			label.setText(Messages.getString(fontTable[i]));
+			label.setText(Messages.getString(FONT_TABLE[i]));
 			label.setFont(button.getFont());
-			label.setData("lang", fontTable[i]); //$NON-NLS-1$
+			label.setData("lang", FONT_TABLE[i]); 
 
 			buttonLabelMap.put(button, label);
 		}
@@ -288,13 +288,13 @@ public class ViewLookAndFeel implements IViewConfigure {
 		// *******************************************
 
 		setWidgets();
-		treeItem.setText(Messages.getString("configure.look")); //$NON-NLS-1$
-		colorGroup.setText(Messages.getString("configure.colorSettings")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("configure.look")); 
+		colorGroup.setText(Messages.getString("configure.colorSettings")); 
 		Control[] controls = colorGroup.getChildren();
 
 		for (int i = 0; i < controls.length; i++) {
 			if (controls[i] instanceof Label) {
-				String lang = (String) controls[i].getData("lang"); //$NON-NLS-1$
+				String lang = (String) controls[i].getData("lang"); 
 				if (lang != null) {
 					((Label) controls[i]).setText(Messages.getString(lang));
 				}
@@ -304,41 +304,41 @@ public class ViewLookAndFeel implements IViewConfigure {
 		controls = fontGroup.getChildren();
 		for (int i = 0; i < controls.length; i++) {
 			if (controls[i] instanceof Label) {
-				String lang = (String) controls[i].getData("lang"); //$NON-NLS-1$
+				String lang = (String) controls[i].getData("lang"); 
 				if (lang != null) {
 					((Label) controls[i]).setText(Messages.getString(lang));
 				}
 			}
 		}
 
-		fontGroup.setText(Messages.getString("configure.fontSettings")); //$NON-NLS-1$
-		systemDefaults.setText(Messages.getString("button.default.system")); //$NON-NLS-1$
+		fontGroup.setText(Messages.getString("configure.fontSettings")); 
+		systemDefaults.setText(Messages.getString("button.default.system")); 
 		systemDefaults.pack();
 
 		composite.layout(true);
 	}
 
 	private void reloadMaps() {
-		colorMap.put("color.decreaseTable", ConfigBean.getColorDecrease()); //$NON-NLS-1$
-		colorMap.put("color.decreaseDescription", ConfigBean.getColorDecreaseDescription()); //$NON-NLS-1$
-		colorMap.put("color.error", ConfigBean.getColorError()); //$NON-NLS-1$
-		colorMap.put("color.increaseTable", ConfigBean.getColorIncrease()); //$NON-NLS-1$
-		colorMap.put("color.increaseDescription", ConfigBean.getColorIncreaseDescription()); //$NON-NLS-1$
-		colorMap.put("color.injuryBg", ConfigBean.getColorInjuryBg()); //$NON-NLS-1$
-		colorMap.put("color.injuryFg", ConfigBean.getColorInjuryFg()); //$NON-NLS-1$
-		colorMap.put("color.newTableItem", ConfigBean.getColorNewTableObject()); //$NON-NLS-1$
-		colorMap.put("color.newTreeItem", ConfigBean.getColorNewTreeObject()); //$NON-NLS-1$
-		colorMap.put("color.trainedJunior", ConfigBean.getColorTrainedJunior()); //$NON-NLS-1$
+		colorMap.put("color.decreaseTable", ConfigBean.getColorDecrease()); 
+		colorMap.put("color.decreaseDescription", ConfigBean.getColorDecreaseDescription()); 
+		colorMap.put("color.error", ConfigBean.getColorError()); 
+		colorMap.put("color.increaseTable", ConfigBean.getColorIncrease()); 
+		colorMap.put("color.increaseDescription", ConfigBean.getColorIncreaseDescription()); 
+		colorMap.put("color.injuryBg", ConfigBean.getColorInjuryBg()); 
+		colorMap.put("color.injuryFg", ConfigBean.getColorInjuryFg()); 
+		colorMap.put("color.newTableItem", ConfigBean.getColorNewTableObject()); 
+		colorMap.put("color.newTreeItem", ConfigBean.getColorNewTreeObject()); 
+		colorMap.put("color.trainedJunior", ConfigBean.getColorTrainedJunior()); 
 
-		fontButtonMap.put("font.main", ConfigBean.getFontMain().getFontData()[0]); //$NON-NLS-1$
-		fontButtonMap.put("font.description", ConfigBean.getFontDescription().getFontData()[0]); //$NON-NLS-1$
-		fontButtonMap.put("font.table", ConfigBean.getFontTable().getFontData()[0]); //$NON-NLS-1$
+		fontButtonMap.put("font.main", ConfigBean.getFontMain().getFontData()[0]); 
+		fontButtonMap.put("font.description", ConfigBean.getFontDescription().getFontData()[0]); 
+		fontButtonMap.put("font.table", ConfigBean.getFontTable().getFontData()[0]); 
 	}
 
 	private void systemDefaultChanges() {
 		MessageBox messageBox = new MessageBox(composite.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-		messageBox.setMessage(Messages.getString("message.question.settings")); //$NON-NLS-1$
-		messageBox.setText(Messages.getString("message.QUESTION")); //$NON-NLS-1$
+		messageBox.setMessage(Messages.getString("message.question.settings")); 
+		messageBox.setText(Messages.getString("message.QUESTION")); 
 		if (messageBox.open() == SWT.NO) {
 			return;
 		}
@@ -349,7 +349,7 @@ public class ViewLookAndFeel implements IViewConfigure {
 		reloadMaps();
 
 		try {
-			defaultProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties")), ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			defaultProperties.store(new FileOutputStream(new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties")), "");   
 		} catch (FileNotFoundException e) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewComposite LookAndFeel FNF", e);
 		} catch (IOException e) {
@@ -367,7 +367,7 @@ public class ViewLookAndFeel implements IViewConfigure {
 	}
 
 	private void setColor(String name, Color color) {
-		defaultProperties.setProperty(name, String.format("%d,%d,%d", color.getRed(), color.getGreen(), color.getBlue())); //$NON-NLS-1$
+		defaultProperties.setProperty(name, String.format("%d,%d,%d", color.getRed(), color.getGreen(), color.getBlue())); 
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
@@ -382,17 +382,17 @@ public class ViewLookAndFeel implements IViewConfigure {
 	}
 
 	private void setWidgets() {
-		for (int i = 0; i < colorTable.length; i++) {
-			ColorButton button = colorButtonMap.get(colorTable[i]);
+		for (int i = 0; i < COLOR_TABLE.length; i++) {
+			ColorButton button = colorButtonMap.get(COLOR_TABLE[i]);
 			// setImageBackgroundColor(colorButtonMap.get(colorTable[i]).getImage(),
 			// colorMap.get(colorTable[i]));
-			button.setColor(colorMap.get(colorTable[i]));
+			button.setColor(colorMap.get(COLOR_TABLE[i]));
 			button.redraw();
 		}
 
-		for (int i = 0; i < fontTable.length; i++) {
-			Button buttonMap = colorButtonMap.get(fontTable[i]);
-			buttonMap.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {fontButtonMap.get(fontTable[i])}));
+		for (int i = 0; i < FONT_TABLE.length; i++) {
+			Button buttonMap = colorButtonMap.get(FONT_TABLE[i]);
+			buttonMap.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {fontButtonMap.get(FONT_TABLE[i])}));
 			buttonLabelMap.get(buttonMap).setFont(buttonMap.getFont());
 		}
 	}

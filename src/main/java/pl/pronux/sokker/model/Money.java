@@ -24,10 +24,10 @@ public class Money extends SVNumberFormat implements Comparable<Money>, Serializ
 
 	static {
 		// initialize money format
-		moneyDoubleFormat = new DecimalFormat("###,###,###,##0.00"); //$NON-NLS-1$
-		moneyIntegerFormat = new DecimalFormat("###,###,###,##0"); //$NON-NLS-1$
-		moneyIntegerFormatWithSign = new DecimalFormat("'+'###,###,###,##0;'-'###,###,###,##0"); //$NON-NLS-1$
-		moneyDoubleFormatWithSign = new DecimalFormat("'+'###,###,###,##0.00;'-'###,###,###,##0.00"); //$NON-NLS-1$
+		moneyDoubleFormat = new DecimalFormat("###,###,###,##0.00"); 
+		moneyIntegerFormat = new DecimalFormat("###,###,###,##0"); 
+		moneyIntegerFormatWithSign = new DecimalFormat("'+'###,###,###,##0;'-'###,###,###,##0"); 
+		moneyDoubleFormatWithSign = new DecimalFormat("'+'###,###,###,##0.00;'-'###,###,###,##0.00"); 
 	}
 
 	public static double calculatePrices(double value, double currencyFrom, double currencyTo) {
@@ -63,14 +63,14 @@ public class Money extends SVNumberFormat implements Comparable<Money>, Serializ
 	}
 
 	public static String formatDoubleCurrencySymbol(double value) {
-		return moneyDoubleFormat.format(value / currency) + " " + symbol; //$NON-NLS-1$
+		return moneyDoubleFormat.format(value / currency) + " " + symbol; 
 	}
 
 	public static String formatDoubleSignCurrencySymbol(double value) {
 		if(value == 0) {
-			return moneyDoubleFormat.format(value / currency) + " " + symbol; //$NON-NLS-1$
+			return moneyDoubleFormat.format(value / currency) + " " + symbol; 
 		}
-		return moneyDoubleFormatWithSign.format(value / currency) + " " + symbol; //$NON-NLS-1$
+		return moneyDoubleFormatWithSign.format(value / currency) + " " + symbol; 
 	}
 
 	public static String formatInteger(double value) {
@@ -82,25 +82,25 @@ public class Money extends SVNumberFormat implements Comparable<Money>, Serializ
 	}
 
 	public static String formatIntegerCurrencySymbol(double value) {
-		return moneyIntegerFormat.format(value / currency) + " " + symbol; //$NON-NLS-1$
+		return moneyIntegerFormat.format(value / currency) + " " + symbol; 
 	}
 
 	public static String formatIntegerSignSymbol(double value) {
-		return moneyIntegerFormat.format(value) + " " + symbol; //$NON-NLS-1$
+		return moneyIntegerFormat.format(value) + " " + symbol; 
 	}
 
 	public static String formatIntegerSingCurrencySymbol(int value) {
 		if(value == 0) {
-			return moneyIntegerFormat.format(value / currency) + " " + symbol; //$NON-NLS-1$
+			return moneyIntegerFormat.format(value / currency) + " " + symbol; 
 		}
-		return moneyIntegerFormatWithSign.format(value / currency) + " " + symbol; //$NON-NLS-1$
+		return moneyIntegerFormatWithSign.format(value / currency) + " " + symbol; 
 	}
 
 	public static String formatIntegerSingCurrency(int value) {
 		if(value == 0) {
-			return moneyIntegerFormat.format(value / currency) + " " + symbol; //$NON-NLS-1$
+			return moneyIntegerFormat.format(value / currency) + " " + symbol; 
 		}
-		return moneyIntegerFormatWithSign.format(value / currency) + " " + symbol; //$NON-NLS-1$
+		return moneyIntegerFormatWithSign.format(value / currency) + " " + symbol; 
 	}
 
 	public static void setCurrency(double currency) {

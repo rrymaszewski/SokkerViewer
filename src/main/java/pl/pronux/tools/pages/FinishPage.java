@@ -146,18 +146,16 @@ public class FinishPage extends Page {
 			MessageDialog.openErrorMessage(getWizard().getShell(), e.getMessage());
 		}
 
-		for (String packageName : oldParser.alPackages.keySet()) {
-			Object o;
-			String name;
+		for (String packageName : oldParser.getPackages().keySet()) {
 			// if (packageName.matches("core")) {
 			// o = map.get(packageName + os + "/");
 			// name = packageName + os + "/";
 			// } else {
-			o = map.get(packageName);
-			name = packageName;
+			Object o = map.get(packageName);
+			String name = packageName;
 			// }
 			if (o == null) {
-				Package pkg = oldParser.alPackages.get(name);
+				Package pkg = oldParser.getPackages().get(name);
 				xml.append("\t\t<package revision=\"" + pkg.getRevision() + "\">\n");
 				xml.append("\t\t\t<name>" + pkg.getName() + "</name>\n");
 				xml.append("\t\t\t<signature>" + pkg.getSignature() + "</signature>\n");

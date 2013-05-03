@@ -114,8 +114,8 @@ public class ViewLeague implements IPlugin {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		treeItem.setText(Messages.getString("tree.ViewLeague")); //$NON-NLS-1$
-		treeItem.setImage(ImageResources.getImageResources("league.png")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("tree.ViewLeague")); 
+		treeItem.setImage(ImageResources.getImageResources("league.png")); 
 
 	}
 
@@ -187,43 +187,44 @@ public class ViewLeague implements IPlugin {
 //				}
 				
 					TreeItem treeItemSeason = new TreeItem(treeItem, SWT.NONE);
-					treeItemSeason.setImage(ImageResources.getImageResources("seasons.png")); //$NON-NLS-1$
+					treeItemSeason.setImage(ImageResources.getImageResources("seasons.png")); 
 //					treeItemSeason.setText(langResources.getString("league.season") + " " + leagueSeason.getSeason());
-					treeItemSeason.setText(String.format("%s %2d (%s)", Messages.getString("league.season"), leagueSeason.getRawSeason(), leagueSeason.getLeague().getName())); //$NON-NLS-1$ //$NON-NLS-2$
+					treeItemSeason.setText(String.format("%s %2d (%s)", Messages.getString("league.season"), leagueSeason.getRawSeason(), leagueSeason.getLeague().getName()));  
 					treeItemSeason.setData(LeagueSeason.class.getName(), leagueSeason);
 					for (LeagueRound round : leagueSeason.getRounds()) {
 						TreeItem treeItemRound = new TreeItem(treeItemSeason, SWT.NONE);
 						if(round.getRoundNumber() == 0) {
-							treeItemRound.setImage(ImageResources.getImageResources("round0.png")); //$NON-NLS-1$
+							treeItemRound.setImage(ImageResources.getImageResources("round0.png")); 
 						} else if(round.getRoundNumber() == 15) {
-							treeItemRound.setImage(ImageResources.getImageResources("round15.png")); //$NON-NLS-1$
+							treeItemRound.setImage(ImageResources.getImageResources("round15.png")); 
 						}	else {
-							treeItemRound.setImage(ImageResources.getImageResources("round.png")); //$NON-NLS-1$
+							treeItemRound.setImage(ImageResources.getImageResources("round.png")); 
 						}
 
-						treeItemRound.setText(Messages.getString("league.round") + " " + round.getRoundNumber()); //$NON-NLS-1$ //$NON-NLS-2$
+						treeItemRound.setText(Messages.getString("league.round") + " " + round.getRoundNumber());  
 						treeItemRound.setData(LeagueRound.class.getName(), round); 
 						for (Match match : round.getMatches()) {
 							TreeItem treeItemMatch = new TreeItem(treeItemRound, SWT.NONE);
-							treeItemMatch.setImage(ImageResources.getImageResources("match.png")); //$NON-NLS-1$
-							String homeTeam;
-							String awayTeam;
-							Club club;
+							treeItemMatch.setImage(ImageResources.getImageResources("match.png")); 
+							String homeTeamName;
+							String awayTeamName;
+							Club homeClub = clubMap.get(match.getHomeTeamId());
 							if(match.getHomeTeamName() != null) {
-								homeTeam = match.getHomeTeamName();
-							} else if (match.getHomeTeamName() == null && (club = clubMap.get(match.getHomeTeamID())) != null && club.getClubName().get(0).getName() != null) {
-								homeTeam = club.getClubName().get(0).getName();
+								homeTeamName = match.getHomeTeamName();
+							} else if (match.getHomeTeamName() == null && homeClub != null && homeClub.getClubName().get(0).getName() != null) {
+								homeTeamName = homeClub.getClubName().get(0).getName();
 							} else {
-								homeTeam = String.valueOf(match.getHomeTeamID());
+								homeTeamName = String.valueOf(match.getHomeTeamId());
 							}
+							Club awayClub = clubMap.get(match.getAwayTeamId());
 							if(match.getAwayTeamName() != null) {
-								awayTeam = match.getAwayTeamName();
-							} else if (match.getAwayTeamName() == null && (club = clubMap.get(match.getAwayTeamID())) != null && club.getClubName().get(0).getName() != null) {
-								awayTeam = club.getClubName().get(0).getName();
+								awayTeamName = match.getAwayTeamName();
+							} else if (match.getAwayTeamName() == null && awayClub != null && awayClub.getClubName().get(0).getName() != null) {
+								awayTeamName = awayClub.getClubName().get(0).getName();
 							} else {
-								awayTeam = String.valueOf(match.getAwayTeamID());
+								awayTeamName = String.valueOf(match.getAwayTeamId());
 							}
-							treeItemMatch.setText(homeTeam + " - " + awayTeam); //$NON-NLS-1$
+							treeItemMatch.setText(homeTeamName + " - " + awayTeamName); 
 							treeItemMatch.setData(Match.class.getName(), match); 
 							if(match.getIsFinished() == Match.NOT_FINISHED) {
 								treeItemMatch.setForeground(ColorResources.getGray());

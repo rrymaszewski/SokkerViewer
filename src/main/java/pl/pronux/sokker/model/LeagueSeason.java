@@ -6,7 +6,7 @@ public class LeagueSeason {
 	
 	private int round;
 
-	private int leagueID;
+	private int leagueId;
 
 	private int season;
 	
@@ -24,12 +24,12 @@ public class LeagueSeason {
 		this.league = league;
 	}
 
-	public int getLeagueID() {
-		return leagueID;
+	public int getLeagueId() {
+		return leagueId;
 	}
 
-	public void setLeagueID(int leagueID) {
-		this.leagueID = leagueID;
+	public void setLeagueId(int leagueId) {
+		this.leagueId = leagueId;
 	}
 
 	public int getRound() {

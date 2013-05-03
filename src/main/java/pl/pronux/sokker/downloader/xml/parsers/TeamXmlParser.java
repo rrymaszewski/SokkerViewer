@@ -32,59 +32,59 @@ import pl.pronux.sokker.utils.Log;
 
 public class TeamXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_teamdata = 0;
+//	private static final int TAG_TEAM_DATA = 0;
 
-	static final int TAG_team = 1;
+	private static final int TAG_TEAM = 1;
 
-	static final int TAG_user = 30;
+	private static final int TAG_USER = 30;
 
-	static final int TAG_userID = 31;
+	private static final int TAG_USER_ID = 31;
 
-	static final int TAG_login = 32;
+	private static final int TAG_LOGIN = 32;
 
-	static final int TAG_arena = 20;
+	private static final int TAG_ARENA = 20;
 
-	static final int TAG_arena_stand = 21;
+//	private static final int TAG_ARENA_STAND = 21;
 
-	static final int TAG_stand_size = 22;
+	private static final int TAG_STAND_SIZE = 22;
 
-	static final int TAG_stand_type = 23;
+	private static final int TAG_STAND_TYPE = 23;
 
-	static final int TAG_stand_days = 24;
+	private static final int TAG_STAND_DAYS = 24;
 
-	static final int TAG_stand_is_roof = 25;
+	private static final int TAG_STAND_IS_ROOF = 25;
 
-	static final int TAG_stand_location = 27;
+	private static final int TAG_STAND_LOCATION = 27;
 
-	static final int TAG_arena_name = 28;
+	private static final int TAG_ARENA_NAME = 28;
 
-	static final int TAG_training_type = 2;
+	private static final int TAG_TRAINING_TYPE = 2;
 
-	static final int TAG_training_formation = 3;
+	private static final int TAG_TRAINING_FORMATION = 3;
 
-	static final int TAG_teamID = 4;
+	private static final int TAG_TEAM_ID = 4;
 
-	static final int TAG_name = 5;
+	private static final int TAG_NAME = 5;
 
-	static final int TAG_countryID = 6;
+	private static final int TAG_COUNTRY_ID = 6;
 
-	static final int TAG_regionID = 7;
+	private static final int TAG_REGION_ID = 7;
 
-	static final int TAG_money = 8;
+	private static final int TAG_MONEY = 8;
 
-	static final int TAG_fanclubCount = 9;
+	private static final int TAG_FANCLUB_COUNT = 9;
 
-	static final int TAG_fanclubMood = 10;
+	private static final int TAG_FANCLUB_MOOD = 10;
 
-	static final int TAG_juniorsMax = 11;
+	private static final int TAG_JUNIORS_MAX = 11;
 
-	static final int TAG_date_created = 12;
+	private static final int TAG_DATE_CREATED = 12;
 
-	static final int TAG_rank = 13;
+	private static final int TAG_RANK = 13;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private List<Stand> stands;
 
@@ -96,11 +96,11 @@ public class TeamXmlParser {
 
 	private User user;
 
-	private ArrayList<ClubArenaName> alArenaName;
+	private List<ClubArenaName> clubArenaNames;
 
-	private ArrayList<ClubBudget> alClubMoney;
+	private List<ClubBudget> clubBudgets;
 
-	private ArrayList<ClubSupporters> alClubFanclub;
+	private List<ClubSupporters> clubSupporters;
 
 	private Club club;
 
@@ -112,9 +112,9 @@ public class TeamXmlParser {
 
 	private ClubName clubName;
 
-	private ArrayList<ClubName> alClubName;
+	private List<ClubName> clubNames;
 
-	private ArrayList<Rank> alRank;
+	private List<Rank> ranks;
 
 	private Rank rank;
 
@@ -122,69 +122,71 @@ public class TeamXmlParser {
 
 		class SAXHandler extends DefaultHandler {
 
+			private StringBuilder message;
+
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
-				case TAG_stand_size:
+				switch (currentTag) {
+				case TAG_STAND_SIZE:
 					stand.setCapacity(Integer.valueOf(message.toString()).intValue());
 					break;
-				case TAG_stand_type:
+				case TAG_STAND_TYPE:
 					stand.setType(Integer.valueOf(message.toString()).intValue());
 					break;
-				case TAG_stand_days:
+				case TAG_STAND_DAYS:
 					stand.setConstructionDays(Double.valueOf(message.toString()).doubleValue());
 					break;
-				case TAG_stand_is_roof:
+				case TAG_STAND_IS_ROOF:
 					stand.setIsRoof(Integer.valueOf(message.toString()).intValue());
 					break;
-				case TAG_stand_location:
+				case TAG_STAND_LOCATION:
 					stand.setLocation(Integer.valueOf(message.toString()).intValue());
 					break;
-				case TAG_login:
+				case TAG_LOGIN:
 					user.setLogin(message.toString());
 					break;
-				case TAG_userID:
+				case TAG_USER_ID:
 					user.setUserID(Integer.valueOf(message.toString()));
 					break;
-				case TAG_training_formation:
+				case TAG_TRAINING_FORMATION:
 					training.setFormation(Integer.valueOf(message.toString()));
 					break;
-				case TAG_training_type:
+				case TAG_TRAINING_TYPE:
 					training.setType(Integer.valueOf(message.toString()));
 					break;
-				case TAG_arena_name:
+				case TAG_ARENA_NAME:
 					clubArenaName.setArenaName(message.toString());
 					break;
-				case TAG_teamID:
+				case TAG_TEAM_ID:
 					club.setId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_name:
+				case TAG_NAME:
 					clubName.setName(message.toString());
 					break;
-				case TAG_countryID:
+				case TAG_COUNTRY_ID:
 					club.setCountry(Integer.valueOf(message.toString()));
 					break;
-				case TAG_regionID:
-					club.setRegionID(Integer.valueOf(message.toString()));
+				case TAG_REGION_ID:
+					club.setRegionId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_money:
+				case TAG_MONEY:
 					clubMoney.setMoney(new Money(Integer.valueOf(message.toString())));
 					break;
-				case TAG_fanclubCount:
+				case TAG_FANCLUB_COUNT:
 					clubFanclub.setFanclubcount(Integer.valueOf(message.toString()));
 					break;
-				case TAG_fanclubMood:
+				case TAG_FANCLUB_MOOD:
 					clubFanclub.setFanclubmood(Integer.valueOf(message.toString()).byteValue());
 					break;
-				case TAG_juniorsMax:
+				case TAG_JUNIORS_MAX:
 					club.setJuniorsMax(Integer.valueOf(message.toString()).byteValue());
 					break;
-				case TAG_date_created:
+				case TAG_DATE_CREATED:
 					club.setDateCreated(new Date(message.toString()));
 					break;
-				case TAG_rank:
+				case TAG_RANK:
 					rank.setRank(Double.valueOf(message.toString()));
 					break;
 				default:
@@ -199,18 +201,18 @@ public class TeamXmlParser {
 					club = null;
 				} else {
 					club.setArena(arena);
-					club.setClubSupporters(alClubFanclub);
-					club.setClubBudget(alClubMoney);
-					club.setClubName(alClubName);
-					club.setRank(alRank);
+					club.setClubSupporters(clubSupporters);
+					club.setClubBudget(clubBudgets);
+					club.setClubName(clubNames);
+					club.setRank(ranks);
 				}
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equalsIgnoreCase("stand")) { //$NON-NLS-1$
+				currentTag = 0;
+				if (localName.equalsIgnoreCase("stand")) { 
 					stands.add(stand);
-				} else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("arena")) { 
 
 					if (stands.size() < 8) {
 						Map<Integer, Stand> standsMap = new HashMap<Integer, Stand>();
@@ -225,23 +227,23 @@ public class TeamXmlParser {
 						}
 					}
 					arena.setStands(stands);
-				} else if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
-					alClubFanclub.add(clubFanclub);
-					alClubMoney.add(clubMoney);
-					alClubName.add(clubName);
-					alRank.add(rank);
-					alArenaName.add(clubArenaName);
-					arena.setArenaNames(alArenaName);
+				} else if (localName.equalsIgnoreCase("team")) { 
+					clubSupporters.add(clubFanclub);
+					clubBudgets.add(clubMoney);
+					clubNames.add(clubName);
+					ranks.add(rank);
+					clubArenaNames.add(clubArenaName);
+					arena.setArenaNames(clubArenaNames);
 				}
 			}
 
 			public void startDocument() {
 				stands = new ArrayList<Stand>();
-				alArenaName = new ArrayList<ClubArenaName>();
-				alClubFanclub = new ArrayList<ClubSupporters>();
-				alClubMoney = new ArrayList<ClubBudget>();
-				alClubName = new ArrayList<ClubName>();
-				alRank = new ArrayList<Rank>();
+				clubArenaNames = new ArrayList<ClubArenaName>();
+				clubSupporters = new ArrayList<ClubSupporters>();
+				clubBudgets = new ArrayList<ClubBudget>();
+				clubNames = new ArrayList<ClubName>();
+				ranks = new ArrayList<Rank>();
 
 				arena = new Arena();
 				training = new Training();
@@ -259,74 +261,73 @@ public class TeamXmlParser {
 				rank = new Rank();
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
-					TAG_switch = TAG_arena;
+				if (localName.equalsIgnoreCase("arena")) { 
+					tagSwitch = TAG_ARENA;
 				}
 
-				if (localName.equalsIgnoreCase("user")) { //$NON-NLS-1$
-					TAG_switch = TAG_user;
+				if (localName.equalsIgnoreCase("user")) { 
+					tagSwitch = TAG_USER;
 				}
 
-				if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
-					TAG_switch = TAG_team;
+				if (localName.equalsIgnoreCase("team")) { 
+					tagSwitch = TAG_TEAM;
 				}
 
-				if (TAG_switch == TAG_arena) {
-					if (localName.equals("stand")) { //$NON-NLS-1$
+				if (tagSwitch == TAG_ARENA) {
+					if (localName.equals("stand")) { 
 						stand = new Stand();
 					}
-					if (localName.equals("size")) { //$NON-NLS-1$
-						current_tag = TAG_stand_size;
-					} else if (localName.equals("type")) { //$NON-NLS-1$
-						current_tag = TAG_stand_type;
-					} else if (localName.equals("constructionDays")) { //$NON-NLS-1$
-						current_tag = TAG_stand_days;
-					} else if (localName.equals("isRoof")) { //$NON-NLS-1$
-						current_tag = TAG_stand_is_roof;
-					} else if (localName.equals("location")) { //$NON-NLS-1$
-						current_tag = TAG_stand_location;
+					if (localName.equals("size")) { 
+						currentTag = TAG_STAND_SIZE;
+					} else if (localName.equals("type")) { 
+						currentTag = TAG_STAND_TYPE;
+					} else if (localName.equals("constructionDays")) { 
+						currentTag = TAG_STAND_DAYS;
+					} else if (localName.equals("isRoof")) { 
+						currentTag = TAG_STAND_IS_ROOF;
+					} else if (localName.equals("location")) { 
+						currentTag = TAG_STAND_LOCATION;
 					}
 
-				} else if (TAG_switch == TAG_user) {
-					if (localName.equals("login")) { //$NON-NLS-1$
-						current_tag = TAG_login;
-					} else if (localName.equals("userID")) { //$NON-NLS-1$
-						current_tag = TAG_userID;
+				} else if (tagSwitch == TAG_USER) {
+					if (localName.equals("login")) { 
+						currentTag = TAG_LOGIN;
+					} else if (localName.equals("userID")) { 
+						currentTag = TAG_USER_ID;
 					}
-				} else if (TAG_switch == TAG_team) {
+				} else if (tagSwitch == TAG_TEAM) {
 
-					if (localName.equalsIgnoreCase("trainingFormation")) { //$NON-NLS-1$
-						current_tag = TAG_training_formation;
-					} else if (localName.equalsIgnoreCase("trainingType")) { //$NON-NLS-1$
-						current_tag = TAG_training_type;
-					} else if (localName.equals("arenaName")) { //$NON-NLS-1$
-						current_tag = TAG_arena_name;
-					} else if (localName.equals("teamID")) { //$NON-NLS-1$
-						current_tag = TAG_teamID;
-					} else if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_name;
-					} else if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_countryID;
-					} else if (localName.equals("regionID")) { //$NON-NLS-1$
-						current_tag = TAG_regionID;
-					} else if (localName.equals("money")) { //$NON-NLS-1$
-						current_tag = TAG_money;
-					} else if (localName.equals("fanclubCount")) { //$NON-NLS-1$
-						current_tag = TAG_fanclubCount;
-					} else if (localName.equals("fanclubMood")) { //$NON-NLS-1$
-						current_tag = TAG_fanclubMood;
-					} else if (localName.equals("juniorsMax")) { //$NON-NLS-1$
-						current_tag = TAG_juniorsMax;
-					} else if (localName.equals("dateCreated")) { //$NON-NLS-1$
-						current_tag = TAG_date_created;
-					} else if (localName.equals("rank")) { //$NON-NLS-1$
-						current_tag = TAG_rank;
+					if (localName.equalsIgnoreCase("trainingFormation")) { 
+						currentTag = TAG_TRAINING_FORMATION;
+					} else if (localName.equalsIgnoreCase("trainingType")) { 
+						currentTag = TAG_TRAINING_TYPE;
+					} else if (localName.equals("arenaName")) { 
+						currentTag = TAG_ARENA_NAME;
+					} else if (localName.equals("teamID")) { 
+						currentTag = TAG_TEAM_ID;
+					} else if (localName.equals("name")) { 
+						currentTag = TAG_NAME;
+					} else if (localName.equals("countryID")) { 
+						currentTag = TAG_COUNTRY_ID;
+					} else if (localName.equals("regionID")) { 
+						currentTag = TAG_REGION_ID;
+					} else if (localName.equals("money")) { 
+						currentTag = TAG_MONEY;
+					} else if (localName.equals("fanclubCount")) { 
+						currentTag = TAG_FANCLUB_COUNT;
+					} else if (localName.equals("fanclubMood")) { 
+						currentTag = TAG_FANCLUB_MOOD;
+					} else if (localName.equals("juniorsMax")) { 
+						currentTag = TAG_JUNIORS_MAX;
+					} else if (localName.equals("dateCreated")) { 
+						currentTag = TAG_DATE_CREATED;
+					} else if (localName.equals("rank")) { 
+						currentTag = TAG_RANK;
 					}
 				}
 			}
@@ -342,7 +343,7 @@ public class TeamXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

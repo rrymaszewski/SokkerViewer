@@ -8,14 +8,14 @@ import pl.pronux.sokker.data.properties.dao.SokkerViewerSettingsDao;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 
-public class SettingsManager {
+public final class SettingsManager {
 
 	private static SettingsManager instance = new SettingsManager();
 
 	private SettingsManager() {
 	}
 
-	public static SettingsManager instance() {
+	public static SettingsManager getInstance() {
 		return instance;
 	}
 

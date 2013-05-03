@@ -6,14 +6,14 @@ import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dao.AssistantDao;
 
-public class AssistantManager {
+public final class AssistantManager {
 
 	private static AssistantManager instance = new AssistantManager();
 
 	private AssistantManager() {
 	}
 
-	public static AssistantManager instance() {
+	public static AssistantManager getInstance() {
 		return instance;
 	}
 

@@ -81,9 +81,9 @@ public class ViewArena implements IPlugin {
 
 	private Map<Integer, ArenaStandGroup> groupMap = new HashMap<Integer, ArenaStandGroup>();
 
-	public static String ticketsCostAlongLine;
+	private static String ticketsCostAlongLine;
 
-	public static String ticketsCostBehindGoal;
+	private static String ticketsCostBehindGoal;
 
 	private void addViewComposite() {
 
@@ -145,7 +145,7 @@ public class ViewArena implements IPlugin {
 		formData.width = 140;
 
 		Label arenaImageLabel = new Label(viewComposite, SWT.NONE);
-		arenaImageLabel.setImage(ImageResources.getImageResources("poolview.jpg")); //$NON-NLS-1$
+		arenaImageLabel.setImage(ImageResources.getImageResources("poolview.jpg")); 
 		arenaImageLabel.setLayoutData(formData);
 
 		/* ----------- LEFT MIDDLE --------------------- */
@@ -207,7 +207,7 @@ public class ViewArena implements IPlugin {
 		formData.width = 80;
 
 		arenaCountButton = new Button(viewComposite, SWT.NONE);
-		arenaCountButton.setText(Messages.getString("button.count")); //$NON-NLS-1$
+		arenaCountButton.setText(Messages.getString("button.count")); 
 		arenaCountButton.setLayoutData(formData);
 		arenaCountButton.setFont(ConfigBean.getFontMain());
 
@@ -218,7 +218,7 @@ public class ViewArena implements IPlugin {
 		formData.width = 80;
 
 		arenaResetButton = new Button(viewComposite, SWT.NONE);
-		arenaResetButton.setText(Messages.getString("button.reset")); //$NON-NLS-1$
+		arenaResetButton.setText(Messages.getString("button.reset")); 
 		arenaResetButton.setLayoutData(formData);
 		arenaResetButton.setFont(ConfigBean.getFontMain());
 
@@ -231,7 +231,7 @@ public class ViewArena implements IPlugin {
 		arenaVisualButton = new Button(viewComposite, SWT.NONE);
 		arenaVisualButton.setLayoutData(formData);
 		arenaVisualButton.setFont(ConfigBean.getFontMain());
-		arenaVisualButton.setText(Messages.getString("button.show")); //$NON-NLS-1$
+		arenaVisualButton.setText(Messages.getString("button.show")); 
 		arenaVisualButton.pack();
 
 		if (arenaVisualButton.getBounds().width < 80) {
@@ -247,8 +247,8 @@ public class ViewArena implements IPlugin {
 		descriptionComposite.clear();
 		Set<Integer> keys = groupMap.keySet();
 		for (Integer key : keys) {
-			groupMap.get(key).setDays(""); //$NON-NLS-1$
-			groupMap.get(key).setToolTipText(""); //$NON-NLS-1$
+			groupMap.get(key).setDays(""); 
+			groupMap.get(key).setToolTipText(""); 
 		}
 	}
 
@@ -262,8 +262,7 @@ public class ViewArena implements IPlugin {
 
 	private Map<Integer, Stand> getStands() {
 		Map<Integer, Stand> standsMap = new HashMap<Integer, Stand>();
-		Stand tempStand;
-		tempStand = new Stand();
+		Stand tempStand = new Stand();
 		tempStand.setLocation(Stand.NW);
 		standsMap.put(tempStand.getLocation(), tempStand);
 		tempStand = new Stand();
@@ -322,7 +321,7 @@ public class ViewArena implements IPlugin {
 					break;
 			}
 
-			if (groupMap.get(stand.getLocation()).getCapacity().matches("[0-9]+")) { //$NON-NLS-1$
+			if (groupMap.get(stand.getLocation()).getCapacity().matches("[0-9]+")) { 
 				stand.setCapacity(Integer.valueOf(groupMap.get(stand.getLocation()).getCapacity()).intValue());
 			} else {
 				stand.setCapacity(0);
@@ -339,9 +338,9 @@ public class ViewArena implements IPlugin {
 		Collection<Stand> stands = tempStand.values();
 		newArena.setStands(new ArrayList<Stand>(stands));
 		for (Stand stand : stands) {
-			groupMap.get(stand.getLocation()).setToolTipText(""); //$NON-NLS-1$
-			if (groupMap.get(stand.getLocation()).getCapacity().isEmpty()) { //$NON-NLS-1$
-				groupMap.get(stand.getLocation()).setCapacity("0"); //$NON-NLS-1$
+			groupMap.get(stand.getLocation()).setToolTipText(""); 
+			if (groupMap.get(stand.getLocation()).getCapacity().isEmpty()) { 
+				groupMap.get(stand.getLocation()).setCapacity("0"); 
 			}
 		}
 
@@ -354,9 +353,9 @@ public class ViewArena implements IPlugin {
 	 */
 	private void setGroupMap(Arena arena) {
 		for (Stand stand : arena.getStands()) {
-			groupMap.get(stand.getLocation()).setToolTipText(""); //$NON-NLS-1$
-			groupMap.get(stand.getLocation()).setToolTipText(String.format("%s%s = %s\r\n", groupMap.get(stand.getLocation()).getToolTipText(), Messages.getString("arena.maxEarns"), Money.formatDoubleCurrencySymbol(stand.getIncome()))); //$NON-NLS-1$ //$NON-NLS-2$	
-			groupMap.get(stand.getLocation()).setToolTipText(String.format("%s%s = %s\r\n", groupMap.get(stand.getLocation()).getToolTipText(), Messages.getString("arena.payments"), Money.formatDoubleCurrencySymbol(stand.getCost()))); //$NON-NLS-1$ //$NON-NLS-2$
+			groupMap.get(stand.getLocation()).setToolTipText(""); 
+			groupMap.get(stand.getLocation()).setToolTipText(String.format("%s%s = %s\r\n", groupMap.get(stand.getLocation()).getToolTipText(), Messages.getString("arena.maxEarns"), Money.formatDoubleCurrencySymbol(stand.getIncome())));  	
+			groupMap.get(stand.getLocation()).setToolTipText(String.format("%s%s = %s\r\n", groupMap.get(stand.getLocation()).getToolTipText(), Messages.getString("arena.payments"), Money.formatDoubleCurrencySymbol(stand.getCost())));  
 			if (stand.getLocation() == Stand.N || stand.getLocation() == Stand.S) {
 				groupMap.get(stand.getLocation()).setToolTipText(groupMap.get(stand.getLocation()).getToolTipText() + ticketsCostAlongLine);
 			} else {
@@ -368,22 +367,22 @@ public class ViewArena implements IPlugin {
 	public void set() {
 		arena = Cache.getClub().getArena();
 
-		ticketsCostAlongLine = String.format("\r\n\r\n%s\r\n", Messages.getString("arena.cost.tickets")); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.standingPlaces"), Money.formatDoubleCurrencySymbol(Stand.STANDING_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.terraces"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.terracesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITH_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.benches"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITHOUT_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.benchesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITH_ROOF_ALONG_LINE_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.seats"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITHOUT_ROOF_ALONG_LINE_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostAlongLine += String.format("%s = %s", Messages.getString("arena.seatsUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITH_ROOF_ALONG_LINE_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal = String.format("\r\n\r\n%s = \r\n", Messages.getString("arena.cost.tickets")); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.standingPlaces"), Money.formatDoubleCurrencySymbol(Stand.STANDING_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.terraces"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.terracesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.benches"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITHOUT_ROOF_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.benchesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITH_ROOF_BEHIND_GOAL_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.seats"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITHOUT_ROOF_BEHIND_GOAL_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
-		ticketsCostBehindGoal += String.format("%s = %s", Messages.getString("arena.seatsUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITH_ROOF_BEHIND_GOAL_EARNS)); //$NON-NLS-1$ //$NON-NLS-2$
+		ticketsCostAlongLine = String.format("\r\n\r\n%s\r\n", Messages.getString("arena.cost.tickets"));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.standingPlaces"), Money.formatDoubleCurrencySymbol(Stand.STANDING_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.terraces"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.terracesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITH_ROOF_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.benches"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITHOUT_ROOF_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.benchesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITH_ROOF_ALONG_LINE_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s\r\n", Messages.getString("arena.seats"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITHOUT_ROOF_ALONG_LINE_EARNS));  
+		ticketsCostAlongLine += String.format("%s = %s", Messages.getString("arena.seatsUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITH_ROOF_ALONG_LINE_EARNS));  
+		ticketsCostBehindGoal = String.format("\r\n\r\n%s = \r\n", Messages.getString("arena.cost.tickets"));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.standingPlaces"), Money.formatDoubleCurrencySymbol(Stand.STANDING_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.terraces"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.terracesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.TERRACES_WITHOUT_ROOF_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.benches"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITHOUT_ROOF_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.benchesUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.BENCHES_WITH_ROOF_BEHIND_GOAL_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s\r\n", Messages.getString("arena.seats"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITHOUT_ROOF_BEHIND_GOAL_EARNS));  
+		ticketsCostBehindGoal += String.format("%s = %s", Messages.getString("arena.seatsUnderRoof"), Money.formatDoubleCurrencySymbol(Stand.SEATS_WITH_ROOF_BEHIND_GOAL_EARNS));  
 
 		descriptionComposite.setInfo(arena);
 		setGroupMap(arena);
@@ -438,8 +437,8 @@ public class ViewArena implements IPlugin {
 	public void setTreeItem(TreeItem treeItem) {
 
 		this._treeItem = treeItem;
-		_treeItem.setText(Messages.getString("tree.ViewArena")); //$NON-NLS-1$
-		_treeItem.setImage(ImageResources.getImageResources("poolview_ico.png")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewArena")); 
+		_treeItem.setImage(ImageResources.getImageResources("poolview_ico.png")); 
 
 		_treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event event) {
@@ -455,7 +454,7 @@ public class ViewArena implements IPlugin {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoArena"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoArena"); 
 	}
 
 	public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
@@ -499,21 +498,21 @@ public class ViewArena implements IPlugin {
 					Map<Integer, Stand> standRequestMap = getStands();
 					Collection<Stand> standRequest = standRequestMap.values();
 					for (Stand stand : standRequest) {
-						request.append("cap"); //$NON-NLS-1$
+						request.append("cap"); 
 						request.append(stand.getLocation());
-						request.append("="); //$NON-NLS-1$
+						request.append("="); 
 						request.append(stand.getCapacity());
-						request.append("&type"); //$NON-NLS-1$
+						request.append("&type"); 
 						request.append(stand.getLocation());
-						request.append("="); //$NON-NLS-1$
+						request.append("="); 
 						request.append(stand.getType());
-						request.append("&roof"); //$NON-NLS-1$
+						request.append("&roof"); 
 						request.append(stand.getLocation());
-						request.append("="); //$NON-NLS-1$
+						request.append("="); 
 						request.append(stand.getIsRoof());
-						request.append("&"); //$NON-NLS-1$
+						request.append("&"); 
 					}
-					browser.setUrl("http://files.sokker.org/pic/stadioVIII_10.swf?" + request.toString()); //$NON-NLS-1$
+					browser.setUrl("http://files.sokker.org/pic/stadioVIII_10.swf?" + request.toString()); 
 					// browser.setUrl("file:///" + SokkerBean.getBaseDir() +
 					// File.separator + "resources" + File.separator +
 					// "stadioVIII_10.swf?cap4=2000&type4=2&roof4=0&cap3=500&type3=1&roof3=0&cap1=2000&type1=2&roof1=0&cap6=2500&type6=2&roof6=0&cap2=100&type2=0&roof2=0&cap5=100&type5=0&roof5=0&cap7=100&type7=0&roof7=0&cap8=100&type8=0&roof8=0&");
@@ -532,7 +531,7 @@ public class ViewArena implements IPlugin {
 					if (item.equals(_treeItem) && event.button == 3) {
 
 						cbData = descriptionComposite.getText();
-						cbData += "=============================="; //$NON-NLS-1$
+						cbData += "=============================="; 
 
 						_treeItem.getParent().setMenu(menuPopUpParentTree);
 						_treeItem.getParent().getMenu().setVisible(true);
@@ -546,7 +545,7 @@ public class ViewArena implements IPlugin {
 		// added popup menu
 		menuPopUpParentTree = new Menu(composite.getShell(), SWT.POP_UP);
 		MenuItem menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 

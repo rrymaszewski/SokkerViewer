@@ -24,15 +24,15 @@ import pl.pronux.sokker.utils.security.Crypto;
 
 public class PackagesDownloader implements IRunnableWithProgress {
 	
-	private static final String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjI8H/0thn2jwRH/hWOGeK3bsCDoB7TJ9HyKlZT2jD8vA//CPcou4UPCk8HLPDVlbv5aETe572t+wz5En6k24wEjsO4H5cQicZ3aPM5tYDc1Abn0UsttZ7DJvCqHQqTP2xruNZ4LstYHm1WQG8CfT0aDUsK10Mlly0ZiSlmVunhQIDAQAB"; //$NON-NLS-1$
+	private static final String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjI8H/0thn2jwRH/hWOGeK3bsCDoB7TJ9HyKlZT2jD8vA//CPcou4UPCk8HLPDVlbv5aETe572t+wz5En6k24wEjsO4H5cQicZ3aPM5tYDc1Abn0UsttZ7DJvCqHQqTP2xruNZ4LstYHm1WQG8CfT0aDUsK10Mlly0ZiSlmVunhQIDAQAB"; 
 
-	private SettingsManager settingsManager = SettingsManager.instance();
+	private SettingsManager settingsManager = SettingsManager.getInstance();
 	
 	private String mirror;
 	private String versionType;
 	private List<Package> packages;
 
-	public PackagesDownloader(String mirror, String versionType, String osType, List<Package> packages) {
+	public PackagesDownloader(String mirror, String versionType, List<Package> packages) {
 		this.mirror = mirror;
 		this.versionType = versionType;
 		this.packages = packages;
@@ -41,25 +41,25 @@ public class PackagesDownloader implements IRunnableWithProgress {
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		try {
-			monitor.beginTask(String.format("%s (1/5)", Messages.getString("updater.label.package.download")), 1); //$NON-NLS-1$ //$NON-NLS-2$
-			downloadPackages(mirror + versionType, System.getProperty("user.dir") + File.separator + "tmp", packages, monitor); //$NON-NLS-1$ //$NON-NLS-2$
+			monitor.beginTask(String.format("%s (1/5)", Messages.getString("updater.label.package.download")), 1);  
+			downloadPackages(mirror + versionType, System.getProperty("user.dir") + File.separator + "tmp", packages, monitor);  
 
-			monitor.beginTask(String.format("%s (2/5)", Messages.getString("updater.label.package.verify")), 1); //$NON-NLS-1$ //$NON-NLS-2$
-			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(SERVER_PUBLIC_KEY), "RSA"); //$NON-NLS-1$
+			monitor.beginTask(String.format("%s (2/5)", Messages.getString("updater.label.package.verify")), 1);  
+			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(SERVER_PUBLIC_KEY), "RSA"); 
 			verifyPackages(packages, pubk, monitor);
 
-			monitor.beginTask(String.format("%s (3/5)", Messages.getString("updater.label.package.unzip")), 1); //$NON-NLS-1$ //$NON-NLS-2$
+			monitor.beginTask(String.format("%s (3/5)", Messages.getString("updater.label.package.unzip")), 1);  
 			unzipPackages(packages, monitor);
 
-			monitor.beginTask(String.format("%s (4/5)", Messages.getString("updater.label.package.copy")), 1); //$NON-NLS-1$ //$NON-NLS-2$
-			OperationOnFile.copyDirectory(new File(System.getProperty("user.dir") + File.separator + "tmp"), new File(System.getProperty("user.dir"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			monitor.beginTask(String.format("%s (4/5)", Messages.getString("updater.label.package.copy")), 1);  
+			OperationOnFile.copyDirectory(new File(System.getProperty("user.dir") + File.separator + "tmp"), new File(System.getProperty("user.dir")));   
 
 			SettingsHandler.getSokkerViewerSettings().setCheckProperties(true);
 			settingsManager.updateSettings(SettingsHandler.getSokkerViewerSettings());
 
-			monitor.beginTask(String.format("%s (5/5)", Messages.getString("updater.label.package.clean")), 1); //$NON-NLS-1$ //$NON-NLS-2$
-			OperationOnFile.cleanDir(new File(System.getProperty("user.dir") + File.separator + "tmp")); //$NON-NLS-1$ //$NON-NLS-2$
-			monitor.setTaskName(""); //$NON-NLS-1$
+			monitor.beginTask(String.format("%s (5/5)", Messages.getString("updater.label.package.clean")), 1);  
+			OperationOnFile.cleanDir(new File(System.getProperty("user.dir") + File.separator + "tmp"));  
+			monitor.setTaskName(""); 
 			monitor.done();
 		} catch (SVException e) {
 			throw new InvocationTargetException(e);
@@ -83,12 +83,12 @@ public class PackagesDownloader implements IRunnableWithProgress {
 			monitor.subTask(pkg.getFilename());
 			try {
 				pkg.unzip();
-				if (pkg.getFilename().matches("[a-zA-Z0-9.-]+.zip")) { //$NON-NLS-1$
+				if (pkg.getFilename().matches("[a-zA-Z0-9.-]+.zip")) { 
 					new File(pkg.getRootDirectory() + pkg.getLocalpath() + pkg.getFilename()).delete();
 				}
 
 			} catch (IOException e) {
-				throw new SVException(Messages.getString("updater.label.info.unzip")); //$NON-NLS-1$
+				throw new SVException(Messages.getString("updater.label.info.unzip"), e); 
 			}
 		}
 	}
@@ -104,7 +104,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 					
 					htmlDownloader.downloadPackage(mirror + pkg.getPath(), tempDirectory + File.separator + pkg.getLocalpath(), pkg.getFilename(), monitor);
 				} catch (IOException ex) {
-					throw new SVException(String.format("%s %s", Messages.getString("updater.label.info.download"), pkg.getFilename())); //$NON-NLS-1$ //$NON-NLS-2$
+					throw new SVException(String.format("%s %s", Messages.getString("updater.label.info.download"), pkg.getFilename()), ex	);  
 				}
 				monitor.worked(1);
 			}
@@ -115,9 +115,9 @@ public class PackagesDownloader implements IRunnableWithProgress {
 		monitor.setTotalTime(packages.size());
 		for (Package pkg : packages) {
 			monitor.subTask(pkg.getFilename());
-			pkg.setRootDirectory("tmp"); //$NON-NLS-1$
+			pkg.setRootDirectory("tmp"); 
 			if (!pkg.verify(pubk)) {
-				throw new SVException(String.format("%s %s", Messages.getString("updater.label.info.verify.package"),pkg.getFilename())); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new SVException(String.format("%s %s", Messages.getString("updater.label.info.verify.package"),pkg.getFilename()));  
 			}
 			monitor.worked(1);
 		}

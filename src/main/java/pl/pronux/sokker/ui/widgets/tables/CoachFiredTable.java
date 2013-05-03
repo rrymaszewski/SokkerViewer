@@ -37,21 +37,21 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 		comparator.setDirection(CoachFiredComparator.ASCENDING);
 		
 		String[] titles = { 
-				"", //$NON-NLS-1$
-				Messages.getString("table.name"),  //$NON-NLS-1$
-				Messages.getString("table.surname"),  //$NON-NLS-1$
-				Messages.getString("table.salary"),  //$NON-NLS-1$
-				Messages.getString("table.age"),  //$NON-NLS-1$
-				Messages.getString("table.generallSkill"),  //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.pace"),  //$NON-NLS-1$
-				Messages.getString("table.technique"),  //$NON-NLS-1$
-				Messages.getString("table.passing"),  //$NON-NLS-1$
-				Messages.getString("table.keeper"),  //$NON-NLS-1$
-				Messages.getString("table.defender"),  //$NON-NLS-1$
-				Messages.getString("table.playmaker"),  //$NON-NLS-1$
-				Messages.getString("table.scorer"),  //$NON-NLS-1$
-				"" }; //$NON-NLS-1$
+				"", 
+				Messages.getString("table.name"),  
+				Messages.getString("table.surname"),  
+				Messages.getString("table.salary"),  
+				Messages.getString("table.age"),  
+				Messages.getString("table.generallSkill"),  
+				Messages.getString("table.stamina"), 
+				Messages.getString("table.pace"),  
+				Messages.getString("table.technique"),  
+				Messages.getString("table.passing"),  
+				Messages.getString("table.keeper"),  
+				Messages.getString("table.defender"),  
+				Messages.getString("table.playmaker"),  
+				Messages.getString("table.scorer"),  
+				"" }; 
 
 		for (int j = 0; j < titles.length; j++) {
 			TableColumn column = new TableColumn(this, SWT.NONE);
@@ -100,7 +100,7 @@ public class CoachFiredTable extends SVTable<Coach> implements IViewSort<Coach> 
 			TableItem item = new TableItem(this, SWT.NONE);
 			
 			int c = 0;
-			item.setData(Coach.class.getName(), coach); //$NON-NLS-1$
+			item.setData(Coach.class.getName(), coach); 
 			item.setImage(c++, FlagsResources.getFlag(coach.getCountryfrom()));
 			item.setText(c++, coach.getName());
 			item.setText(c++, coach.getSurname());

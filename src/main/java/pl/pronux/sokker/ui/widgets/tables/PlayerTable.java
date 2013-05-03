@@ -54,27 +54,27 @@ public class PlayerTable extends SVTable<Player> {
 		this.setFont(ConfigBean.getFontTable());
 
 		String[] titles = new String[] {
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.value"), //$NON-NLS-1$
-				Messages.getString("table.salary"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.form"), //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.pace"), //$NON-NLS-1$
-				Messages.getString("table.technique"), //$NON-NLS-1$
-				Messages.getString("table.passing"), //$NON-NLS-1$
-				Messages.getString("table.keeper"), //$NON-NLS-1$
-				Messages.getString("table.defender"), //$NON-NLS-1$
-				Messages.getString("table.playmaker"), //$NON-NLS-1$
-				Messages.getString("table.scorer"), //$NON-NLS-1$
-				Messages.getString("table.discipline"), //$NON-NLS-1$
-				Messages.getString("table.experience"), //$NON-NLS-1$
-				Messages.getString("table.teamwork"), //$NON-NLS-1$
-				Messages.getString("table.formation"), //$NON-NLS-1$
-				Messages.getString("table.training.type"), //$NON-NLS-1$
-				Messages.getString("table.1st"), //$NON-NLS-1$
-				Messages.getString("table.2nd"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.date"), 
+				Messages.getString("table.value"), 
+				Messages.getString("table.salary"), 
+				Messages.getString("table.age"), 
+				Messages.getString("table.form"), 
+				Messages.getString("table.stamina"), 
+				Messages.getString("table.pace"), 
+				Messages.getString("table.technique"), 
+				Messages.getString("table.passing"), 
+				Messages.getString("table.keeper"), 
+				Messages.getString("table.defender"), 
+				Messages.getString("table.playmaker"), 
+				Messages.getString("table.scorer"), 
+				Messages.getString("table.discipline"), 
+				Messages.getString("table.experience"), 
+				Messages.getString("table.teamwork"), 
+				Messages.getString("table.formation"), 
+				Messages.getString("table.training.type"), 
+				Messages.getString("table.1st"), 
+				Messages.getString("table.2nd"), 
+				"" 
 		};
 		for (int j = 0; j < titles.length; j++) {
 			TableColumn column = new TableColumn(this, SWT.RIGHT);
@@ -103,8 +103,8 @@ public class PlayerTable extends SVTable<Player> {
 			if(!player.getSkills()[i].isPassTraining()) {
 				item.setForeground(ColorResources.getDarkGray());
 			}
-			item.setData("date", player.getSkills()[i].getDate()); //$NON-NLS-1$
-			item.setData("player_skill", player.getSkills()[i]); //$NON-NLS-1$
+			item.setData("date", player.getSkills()[i].getDate()); 
+			item.setData("player_skill", player.getSkills()[i]); 
 			item.setText(c++, player.getSkills()[i].getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());
 			item.setText(c++, player.getSkills()[i].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[i].getSalary().formatIntegerCurrency());
@@ -123,14 +123,14 @@ public class PlayerTable extends SVTable<Player> {
 			item.setText(c++, String.valueOf(player.getSkills()[i].getTeamwork()));
 			if (player.getSkills()[i].getTraining() != null) {
 				if (player.getSkills()[i].getTraining().getType() == Training.TYPE_PACE || player.getSkills()[i].getTraining().getType() == Training.TYPE_STAMINA) {
-					item.setText(c++, Messages.getString("formation." + Training.FORMATION_ALL)); //$NON-NLS-1$
+					item.setText(c++, Messages.getString("formation." + Training.FORMATION_ALL)); 
 				} else {
-					item.setText(c++, Messages.getString("formation." + player.getSkills()[i].getTraining().getFormation())); //$NON-NLS-1$
+					item.setText(c++, Messages.getString("formation." + player.getSkills()[i].getTraining().getFormation())); 
 				}
-				item.setText(c++, Messages.getString("training.type." + player.getSkills()[i].getTraining().getType() + ".short")); //$NON-NLS-1$ //$NON-NLS-2$
+				item.setText(c++, Messages.getString("training.type." + player.getSkills()[i].getTraining().getType() + ".short"));  
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
+				item.setText(c++, ""); 
 			}
 
 			if (player.getPlayerMatchStatistics() != null) {
@@ -142,7 +142,7 @@ public class PlayerTable extends SVTable<Player> {
 
 							if ((league.getType() == League.TYPE_LEAGUE || league.getType() == League.TYPE_PLAYOFF) && league.getIsOfficial() == League.OFFICIAL) {
 								item.setFont(18, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(18).getFontData()));
-								item.setText(18, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(18, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
 //								if(league.getType() == League.TYPE_LEAGUE) {
 //									item.setImage(18, ImageResources.getImageResources("league.png"));
 //								} else if(league.getType() == League.TYPE_PLAYOFF) {
@@ -173,7 +173,7 @@ public class PlayerTable extends SVTable<Player> {
 							} else if (playerStats.getFormation() == PlayerStats.ATT) {
 								item.setBackground(19, Colors.getPositionATT());
 							}
-								item.setText(19, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(19, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
 //								if(league.getType() == League.TYPE_LEAGUE) {
 //									item.setImage(19, ImageResources.getImageResources("friendly_league.png"));
 //								} else if(league.getType() == League.TYPE_FRIENDLY_MATCH) {
@@ -184,8 +184,8 @@ public class PlayerTable extends SVTable<Player> {
 					}
 				}
 			} else {
-				item.setText(18, ""); //$NON-NLS-1$
-				item.setText(19, ""); //$NON-NLS-1$
+				item.setText(18, ""); 
+				item.setText(19, ""); 
 			}
 			if (i > 0) {
 				PlayerSkills now = player.getSkills()[i];

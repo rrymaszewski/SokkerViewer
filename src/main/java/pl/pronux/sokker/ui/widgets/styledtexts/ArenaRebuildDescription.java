@@ -26,66 +26,66 @@ public class ArenaRebuildDescription extends StyledText {
 		this.setText(String.format("%s\r\n", Messages.getString("arena.buildCost")));
 		StringBuilder all = new StringBuilder();
 		ArenaProject arenaProject = arena.getCostOfRebuild(newArena);
-		String stringFormat = "%-30s %15s\r\n"; //$NON-NLS-1$
+		String stringFormat = "%-30s %15s\r\n"; 
 		String[][] values;
 		values = new String[1][2];
 
 		if (arenaProject.getProjectCost() > 0) {
-			values[0][0] = Messages.getString("arena.projectCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.projectCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getProjectCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getTerracesCost() > 0) {
-			values[0][0] = Messages.getString("arena.terracesCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.terracesCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getTerracesCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getDissasemblyTerracesCost() > 0) {
-			values[0][0] = Messages.getString("arena.dissasemblyTerracesCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.dissasemblyTerracesCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getDissasemblyTerracesCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getFasteningCost() > 0) {
-			values[0][0] = Messages.getString("arena.fasteningCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.fasteningCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getFasteningCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getDissasemblyFasteningCost() > 0) {
-			values[0][0] = Messages.getString("arena.dissasemblyFasteningCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.dissasemblyFasteningCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getDissasemblyFasteningCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getBenchesCost() > 0) {
-			values[0][0] = Messages.getString("arena.benchesCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.benchesCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getBenchesCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getDissasemblyBenchesCost() > 0) {
-			values[0][0] = Messages.getString("arena.dissasemblyBenchesCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.dissasemblyBenchesCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getDissasemblyBenchesCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getSeatsCost() > 0) {
-			values[0][0] = Messages.getString("arena.seatsCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.seatsCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getSeatsCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getDissasemblySeatsCost() > 0) {
-			values[0][0] = Messages.getString("arena.dissasemblySeatsCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.dissasemblySeatsCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getDissasemblySeatsCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getRoofCost() > 0) {
-			values[0][0] = Messages.getString("arena.roofCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.roofCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getRoofCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
 		if (arenaProject.getDissasemblyRoofCost() > 0) {
-			values[0][0] = Messages.getString("arena.dissasemblyRoofCost"); //$NON-NLS-1$
+			values[0][0] = Messages.getString("arena.dissasemblyRoofCost"); 
 			values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getDissasemblyRoofCost());
 			all.append(String.format(stringFormat, (Object[]) values[0]));
 		}
-		values[0][0] = Messages.getString("arena.all"); //$NON-NLS-1$
+		values[0][0] = Messages.getString("arena.all"); 
 		values[0][1] = Money.formatDoubleCurrencySymbol(arenaProject.getAllCosts());
 		all.append(String.format(stringFormat, (Object[]) values[0]));
 		

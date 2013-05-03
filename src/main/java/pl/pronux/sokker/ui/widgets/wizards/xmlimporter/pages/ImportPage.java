@@ -30,7 +30,7 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ImportPage extends Page {
 
-	public static final String PAGE_NAME = "IMPORT_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "IMPORT_PAGE"; 
 
 	private ProgressBarCustom progressBar;
 	private Button detailsButton;
@@ -38,7 +38,7 @@ public class ImportPage extends Page {
 	private CLabel informationLabel;
 
 	public ImportPage(Wizard parent) {
-		super(parent, Messages.getString("importer.page.import.title"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("importer.page.import.title"), PAGE_NAME); 
 	}
 
 	protected void createControl(Composite parent) {
@@ -59,12 +59,12 @@ public class ImportPage extends Page {
 		gridData.heightHint = 30;
 		
 		informationLabel = new CLabel(container, SWT.NONE);
-		informationLabel.setText(Messages.getString("importer.page.import.processing")); //$NON-NLS-1$
+		informationLabel.setText(Messages.getString("importer.page.import.processing")); 
 		informationLabel.setLayoutData(gridData);
 		
 		detailsButton = new Button(container, SWT.NONE);
 		detailsButton.setEnabled(false);
-		detailsButton.setText(Messages.getString("button.details")); //$NON-NLS-1$
+		detailsButton.setText(Messages.getString("button.details")); 
 		detailsButton.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				table.setVisible(!table.getVisible());
@@ -83,14 +83,13 @@ public class ImportPage extends Page {
 		table.setVisible(false);
 		
 		String[] columns = {
-				"date", //$NON-NLS-1$
-				"complete", //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				"date", 
+				"complete", 
+				"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
-			;
 			column.setText(columns[i]);
 		}
 
@@ -134,7 +133,7 @@ public class ImportPage extends Page {
 				if(monitor.isDone() && !monitor.isCanceled()) {
 					getWizard().getDisplay().asyncExec(new Runnable() {
 						public void run() {
-							getWizard().getNextButton().setText(Messages.getString("button.next")); //$NON-NLS-1$
+							getWizard().getNextButton().setText(Messages.getString("button.next")); 
 							getWizard().getPreviousButton().setEnabled(false);
 							getWizard().getCancelButton().setEnabled(false);
 							getWizard().getNextButton().setEnabled(false);
@@ -151,7 +150,7 @@ public class ImportPage extends Page {
 									failed++;
 								}
 							}
-							informationLabel.setText(String.format("%s %d %s %d %s %d", Messages.getString("importer.page.import.all"), packages.size(), Messages.getString("importer.page.import.correct"), imported, Messages.getString("importer.page.import.failed"), failed)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+							informationLabel.setText(String.format("%s %d %s %d %s %d", Messages.getString("importer.page.import.all"), packages.size(), Messages.getString("importer.page.import.correct"), imported, Messages.getString("importer.page.import.failed"), failed));      
 						}
 					});
 				}
@@ -170,15 +169,15 @@ public class ImportPage extends Page {
 
 		for (int i = 0; i < list.size(); i++) {
 			TableItem item = new TableItem(table, SWT.NONE);
-			item.setData("package", list.get(i)); //$NON-NLS-1$
+			item.setData("package", list.get(i)); 
 			IXMLpack pack = list.get(i);
 			item.setText(0, pack.getDate().toDateTimeString());
 			
 			if(pack.isImported()) {
-				item.setText(1, Messages.getString("importer.page.import.ok")); //$NON-NLS-1$
+				item.setText(1, Messages.getString("importer.page.import.ok")); 
 				item.setForeground(1, ColorResources.getDarkGreen());	
 			} else {
-				item.setText(1, Messages.getString("importer.page.import.failed")); //$NON-NLS-1$
+				item.setText(1, Messages.getString("importer.page.import.failed")); 
 				item.setForeground(1, ColorResources.getRed());
 			}
 		}

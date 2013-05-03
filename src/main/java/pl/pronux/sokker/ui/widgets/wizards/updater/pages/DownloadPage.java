@@ -19,16 +19,15 @@ import pl.pronux.sokker.updater.actions.PackagesDownloader;
 import pl.pronux.sokker.updater.model.Package;
 
 public class DownloadPage extends Page {
-	public static final String PAGE_NAME = "DOWNLOAD_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "DOWNLOAD_PAGE"; 
 	private ProgressBarCustom progressBar;
 	private Label information;
 	private String mirror;
-	private String osType;
 	private String versionType;
 	private List<Package> packages;
 
 	public DownloadPage(Wizard parent) {
-		super(parent, Messages.getString("updater.page.download"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("updater.page.download"), PAGE_NAME); 
 	}
 
 	@Override
@@ -53,7 +52,6 @@ public class DownloadPage extends Page {
 	public void onEnterPage() {
 
 		mirror = ((MirrorsPage) getWizard().getPage(MirrorsPage.PAGE_NAME)).getMirror();
-		osType = ((UpdaterWizard) getWizard()).getOsType();
 		versionType = ((UpdaterWizard) getWizard()).getVersionType();
 
 		getWizard().getPreviousButton().setEnabled(false);
@@ -61,7 +59,7 @@ public class DownloadPage extends Page {
 
 		packages = ((XMLPage) getWizard().getPage(XMLPage.PAGE_NAME)).getPackagesCollection().getPackages();
 		try {
-			progressBar.run(true, true, new PackagesDownloader(mirror, versionType, osType, packages));
+			progressBar.run(true, true, new PackagesDownloader(mirror, versionType, packages));
 		} catch (InterruptedException e) {
 		} catch (InvocationTargetException e) {
 		}
@@ -82,7 +80,7 @@ public class DownloadPage extends Page {
 							getWizard().getNextButton().setEnabled(false);
 							getWizard().getFinishButton().setEnabled(true);
 							getWizard().getCancelButton().setEnabled(false);
-							information.setText(Messages.getString("updater.label.info.finish") + "\n" + Messages.getString("message.information.restart")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							information.setText(Messages.getString("updater.label.info.finish") + "\n" + Messages.getString("message.information.restart"));   
 						}
 					});
 				}

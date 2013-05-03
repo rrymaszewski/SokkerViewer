@@ -12,33 +12,33 @@ public class PlayerStatsComparator implements SVComparator<PlayerStats>, ISort {
 
 	private int direction;
 
-	final public static int EMPTY = 0;
+	public static final int EMPTY = 0;
 
-	final public static int DATE = 1;
+	public static final int DATE = 1;
 
-	final public static int TEAM_HOME = 2;
+	public static final int TEAM_HOME = 2;
 
-	final public static int TEAM_AWAY = 3;
+	public static final int TEAM_AWAY = 3;
 
-	final public static int FORMATION = 4;
+	public static final int FORMATION = 4;
 
-	final public static int TIME = 5;
+	public static final int TIME = 5;
 
-	final public static int RATING = 6;
+	public static final int RATING = 6;
 
-	final public static int STARS = 7;
+	public static final int STARS = 7;
 	
-	final public static int GOALS = 8;
+	public static final int GOALS = 8;
 
-	final public static int SHOOTS = 9;
+	public static final int SHOOTS = 9;
 	
-	final public static int ASSISTS = 10;
+	public static final int ASSISTS = 10;
 
-	final public static int FOULS = 11;
+	public static final int FOULS = 11;
 
-	final public static int INJURY = 12;
+	public static final int INJURY = 12;
 	
-	final public static int CARDS = 13;
+	public static final int CARDS = 13;
 
 	public PlayerStatsComparator() {
 	}

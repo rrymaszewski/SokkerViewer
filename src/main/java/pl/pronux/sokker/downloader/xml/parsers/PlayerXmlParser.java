@@ -20,9 +20,9 @@ import pl.pronux.sokker.utils.Log;
 
 public class PlayerXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	private static final int TAG_player = 1;
+	private static final int TAG_PLAYER = 1;
 
 	private static final int TAG_ID = 2;
 
@@ -30,13 +30,13 @@ public class PlayerXmlParser {
 
 	private static final int TAG_SURNAME = 4;
 
-	private static final int TAG_COUNTRYID = 5;
+	private static final int TAG_COUNTRY_ID = 5;
 
 	private static final int TAG_AGE = 6;
 
-	private static final int TAG_TEAMID = 7;
+	private static final int TAG_TEAM_ID = 7;
 
-	private static final int TAG_YOUTHTEAMID = 8;
+	private static final int TAG_YOUTHTEAM_ID = 8;
 
 	private static final int TAG_VALUE = 9;
 
@@ -90,7 +90,7 @@ public class PlayerXmlParser {
 
 	private static final int TAG_HEIGHT = 34;
 	
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private Player player;
 
@@ -102,15 +102,16 @@ public class PlayerXmlParser {
 
 		class SAXHandler extends DefaultHandler {
 
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_ID:
 					player.setId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_COUNTRYID:
+				case TAG_COUNTRY_ID:
 					player.setCountryfrom(Integer.valueOf(message.toString()));
 					break;
 				case TAG_NAME:
@@ -119,11 +120,11 @@ public class PlayerXmlParser {
 				case TAG_SURNAME:
 					player.setSurname(message.toString());
 					break;
-				case TAG_YOUTHTEAMID:
-					player.setYouthTeamID(Integer.valueOf(message.toString()));
+				case TAG_YOUTHTEAM_ID:
+					player.setYouthTeamId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_TEAMID:
-					player.setTeamID(Integer.valueOf(message.toString()));
+				case TAG_TEAM_ID:
+					player.setTeamId(Integer.valueOf(message.toString()));
 					break;
 				case TAG_NATIONAL:
 					player.setNational(Integer.valueOf(message.toString()));
@@ -217,8 +218,8 @@ public class PlayerXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("player")) { //$NON-NLS-1$
+				currentTag = 0;
+				if (localName.equals("player")) { 
 					player.setSkills(playerSkills);
 					player.setNtSkills(ntSkills);
 					if(player.getId() == -1) {
@@ -230,15 +231,14 @@ public class PlayerXmlParser {
 			public void startDocument() {
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
 
-				if (localName.equals("player")) { //$NON-NLS-1$
+				if (localName.equals("player")) { 
 
-					TAG_switch = TAG_player;
+					tagSwitch = TAG_PLAYER;
 
 					player = new Player();
 					player.setId(-1);
@@ -250,73 +250,73 @@ public class PlayerXmlParser {
 
 				}
 
-				if (TAG_switch == TAG_player) {
-					if (localName.equals("ID")) { //$NON-NLS-1$
-						current_tag = TAG_ID;
-					} else if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_NAME;
-					} else if (localName.equals("surname")) { //$NON-NLS-1$
-						current_tag = TAG_SURNAME;
-					} else if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_COUNTRYID;
-					} else if (localName.equals("age")) { //$NON-NLS-1$
-						current_tag = TAG_AGE;
-					} else if (localName.equals("teamID")) { //$NON-NLS-1$
-						current_tag = TAG_TEAMID;
-					} else if (localName.equals("youthTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_YOUTHTEAMID;
-					} else if (localName.equals("value")) { //$NON-NLS-1$
-						current_tag = TAG_VALUE;
-					} else if (localName.equals("wage")) { //$NON-NLS-1$
-						current_tag = TAG_WAGE;
-					} else if (localName.equals("cards")) { //$NON-NLS-1$
-						current_tag = TAG_CARDS;
-					} else if (localName.equals("goals")) { //$NON-NLS-1$
-						current_tag = TAG_GOALS;
-					} else if (localName.equals("assists")) { //$NON-NLS-1$
-						current_tag = TAG_ASSISTS;
-					} else if (localName.equals("matches")) { //$NON-NLS-1$
-						current_tag = TAG_MATCHES;
-					} else if (localName.equals("ntAssists")) { //$NON-NLS-1$
-						current_tag = TAG_NTASSISTS;
-					} else if (localName.equals("ntCards")) { //$NON-NLS-1$
-						current_tag = TAG_NTCARDS;
-					} else if (localName.equals("ntGoals")) { //$NON-NLS-1$
-						current_tag = TAG_NTGOALS;
-					} else if (localName.equals("ntMatches")) { //$NON-NLS-1$
-						current_tag = TAG_NTMATCHES;
-					} else if (localName.equals("injuryDays")) { //$NON-NLS-1$
-						current_tag = TAG_INJURYDAYS;
-					} else if (localName.equals("national")) { //$NON-NLS-1$
-						current_tag = TAG_NATIONAL;
-					} else if (localName.equals("skillForm")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLFORM;
-					} else if (localName.equals("skillExperience")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLEXPERIENCE;
-					} else if (localName.equals("skillTeamwork")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLTEAMWORK;
-					} else if (localName.equals("skillDiscipline")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLDISCIPLINE;
-					} else if (localName.equals("transferList")) { //$NON-NLS-1$
-						current_tag = TAG_TRANSFERLIST;
-					} else if (localName.equals("skillStamina")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLSTAMINA;
-					} else if (localName.equals("skillPace")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLPACE;
-					} else if (localName.equals("skillTechnique")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLTECHNIQUE;
-					} else if (localName.equals("skillPassing")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLPASSING;
-					} else if (localName.equals("skillKeeper")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLKEEPER;
-					} else if (localName.equals("skillDefending")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLDEFENDING;
-					} else if (localName.equals("skillPlaymaking")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLPLAYMAKING;
-					} else if (localName.equals("skillScoring")) { //$NON-NLS-1$
-						current_tag = TAG_SKILLSCORING;
+				if (tagSwitch == TAG_PLAYER) {
+					if (localName.equals("ID")) { 
+						currentTag = TAG_ID;
+					} else if (localName.equals("name")) { 
+						currentTag = TAG_NAME;
+					} else if (localName.equals("surname")) { 
+						currentTag = TAG_SURNAME;
+					} else if (localName.equals("countryID")) { 
+						currentTag = TAG_COUNTRY_ID;
+					} else if (localName.equals("age")) { 
+						currentTag = TAG_AGE;
+					} else if (localName.equals("teamID")) { 
+						currentTag = TAG_TEAM_ID;
+					} else if (localName.equals("youthTeamID")) { 
+						currentTag = TAG_YOUTHTEAM_ID;
+					} else if (localName.equals("value")) { 
+						currentTag = TAG_VALUE;
+					} else if (localName.equals("wage")) { 
+						currentTag = TAG_WAGE;
+					} else if (localName.equals("cards")) { 
+						currentTag = TAG_CARDS;
+					} else if (localName.equals("goals")) { 
+						currentTag = TAG_GOALS;
+					} else if (localName.equals("assists")) { 
+						currentTag = TAG_ASSISTS;
+					} else if (localName.equals("matches")) { 
+						currentTag = TAG_MATCHES;
+					} else if (localName.equals("ntAssists")) { 
+						currentTag = TAG_NTASSISTS;
+					} else if (localName.equals("ntCards")) { 
+						currentTag = TAG_NTCARDS;
+					} else if (localName.equals("ntGoals")) { 
+						currentTag = TAG_NTGOALS;
+					} else if (localName.equals("ntMatches")) { 
+						currentTag = TAG_NTMATCHES;
+					} else if (localName.equals("injuryDays")) { 
+						currentTag = TAG_INJURYDAYS;
+					} else if (localName.equals("national")) { 
+						currentTag = TAG_NATIONAL;
+					} else if (localName.equals("skillForm")) { 
+						currentTag = TAG_SKILLFORM;
+					} else if (localName.equals("skillExperience")) { 
+						currentTag = TAG_SKILLEXPERIENCE;
+					} else if (localName.equals("skillTeamwork")) { 
+						currentTag = TAG_SKILLTEAMWORK;
+					} else if (localName.equals("skillDiscipline")) { 
+						currentTag = TAG_SKILLDISCIPLINE;
+					} else if (localName.equals("transferList")) { 
+						currentTag = TAG_TRANSFERLIST;
+					} else if (localName.equals("skillStamina")) { 
+						currentTag = TAG_SKILLSTAMINA;
+					} else if (localName.equals("skillPace")) { 
+						currentTag = TAG_SKILLPACE;
+					} else if (localName.equals("skillTechnique")) { 
+						currentTag = TAG_SKILLTECHNIQUE;
+					} else if (localName.equals("skillPassing")) { 
+						currentTag = TAG_SKILLPASSING;
+					} else if (localName.equals("skillKeeper")) { 
+						currentTag = TAG_SKILLKEEPER;
+					} else if (localName.equals("skillDefending")) { 
+						currentTag = TAG_SKILLDEFENDING;
+					} else if (localName.equals("skillPlaymaking")) { 
+						currentTag = TAG_SKILLPLAYMAKING;
+					} else if (localName.equals("skillScoring")) { 
+						currentTag = TAG_SKILLSCORING;
 					} else if (localName.equals("height")) {
-						current_tag = TAG_HEIGHT;
+						currentTag = TAG_HEIGHT;
 					}
 
 				}
@@ -333,7 +333,7 @@ public class PlayerXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

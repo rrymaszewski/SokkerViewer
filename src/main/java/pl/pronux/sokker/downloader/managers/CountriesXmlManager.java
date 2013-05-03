@@ -19,15 +19,15 @@ public class CountriesXmlManager extends XmlManager<Country> {
 
 	private List<Country> countries;
 	
-	private CountriesManager countriesManager = CountriesManager.instance();
-	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private CountriesManager countriesManager = CountriesManager.getInstance();
+	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 
 	public CountriesXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
 
 	public CountriesXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("countries", destination, downloader, currentDay); //$NON-NLS-1$
+		super("countries", destination, downloader, currentDay); 
 	}
 
 	public CountriesXmlManager(String content, Date currentDay, int teamID) {

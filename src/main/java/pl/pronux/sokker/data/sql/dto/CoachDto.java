@@ -18,25 +18,25 @@ public class CoachDto extends Coach {
 	}
 	
 	public Coach getCoach() throws SQLException {
-		this.setId(rs.getInt("id_coach")); //$NON-NLS-1$
-		this.setName(rs.getString("name")); //$NON-NLS-1$
-		this.setSurname(rs.getString("surname")); //$NON-NLS-1$
-		this.setJob(rs.getInt("job")); //$NON-NLS-1$
-		this.setSigned(rs.getByte("signed")); //$NON-NLS-1$
-		this.setCountryfrom(rs.getInt("countryfrom")); //$NON-NLS-1$
-		this.setAge(rs.getByte("age")); //$NON-NLS-1$
-		this.setSalary(new Money(rs.getInt("salary"))); //$NON-NLS-1$
-		this.setGeneralskill(rs.getByte("generalskill")); //$NON-NLS-1$
-		this.setStamina(rs.getByte("stamina")); //$NON-NLS-1$
-		this.setPace(rs.getByte("pace")); //$NON-NLS-1$
-		this.setTechnique(rs.getByte("technique")); //$NON-NLS-1$
-		this.setPassing(rs.getByte("passing")); //$NON-NLS-1$
-		this.setKeepers(rs.getByte("keepers")); //$NON-NLS-1$
-		this.setDefenders(rs.getByte("defenders")); //$NON-NLS-1$
-		this.setPlaymakers(rs.getByte("playmakers")); //$NON-NLS-1$
-		this.setScorers(rs.getByte("scorers")); //$NON-NLS-1$
-		this.setStatus(rs.getInt("status")); //$NON-NLS-1$
-		this.setNote(rs.getString("note")); //$NON-NLS-1$
+		this.setId(rs.getInt("id_coach")); 
+		this.setName(rs.getString("name")); 
+		this.setSurname(rs.getString("surname")); 
+		this.setJob(rs.getInt("job")); 
+		this.setSigned(rs.getByte("signed")); 
+		this.setCountryfrom(rs.getInt("countryfrom")); 
+		this.setAge(rs.getByte("age")); 
+		this.setSalary(new Money(rs.getInt("salary"))); 
+		this.setGeneralskill(rs.getByte("generalskill")); 
+		this.setStamina(rs.getByte("stamina")); 
+		this.setPace(rs.getByte("pace")); 
+		this.setTechnique(rs.getByte("technique")); 
+		this.setPassing(rs.getByte("passing")); 
+		this.setKeepers(rs.getByte("keepers")); 
+		this.setDefenders(rs.getByte("defenders")); 
+		this.setPlaymakers(rs.getByte("playmakers")); 
+		this.setScorers(rs.getByte("scorers")); 
+		this.setStatus(rs.getInt("status")); 
+		this.setNote(rs.getString("note")); 
 		this.setSummarySkill();
 		return this;
 	}

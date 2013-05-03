@@ -20,9 +20,9 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.listeners.VerifyMoneyListener;
 
 public class TaxCalculator extends Shell {
-	private static final String ORIGINAL_CLUB = "5.0"; //$NON-NLS-1$
+	private static final String ORIGINAL_CLUB = "5.0"; 
 
-	private static final String TAX = "4.0"; //$NON-NLS-1$
+	private static final String TAX = "4.0"; 
 
 	private static final int BRUTTO = 1;
 
@@ -42,7 +42,7 @@ public class TaxCalculator extends Shell {
 		super(parent, style);
 
 		this.setLayout(new FormLayout());
-		this.setText(Messages.getString("taxcalculator.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("taxcalculator.title")); 
 		Listener listener = new Listener() {
 
 			public void handleEvent(Event event) {
@@ -54,7 +54,7 @@ public class TaxCalculator extends Shell {
 						Text text = (Text) event.widget;
 						if (text != null) {
 							try {
-								String string = text.getText().replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+								String string = text.getText().replaceAll("[^0-9]", "");  
 								value = Integer.valueOf(string);
 							} catch (NumberFormatException ex) {
 								value = 0;
@@ -101,7 +101,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel bruttoLabel = new CLabel(this, SWT.NONE);
 		bruttoLabel.setLayoutData(formData);
-		bruttoLabel.setText(Messages.getString("taxcalculator.value.brutto")); //$NON-NLS-1$
+		bruttoLabel.setText(Messages.getString("taxcalculator.value.brutto")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(bruttoLabel, 5);
@@ -110,7 +110,7 @@ public class TaxCalculator extends Shell {
 
 		bruttoText = new Text(this, SWT.BORDER | SWT.RIGHT);
 		bruttoText.setLayoutData(formData);
-		bruttoText.setText("0"); //$NON-NLS-1$
+		bruttoText.setText("0"); 
 
 		bruttoText.addListener(SWT.FocusOut, listener);
 		bruttoText.addListener(SWT.Traverse, listener);
@@ -132,7 +132,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel nettoLabel = new CLabel(this, SWT.NONE);
 		nettoLabel.setLayoutData(formData);
-		nettoLabel.setText(Messages.getString("taxcalculator.value.netto")); //$NON-NLS-1$
+		nettoLabel.setText(Messages.getString("taxcalculator.value.netto")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(nettoLabel, 5);
@@ -141,7 +141,7 @@ public class TaxCalculator extends Shell {
 
 		nettoText = new Text(this, SWT.BORDER | SWT.RIGHT);
 		nettoText.setLayoutData(formData);
-		nettoText.setText("0"); //$NON-NLS-1$
+		nettoText.setText("0"); 
 
 		nettoText.addListener(SWT.FocusOut, listener);
 		nettoText.addListener(SWT.Traverse, listener);
@@ -163,7 +163,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel taxPaymentLabel = new CLabel(this, SWT.NONE);
 		taxPaymentLabel.setLayoutData(formData);
-		taxPaymentLabel.setText(Messages.getString("taxcalculator.tax.payment")); //$NON-NLS-1$
+		taxPaymentLabel.setText(Messages.getString("taxcalculator.tax.payment")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(taxPaymentLabel, 5);
@@ -172,7 +172,7 @@ public class TaxCalculator extends Shell {
 
 		taxPaymentText = new Text(this, SWT.BORDER | SWT.RIGHT | SWT.READ_ONLY);
 		taxPaymentText.setLayoutData(formData);
-		taxPaymentText.setText("0"); //$NON-NLS-1$
+		taxPaymentText.setText("0"); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(taxPaymentText, 5);
@@ -189,7 +189,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel originalClubPaymentLabel = new CLabel(this, SWT.NONE);
 		originalClubPaymentLabel.setLayoutData(formData);
-		originalClubPaymentLabel.setText(Messages.getString("taxcalculator.originalclub.payment")); //$NON-NLS-1$
+		originalClubPaymentLabel.setText(Messages.getString("taxcalculator.originalclub.payment")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(originalClubPaymentLabel, 5);
@@ -198,7 +198,7 @@ public class TaxCalculator extends Shell {
 
 		originalClubPaymentText = new Text(this, SWT.BORDER | SWT.RIGHT | SWT.READ_ONLY);
 		originalClubPaymentText.setLayoutData(formData);
-		originalClubPaymentText.setText("0"); //$NON-NLS-1$
+		originalClubPaymentText.setText("0"); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(originalClubPaymentText, 5);
@@ -207,7 +207,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel originalClubPaymentDescLabel = new CLabel(this, SWT.LEFT);
 		originalClubPaymentDescLabel.setLayoutData(formData);
-		originalClubPaymentDescLabel.setText("%"); //$NON-NLS-1$
+		originalClubPaymentDescLabel.setText("%"); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 10);
@@ -216,7 +216,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel taxLabel = new CLabel(this, SWT.NONE);
 		taxLabel.setLayoutData(formData);
-		taxLabel.setText(Messages.getString("taxcalculator.tax.fee")); //$NON-NLS-1$
+		taxLabel.setText(Messages.getString("taxcalculator.tax.fee")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(taxLabel, 5);
@@ -235,7 +235,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel taxDescLabel = new CLabel(this, SWT.LEFT);
 		taxDescLabel.setLayoutData(formData);
-		taxDescLabel.setText("%"); //$NON-NLS-1$
+		taxDescLabel.setText("%"); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 10);
@@ -244,7 +244,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel originalClubLabel = new CLabel(this, SWT.NONE);
 		originalClubLabel.setLayoutData(formData);
-		originalClubLabel.setText(Messages.getString("taxcalculator.originalclub.fee")); //$NON-NLS-1$
+		originalClubLabel.setText(Messages.getString("taxcalculator.originalclub.fee")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(originalClubLabel, 5);
@@ -263,7 +263,7 @@ public class TaxCalculator extends Shell {
 
 		CLabel originalClubDescLabel = new CLabel(this, SWT.LEFT);
 		originalClubDescLabel.setLayoutData(formData);
-		originalClubDescLabel.setText("%"); //$NON-NLS-1$
+		originalClubDescLabel.setText("%"); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 10);
@@ -272,7 +272,7 @@ public class TaxCalculator extends Shell {
 
 		final Button originalClubButton = new Button(this, SWT.CHECK);
 		originalClubButton.setLayoutData(formData);
-		originalClubButton.setText(Messages.getString("taxcalculator.originalclub.check")); //$NON-NLS-1$
+		originalClubButton.setText(Messages.getString("taxcalculator.originalclub.check")); 
 		originalClubButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -295,7 +295,7 @@ public class TaxCalculator extends Shell {
 
 		Button countButton = new Button(this, SWT.PUSH);
 		countButton.setLayoutData(formData);
-		countButton.setText(Messages.getString("button.count")); //$NON-NLS-1$
+		countButton.setText(Messages.getString("button.count")); 
 		countButton.pack();
 		countButton.addSelectionListener(new SelectionListener() {
 
@@ -311,13 +311,13 @@ public class TaxCalculator extends Shell {
 				int originalClubCharge;
 				
 				try {
-					String text = bruttoText.getText().replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+					String text = bruttoText.getText().replaceAll("[^0-9]", "");  
 					brutto = Integer.valueOf(text);
 				} catch (NumberFormatException ex) {
 					brutto = 0;
 				}
 				try {
-					String text = nettoText.getText().replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+					String text = nettoText.getText().replaceAll("[^0-9]", "");  
 					netto = Integer.valueOf(text);
 				} catch (NumberFormatException ex) {
 					netto = 0;
@@ -364,7 +364,7 @@ public class TaxCalculator extends Shell {
 
 		Button resetButton = new Button(this, SWT.PUSH);
 		resetButton.setLayoutData(formData);
-		resetButton.setText(Messages.getString("button.reset")); //$NON-NLS-1$
+		resetButton.setText(Messages.getString("button.reset")); 
 		resetButton.pack();
 		resetButton.addSelectionListener(new SelectionListener() {
 
@@ -372,10 +372,10 @@ public class TaxCalculator extends Shell {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				nettoText.setText("0"); //$NON-NLS-1$
-				bruttoText.setText("0"); //$NON-NLS-1$
-				originalClubPaymentText.setText("0"); //$NON-NLS-1$
-				taxPaymentText.setText("0"); //$NON-NLS-1$
+				nettoText.setText("0"); 
+				bruttoText.setText("0"); 
+				originalClubPaymentText.setText("0"); 
+				taxPaymentText.setText("0"); 
 				taxText.setText(TAX);
 				originalClubText.setText(ORIGINAL_CLUB);
 

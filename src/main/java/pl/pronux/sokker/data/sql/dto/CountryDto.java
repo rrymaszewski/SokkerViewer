@@ -11,10 +11,10 @@ public class CountryDto extends Country {
 		this.rs = rs;
 	}
 	public Country getCountry() throws SQLException {
-		this.setCountryID(rs.getInt("country_id")); //$NON-NLS-1$
-		this.setName(rs.getString("name")); //$NON-NLS-1$
-		this.setCurrencyRate(rs.getDouble("currency_rate")); //$NON-NLS-1$
-		this.setCurrencyName(rs.getString("currency_name")); //$NON-NLS-1$
+		this.setCountryId(rs.getInt("country_id")); 
+		this.setName(rs.getString("name")); 
+		this.setCurrencyRate(rs.getDouble("currency_rate")); 
+		this.setCurrencyName(rs.getString("currency_name")); 
 		return this;
 	}
 }

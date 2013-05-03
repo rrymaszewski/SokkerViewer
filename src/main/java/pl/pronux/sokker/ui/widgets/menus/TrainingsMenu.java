@@ -31,7 +31,7 @@ public class TrainingsMenu extends Menu {
 		MenuItem item;
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("trainings.menu.item.report")); //$NON-NLS-1$
+		item.setText(Messages.getString("trainings.menu.item.report")); 
 		item.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -46,7 +46,7 @@ public class TrainingsMenu extends Menu {
 		});
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("trainings.menu.item.edit")); //$NON-NLS-1$
+		item.setText(Messages.getString("trainings.menu.item.edit")); 
 		item.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {

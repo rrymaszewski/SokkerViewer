@@ -53,8 +53,9 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 
 						offset = -1;
 					}
-					if (offset != -1 && offset >= start)
+					if (offset != -1 && offset >= start) {
 						offset += newCharCount - replaceCharCount;
+					}
 					offsets[i] = offset;
 				}
 			}
@@ -93,40 +94,40 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 		this.setRedraw(false);
 		List<Image> imagesList = new ArrayList<Image>();
 		int max = player.getSkills().length - 1 - index;
-		String imageText = "\uFFFC"; //$NON-NLS-1$
-		this.setText(""); //$NON-NLS-1$
+		String imageText = "\uFFFC"; 
+		this.setText(""); 
 
 //		this.addText(String.format("%s: %s ", Messages.getString("player.club"), player.getClub()));
 //		this.addText(NEW_LINE);
 
-		this.addText(String.format("%s: %d, %s: %d, %s: %d", Messages.getString("player.matches.short"), player.getSkills()[max].getMatches(), Messages.getString("player.goals.short"), player.getSkills()[max].getGoals(), Messages.getString("player.assists.short"), player.getSkills()[max].getAssists())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		this.addText(String.format("%s: %d, %s: %d, %s: %d", Messages.getString("player.matches.short"), player.getSkills()[max].getMatches(), Messages.getString("player.goals.short"), player.getSkills()[max].getGoals(), Messages.getString("player.assists.short"), player.getSkills()[max].getAssists()));    
 
 		this.addText(NEW_LINE);
 
-		this.addText(String.format("%s: %s", Messages.getString("player.position"), Messages.getString("assistant.position." + player.getPosition()))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		this.addText(String.format("%s: %s", Messages.getString("player.position"), Messages.getString("assistant.position." + player.getPosition())));   
 		this.addText(NEW_LINE);
 
 		if (max > 0) {
 			int diff1 = player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill();
 			if (diff1 != 0) {
-				this.addText(String.format("%s: [%d %s]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill()))); //$NON-NLS-1$ //$NON-NLS-2$
+				this.addText(String.format("%s: [%d %s]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[max].getSummarySkill() - player.getSkills()[0].getSummarySkill())));  
 			} else {
-				this.addText(String.format("%s: [%d]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill())); //$NON-NLS-1$ //$NON-NLS-2$
+				this.addText(String.format("%s: [%d]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill()));  
 			}
 		} else {
-			this.addText(String.format("%s: [%d]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill())); //$NON-NLS-1$ //$NON-NLS-2$
+			this.addText(String.format("%s: [%d]", Messages.getString("player.sum"), player.getSkills()[max].getSummarySkill()));  
 		}
 
 		this.addText(NEW_LINE);
 		if(max > 0) {
-			this.addText(String.format("%s: %d", Messages.getString("player.weeks.in.club"), player.getSkills()[max].getDate().getSokkerDate().getWeek() - player.getSkills()[0].getDate().getSokkerDate().getWeek())); //$NON-NLS-1$ //$NON-NLS-2$
+			this.addText(String.format("%s: %d", Messages.getString("player.weeks.in.club"), player.getSkills()[max].getDate().getSokkerDate().getWeek() - player.getSkills()[0].getDate().getSokkerDate().getWeek()));  
 		} else {
-			this.addText(String.format("%s: %d", Messages.getString("player.weeks.in.club"), 0)); //$NON-NLS-1$ //$NON-NLS-2$
+			this.addText(String.format("%s: %d", Messages.getString("player.weeks.in.club"), 0));  
 		}
 		
 		this.addText(NEW_LINE);
 		if(player.getTeam() != null) {
-			if(player.getTeamID() == player.getYouthTeamID()) {
+			if(player.getTeamId() == player.getYouthTeamId()) {
 				this.addText(Messages.getString("player.from.school"));
 			} else if(player.getTransferBuy() != null) {
 				this.addText(String.format("%s: %s", Messages.getString("player.from.transferlist"), player.getTransferBuy().getPrice().formatIntegerCurrencySymbol()));
@@ -161,7 +162,7 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 				imagesList.add(FlagsResources.getFlagLight(player.getCountryfrom()));
 			}
 
-			this.addText(String.format(" %s: %s ", Messages.getString("player.country"), Messages.getString("country." + player.getCountryfrom() + ".name"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			this.addText(String.format(" %s: %s ", Messages.getString("player.country"), Messages.getString("country." + player.getCountryfrom() + ".name")));    
 			this.addText(NEW_LINE);
 
 			// if(player.getNational() > 0) {
@@ -172,9 +173,9 @@ public class PlayerHistoryDescriptionAdditions extends StyledText implements IDe
 
 			if (player.getNtSkills() != null && player.getNtSkills().length > 0) {
 				int maxNT = player.getNtSkills().length - 1;
-				this.addText(String.format("%s: %d, %s: %d, %s: %d", Messages.getString("player.matches.short"), player.getNtSkills()[maxNT].getNtMatches(), Messages.getString("player.goals.short"), player.getNtSkills()[maxNT].getNtGoals(), Messages.getString("player.assists.short"), player.getNtSkills()[maxNT].getNtAssists())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				this.addText(String.format("%s: %d, %s: %d, %s: %d", Messages.getString("player.matches.short"), player.getNtSkills()[maxNT].getNtMatches(), Messages.getString("player.goals.short"), player.getNtSkills()[maxNT].getNtGoals(), Messages.getString("player.assists.short"), player.getNtSkills()[maxNT].getNtAssists()));    
 			} else {
-				this.addText(String.format("%s: -, %s: -, %s: -", Messages.getString("player.matches.short"), Messages.getString("player.goals.short"), Messages.getString("player.assists.short"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				this.addText(String.format("%s: -, %s: -, %s: -", Messages.getString("player.matches.short"), Messages.getString("player.goals.short"), Messages.getString("player.assists.short")));    
 			}
 		}
 		

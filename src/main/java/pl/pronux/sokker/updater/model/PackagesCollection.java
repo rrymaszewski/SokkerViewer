@@ -13,7 +13,7 @@ public class PackagesCollection {
 	}
 
 	public PackagesCollection() {
-		this.info = ""; //$NON-NLS-1$
+		this.info = ""; 
 		this.packages = new ArrayList<Package>();
 	}
 

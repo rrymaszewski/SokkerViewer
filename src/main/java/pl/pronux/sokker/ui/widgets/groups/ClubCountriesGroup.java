@@ -49,10 +49,10 @@ public class ClubCountriesGroup extends Group {
 			countryLabel = new Label(this, SWT.NONE);
 			this.labels.add(countryLabel);
 			countryLabel.setToolTipText(country.getName());
-			if(visitedCountries.contains(country.getCountryID())) {
-				countryLabel.setImage(FlagsResources.getFlag(country.getCountryID()));
+			if(visitedCountries.contains(country.getCountryId())) {
+				countryLabel.setImage(FlagsResources.getFlag(country.getCountryId()));
 			} else {
-				countryLabel.setImage(FlagsResources.getFlagVeryLight(country.getCountryID()));
+				countryLabel.setImage(FlagsResources.getFlagVeryLight(country.getCountryId()));
 			}
 		}
 		

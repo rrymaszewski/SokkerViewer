@@ -7,9 +7,9 @@ public class LeagueTeam {
 	
 	private Club club; 
 	
-	private int leagueID;
+	private int leagueId;
 
-	private int teamID;
+	private int teamId;
 
 	private int round;
 
@@ -111,16 +111,16 @@ public class LeagueTeam {
 	 * @return
 	 * @uml.property name="leagueID"
 	 */
-	public int getLeagueID() {
-		return leagueID;
+	public int getLeagueId() {
+		return leagueId;
 	}
 
 	/**
-	 * @param leagueID
+	 * @param leagueId
 	 * @uml.property name="leagueID"
 	 */
-	public void setLeagueID(int leagueID) {
-		this.leagueID = leagueID;
+	public void setLeagueId(int leagueId) {
+		this.leagueId = leagueId;
 	}
 
 	/**
@@ -191,16 +191,16 @@ public class LeagueTeam {
 	 * @return
 	 * @uml.property name="teamID"
 	 */
-	public int getTeamID() {
-		return teamID;
+	public int getTeamId() {
+		return teamId;
 	}
 
 	/**
-	 * @param teamID
+	 * @param teamId
 	 * @uml.property name="teamID"
 	 */
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 
 	/**

@@ -36,21 +36,21 @@ import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.Transfer;
 import pl.pronux.sokker.resources.Messages;
 
-public class TeamManager {
+public final class TeamManager {
 
 	private static TeamManager instance = new TeamManager();
 
 	private TeamManager() {
 	}
 
-	public static TeamManager instance() {
+	public static TeamManager getInstance() {
 		return instance;
 	}
 
 	public void importReports(List<Report> reports) throws SQLException {
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
 		for (Report report : reports) {
-			if (!reportsDao.existsReport(report.getReportID())) {
+			if (!reportsDao.existsReport(report.getReportId())) {
 				reportsDao.addReport(report);
 			} else {
 				break;
@@ -61,7 +61,7 @@ public class TeamManager {
 	public void importerReports(List<Report> reports) throws SQLException {
 		ReportsDao reportsDao = new ReportsDao(SQLSession.getConnection());
 		for (Report report : reports) {
-			if (!reportsDao.existsReport(report.getReportID())) {
+			if (!reportsDao.existsReport(report.getReportId())) {
 				reportsDao.addReport(report);
 			}
 		}
@@ -70,7 +70,7 @@ public class TeamManager {
 	public void importTransfers(List<Transfer> transfers) throws SQLException {
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		for (Transfer transfer : transfers) {
-			if (!transfersDao.existsTransfer(transfer.getTransferID())) {
+			if (!transfersDao.existsTransfer(transfer.getTransferId())) {
 				transfersDao.addTransfer(transfer);
 			} else {
 				break;
@@ -81,7 +81,7 @@ public class TeamManager {
 	public void importerTransfers(List<Transfer> transfers) throws SQLException {
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		for (Transfer transfer : transfers) {
-			if (!transfersDao.existsTransfer(transfer.getTransferID())) {
+			if (!transfersDao.existsTransfer(transfer.getTransferId())) {
 				transfersDao.addTransfer(transfer);
 			}
 		}
@@ -383,7 +383,7 @@ public class TeamManager {
 			List<Rank> rank = teamsDao.getRank(club.getId());
 			club.setRank(rank);
 
-			Region region = countriesDao.getRegion(club.getRegionID());
+			Region region = countriesDao.getRegion(club.getRegionId());
 			club.setRegion(region);
 
 			Arena arena = new Arena();
@@ -402,42 +402,42 @@ public class TeamManager {
 		return clubMap;
 	}
 
-	public Club getTeam(int teamID) throws SQLException {
+	public Club getTeam(int teamId) throws SQLException {
 		
 		boolean newConnection = SQLQuery.connect();
 		// pobieranie informacji o klubie
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		CountriesDao countriesDao = new CountriesDao(SQLSession.getConnection());
 
-		Club club = teamsDao.getClub(teamID);
+		Club club = teamsDao.getClub(teamId);
 
-		List<ClubBudget> clubDataMoney = teamsDao.getClubDataMoney(teamID);
+		List<ClubBudget> clubDataMoney = teamsDao.getClubDataMoney(teamId);
 		club.setClubBudget(clubDataMoney);
 
-		List<ClubSupporters> clubDataFanclub = teamsDao.getClubDataFanclub(teamID);
+		List<ClubSupporters> clubDataFanclub = teamsDao.getClubDataFanclub(teamId);
 		club.setClubSupporters(clubDataFanclub);
 
-		List<ClubName> clubName = teamsDao.getClubName(teamID);
+		List<ClubName> clubName = teamsDao.getClubName(teamId);
 		club.setClubName(clubName);
 
-		List<Rank> rank = teamsDao.getRank(teamID);
+		List<Rank> rank = teamsDao.getRank(teamId);
 		club.setRank(rank);
 
-		Region region = countriesDao.getRegion(club.getRegionID());
+		Region region = countriesDao.getRegion(club.getRegionId());
 		club.setRegion(region);
 
 		Arena arena = new Arena();
-		List<Stand> stands = teamsDao.getStands(teamID);
+		List<Stand> stands = teamsDao.getStands(teamId);
 		arena.setStands(stands);
 
-		List<ClubArenaName> clubArenaName = teamsDao.getClubArenaName(teamID);
+		List<ClubArenaName> clubArenaName = teamsDao.getClubArenaName(teamId);
 		arena.setArenaNames(clubArenaName);
 
 		club.setArena(arena);
 
-		club.setVisitedCountries(teamsDao.getVisitedCountries(teamID));
+		club.setVisitedCountries(teamsDao.getVisitedCountries(teamId));
 
-		club.setInvitedCountries(teamsDao.getInvitedCountries(teamID));
+		club.setInvitedCountries(teamsDao.getInvitedCountries(teamId));
 
 		SQLSession.close(newConnection);
 		return club;
@@ -459,16 +459,16 @@ public class TeamManager {
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 
-		List<Training> alTraining = teamsDao.getTrainings();
+		List<Training> trainings = teamsDao.getTrainings();
 
-		for (Training training : alTraining) {
+		for (Training training : trainings) {
 			training.setJuniors(new ArrayList<Junior>());
 			training.setPlayers(new ArrayList<Player>());
 			trainersDao.getCoachesAtTraining(training, coachMap);
 			// hmTraining.put(training.getId(), training);
 		}
 		SQLSession.close(newConnection);
-		return alTraining;
+		return trainings;
 	}
 
 	public List<Report> getReports(Map<Integer, PlayerArchive> playersMap, Map<Integer, Coach> coachMap) throws SQLException {
@@ -478,11 +478,11 @@ public class TeamManager {
 		List<Report> reports = reportsDao.getReports();
 
 		for (Report report : reports) {
-			if (report.getPersonID() > 0) {
+			if (report.getPersonId() > 0) {
 				if (report.getType() == 216) {
-					report.setPerson(coachMap.get(report.getPersonID()));
+					report.setPerson(coachMap.get(report.getPersonId()));
 				} else if (report.getType() != 212) {
-					report.setPerson(playersMap.get(report.getPersonID()));
+					report.setPerson(playersMap.get(report.getPersonId()));
 				}
 			}
 
@@ -490,19 +490,19 @@ public class TeamManager {
 
 			if ((report.getType() < 200 && report.getType() != 1 && report.getType() != 101) || report.getType() == 212) {
 				params.add(new Money(report.getValue()).formatIntegerCurrencySymbol());
-				if (report.getPersonID() > 0) {
+				if (report.getPersonId() > 0) {
 					if (report.getPerson() != null) {
-						params.add(report.getPerson().getName() + " " + report.getPerson().getSurname()); //$NON-NLS-1$
+						params.add(report.getPerson().getName() + " " + report.getPerson().getSurname()); 
 					} else {
-						params.add(String.valueOf(report.getPersonID()));
+						params.add(String.valueOf(report.getPersonId()));
 					}
 				}
 			} else {
-				if (report.getPersonID() > 0) {
+				if (report.getPersonId() > 0) {
 					if (report.getPerson() != null) {
-						params.add(report.getPerson().getName() + " " + report.getPerson().getSurname()); //$NON-NLS-1$
+						params.add(report.getPerson().getName() + " " + report.getPerson().getSurname()); 
 					} else {
-						params.add(String.valueOf(report.getPersonID()));
+						params.add(String.valueOf(report.getPersonId()));
 					}
 					params.add(new Money(report.getValue()).formatIntegerCurrencySymbol());
 				} else {
@@ -511,7 +511,7 @@ public class TeamManager {
 
 			}
 
-			report.setMessage(String.format(Messages.getString("report." + report.getType()), params.toArray(new Object[params.size()])));//$NON-NLS-1$
+			report.setMessage(String.format(Messages.getString("report." + report.getType()), params.toArray(new Object[params.size()])));
 
 			if (report.getType() > 0 && report.getType() < 100) {
 				report.setStatus(Report.INCOME);
@@ -596,10 +596,10 @@ public class TeamManager {
 	public List<Transfer> getTransfers(Club club) throws SQLException {
 		boolean newConnection = SQLQuery.connect();
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
-		ArrayList<Transfer> alTransfers = transfersDao.getTransfers(club);
+		List<Transfer> transfers = transfersDao.getTransfers(club);
 
 		SQLQuery.close(newConnection);
-		return alTransfers;
+		return transfers;
 	}
 
 	public void updateTraining(Training training) throws SQLException {

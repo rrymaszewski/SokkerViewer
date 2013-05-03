@@ -35,7 +35,7 @@ import pl.pronux.sokker.ui.widgets.dialogs.MessageDialog;
 
 public class LoginShell extends Shell {
 
-	private SettingsManager settingsManager = SettingsManager.instance();
+	private SettingsManager settingsManager = SettingsManager.getInstance();
 
 	private Display display;
 
@@ -90,7 +90,7 @@ public class LoginShell extends Shell {
 		proxySettings = settings.getProxySettings();
 
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("confShell.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("confShell.title")); 
 
 		GridData defaultGridData = new GridData();
 		defaultGridData.horizontalSpan = 2;
@@ -100,7 +100,7 @@ public class LoginShell extends Shell {
 		defaultGridData.heightHint = 20;
 
 		skLoginLabel = new Label(this, SWT.NONE);
-		skLoginLabel.setText(Messages.getString("confShell.sklogin")); //$NON-NLS-1$
+		skLoginLabel.setText(Messages.getString("confShell.sklogin")); 
 		skLoginLabel.setLayoutData(defaultGridData);
 
 		skLoginText = new Text(this, SWT.BORDER);
@@ -112,7 +112,7 @@ public class LoginShell extends Shell {
 		skLoginText.setLayoutData(defaultGridData);
 
 		skPasswordLabel = new Label(this, SWT.NONE);
-		skPasswordLabel.setText(Messages.getString("confShell.skpassword")); //$NON-NLS-1$
+		skPasswordLabel.setText(Messages.getString("confShell.skpassword")); 
 		skPasswordLabel.setLayoutData(defaultGridData);
 
 		skPasswordText = new Text(this, SWT.BORDER | SWT.PASSWORD);
@@ -124,24 +124,24 @@ public class LoginShell extends Shell {
 		skPasswordText.setLayoutData(defaultGridData);
 
 		checkDlButton = new Button(this, SWT.CHECK);
-		checkDlButton.setText(Messages.getString("confShell.dlcheck")); //$NON-NLS-1$
+		checkDlButton.setText(Messages.getString("confShell.dlcheck")); 
 		checkDlButton.setLayoutData(defaultGridData);
 		checkDlButton.setSelection(settings.isUpdate());
 
 		savePasswordButton = new Button(this, SWT.CHECK);
-		savePasswordButton.setText(Messages.getString("confShell.savepass")); //$NON-NLS-1$
+		savePasswordButton.setText(Messages.getString("confShell.savepass")); 
 		savePasswordButton.setLayoutData(defaultGridData);
 		savePasswordButton.setSelection(settings.isSavePassword());
 
-		if (proxySettings.getHostname() != null && !proxySettings.getHostname().matches(" *")) { //$NON-NLS-1$
+		if (proxySettings.getHostname() != null && !proxySettings.getHostname().matches(" *")) { 
 			proxyButton = new Button(this, SWT.CHECK);
-			proxyButton.setText(Messages.getString("confShell.proxy")); //$NON-NLS-1$
+			proxyButton.setText(Messages.getString("confShell.proxy")); 
 			proxyButton.setLayoutData(defaultGridData);
 			proxyButton.setSelection(proxySettings.isEnabled());
 		}
 
 		langTypeLabel = new Label(this, SWT.VERTICAL | SWT.SHADOW_NONE);
-		langTypeLabel.setText(Messages.getString("confShell.langtype")); //$NON-NLS-1$
+		langTypeLabel.setText(Messages.getString("confShell.langtype")); 
 		langTypeLabel.setLayoutData(defaultGridData);
 
 		Listener confShellLangComboListner = new Listener() {
@@ -154,10 +154,10 @@ public class LoginShell extends Shell {
 					if (langCode != null) {
 						settings.setLangCode(langCode);
 						settingsManager.updateSettings(settings);
-						String[] table = langCode.split("_"); //$NON-NLS-1$
+						String[] table = langCode.split("_"); 
 						Messages.setDefault(new Locale(table[0], table[1]));
 						setShellConfWidgetsTranslation();
-						MessageDialog.openInformationMessage(LoginShell.this.getShell(), Messages.getString("message.information.restart")); //$NON-NLS-1$
+						MessageDialog.openInformationMessage(LoginShell.this.getShell(), Messages.getString("message.information.restart")); 
 					}
 				} catch (FileNotFoundException e1) {
 					new BugReporter(LoginShell.this.getDisplay()).openErrorMessage("Login", e1);
@@ -183,8 +183,8 @@ public class LoginShell extends Shell {
 			public void handleEvent(Event event) {
 				if (skLoginText.getText().isEmpty() || skPasswordText.getText().isEmpty()) {
 					MessageBox msg = new MessageBox(LoginShell.this, SWT.OK | SWT.ICON_ERROR);
-					msg.setText(Messages.getString("message.confShell.title")); //$NON-NLS-1$
-					msg.setMessage(Messages.getString("message.confShell.text.nologin")); //$NON-NLS-1$
+					msg.setText(Messages.getString("message.confShell.title")); 
+					msg.setMessage(Messages.getString("message.confShell.text.nologin")); 
 					msg.open();
 					return;
 				}
@@ -198,17 +198,17 @@ public class LoginShell extends Shell {
 				if (proxyButton != null) {
 					proxySettings.setEnabled(proxyButton.getSelection());
 					if (proxyButton.getSelection()) {
-						System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-						System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
-						System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
-						System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
-						System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
+						System.setProperty("proxySet", "true");  
+						System.setProperty("http.proxyHost", proxySettings.getHostname()); 
+						System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); 
+						System.setProperty("http.proxyUser", proxySettings.getUsername()); 
+						System.setProperty("http.proxyPassword", proxySettings.getPassword()); 
 					} else {
-						System.setProperty("proxySet", "false"); //$NON-NLS-1$ //$NON-NLS-2$
-						System.setProperty("http.proxyHost", ""); //$NON-NLS-1$ //$NON-NLS-2$
-						System.setProperty("http.proxyPort", ""); //$NON-NLS-1$ //$NON-NLS-2$
-						System.setProperty("http.proxyUser", ""); //$NON-NLS-1$ //$NON-NLS-2$
-						System.setProperty("http.proxyPassword", ""); //$NON-NLS-1$ //$NON-NLS-2$
+						System.setProperty("proxySet", "false");  
+						System.setProperty("http.proxyHost", "");  
+						System.setProperty("http.proxyPort", "");  
+						System.setProperty("http.proxyUser", "");  
+						System.setProperty("http.proxyPassword", "");  
 					}
 				}
 
@@ -242,7 +242,7 @@ public class LoginShell extends Shell {
 		buttonGridData.horizontalAlignment = GridData.END;
 
 		okButton = new Button(this, SWT.CENTER);
-		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
+		okButton.setText(Messages.getString("button.ok")); 
 		okButton.addListener(SWT.Selection, confShellOkListner);
 		okButton.setFont(ConfigBean.getFontMain());
 		okButton.setLayoutData(buttonGridData);
@@ -253,14 +253,14 @@ public class LoginShell extends Shell {
 		buttonGridData.horizontalAlignment = GridData.BEGINNING;
 
 		cancelButton = new Button(this, SWT.CENTER);
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
+		cancelButton.setText(Messages.getString("button.cancel")); 
 		cancelButton.addListener(SWT.Selection, confShellCancelListner);
 		cancelButton.setFont(ConfigBean.getFontMain());
 		cancelButton.setLayoutData(buttonGridData);
 
 		changeLoginLabel = new Label(this, SWT.CENTER);
 		changeLoginLabel.setLayoutData(defaultGridData);
-		changeLoginLabel.setText(Messages.getString("confShell.login.change")); //$NON-NLS-1$
+		changeLoginLabel.setText(Messages.getString("confShell.login.change")); 
 		changeLoginLabel.setForeground(ColorResources.getBlue());
 		changeLoginLabel.setCursor(CursorResources.getCursor(SWT.CURSOR_HAND));
 
@@ -301,14 +301,14 @@ public class LoginShell extends Shell {
 																											 / 2 - this.getBounds().height / 2);
 	}
 
-	final private void setShellConfWidgetsTranslation() {
-		skLoginLabel.setText(Messages.getString("confShell.sklogin")); //$NON-NLS-1$
-		skPasswordLabel.setText(Messages.getString("confShell.skpassword")); //$NON-NLS-1$
-		langTypeLabel.setText(Messages.getString("confShell.langtype")); //$NON-NLS-1$
-		savePasswordButton.setText(Messages.getString("confShell.savepass")); //$NON-NLS-1$
-		checkDlButton.setText(Messages.getString("confShell.dlcheck")); //$NON-NLS-1$
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
-		okButton.setText(Messages.getString("button.ok")); //$NON-NLS-1$
-		changeLoginLabel.setText(Messages.getString("confShell.login.change")); //$NON-NLS-1$
+	private void setShellConfWidgetsTranslation() {
+		skLoginLabel.setText(Messages.getString("confShell.sklogin")); 
+		skPasswordLabel.setText(Messages.getString("confShell.skpassword")); 
+		langTypeLabel.setText(Messages.getString("confShell.langtype")); 
+		savePasswordButton.setText(Messages.getString("confShell.savepass")); 
+		checkDlButton.setText(Messages.getString("confShell.dlcheck")); 
+		cancelButton.setText(Messages.getString("button.cancel")); 
+		okButton.setText(Messages.getString("button.ok")); 
+		changeLoginLabel.setText(Messages.getString("confShell.login.change")); 
 	}
 }

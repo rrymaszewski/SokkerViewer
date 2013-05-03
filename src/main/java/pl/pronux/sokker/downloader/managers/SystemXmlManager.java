@@ -12,14 +12,14 @@ import pl.pronux.sokker.model.Date;
 
 public class SystemXmlManager extends XmlManager<Object> {
 	
-	private ConfigurationManager databaseConfigurationManager = ConfigurationManager.instance();
+	private ConfigurationManager databaseConfigurationManager = ConfigurationManager.getInstance();
 	
 	public SystemXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
 
 	public SystemXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("system", destination, downloader, currentDay); //$NON-NLS-1$
+		super("system", destination, downloader, currentDay); 
 	}
 	
 	@Override
@@ -54,8 +54,8 @@ public class SystemXmlManager extends XmlManager<Object> {
 		databaseConfigurationManager.updateDbUpdate(b);
 	}
 	
-	public void updateDbTeamID(int teamID) throws SQLException {
-		databaseConfigurationManager.updateDbTeamID(teamID);
+	public void updateDbTeamId(int teamId) throws SQLException {
+		databaseConfigurationManager.updateDbTeamId(teamId);
 	}
 
 }

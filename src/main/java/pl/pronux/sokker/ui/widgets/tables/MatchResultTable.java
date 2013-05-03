@@ -46,10 +46,10 @@ public class MatchResultTable extends SVTable<Match> {
 		// this.getColumn(3).setWidth((width - 20)/2);
 
 		TableItem item = new TableItem(this, SWT.NONE);
-		item.setText(2, "-"); //$NON-NLS-1$
+		item.setText(2, "-"); 
 
 		item = new TableItem(this, SWT.NONE);
-		item.setText(2, ":"); //$NON-NLS-1$
+		item.setText(2, ":"); 
 
 		parent.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
@@ -96,19 +96,19 @@ public class MatchResultTable extends SVTable<Match> {
 				if (player != null && player.getExistsInSokker() != Player.EXISTS_IN_SOKKER_UNCHECKED) {
 					if(player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_TRUE || player.getExistsInSokker() == Player.EXISTS_IN_SOKKER_COMPLETED) {
 						if (player.getName() == null || player.getSurname() == null || (player.getName().isEmpty() && player.getSurname().isEmpty())) {
-							sPlayer = playerStats.getPlayerID() + " (n/d)"; //$NON-NLS-1$
+							sPlayer = playerStats.getPlayerId() + " (n/d)"; 
 						} else {
 							if (player.getName().length() > 0) {
-								sPlayer = String.format("%s %s.", player.getSurname(), player.getName().substring(0, 1)); //$NON-NLS-1$
+								sPlayer = String.format("%s %s.", player.getSurname(), player.getName().substring(0, 1)); 
 							} else {
-								sPlayer = playerStats.getPlayerID() + " (?)"; //$NON-NLS-1$
+								sPlayer = playerStats.getPlayerId() + " (?)"; 
 							}
 						}
 					} else {
-						sPlayer = playerStats.getPlayerID() + " (n/a)"; //$NON-NLS-1$
+						sPlayer = playerStats.getPlayerId() + " (n/a)"; 
 					}
 				} else {
-					sPlayer = playerStats.getPlayerID() + " (n/d)"; //$NON-NLS-1$
+					sPlayer = playerStats.getPlayerId() + " (n/d)"; 
 				}
 //				if (player != null) {
 //					if (player.getName() != null && player.getSurname() != null) {
@@ -119,9 +119,9 @@ public class MatchResultTable extends SVTable<Match> {
 //				}
 
 				if (this.getItemCount() > startItem) {
-					this.getItem(startItem++).setText(column, String.format("%s (%d)", sPlayer, playerStats.getGoals() )); //$NON-NLS-1$
+					this.getItem(startItem++).setText(column, String.format("%s (%d)", sPlayer, playerStats.getGoals() )); 
 				} else {
-					new TableItem(this, SWT.NONE).setText(column, String.format("%s (%d)", sPlayer, playerStats.getGoals())); //$NON-NLS-1$
+					new TableItem(this, SWT.NONE).setText(column, String.format("%s (%d)", sPlayer, playerStats.getGoals())); 
 					startItem++;
 				}
 			}
@@ -134,11 +134,11 @@ public class MatchResultTable extends SVTable<Match> {
 		this.remove(2, this.getItemCount() - 1);
 		
 		if(match.getIsFinished() == Match.NOT_FINISHED) {
-			this.getItem(0).setText(1, String.valueOf(match.getHomeTeamID()));
-			this.getItem(0).setText(3, String.valueOf(match.getAwayTeamID()));
+			this.getItem(0).setText(1, String.valueOf(match.getHomeTeamId()));
+			this.getItem(0).setText(3, String.valueOf(match.getAwayTeamId()));
 
-			this.getItem(1).setText(1, "-"); //$NON-NLS-1$
-			this.getItem(1).setText(3, "-"); //$NON-NLS-1$
+			this.getItem(1).setText(1, "-"); 
+			this.getItem(1).setText(3, "-"); 
 			this.setRedraw(true);
 			return;
 		}

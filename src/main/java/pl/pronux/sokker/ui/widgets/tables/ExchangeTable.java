@@ -35,13 +35,13 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 		comparator.setDirection(ExchangeComparator.ASCENDING);
 
 		String[] titles = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.id"), //$NON-NLS-1$
-				Messages.getString("exchange.country.name"), //$NON-NLS-1$
-				Messages.getString("exchange.country.originalname"), //$NON-NLS-1$
-				Messages.getString("exchange.currency"), //$NON-NLS-1$
-				Messages.getString("exchange.value"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				"", 
+				Messages.getString("table.id"), 
+				Messages.getString("exchange.country.name"), 
+				Messages.getString("exchange.country.originalname"), 
+				Messages.getString("exchange.currency"), 
+				Messages.getString("exchange.value"), 
+				"" 
 		};
 
 		for (int i = 0; i < titles.length; i++) {
@@ -85,7 +85,7 @@ public class ExchangeTable extends SVTable<Exchange> implements IViewSort<Exchan
 		for(Exchange exchange : alExchange) {
 			TableItem item = new TableItem(this,SWT.NONE);
 			item.setImage(FlagsResources.getFlag(exchange.getId()));
-			item.setText(0, "" ); //$NON-NLS-1$
+			item.setText(0, "" ); 
 			item.setText(1, String.valueOf(exchange.getId()) );
 			item.setText(2, exchange.getName());
 			item.setText(3, exchange.getOriginalName());

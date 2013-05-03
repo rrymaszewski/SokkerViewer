@@ -454,7 +454,7 @@ public final class ColorResources {
 	}
 
 	public static String rgb2hex(RGB rgb) {
-		String hex = "#"; //$NON-NLS-1$
+		String hex = "#"; 
 	
 		if(Integer.toHexString(rgb.red).length() == 1) {
 			hex+= 0;

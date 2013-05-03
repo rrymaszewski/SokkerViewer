@@ -32,7 +32,7 @@ import pl.pronux.sokker.model.Training;
 
 public class OldXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
 	private static final int TAG_ARENA_CAPACITY = 26;
 
@@ -150,7 +150,7 @@ public class OldXmlParser {
 
 	private static final int TAG_SOKKERDATA = 100;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private List<Coach> coaches;
 
@@ -160,7 +160,7 @@ public class OldXmlParser {
 
 	private Arena arena;
 
-	public Club club;
+	private Club club;
 
 	private Coach coach;
 
@@ -186,16 +186,19 @@ public class OldXmlParser {
 
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException, IOException {
 
+
 		class SAXHandler extends DefaultHandler {
+
+			private StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
 				message.append(new String(ch, start, length));
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_PLAYERS:
 					// TODO jezeli wchodzimy tutaj i sa jakies znaki to ladujemy exception
 					break;
 				case TAG_SOKKERDATA:
-					if (message.toString().equalsIgnoreCase("empty")) { //$NON-NLS-1$
+					if (message.toString().equalsIgnoreCase("empty")) { 
 						throw new SAXException();
 					}
 					break;
@@ -306,24 +309,24 @@ public class OldXmlParser {
 					/*
 					 * Remove white spaces like \t
 					 */
-					coach.setName(coach.getName().replaceAll("\t", "")); //$NON-NLS-1$ //$NON-NLS-2$
+					coach.setName(coach.getName().replaceAll("\t", ""));  
 					break;
 				case TAG_COACH_SURNAME:
 					coach.setSurname(message.toString());
 					/*
 					 * Remove white spaces like \t
 					 */
-					coach.setSurname(coach.getSurname().replaceAll("\t", "")); //$NON-NLS-1$ //$NON-NLS-2$
+					coach.setSurname(coach.getSurname().replaceAll("\t", ""));  
 					break;
 				case TAG_COACH_JOB:
 					String job = message.toString();
-					if(job.equalsIgnoreCase("head")) { //$NON-NLS-1$
+					if(job.equalsIgnoreCase("head")) { 
 						coach.setJob(Coach.JOB_HEAD);
-					} else if(job.equalsIgnoreCase("juniors")) { //$NON-NLS-1$
+					} else if(job.equalsIgnoreCase("juniors")) { 
 						coach.setJob(Coach.JOB_JUNIORS);
-					} else if(job.equalsIgnoreCase("none")) { //$NON-NLS-1$
+					} else if(job.equalsIgnoreCase("none")) { 
 						coach.setJob(Coach.JOB_NONE);
-					} else if(job.equalsIgnoreCase("assistant")) { //$NON-NLS-1$
+					} else if(job.equalsIgnoreCase("assistant")) { 
 						coach.setJob(Coach.JOB_ASSISTANT);
 					}
 					break;
@@ -393,19 +396,19 @@ public class OldXmlParser {
 
 			public void endElement(String namespaceURL, String localName, String qName) {
 
-				current_tag = 0;
+				currentTag = 0;
 
-				if (localName.equals("player")) { //$NON-NLS-1$
+				if (localName.equals("player")) { 
 					player.setSkills(playerSkills);
 					players.add(player);
-				} else if (localName.equals("junior")) { //$NON-NLS-1$
+				} else if (localName.equals("junior")) { 
 					junior.setSkills(juniorSkills);
 					juniors.add(junior);
-				} else if (localName.equalsIgnoreCase("stand")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("stand")) { 
 					alStand.add(stand);
-				} else if (localName.equalsIgnoreCase("coach")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("coach")) { 
 					coaches.add(coach);
-				}else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
+				}else if (localName.equalsIgnoreCase("arena")) { 
 					arena.setArenaNames(alArenaName);
 					arena.setStands(alStand);
 				}
@@ -419,22 +422,21 @@ public class OldXmlParser {
 				alStand = new ArrayList<Stand>();
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("sokkerdata")) { //$NON-NLS-1$
-					TAG_switch = 6;
+				if (localName.equalsIgnoreCase("sokkerdata")) { 
+					tagSwitch = 6;
 				}
 
-				if (localName.equalsIgnoreCase("players")) { //$NON-NLS-1$
-					TAG_switch = 7;
+				if (localName.equalsIgnoreCase("players")) { 
+					tagSwitch = 7;
 				}
 
-				if (localName.equals("player")) { //$NON-NLS-1$
-					TAG_switch = 1;
+				if (localName.equals("player")) { 
+					tagSwitch = 1;
 
 					player = new Player();
 					playerSkills = new PlayerSkills[1];
@@ -444,13 +446,13 @@ public class OldXmlParser {
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("ID")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("ID")) { 
 							player.setId(Integer.valueOf(value).intValue());
 						}
 					}
-				} else if (localName.equals("junior")) { //$NON-NLS-1$
+				} else if (localName.equals("junior")) { 
 
-					TAG_switch = 2;
+					tagSwitch = 2;
 
 					junior = new Junior();
 					juniorSkills = new JuniorSkills[1];
@@ -460,13 +462,13 @@ public class OldXmlParser {
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("ID")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("ID")) { 
 							junior.setId(Integer.valueOf(value).intValue());
 						}
 					}
-				} else if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("team")) { 
 
-					TAG_switch = 3;
+					tagSwitch = 3;
 					club = new Club();
 					clubDataSupporters = new ArrayList<ClubSupporters>();
 					clubDataSupporters.add(new ClubSupporters());
@@ -488,202 +490,202 @@ public class OldXmlParser {
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("ID")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("ID")) { 
 							club.setId(Integer.valueOf(value).intValue());
 						}
 					}
 
-				} else if (localName.equalsIgnoreCase("arena")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("arena")) { 
 
-					TAG_switch = 4;
+					tagSwitch = 4;
 					arena = new Arena();
-				} else if (localName.equalsIgnoreCase("coach")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("coach")) { 
 
-					TAG_switch = 5;
+					tagSwitch = 5;
 					coach = new Coach();
 
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("ID")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("ID")) { 
 							coach.setId(Integer.valueOf(value).intValue());
-						} else if (name.equalsIgnoreCase("signed")) { //$NON-NLS-1$
+						} else if (name.equalsIgnoreCase("signed")) { 
 							coach.setSigned(Integer.valueOf(value).byteValue());
 						}
 					}
 				}
 
-				if (TAG_switch == 1) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_NAME;
-					} else if (localName.equals("surname")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_SURNAME;
-					} else if (localName.equals("countryfrom")) { //$NON-NLS-1$
+				if (tagSwitch == 1) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_PLAYER_NAME;
+					} else if (localName.equals("surname")) { 
+						currentTag = TAG_PLAYER_SURNAME;
+					} else if (localName.equals("countryfrom")) { 
 
 						int length = atts.getLength();
 						for (int i = 0; i < length; i++) {
 							String name = atts.getQName(i);
 							String value = atts.getValue(i);
-							if (name.equalsIgnoreCase("ID")) { //$NON-NLS-1$
+							if (name.equalsIgnoreCase("ID")) { 
 								player.setCountryfrom(Integer.valueOf(value).intValue());
 							}
 						}
-						current_tag = TAG_PLAYER_COUNTRYFROM;
-					} else if (localName.equals("age")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_AGE;
-					} else if (localName.equals("value")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_VALUE;
-					} else if (localName.equals("salary")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_SALARY;
-					} else if (localName.equals("cards")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_CARDS;
-					} else if (localName.equals("injurydays")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_INJURYDAYS;
-					} else if (localName.equals("matches")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_MATCHES;
-					} else if (localName.equals("goals")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_GOALS;
-					} else if (localName.equals("assists")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_ASSISTS;
-					} else if (localName.equals("form")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_FORM;
-					} else if (localName.equals("stamina")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_STAMINA;
-					} else if (localName.equals("pace")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_PACE;
-					} else if (localName.equals("technique")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_TECHNIQUE;
-					} else if (localName.equals("passing")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_PASSING;
-					} else if (localName.equals("keeper")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_KEEPER;
-					} else if (localName.equals("defender")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_DEFENDER;
-					} else if (localName.equals("playmaker")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_PLAYMAKER;
-					} else if (localName.equals("scorer")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_SCORER;
+						currentTag = TAG_PLAYER_COUNTRYFROM;
+					} else if (localName.equals("age")) { 
+						currentTag = TAG_PLAYER_AGE;
+					} else if (localName.equals("value")) { 
+						currentTag = TAG_PLAYER_VALUE;
+					} else if (localName.equals("salary")) { 
+						currentTag = TAG_PLAYER_SALARY;
+					} else if (localName.equals("cards")) { 
+						currentTag = TAG_PLAYER_CARDS;
+					} else if (localName.equals("injurydays")) { 
+						currentTag = TAG_PLAYER_INJURYDAYS;
+					} else if (localName.equals("matches")) { 
+						currentTag = TAG_PLAYER_MATCHES;
+					} else if (localName.equals("goals")) { 
+						currentTag = TAG_PLAYER_GOALS;
+					} else if (localName.equals("assists")) { 
+						currentTag = TAG_PLAYER_ASSISTS;
+					} else if (localName.equals("form")) { 
+						currentTag = TAG_PLAYER_FORM;
+					} else if (localName.equals("stamina")) { 
+						currentTag = TAG_PLAYER_STAMINA;
+					} else if (localName.equals("pace")) { 
+						currentTag = TAG_PLAYER_PACE;
+					} else if (localName.equals("technique")) { 
+						currentTag = TAG_PLAYER_TECHNIQUE;
+					} else if (localName.equals("passing")) { 
+						currentTag = TAG_PLAYER_PASSING;
+					} else if (localName.equals("keeper")) { 
+						currentTag = TAG_PLAYER_KEEPER;
+					} else if (localName.equals("defender")) { 
+						currentTag = TAG_PLAYER_DEFENDER;
+					} else if (localName.equals("playmaker")) { 
+						currentTag = TAG_PLAYER_PLAYMAKER;
+					} else if (localName.equals("scorer")) { 
+						currentTag = TAG_PLAYER_SCORER;
 					}
-				} else if (TAG_switch == 2) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_NAME;
-					} else if (localName.equals("surname")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_SURNAME;
-					} else if (localName.equals("weeks")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_WEEKS;
-					} else if (localName.equals("skill")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_SKILL;
+				} else if (tagSwitch == 2) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_JUNIOR_NAME;
+					} else if (localName.equals("surname")) { 
+						currentTag = TAG_JUNIOR_SURNAME;
+					} else if (localName.equals("weeks")) { 
+						currentTag = TAG_JUNIOR_WEEKS;
+					} else if (localName.equals("skill")) { 
+						currentTag = TAG_JUNIOR_SKILL;
 					}
-				} else if (TAG_switch == 3) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_CLUB_NAME;
-					} else if (localName.equals("country")) { //$NON-NLS-1$
+				} else if (tagSwitch == 3) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_CLUB_NAME;
+					} else if (localName.equals("country")) { 
 						int length = atts.getLength();
 						for (int i = 0; i < length; i++) {
 							String name = atts.getQName(i);
 							String value = atts.getValue(i);
-							if (name.equalsIgnoreCase("id")) { //$NON-NLS-1$
+							if (name.equalsIgnoreCase("id")) { 
 								club.setCountry(Integer.valueOf(value).intValue());
 							}
 						}
-					} else if (localName.equals("region")) { //$NON-NLS-1$
+					} else if (localName.equals("region")) { 
 						int length = atts.getLength();
 						for (int i = 0; i < length; i++) {
 							String name = atts.getQName(i);
 							String value = atts.getValue(i);
-							if (name.equalsIgnoreCase("id")) { //$NON-NLS-1$
-								club.setRegionID(Integer.valueOf(value).intValue());
+							if (name.equalsIgnoreCase("id")) { 
+								club.setRegionId(Integer.valueOf(value).intValue());
 							}
 						}
-					} else if (localName.equals("money")) { //$NON-NLS-1$
-						current_tag = TAG_CLUB_MONEY;
-					} else if (localName.equals("fanclubcount")) { //$NON-NLS-1$
-						current_tag = TAG_CLUB_FANCLUBCOUNT;
-					} else if (localName.equals("fanclubmood")) { //$NON-NLS-1$
-						current_tag = TAG_CLUB_FANCLUBMOOD;
+					} else if (localName.equals("money")) { 
+						currentTag = TAG_CLUB_MONEY;
+					} else if (localName.equals("fanclubcount")) { 
+						currentTag = TAG_CLUB_FANCLUBCOUNT;
+					} else if (localName.equals("fanclubmood")) { 
+						currentTag = TAG_CLUB_FANCLUBMOOD;
 					}
-				} else if (TAG_switch == 4) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_ARENA_NAME;
-					} else if (localName.equals("stand")) { //$NON-NLS-1$
+				} else if (tagSwitch == 4) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_ARENA_NAME;
+					} else if (localName.equals("stand")) { 
 						stand = new Stand();
 						int length = atts.getLength();
 						for (int i = 0; i < length; i++) {
 							String name = atts.getQName(i);
 							String value = atts.getValue(i);
-							if (name.equalsIgnoreCase("location")) { //$NON-NLS-1$
-								if(value.equals("N")) { //$NON-NLS-1$
+							if (name.equalsIgnoreCase("location")) { 
+								if(value.equals("N")) { 
 									stand.setLocation(1);
-								} else if(value.equals("S")){ //$NON-NLS-1$
+								} else if(value.equals("S")){ 
 									stand.setLocation(2);
-								} else if(value.equals("W")){ //$NON-NLS-1$
+								} else if(value.equals("W")){ 
 									stand.setLocation(3);
-								} else if(value.equals("E")){ //$NON-NLS-1$
+								} else if(value.equals("E")){ 
 									stand.setLocation(4);
-								} else if(value.equals("NW")){ //$NON-NLS-1$
+								} else if(value.equals("NW")){ 
 									stand.setLocation(5);
-								} else if(value.equals("NE")){ //$NON-NLS-1$
+								} else if(value.equals("NE")){ 
 									stand.setLocation(6);
-								} else if(value.equals("SW")){ //$NON-NLS-1$
+								} else if(value.equals("SW")){ 
 									stand.setLocation(7);
-								} else if(value.equals("SE")){ //$NON-NLS-1$
+								} else if(value.equals("SE")){ 
 									stand.setLocation(8);
 								}
 							}
 						}
-					} else if (localName.equals("capacity")) { //$NON-NLS-1$
-						current_tag = TAG_ARENA_CAPACITY;
-					} else if (localName.equals("type")) { //$NON-NLS-1$
-						current_tag = TAG_ARENA_TYPE;
-					} else if (localName.equals("days")) { //$NON-NLS-1$
-						current_tag = TAG_ARENA_DAYS;
-					} else if (localName.equals("roof")) { //$NON-NLS-1$
-						current_tag = TAG_ARENA_ROOF;
+					} else if (localName.equals("capacity")) { 
+						currentTag = TAG_ARENA_CAPACITY;
+					} else if (localName.equals("type")) { 
+						currentTag = TAG_ARENA_TYPE;
+					} else if (localName.equals("days")) { 
+						currentTag = TAG_ARENA_DAYS;
+					} else if (localName.equals("roof")) { 
+						currentTag = TAG_ARENA_ROOF;
 					}
-				} else if (TAG_switch == 5) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_NAME;
-					} else if (localName.equalsIgnoreCase("surname")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_SURNAME;
-					} else if (localName.equalsIgnoreCase("job")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_JOB;
-					} else if (localName.equals("countryfrom")) { //$NON-NLS-1$
+				} else if (tagSwitch == 5) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_COACH_NAME;
+					} else if (localName.equalsIgnoreCase("surname")) { 
+						currentTag = TAG_COACH_SURNAME;
+					} else if (localName.equalsIgnoreCase("job")) { 
+						currentTag = TAG_COACH_JOB;
+					} else if (localName.equals("countryfrom")) { 
 						int length = atts.getLength();
 						for (int i = 0; i < length; i++) {
 							String name = atts.getQName(i);
 							String value = atts.getValue(i);
-							if (name.equalsIgnoreCase("id")) { //$NON-NLS-1$
+							if (name.equalsIgnoreCase("id")) { 
 								coach.setCountryfrom(Integer.valueOf(value).intValue());
 							}
 						}
-					} else if (localName.equals("age")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_AGE;
-					} else if (localName.equals("salary")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_SALARY;
-					} else if (localName.equals("generalskill")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_GENERALSKILL;
-					} else if (localName.equalsIgnoreCase("stamina")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_STAMINA;
-					} else if (localName.equalsIgnoreCase("pace")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_PACE;
-					} else if (localName.equalsIgnoreCase("technique")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_TECHNIQUE;
-					} else if (localName.equalsIgnoreCase("passing")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_PASSING;
-					} else if (localName.equalsIgnoreCase("keepers")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_KEEPERS;
-					} else if (localName.equalsIgnoreCase("defenters")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_DEFENDERS;
-					} else if (localName.equalsIgnoreCase("playmakers")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_PLAYMAKERS;
-					} else if (localName.equalsIgnoreCase("scorers")) { //$NON-NLS-1$
-						current_tag = TAG_COACH_SCORERS;
+					} else if (localName.equals("age")) { 
+						currentTag = TAG_COACH_AGE;
+					} else if (localName.equals("salary")) { 
+						currentTag = TAG_COACH_SALARY;
+					} else if (localName.equals("generalskill")) { 
+						currentTag = TAG_COACH_GENERALSKILL;
+					} else if (localName.equalsIgnoreCase("stamina")) { 
+						currentTag = TAG_COACH_STAMINA;
+					} else if (localName.equalsIgnoreCase("pace")) { 
+						currentTag = TAG_COACH_PACE;
+					} else if (localName.equalsIgnoreCase("technique")) { 
+						currentTag = TAG_COACH_TECHNIQUE;
+					} else if (localName.equalsIgnoreCase("passing")) { 
+						currentTag = TAG_COACH_PASSING;
+					} else if (localName.equalsIgnoreCase("keepers")) { 
+						currentTag = TAG_COACH_KEEPERS;
+					} else if (localName.equalsIgnoreCase("defenters")) { 
+						currentTag = TAG_COACH_DEFENDERS;
+					} else if (localName.equalsIgnoreCase("playmakers")) { 
+						currentTag = TAG_COACH_PLAYMAKERS;
+					} else if (localName.equalsIgnoreCase("scorers")) { 
+						currentTag = TAG_COACH_SCORERS;
 					}
-				} else if (TAG_switch == 6) {
-					current_tag = TAG_SOKKERDATA;
-				} else if (TAG_switch == 7) {
-					current_tag = TAG_PLAYERS;
+				} else if (tagSwitch == 6) {
+					currentTag = TAG_SOKKERDATA;
+				} else if (tagSwitch == 7) {
+					currentTag = TAG_PLAYERS;
 				}
 			}
 

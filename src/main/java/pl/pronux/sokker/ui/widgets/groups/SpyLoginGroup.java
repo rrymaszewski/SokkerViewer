@@ -35,12 +35,12 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class SpyLoginGroup extends Group {
 
-	private SpyManager spyManager = SpyManager.instance();
+	private SpyManager spyManager = SpyManager.getInstance();
 	
 	private Button buttonGet;
-	private Label idLabel;
-	private Combo idCombo;
-	private HashMap<String, Integer> clubMap;
+	private Label labelId;
+	private Combo comboId;
+	private Map<String, Integer> clubMap;
 	@Override
 	protected void checkSubclass() {
 //		super.checkSubclass();
@@ -50,7 +50,7 @@ public class SpyLoginGroup extends Group {
 		
 		this.setFont(ConfigBean.getFontMain());
 		this.setLayout(new FormLayout());
-		this.setText(Messages.getString("spy.group.data")); //$NON-NLS-1$
+		this.setText(Messages.getString("spy.group.data")); 
 		this.setForeground(Colors.getBlueDescription());
 		
 		FormData formData;
@@ -59,45 +59,45 @@ public class SpyLoginGroup extends Group {
 		formData.right = new FormAttachment(100, -10);
 		formData.top = new FormAttachment(0, 5);
 
-		idLabel = new Label(this, SWT.NONE);
-		idLabel.setLayoutData(formData);
-		idLabel.setText(Messages.getString("spy.id.opponent")); //$NON-NLS-1$
-		idLabel.setFont(ConfigBean.getFontMain());
-		idLabel.pack();
+		labelId = new Label(this, SWT.NONE);
+		labelId.setLayoutData(formData);
+		labelId.setText(Messages.getString("spy.id.opponent")); 
+		labelId.setFont(ConfigBean.getFontMain());
+		labelId.pack();
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 10);
-		formData.top = new FormAttachment(idLabel, 5);
+		formData.top = new FormAttachment(labelId, 5);
 		formData.right = new FormAttachment(100, -10);
 
-		idCombo = new Combo(this, SWT.BORDER);
-		idCombo.setLayoutData(formData);
-		idCombo.setFont(ConfigBean.getFontMain());
-		idCombo.setTextLimit(50);
+		comboId = new Combo(this, SWT.BORDER);
+		comboId.setLayoutData(formData);
+		comboId.setFont(ConfigBean.getFontMain());
+		comboId.setTextLimit(50);
 //		idCombo.addVerifyListener(new VerifyDigitsAction());
 		
 		formData = new FormData();
-		formData.left = new FormAttachment(idCombo, 0, SWT.CENTER);
-		formData.top = new FormAttachment(idCombo, 5);
+		formData.left = new FormAttachment(comboId, 0, SWT.CENTER);
+		formData.top = new FormAttachment(comboId, 5);
 
 		buttonGet = new Button(this, SWT.NONE);
-		buttonGet.setText(Messages.getString("button.download")); //$NON-NLS-1$
+		buttonGet.setText(Messages.getString("button.download")); 
 		buttonGet.setLayoutData(formData);
 		buttonGet.setFont(ConfigBean.getFontMain());
 		buttonGet.pack();
 		buttonGet.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event arg0) {
-				String text = idCombo.getText();
-				int teamID = 0;
+				String text = comboId.getText();
+				int teamId = 0;
 				if(clubMap.get(text) != null) {
-					teamID = clubMap.get(text);
-				} else if (text != null && text.length() < 7 && text.matches("[0-9]+")) { //$NON-NLS-1$
-					teamID = Integer.valueOf(text);
+					teamId = clubMap.get(text);
+				} else if (text != null && text.length() < 7 && text.matches("[0-9]+")) { 
+					teamId = Integer.valueOf(text);
 				}
-				if(teamID > 0) {
+				if(teamId > 0) {
 					try {
 						
-						Club team = spyManager.getTeam(teamID);
+						Club team = spyManager.getTeam(teamId);
 						if(team != null) {
 							ViewerHandler.getViewer().notifyListeners(IEvents.REFRESH_SPY, new TeamEvent(team));
 						}
@@ -115,32 +115,32 @@ public class SpyLoginGroup extends Group {
 		});
 	}
 	public void fill(List<Match> matches, Club club, Map<Integer, Club> clubs) {
-		clubMap = new HashMap<String, Integer>();
-		idCombo.removeAll();
+		this.clubMap = new HashMap<String, Integer>();
+		comboId.removeAll();
 		String key;
 		MatchesComparator comp = new MatchesComparator(MatchesComparator.WEEK_DAY, MatchesComparator.ASCENDING);
 		Collections.sort(matches, comp);
 
 		for(Match match : matches) {
 			if(match.getIsFinished() == Match.NOT_FINISHED) {
-				if(match.getHomeTeamID() != club.getId() && !clubMap.containsValue(match.getHomeTeamID())) {
-					if(clubs.get(match.getHomeTeamID()) != null) {
-						key = clubs.get(match.getHomeTeamID()).getClubName().get(0).getName();
-						idCombo.add(key);
+				if(match.getHomeTeamId() != club.getId() && !clubMap.containsValue(match.getHomeTeamId())) {
+					if(clubs.get(match.getHomeTeamId()) != null) {
+						key = clubs.get(match.getHomeTeamId()).getClubName().get(0).getName();
+						comboId.add(key);
 					} else {
-						key = String.valueOf(match.getHomeTeamID());
-						idCombo.add(key);	
+						key = String.valueOf(match.getHomeTeamId());
+						comboId.add(key);	
 					}
-					clubMap.put(key, match.getHomeTeamID());
-				} else if (match.getAwayTeamID() != club.getId() && !clubMap.containsValue(match.getAwayTeamID())){
-					if(clubs.get(match.getAwayTeamID()) != null) {
-						key = clubs.get(match.getAwayTeamID()).getClubName().get(0).getName();
-						idCombo.add(key);
+					clubMap.put(key, match.getHomeTeamId());
+				} else if (match.getAwayTeamId() != club.getId() && !clubMap.containsValue(match.getAwayTeamId())){
+					if(clubs.get(match.getAwayTeamId()) != null) {
+						key = clubs.get(match.getAwayTeamId()).getClubName().get(0).getName();
+						comboId.add(key);
 					} else {
-						key = String.valueOf(match.getAwayTeamID());
-						idCombo.add(key);	
+						key = String.valueOf(match.getAwayTeamId());
+						comboId.add(key);	
 					}
-					clubMap.put(key, match.getAwayTeamID());
+					clubMap.put(key, match.getAwayTeamId());
 				}
 			}
 		}

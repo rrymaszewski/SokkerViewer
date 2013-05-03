@@ -30,9 +30,9 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class OperationOnFile {
 
-	public static void serializePlayer(PlayerInterface player, String filename) throws Exception {
-		if (!filename.contains(".sv_")) { //$NON-NLS-1$
-			filename += ".sv_"; //$NON-NLS-1$
+	public static void serializePlayer(PlayerInterface player, String filename) throws IOException {
+		if (!filename.contains(".sv_")) { 
+			filename += ".sv_"; 
 		}
 		FileOutputStream out = null;
 		ObjectOutputStream oos = null;
@@ -51,7 +51,7 @@ public class OperationOnFile {
 		}
 	}
 
-	public static PlayerInterface serializePlayer(String filename) throws Exception {
+	public static PlayerInterface serializePlayer(String filename) throws IOException, ClassNotFoundException  {
 		PlayerInterface player = null;
 		ObjectInputStream ois = null;
 		try {
@@ -193,8 +193,8 @@ public class OperationOnFile {
 	}
 
 	public static void generateToPDF(String file, String text) throws IOException, DocumentException {
-		if (!file.contains(".pdf")) { //$NON-NLS-1$
-			file += ".pdf"; //$NON-NLS-1$
+		if (!file.contains(".pdf")) { 
+			file += ".pdf"; 
 		}
 		// step 1: creation of a document-object
 		Document document = new Document();
@@ -208,7 +208,7 @@ public class OperationOnFile {
 			document.open();
 			// step 4: we add a paragraph to the document
 			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator
-													 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
+													 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);  
 			Font font = new Font(bfCourier, 12);
 			document.add(new Paragraph(text, font));
 		} catch (DocumentException de) {
@@ -254,12 +254,12 @@ public class OperationOnFile {
 	public static List<File> getFileChildren(File dir, FileFilter filter, List<File> listFiles, IProgressMonitor monitor) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
-			monitor.beginTask(Messages.getString("OperationOnFile.scanning"), 1); //$NON-NLS-1$
+			monitor.beginTask(Messages.getString("OperationOnFile.scanning"), 1); 
 			File[] children = dir.listFiles(filter);
 			monitor.worked(1);
-			monitor.beginTask(Messages.getString("OperationOnFile.checking"), children.length); //$NON-NLS-1$
+			monitor.beginTask(Messages.getString("OperationOnFile.checking"), children.length); 
 			for (int i = 0; i < children.length; i++) {
-				monitor.subTask(Messages.getString("OperationOnFile.checking.file") + " " + children[i].getName() + i + File.separator + children.length); //$NON-NLS-1$ //$NON-NLS-2$
+				monitor.subTask(Messages.getString("OperationOnFile.checking.file") + " " + children[i].getName() + i + File.separator + children.length);  
 				if (children[i].isFile()) {
 					listFiles.add(children[i]);
 				}
@@ -309,11 +309,11 @@ public class OperationOnFile {
 	}
 
 	public static void writeToFileLATIN1(String filename, String content) throws IOException {
-	 	writeToFile(filename, content, "ISO-8859-1"); //$NON-NLS-1$
+	 	writeToFile(filename, content, "ISO-8859-1"); 
 	}
 
 	public static void writeToFileUTF(String filename, String content) throws IOException {
-		writeToFile(filename, content, "UTF-8"); //$NON-NLS-1$
+		writeToFile(filename, content, "UTF-8"); 
 	}
 	
 	private static void writeToFile(String filename, String content, String encoding) throws IOException {

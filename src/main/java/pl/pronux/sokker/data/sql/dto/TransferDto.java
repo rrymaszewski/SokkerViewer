@@ -14,16 +14,16 @@ public class TransferDto extends Transfer {
 		this.rs = rs;
 	}
 	public Transfer getTransfer() throws SQLException {
-		this.setTransferID(rs.getInt("id")); //$NON-NLS-1$
-		this.setSellerTeamID(rs.getInt("seller_team_id")); //$NON-NLS-1$
-		this.setBuyerTeamID(rs.getInt("buyer_team_id")); //$NON-NLS-1$
-		this.setSellerTeamName(rs.getString("seller_team_name")); //$NON-NLS-1$
-		this.setBuyerTeamName(rs.getString("buyer_team_name")); //$NON-NLS-1$
-		this.setPlayerID(rs.getInt("player_id")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
-		this.setPrice(new Money(rs.getInt("price"))); //$NON-NLS-1$
-		this.setPlayerValue(new Money(rs.getInt("player_value"))); //$NON-NLS-1$
+		this.setTransferId(rs.getInt("id")); 
+		this.setSellerTeamId(rs.getInt("seller_team_id")); 
+		this.setBuyerTeamId(rs.getInt("buyer_team_id")); 
+		this.setSellerTeamName(rs.getString("seller_team_name")); 
+		this.setBuyerTeamName(rs.getString("buyer_team_name")); 
+		this.setPlayerId(rs.getInt("player_id")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
+		this.setPrice(new Money(rs.getInt("price"))); 
+		this.setPlayerValue(new Money(rs.getInt("player_value"))); 
 
 		return this;
 	}

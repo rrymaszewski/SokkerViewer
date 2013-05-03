@@ -38,10 +38,10 @@ public class XmlManagerUtils {
 		return write(content, null);
 	}
 	
-	public boolean write(String content, String teamID) throws IOException {
+	public boolean write(String content, String teamId) throws IOException {
 		String name = this.name;
-		if(teamID != null) {
-			name += "_" + teamID; //$NON-NLS-1$
+		if(teamId != null) {
+			name += "_" + teamId; 
 		}
 		String file = destination + File.separator + addTail(name, currentDay);
 		if(content != null) {
@@ -53,6 +53,6 @@ public class XmlManagerUtils {
 	}
 
 	private String addTail(String name, Date currentDay) {
-		return String.format("%s_%d_%d_%d.xml", name, currentDay.getSokkerDate().getWeek(), currentDay.getSokkerDate().getDay(),currentDay.getMillis()); //$NON-NLS-1$
+		return String.format("%s_%d_%d_%d.xml", name, currentDay.getSokkerDate().getWeek(), currentDay.getSokkerDate().getDay(),currentDay.getMillis()); 
 	}
 }

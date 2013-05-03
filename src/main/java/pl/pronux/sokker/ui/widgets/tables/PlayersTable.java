@@ -43,31 +43,31 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 		this.setFont(ConfigBean.getFontTable());
 		
 		String[] titles = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
+				"", 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
 				Messages.getString("table.height"),
-				Messages.getString("table.value"), //$NON-NLS-1$
-				Messages.getString("table.salary"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.form"), //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.pace"), //$NON-NLS-1$
-				Messages.getString("table.technique"), //$NON-NLS-1$
-				Messages.getString("table.passing"), //$NON-NLS-1$
-				Messages.getString("table.keeper"), //$NON-NLS-1$
-				Messages.getString("table.defender"), //$NON-NLS-1$
-				Messages.getString("table.playmaker"), //$NON-NLS-1$
-				Messages.getString("table.scorer"), //$NON-NLS-1$
-				Messages.getString("table.discipline"), //$NON-NLS-1$
-				Messages.getString("table.experience"), //$NON-NLS-1$
-				Messages.getString("table.teamwork"), //$NON-NLS-1$
-				Messages.getString("table.cards"), //$NON-NLS-1$
-				Messages.getString("table.injury"), //$NON-NLS-1$
-				Messages.getString("table.note.short"), //$NON-NLS-1$
-				Messages.getString("table.1st"), //$NON-NLS-1$
-				Messages.getString("table.2nd"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.value"), 
+				Messages.getString("table.salary"), 
+				Messages.getString("table.age"), 
+				Messages.getString("table.form"), 
+				Messages.getString("table.stamina"), 
+				Messages.getString("table.pace"), 
+				Messages.getString("table.technique"), 
+				Messages.getString("table.passing"), 
+				Messages.getString("table.keeper"), 
+				Messages.getString("table.defender"), 
+				Messages.getString("table.playmaker"), 
+				Messages.getString("table.scorer"), 
+				Messages.getString("table.discipline"), 
+				Messages.getString("table.experience"), 
+				Messages.getString("table.teamwork"), 
+				Messages.getString("table.cards"), 
+				Messages.getString("table.injury"), 
+				Messages.getString("table.note.short"), 
+				Messages.getString("table.1st"), 
+				Messages.getString("table.2nd"), 
+				"" 
 		};
 
 		for (int j = 0; j < titles.length; j++) {
@@ -140,17 +140,17 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 			item.setText(c++, String.valueOf(player.getSkills()[max].getExperience()));
 			item.setText(c++, String.valueOf(player.getSkills()[max].getTeamwork()));
 			if (player.getSkills()[max].getCards() == 1) {
-				item.setImage(c++, ImageResources.getImageResources("yellow_card.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("yellow_card.png")); 
 			} else if (player.getSkills()[max].getCards() == 2) {
-				item.setImage(c++, ImageResources.getImageResources("2_yellow_cards.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("2_yellow_cards.png")); 
 			} else if (player.getSkills()[max].getCards() >= 3) {
-				item.setImage(c++, ImageResources.getImageResources("red_card.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("red_card.png")); 
 			} else {
 				c++;
 			}
 
 			if (player.getSkills()[max].getInjurydays() > 0) {
-				item.setImage(c, ImageResources.getImageResources("injury.png")); //$NON-NLS-1$
+				item.setImage(c, ImageResources.getImageResources("injury.png")); 
 				item.setText(c++, BigDecimal.valueOf(player.getSkills()[max].getInjurydays()).setScale(0, BigDecimal.ROUND_UP).toString());
 			} else {
 				c++;
@@ -160,7 +160,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 				if (player.getNote().isEmpty()) {
 					c++;
 				} else {
-					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+					item.setImage(c++, ImageResources.getImageResources("note.png")); 
 				}
 			}
 			
@@ -173,7 +173,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 
 							if ((league.getType() == League.TYPE_LEAGUE || league.getType() == League.TYPE_PLAYOFF) && league.getIsOfficial() == League.OFFICIAL) {
 								item.setFont(PlayerComparator.MATCH_SUNDAY, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(PlayerComparator.MATCH_SUNDAY).getFontData()));
-								item.setText(PlayerComparator.MATCH_SUNDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(PlayerComparator.MATCH_SUNDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed()));  
 								if (playerStats.getFormation() == PlayerStats.GK) {
 									item.setBackground(PlayerComparator.MATCH_SUNDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
@@ -187,7 +187,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 								if (league.getIsOfficial() == League.OFFICIAL) {
 									item.setFont(PlayerComparator.MATCH_WEDNESDAY, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(PlayerComparator.MATCH_SUNDAY).getFontData()));
 								}
-								item.setText(PlayerComparator.MATCH_WEDNESDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(PlayerComparator.MATCH_WEDNESDAY, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed()));  
 								if (playerStats.getFormation() == PlayerStats.GK) {
 									item.setBackground(PlayerComparator.MATCH_WEDNESDAY, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
@@ -202,8 +202,8 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 					}
 				}
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
+				item.setText(c++, ""); 
 			}
 			
 			if (max > 0) {
@@ -244,7 +244,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 
 
 	public void filterTable(String text) {
-		if (text.equalsIgnoreCase(Messages.getString("view.jumps"))) { //$NON-NLS-1$
+		if (text.equalsIgnoreCase(Messages.getString("view.jumps"))) { 
 			for (int i = 0; i < this.getItemCount(); i++) {
 				for (int j = 7; j < this.getColumnCount(); j++) {
 					if (this.getItem(i).getBackground(j).equals(ConfigBean.getColorIncrease()) || this.getItem(i).getBackground(j).equals(ConfigBean.getColorDecrease())) {
@@ -279,7 +279,7 @@ public class PlayersTable extends SVTable<Player> implements IViewSort<Player> {
 						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + SVNumberFormat.formatIntegerWithSignZero(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
 						label.setForeground(ConfigBean.getColorDecreaseDescription());
 					} else {
-						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + String.valueOf(temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
+						label.setText(Messages.getString("skill.a" + temp1[column - PlayerComparator.VALUE]) + " (" + (temp1[column - PlayerComparator.VALUE] - temp2[column - PlayerComparator.VALUE]) + ")");
 					}
 
 				} else {

@@ -37,7 +37,7 @@ public class ChangeLoginShell extends Shell {
 
 	private CLabel labelNewLogin;
 
-	protected String login;
+	private String login;
 	
 	private SokkerViewerSettings settings;
 
@@ -51,7 +51,7 @@ public class ChangeLoginShell extends Shell {
 		settings = SettingsHandler.getSokkerViewerSettings();
 		this.setSize(200, 170);
 		this.setLayout(new FormLayout());
-		this.setText(Messages.getString("shell.login.change.title")); //$NON-NLS-1$
+		this.setText(Messages.getString("shell.login.change.title")); 
 
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
@@ -61,7 +61,7 @@ public class ChangeLoginShell extends Shell {
 
 		labelOldLogin = new CLabel(this, SWT.NONE);
 		labelOldLogin.setLayoutData(formData);
-		labelOldLogin.setText(Messages.getString("shell.login.change.old.text")); //$NON-NLS-1$
+		labelOldLogin.setText(Messages.getString("shell.login.change.old.text")); 
 		labelOldLogin.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData();
@@ -81,7 +81,7 @@ public class ChangeLoginShell extends Shell {
 
 		labelNewLogin = new CLabel(this, SWT.NONE);
 		labelNewLogin.setLayoutData(formData);
-		labelNewLogin.setText(Messages.getString("shell.login.change.new.text")); //$NON-NLS-1$
+		labelNewLogin.setText(Messages.getString("shell.login.change.new.text")); 
 		labelNewLogin.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData();
@@ -101,25 +101,25 @@ public class ChangeLoginShell extends Shell {
 
 		button = new Button(this, SWT.NONE);
 		button.setLayoutData(formData);
-		button.setText(Messages.getString("button.change")); //$NON-NLS-1$
+		button.setText(Messages.getString("button.change")); 
 		button.setFont(ConfigBean.getFontMain());
 
 		button.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
 				if (!text.getText().isEmpty() && !text.getText().equals(combo.getText())) { 
-					if (new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".script").exists()) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					if (new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".script").exists()) {   
 						MessageBox msg = new MessageBox(ChangeLoginShell.this, SWT.YES | SWT.NO | SWT.ICON_INFORMATION);
-						msg.setText(Messages.getString("message.file.exists.warning.title")); //$NON-NLS-1$
-						msg.setMessage(Messages.getString("message.file.exists.warning")); //$NON-NLS-1$
+						msg.setText(Messages.getString("message.file.exists.warning.title")); 
+						msg.setMessage(Messages.getString("message.file.exists.warning")); 
 						if (msg.open() != SWT.YES) {
 							return;
 						}
 					}
-					new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + combo.getText() + ".script").renameTo(new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".script")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-					new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + combo.getText() + ".properties").renameTo(new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".properties")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-					if (new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + combo.getText()).exists()) { //$NON-NLS-1$
-						new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + combo.getText()).renameTo(new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + text.getText())); //$NON-NLS-1$ //$NON-NLS-2$
+					new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + combo.getText() + ".script").renameTo(new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".script"));      
+					new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + combo.getText() + ".properties").renameTo(new File(settings.getBaseDirectory() + File.separator + "db" + File.separator + "db_file_" + text.getText() + ".properties"));      
+					if (new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + combo.getText()).exists()) { 
+						new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + combo.getText()).renameTo(new File(settings.getBaseDirectory() + File.separator + "bak" + File.separator + text.getText()));  
 					}
 					login = text.getText();
 					ChangeLoginShell.this.close();
@@ -142,7 +142,7 @@ public class ChangeLoginShell extends Shell {
 
 	private String[] getLogins() {
 		String[] logins = new String[0];
-		File dbDir = new File(settings.getBaseDirectory() + File.separator + "db" + File.separator); //$NON-NLS-1$
+		File dbDir = new File(settings.getBaseDirectory() + File.separator + "db" + File.separator); 
 		FileFilter fileFilter = new FileFilter() {
 			public boolean accept(File file) {
 				return file.isDirectory() || file.getName().endsWith(".script");
@@ -151,8 +151,8 @@ public class ChangeLoginShell extends Shell {
 		List<File> files = OperationOnFile.visitAllDirs(dbDir, fileFilter, new ArrayList<File>());
 
 		for (File file : files) {
-			String[] filename = file.getName().split("\\."); //$NON-NLS-1$
-			combo.add(filename[0].replaceAll("db_file_", "")); //$NON-NLS-1$ //$NON-NLS-2$
+			String[] filename = file.getName().split("\\."); 
+			combo.add(filename[0].replaceAll("db_file_", ""));  
 		}
 		if (combo.getItemCount() == 0) {
 			button.setEnabled(false);

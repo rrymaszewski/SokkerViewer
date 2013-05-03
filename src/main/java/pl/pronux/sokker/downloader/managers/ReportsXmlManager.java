@@ -16,7 +16,7 @@ import pl.pronux.sokker.model.Report;
 
 public class ReportsXmlManager extends XmlManager<Report> {
 
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 
 	private List<Report> reports;
 
@@ -25,7 +25,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 	}
 
 	public ReportsXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("reports", destination, downloader, currentDay); //$NON-NLS-1$
+		super("reports", destination, downloader, currentDay); 
 	}
 
 	public ReportsXmlManager(String content, Date currentDay, int teamID) {
@@ -57,7 +57,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 			reportsXmlParser.parseXmlSax(input, null);
 		}
 
-		this.reports = reportsXmlParser.getAlReports();
+		this.reports = reportsXmlParser.getReports();
 		return reports;
 	}
 

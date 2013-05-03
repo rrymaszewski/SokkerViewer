@@ -46,7 +46,7 @@ public class Crypto {
 	}
 
 	public static boolean verifySignature(PublicKey publicKey, byte[] signature, byte[] buffer) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-		Signature sig = Signature.getInstance("SHA1withRSA"); //$NON-NLS-1$
+		Signature sig = Signature.getInstance("SHA1withRSA"); 
 		sig.initVerify(publicKey);
 		sig.update(buffer, 0, buffer.length);
 		return sig.verify(signature);
@@ -68,15 +68,15 @@ public class Crypto {
 
 			return verifySignature(publicKey, signature, buffer);
 		} catch (FileNotFoundException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (IOException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (InvalidKeyException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (SignatureException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (NoSuchAlgorithmException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		}
 
 		return false;
@@ -88,7 +88,7 @@ public class Crypto {
 		// SecretKeySpec keySpec = new SecretKeySpec("fedcba9876543210".getBytes(),
 		// "Rijndael");
 		// new JCERSAPrivateCrtKey()
-		IvParameterSpec ivSpec = new IvParameterSpec("fedcba9876543210".getBytes()); //$NON-NLS-1$
+		IvParameterSpec ivSpec = new IvParameterSpec("fedcba9876543210".getBytes()); 
 		// cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
 		// byte[] outText = cipher.doFinal(fromHexString(input));
 		cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
@@ -121,18 +121,18 @@ public class Crypto {
 
 			byte[] buffer = sb.toString().getBytes();
 
-			Signature sig = Signature.getInstance("SHA1withRSA"); //$NON-NLS-1$
+			Signature sig = Signature.getInstance("SHA1withRSA"); 
 			sig.initSign(key);
 			sig.update(buffer, 0, buffer.length);
 			return sig.sign();
 		} catch (SignatureException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (InvalidKeyException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (NoSuchAlgorithmException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		} catch (IOException e) {
-			Log.warning("Crypto", e); //$NON-NLS-1$
+			Log.warning("Crypto", e); 
 		}
 		return null;
 	}

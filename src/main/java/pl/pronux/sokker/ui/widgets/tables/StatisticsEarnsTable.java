@@ -22,9 +22,9 @@ public class StatisticsEarnsTable extends SVTable<Club> {
 
 		this.setHeaderVisible(true);
 		this.setLinesVisible(true);
-		String[] columns2 = { Messages.getString("table.date"), //$NON-NLS-1$
-							 Messages.getString("statistics.earns"), //$NON-NLS-1$
-							 "" //$NON-NLS-1$
+		String[] columns2 = { Messages.getString("table.date"), 
+							 Messages.getString("statistics.earns"), 
+							 "" 
 		};
 
 		for (int i = 0; i < columns2.length; i++) {
@@ -51,7 +51,7 @@ public class StatisticsEarnsTable extends SVTable<Club> {
 
 		for (int i = club.getClubBudget().size() - 1; i >= 0; i--) {
 			TableItem item = new TableItem(this, SWT.NONE);
-			item.setData("date", club.getClubBudget().get(i).getDate()); //$NON-NLS-1$
+			item.setData("date", club.getClubBudget().get(i).getDate()); 
 			item.setText(0, club.getClubBudget().get(i).getDate().getTrainingDate(SokkerDate.SATURDAY).toDateString());
 			item.setText(1, club.getClubBudget().get(i).getMoney().formatIntegerCurrency());
 			if (club.getClubBudget().get(i).getDate().getSokkerDate().getSeason() % 2 == 0) {

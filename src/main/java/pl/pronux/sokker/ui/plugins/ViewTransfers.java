@@ -68,7 +68,7 @@ public class ViewTransfers implements IPlugin {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoTransfers"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoTransfers"); 
 	}
 
 	public TreeItem getTreeItem() {
@@ -120,9 +120,9 @@ public class ViewTransfers implements IPlugin {
 		descriptionTable.setFont(ConfigBean.getFontTable());
 
 		String[] column = {
-				"first", //$NON-NLS-1$
-				"second", //$NON-NLS-1$
-				"third" //$NON-NLS-1$
+				"first", 
+				"second", 
+				"third" 
 		};
 
 		for (int i = 0; i < column.length; i++) {
@@ -134,14 +134,14 @@ public class ViewTransfers implements IPlugin {
 		}
 
 		String[] firstColumn = {
-				Messages.getString("transfers.income"), //$NON-NLS-1$
-				Messages.getString("transfers.expenses"), //$NON-NLS-1$
-				Messages.getString("transfers.income.average"), //$NON-NLS-1$
-				Messages.getString("transfers.expenses.average"), //$NON-NLS-1$
-				Messages.getString("transfers.sales.number"), //$NON-NLS-1$
-				Messages.getString("transfers.purchases.number"), //$NON-NLS-1$
-				Messages.getString("transfers.balance"), //$NON-NLS-1$
-				Messages.getString("transfers.juniors.income") //$NON-NLS-1$
+				Messages.getString("transfers.income"), 
+				Messages.getString("transfers.expenses"), 
+				Messages.getString("transfers.income.average"), 
+				Messages.getString("transfers.expenses.average"), 
+				Messages.getString("transfers.sales.number"), 
+				Messages.getString("transfers.purchases.number"), 
+				Messages.getString("transfers.balance"), 
+				Messages.getString("transfers.juniors.income") 
 		};
 
 		for (int i = 0; i < firstColumn.length; i++) {
@@ -189,7 +189,7 @@ public class ViewTransfers implements IPlugin {
 				income += transfer.getPrice().toInt();
 				sales++;
 				if (transfer.getPlayer() != null) {
-					if (transfer.getPlayer().getYouthTeamID() == clubId) {
+					if (transfer.getPlayer().getYouthTeamId() == clubId) {
 						juniors += transfer.getPrice().toInt();
 					}
 				}
@@ -230,8 +230,8 @@ public class ViewTransfers implements IPlugin {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		this.treeItem.setText(Messages.getString("tree.ViewTransfers")); //$NON-NLS-1$
-		this.treeItem.setImage(ImageResources.getImageResources("transfers.png")); //$NON-NLS-1$
+		this.treeItem.setText(Messages.getString("tree.ViewTransfers")); 
+		this.treeItem.setImage(ImageResources.getImageResources("transfers.png")); 
 		treeItem.getParent().addListener(SWT.MouseDown, viewListener);
 	}
 

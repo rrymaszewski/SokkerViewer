@@ -21,16 +21,14 @@ public class TrainersDao {
 	}
 
 	public void clearCoaches() throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("DELETE FROM coach"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("DELETE FROM coach"); 
 		ps.executeUpdate();
 		ps.close();
 
 	}
 
 	public void deleteCoachesAtTraining(Training training) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("DELETE FROM coaches_at_trainings WHERE id_training = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("DELETE FROM coaches_at_trainings WHERE id_training = ?"); 
 		ps.setInt(1, training.getId());
 		ps.executeUpdate();
 		ps.close();
@@ -43,17 +41,14 @@ public class TrainersDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public ArrayList<Coach> getCoaches(int status) throws SQLException {
-		ArrayList<Coach> alCoach = new ArrayList<Coach>();
-		PreparedStatement ps;
-		Coach coach;
-
-		ps = connection
-				.prepareStatement("SELECT id_coach, name, surname,job, signed, countryfrom, age, salary, generalskill, stamina, pace, technique, passing, keepers, defenders, playmakers, scorers, status, note  FROM coach WHERE status = ? ORDER BY surname"); //$NON-NLS-1$
+	public List<Coach> getCoaches(int status) throws SQLException {
+		List<Coach> alCoach = new ArrayList<Coach>();
+		PreparedStatement ps = connection
+				.prepareStatement("SELECT id_coach, name, surname,job, signed, countryfrom, age, salary, generalskill, stamina, pace, technique, passing, keepers, defenders, playmakers, scorers, status, note  FROM coach WHERE status = ? ORDER BY surname"); 
 		ps.setInt(1, status);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			coach = new CoachDto(rs).getCoach();
+			Coach coach = new CoachDto(rs).getCoach();
 			alCoach.add(coach);
 		}
 		rs.close();
@@ -65,25 +60,24 @@ public class TrainersDao {
 
 		training.setAssistants(new ArrayList<Coach>());
 
-		PreparedStatement pstm;
-		pstm = connection.prepareStatement("SELECT id_coach,id_job FROM coaches_at_trainings WHERE id_training = ?"); //$NON-NLS-1$
+		PreparedStatement pstm = connection.prepareStatement("SELECT id_coach,id_job FROM coaches_at_trainings WHERE id_training = ?"); 
 		pstm.setInt(1, training.getId());
 		ResultSet rs = pstm.executeQuery();
 
 		while (rs.next()) {
-			int id_coach = rs.getInt(1);
+			int coachId = rs.getInt(1);
 			int job = rs.getInt(2);
 			switch (job) {
 			case Coach.JOB_HEAD:
-				training.setHeadCoach(coachMap.get(id_coach));
+				training.setHeadCoach(coachMap.get(coachId));
 				break;
 
 			case Coach.JOB_JUNIORS:
-				training.setJuniorCoach(coachMap.get(id_coach));
+				training.setJuniorCoach(coachMap.get(coachId));
 				break;
 
 			case Coach.JOB_ASSISTANT:
-				training.getAssistants().add(coachMap.get(id_coach));
+				training.getAssistants().add(coachMap.get(coachId));
 				break;
 
 			default:
@@ -98,8 +92,7 @@ public class TrainersDao {
 
 	public boolean existsCoach(int id) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_coach) FROM coach WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_coach) FROM coach WHERE id_coach = ?"); 
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -119,8 +112,7 @@ public class TrainersDao {
 
 	public boolean existsCoachHistory(int id) throws SQLException {
 
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT count(id_coach) FROM coach WHERE id_coach = ? AND status > 0"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("SELECT count(id_coach) FROM coach WHERE id_coach = ? AND status > 0"); 
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -139,9 +131,8 @@ public class TrainersDao {
 	}
 
 	public void addCoach(Coach coach) throws SQLException {
-		PreparedStatement pstm;
-		pstm = connection
-				.prepareStatement("INSERT INTO coach(id_coach,signed,name,surname,job,countryfrom,generalskill,stamina,pace,technique,passing,keepers,defenders,playmakers,scorers,salary,age, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)"); //$NON-NLS-1$
+		PreparedStatement pstm = connection
+				.prepareStatement("INSERT INTO coach(id_coach,signed,name,surname,job,countryfrom,generalskill,stamina,pace,technique,passing,keepers,defenders,playmakers,scorers,salary,age, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)"); 
 
 		pstm.setInt(1, coach.getId());
 		pstm.setInt(2, coach.getSigned());
@@ -214,7 +205,7 @@ public class TrainersDao {
 		PreparedStatement pstm = null;
 
 		if (training.getHeadCoach() != null) {
-			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); //$NON-NLS-1$
+			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); 
 			pstm.setInt(1, training.getId());
 			pstm.setInt(2, training.getHeadCoach().getId());
 			pstm.setInt(3, Coach.JOB_HEAD);
@@ -222,7 +213,7 @@ public class TrainersDao {
 		}
 
 		if (training.getJuniorCoach() != null) {
-			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); //$NON-NLS-1$
+			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); 
 			pstm.setInt(1, training.getId());
 			pstm.setInt(2, training.getJuniorCoach().getId());
 			pstm.setInt(3, Coach.JOB_JUNIORS);
@@ -232,7 +223,7 @@ public class TrainersDao {
 		List<Coach> assistants = training.getAssistants();
 
 		for (Coach coach : assistants) {
-			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); //$NON-NLS-1$
+			pstm = connection.prepareStatement("INSERT INTO coaches_at_trainings(id_training, id_coach, id_job) VALUES (?,?,?)"); 
 			pstm.setInt(1, training.getId());
 			pstm.setInt(2, coach.getId());
 			pstm.setInt(3, Coach.JOB_ASSISTANT);
@@ -246,21 +237,16 @@ public class TrainersDao {
 	}
 
 	public void moveCoach(int id, int status) throws SQLException {
-		PreparedStatement ps;
-
-		ps = connection.prepareStatement("UPDATE coach SET status = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET status = ? WHERE id_coach = ?"); 
 		ps.setInt(1, status);
 		ps.setInt(2, id);
-
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public String removeCoaches() throws SQLException {
-		String deletedCoaches = ""; //$NON-NLS-1$
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_coach FROM coach WHERE status = 0"); //$NON-NLS-1$
+		String deletedCoaches = ""; 
+		PreparedStatement ps = connection.prepareStatement("SELECT id_coach FROM coach WHERE status = 0"); 
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -273,9 +259,8 @@ public class TrainersDao {
 	}
 
 	public String removeCoaches(String sTemp) throws SQLException {
-		String deletedCoaches = ""; //$NON-NLS-1$
-		PreparedStatement ps;
-		ps = connection.prepareStatement("SELECT id_coach FROM coach WHERE status = 0 AND id_coach NOT IN " + sTemp); //$NON-NLS-1$
+		String deletedCoaches = ""; 
+		PreparedStatement ps = connection.prepareStatement("SELECT id_coach FROM coach WHERE status = 0 AND id_coach NOT IN " + sTemp); 
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -288,8 +273,7 @@ public class TrainersDao {
 	}
 
 	public void updateCoach(Coach coach) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE coach SET job = ?, age = ?, signed = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET job = ?, age = ?, signed = ? WHERE id_coach = ?"); 
 
 		ps.setInt(1, coach.getJob());
 		ps.setInt(2, coach.getAge());
@@ -301,8 +285,7 @@ public class TrainersDao {
 	}
 
 	public void updateCoachNote(Person coach) throws SQLException {
-		PreparedStatement ps;
-		ps = connection.prepareStatement("UPDATE coach SET note = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET note = ? WHERE id_coach = ?"); 
 
 		ps.setString(1, coach.getNote());
 		ps.setLong(2, coach.getId());
@@ -312,7 +295,7 @@ public class TrainersDao {
 	}
 
 	public void repairCoach(Coach coach) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); //$NON-NLS-1$
+		PreparedStatement ps = connection.prepareStatement("UPDATE coach SET keepers = ? WHERE id_coach = ?"); 
 
 		if (coach.getKeepers() >= 0) {
 			ps.setInt(1, coach.getKeepers());

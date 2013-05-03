@@ -40,24 +40,24 @@ public class PlayersHistoryTable extends SVTable<Player> {
 		// tworzymy kolumny dla trenerow
 
 		String[] titles = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
+				"", 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
 				Messages.getString("table.height"),
-				Messages.getString("table.value"), //$NON-NLS-1$
-				Messages.getString("table.salary"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.form"), //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.pace"), //$NON-NLS-1$
-				Messages.getString("table.technique"), //$NON-NLS-1$
-				Messages.getString("table.passing"), //$NON-NLS-1$
-				Messages.getString("table.keeper"), //$NON-NLS-1$
-				Messages.getString("table.defender"), //$NON-NLS-1$
-				Messages.getString("table.playmaker"), //$NON-NLS-1$
-				Messages.getString("table.scorer"), //$NON-NLS-1$
-				Messages.getString("table.sold"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("table.value"), 
+				Messages.getString("table.salary"), 
+				Messages.getString("table.age"), 
+				Messages.getString("table.form"), 
+				Messages.getString("table.stamina"), 
+				Messages.getString("table.pace"), 
+				Messages.getString("table.technique"), 
+				Messages.getString("table.passing"), 
+				Messages.getString("table.keeper"), 
+				Messages.getString("table.defender"), 
+				Messages.getString("table.playmaker"), 
+				Messages.getString("table.scorer"), 
+				Messages.getString("table.sold"), 
+				"" 
 		};
 
 		for (int j = 0; j < titles.length; j++) {

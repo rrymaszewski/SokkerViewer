@@ -24,8 +24,8 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 		this.setFont(ConfigBean.getFontMain());
 
 		String[] column = {
-				"1", //$NON-NLS-1$
-				"2", //$NON-NLS-1$
+				"1", 
+				"2", 
 		};
 
 		for (int i = 0; i < column.length; i++) {
@@ -34,10 +34,10 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 		}
 
 		String[] firstColumn = {
-				Messages.getString("club.owner"), //$NON-NLS-1$
-				Messages.getString("club.name"), //$NON-NLS-1$
-				Messages.getString("club.date.created"), //$NON-NLS-1$
-				Messages.getString("club.rank"), //$NON-NLS-1$
+				Messages.getString("club.owner"), 
+				Messages.getString("club.name"), 
+				Messages.getString("club.date.created"), 
+				Messages.getString("club.rank"), 
 		};
 
 		for (int i = 0; i < firstColumn.length; i++) {
@@ -69,15 +69,15 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 
 		item = this.getItem(c++);
 		if (club.getUser() != null && club.getUser().getLogin() != null) {
-			text = String.format("%s (%s)", club.getUser().getLogin(), Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("%s (%s)", club.getUser().getLogin(), Messages.getString("country." + club.getCountry() + ".name"));   
 			item.setText(secondColumn, text);
 		} else {
-			text = String.format("- (%s)", Messages.getString("country." + club.getCountry() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("- (%s)", Messages.getString("country." + club.getCountry() + ".name"));   
 			item.setText(secondColumn, text);
 		}
 
 		item = this.getItem(c++);
-		text = String.format("%s [%d]", club.getClubName().get(club.getClubName().size() - 1).getName(), club.getId()); //$NON-NLS-1$
+		text = String.format("%s [%d]", club.getClubName().get(club.getClubName().size() - 1).getName(), club.getId()); 
 		item.setText(secondColumn, text);
 
 		// item = this.getItem(c++);
@@ -89,7 +89,7 @@ public class OpponentTeamInformationTable extends SVTable<Club> {
 		if (club.getDateCreated() != null) {
 			item.setText(secondColumn, club.getDateCreated().toDateTimeString());
 		} else {
-			item.setText(secondColumn, "-"); //$NON-NLS-1$
+			item.setText(secondColumn, "-"); 
 		}
 
 		item = this.getItem(c++);

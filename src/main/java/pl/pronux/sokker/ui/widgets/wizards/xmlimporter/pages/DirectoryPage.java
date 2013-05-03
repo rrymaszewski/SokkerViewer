@@ -17,12 +17,12 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class DirectoryPage extends Page {
 
-	public static final String PAGE_NAME = "DIRECTORY_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "DIRECTORY_PAGE"; 
 	private Label label;
 	private Text text;
 	private Button button;
 	public DirectoryPage(Wizard parent) {
-		super(parent, Messages.getString("importer.page.directory.title"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("importer.page.directory.title"), PAGE_NAME); 
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class DirectoryPage extends Page {
 		gridData.horizontalSpan = 2;
 
 		label = new Label(container, SWT.SINGLE);
-		label.setText(Messages.getString("importer.page.directory.label")); //$NON-NLS-1$
+		label.setText(Messages.getString("importer.page.directory.label")); 
 		label.setLayoutData(gridData);
 
 		gridData = new GridData();
@@ -49,7 +49,7 @@ public class DirectoryPage extends Page {
 		text.setLayoutData(gridData);
 
 		button = new Button(container, SWT.PUSH);
-		button.setText("..."); //$NON-NLS-1$
+		button.setText("..."); 
 		button.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event event) {

@@ -17,7 +17,7 @@ import pl.pronux.sokker.ui.widgets.wizards.Wizard;
 import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class MirrorsPage extends Page {
-	public static final String PAGE_NAME = "MIRRORS_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "MIRRORS_PAGE"; 
 	private Table mirrorTable;
 	private String mirror;
 
@@ -26,7 +26,7 @@ public class MirrorsPage extends Page {
 	}
 
 	public MirrorsPage(Wizard parent) {
-		super(parent, Messages.getString("updater.page.mirrorspage"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("updater.page.mirrorspage"), PAGE_NAME); 
 
 	}
 
@@ -50,25 +50,25 @@ public class MirrorsPage extends Page {
 		new TableColumn(mirrorTable, SWT.NONE).pack();
 		new TableColumn(mirrorTable, SWT.NONE).pack();
 
-		String root = "sv/updates/"; //$NON-NLS-1$
+		String root = "sv/updates/"; 
 		ArrayList<String[]> mirrors = new ArrayList<String[]>();
 
 		mirrors.add(new String[] {
-				"icpnet.pl", //$NON-NLS-1$
-				"http://www.rymek.user.icpnet.pl/" + root, //$NON-NLS-1$
-				"1" //$NON-NLS-1$
+				"icpnet.pl", 
+				"http://www.rymek.user.icpnet.pl/" + root, 
+				"1" 
 		});
 
 		mirrors.add(new String[] {
-				"sokkerviewer.net", //$NON-NLS-1$
-				"http://sokkerviewer.net/" + root, //$NON-NLS-1$
-				"1" //$NON-NLS-1$
+				"sokkerviewer.net", 
+				"http://sokkerviewer.net/" + root, 
+				"1" 
 		});
 
 		mirrors.add(new String[] {
-				"sv.sokker.us", //$NON-NLS-1$
-				"http://sv.sokker.us/" + root, //$NON-NLS-1$
-				"4" //$NON-NLS-1$
+				"sv.sokker.us", 
+				"http://sv.sokker.us/" + root, 
+				"4" 
 		});
 		TableItem item;
 		for (int i = 0; i < mirrors.size(); i++) {

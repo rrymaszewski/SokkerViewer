@@ -16,9 +16,9 @@ public class XMLpack implements IXMLpack {
 	private File transfers;
 	private boolean complete;
 
-	private int teamID;
+	private int teamId;
 
-	Date date;
+	private Date date;
 	private boolean imported;
 
 	public File getTrainers() {
@@ -101,12 +101,12 @@ public class XMLpack implements IXMLpack {
 		this.transfers = transfers;
 	}
 
-	public int getTeamID() {
-		return teamID;
+	public int getTeamId() {
+		return teamId;
 	}
 
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 
 	/* (non-Javadoc)

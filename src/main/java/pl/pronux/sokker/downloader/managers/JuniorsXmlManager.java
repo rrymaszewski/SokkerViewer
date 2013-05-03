@@ -17,7 +17,7 @@ import pl.pronux.sokker.model.Training;
 
 public class JuniorsXmlManager extends XmlManager<Junior> {
 
-	private JuniorsManager juniorsManager = JuniorsManager.instance();
+	private JuniorsManager juniorsManager = JuniorsManager.getInstance();
 	
 	private List<Junior> juniors;
 
@@ -26,7 +26,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 	}
 
 	public JuniorsXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("juniors", destination, downloader, currentDay); //$NON-NLS-1$
+		super("juniors", destination, downloader, currentDay); 
 	}
 
 	public JuniorsXmlManager(String content, Date currentDay, int teamID) {
@@ -44,7 +44,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 	}
 
 	public void importToSQL(Training training) throws SQLException {
-		juniorsManager.addJuniors(this.juniors, training, teamID);
+		juniorsManager.addJuniors(this.juniors, training, teamId);
 	}
 
 	public List<Junior> parseXML() throws SAXException {

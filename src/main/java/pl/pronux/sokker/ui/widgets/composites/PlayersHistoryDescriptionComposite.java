@@ -16,7 +16,7 @@ public class PlayersHistoryDescriptionComposite extends DescriptionSingleComposi
 		super(parent, style);
 
 		// this.setDescriptionStringFormat(40, 15);
-		this.setDescriptionStringFormat("%-40s%-35s\r\n"); //$NON-NLS-1$
+		this.setDescriptionStringFormat("%-40s%-35s\r\n"); 
 		this.setFirstColumnSize(40);
 		this.setSecondColumnSize(35);
 

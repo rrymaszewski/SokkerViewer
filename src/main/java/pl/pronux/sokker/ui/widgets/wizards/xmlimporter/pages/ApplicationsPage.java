@@ -13,11 +13,11 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ApplicationsPage extends Page {
 
-	public static final String PAGE_NAME = "APPLICATIONS_PAGE"; //$NON-NLS-1$
-	public static final String SOKKER_ORGANIZER = "SokkerOrganizer";//$NON-NLS-1$
-	public static final String SOKKER_VIEWER = "SokkerViewer";//$NON-NLS-1$
-	public static final String SOKKER_MANAGER = "SokkerManager";//$NON-NLS-1$
-	public static final String APOLLO = "Apollo";//$NON-NLS-1$
+	public static final String PAGE_NAME = "APPLICATIONS_PAGE"; 
+	public static final String SOKKER_ORGANIZER = "SokkerOrganizer";
+	public static final String SOKKER_VIEWER = "SokkerViewer";
+	public static final String SOKKER_MANAGER = "SokkerManager";
+	public static final String APOLLO = "Apollo";
 	private String application = SOKKER_VIEWER;
 	private Button svButton;
 	private Button soButton;
@@ -25,7 +25,7 @@ public class ApplicationsPage extends Page {
 	private Button apolloButton;
 	
 	public ApplicationsPage(Wizard parent) {
-		super(parent, Messages.getString("importer.page.applicationstitle"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("importer.page.applicationstitle"), PAGE_NAME); 
 	}
 	
 	public void createControl(Composite parent) {
@@ -55,7 +55,7 @@ public class ApplicationsPage extends Page {
 		smButton.setText(SOKKER_MANAGER); 
 		apolloButton = new Button(container, SWT.RADIO);
 		apolloButton.setEnabled(false);
-		apolloButton.setText(APOLLO + String.format(" " + Messages.getString("info.since"), "0.13")); //$NON-NLS-1$ //$NON-NLS-2$
+		apolloButton.setText(APOLLO + String.format(" " + Messages.getString("info.since"), "0.13"));  
 
 		setContainer(container);
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import pl.pronux.sokker.bean.TrainingSummary;
 
-public class Training {
+public class Training implements Cloneable {
 
 	public static final int FORMATION_GK = 0;
 	public static final int FORMATION_DEF = 1;

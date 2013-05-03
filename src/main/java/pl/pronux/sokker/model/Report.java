@@ -8,11 +8,11 @@ public class Report {
 
 	private int status;
 	
-	private long reportID;
+	private long reportId;
 
 	private int type;
 
-	private int personID;
+	private int personId;
 
 	private Date date;
 
@@ -58,20 +58,20 @@ public class Report {
 		this.date = date;
 	}
 
-	public int getPersonID() {
-		return personID;
+	public int getPersonId() {
+		return personId;
 	}
 
-	public void setPersonID(int playerId) {
-		this.personID = playerId;
+	public void setPersonId(int playerId) {
+		this.personId = playerId;
 	}
 
-	public long getReportID() {
-		return reportID;
+	public long getReportId() {
+		return reportId;
 	}
 
-	public void setReportID(long reportId) {
-		this.reportID = reportId;
+	public void setReportId(long reportId) {
+		this.reportId = reportId;
 	}
 
 	public int getType() {

@@ -16,7 +16,7 @@ public class InformationGroup extends Group {
 
 	public InformationGroup(Composite arg0, int arg1) {
 		super(arg0, arg1);
-		this.setText(Messages.getString("InformationGroup.information")); //$NON-NLS-1$
+		this.setText(Messages.getString("InformationGroup.information")); 
 		setLayout(new FillLayout());
 		label = new CLabel(this, SWT.NONE);
 		this.setFont(ConfigBean.getFontMain());

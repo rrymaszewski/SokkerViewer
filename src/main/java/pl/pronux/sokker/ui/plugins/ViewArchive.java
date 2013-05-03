@@ -55,7 +55,7 @@ public class ViewArchive implements IPlugin, ISort {
 	private Menu menuPopUp;
 	private Menu menuClear;
 	private ArchiveInformationGroup archiveInformationGroup;
-	private HashMap<Integer, List<PlayerArchive>> hmPlayerCountryIDArchive = new HashMap<Integer, List<PlayerArchive>>();
+	private Map<Integer, List<PlayerArchive>> hmPlayerCountryIDArchive = new HashMap<Integer, List<PlayerArchive>>();
 
 	public void clear() {
 	}
@@ -76,7 +76,7 @@ public class ViewArchive implements IPlugin, ISort {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoArchive"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoArchive"); 
 	}
 
 	public TreeItem getTreeItem() {
@@ -90,12 +90,12 @@ public class ViewArchive implements IPlugin, ISort {
 		MenuItem menuItem;
 
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.note.open")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.note.open")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
-					Item item = (Item) menuPopUp.getData("item"); //$NON-NLS-1$
-					if (item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
+				if (menuPopUp.getData("item") != null) { 
+					Item item = (Item) menuPopUp.getData("item"); 
+					if (item.getData(PlayerArchive.class.getName()) != null) { 
 						openNote(item);
 					}
 				}
@@ -220,15 +220,15 @@ public class ViewArchive implements IPlugin, ISort {
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
 				TableItem item = playersArchiveTable.getItem(pt);
-				if (item != null && item.getData(PlayerArchive.class.getName()) != null) { //$NON-NLS-1$
-					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
+				if (item != null && item.getData(PlayerArchive.class.getName()) != null) { 
+					PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); 
 					archiveInformationGroup.fill(playerArchive);
 				}
 
 				if (event.button == 3) {
 					// Rectangle clientArea = allCoachesTable.getClientArea();
 					if (item != null) {
-						menuPopUp.setData("item", item); //$NON-NLS-1$
+						menuPopUp.setData("item", item); 
 						playersArchiveTable.setMenu(menuPopUp);
 						playersArchiveTable.getMenu().setVisible(true);
 					} else {
@@ -251,7 +251,7 @@ public class ViewArchive implements IPlugin, ISort {
 	}
 
 	private void openNote(Item item) {
-		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); //$NON-NLS-1$
+		PlayerArchive playerArchive = (PlayerArchive) item.getData(PlayerArchive.class.getName()); 
 		final NoteShell noteShell = new NoteShell(composite.getShell(), SWT.PRIMARY_MODAL | SWT.CLOSE);
 		noteShell.setPerson(playerArchive);
 		noteShell.open();
@@ -263,7 +263,7 @@ public class ViewArchive implements IPlugin, ISort {
 				if (playerArchive.getNote().isEmpty()) {
 					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, null);
 				} else {
-					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+					((TableItem) item).setImage(PlayerArchiveComparator.NOTE, ImageResources.getImageResources("note.png")); 
 				}
 			}
 		}
@@ -280,8 +280,8 @@ public class ViewArchive implements IPlugin, ISort {
 
 	public void setTreeItem(final TreeItem treeItem) {
 		this.treeItem = treeItem;
-		this.treeItem.setText(Messages.getString("tree.ViewArchive")); //$NON-NLS-1$
-		this.treeItem.setImage(ImageResources.getImageResources("archive.png")); //$NON-NLS-1$
+		this.treeItem.setText(Messages.getString("tree.ViewArchive")); 
+		this.treeItem.setImage(ImageResources.getImageResources("archive.png")); 
 		treeItem.getParent().addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event event) {
 				Point pt = new Point(event.x, event.y);
@@ -313,15 +313,15 @@ public class ViewArchive implements IPlugin, ISort {
 			}
 			hmPlayerSurnameArchive.get(element.getValue().getSurname().toLowerCase()).add(element.getValue());
 
-			if (hmPlayerYouthTeamIDArchive.get(element.getValue().getYouthTeamID()) == null) {
-				hmPlayerYouthTeamIDArchive.put(element.getValue().getYouthTeamID(), new ArrayList<PlayerArchive>());
+			if (hmPlayerYouthTeamIDArchive.get(element.getValue().getYouthTeamId()) == null) {
+				hmPlayerYouthTeamIDArchive.put(element.getValue().getYouthTeamId(), new ArrayList<PlayerArchive>());
 			}
-			hmPlayerYouthTeamIDArchive.get(element.getValue().getYouthTeamID()).add(element.getValue());
+			hmPlayerYouthTeamIDArchive.get(element.getValue().getYouthTeamId()).add(element.getValue());
 
-			if (hmPlayerCountryIDArchive.get(element.getValue().getCountryID()) == null) {
-				hmPlayerCountryIDArchive.put(element.getValue().getCountryID(), new ArrayList<PlayerArchive>());
+			if (hmPlayerCountryIDArchive.get(element.getValue().getCountryId()) == null) {
+				hmPlayerCountryIDArchive.put(element.getValue().getCountryId(), new ArrayList<PlayerArchive>());
 			}
-			hmPlayerCountryIDArchive.get(element.getValue().getCountryID()).add(element.getValue());
+			hmPlayerCountryIDArchive.get(element.getValue().getCountryId()).add(element.getValue());
 		}
 
 	}

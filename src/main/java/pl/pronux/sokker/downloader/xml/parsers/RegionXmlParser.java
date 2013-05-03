@@ -17,19 +17,19 @@ import pl.pronux.sokker.utils.Log;
 
 public class RegionXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_region = 1;
+	private static final int TAG_REGION = 1;
 
-	static final int TAG_regionID =2;
+	private static final int TAG_REGION_ID =2;
 
-	static final int TAG_name = 3;
+	private static final int TAG_NAME = 3;
 
-	static final int TAG_weather = 4;
+	private static final int TAG_WEATHER = 4;
 
-	static final int TAG_countryID = 5;
+	private static final int TAG_COUNTRY_ID = 5;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private Region region;
 
@@ -40,23 +40,23 @@ public class RegionXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuilder message;
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
-				case TAG_regionID:
-					region.setRegionID(Integer.valueOf(message.toString()));
+				switch (currentTag) {
+				case TAG_REGION_ID:
+					region.setRegionId(Integer.valueOf(message.toString()));
 					break;
-				case TAG_name:
+				case TAG_NAME:
 					region.setName(message.toString());
 					break;
-				case TAG_weather:
+				case TAG_WEATHER:
 						region.setWeather(Integer.valueOf(message.toString()));
 						break;
-				case TAG_countryID:
-					region.setIdCountryFK(Integer.valueOf(message.toString()));
+				case TAG_COUNTRY_ID:
+					region.setCountryId(Integer.valueOf(message.toString()));
 					break;
 				default:
 					break;
@@ -69,9 +69,9 @@ public class RegionXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("region")) { //$NON-NLS-1$
-					if(region.getRegionID() == -1) {
+				currentTag = 0;
+				if (localName.equals("region")) { 
+					if(region.getRegionId() == -1) {
 						region = null;
 					}
 				}
@@ -84,21 +84,21 @@ public class RegionXmlParser {
 
 				message = new StringBuilder();
 
-				if (localName.equals("region")) { //$NON-NLS-1$
-					TAG_switch = TAG_region;
+				if (localName.equals("region")) { 
+					tagSwitch = TAG_REGION;
 					region = new Region();
-					region.setRegionID(-1);
+					region.setRegionId(-1);
 				}
 
-				if (TAG_switch == TAG_region) {
-					if (localName.equals("regionID")) { //$NON-NLS-1$
-						current_tag = TAG_regionID;
-					} else if (localName.equalsIgnoreCase("name")) { //$NON-NLS-1$
-						current_tag = TAG_name;
-					} else if (localName.equalsIgnoreCase("weather")) { //$NON-NLS-1$
-						current_tag = TAG_weather;
-					} else if (localName.equalsIgnoreCase("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_countryID;
+				if (tagSwitch == TAG_REGION) {
+					if (localName.equals("regionID")) { 
+						currentTag = TAG_REGION_ID;
+					} else if (localName.equalsIgnoreCase("name")) { 
+						currentTag = TAG_NAME;
+					} else if (localName.equalsIgnoreCase("weather")) { 
+						currentTag = TAG_WEATHER;
+					} else if (localName.equalsIgnoreCase("countryID")) { 
+						currentTag = TAG_COUNTRY_ID;
 					}
 				}
 			}
@@ -114,7 +114,7 @@ public class RegionXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

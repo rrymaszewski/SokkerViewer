@@ -100,11 +100,11 @@ public class PropertiesChecker {
 
 		Set<String> keys = hmValues.keySet();
 		String value;
-		String temp_value;
+		String tempValue;
 		for (String key : keys) {
 			value = hmValues.get(key);
-			temp_value = sokkerProperties.getProperty(key);
-			if (temp_value == null) {
+			tempValue = sokkerProperties.getProperty(key);
+			if (tempValue == null) {
 				sokkerProperties.setProperty(key, value);
 			}
 		}
@@ -252,11 +252,11 @@ public class PropertiesChecker {
 
 				Set<String> keys = hmValues.keySet();
 				String value;
-				String temp_value;
+				String tempValue;
 				for (String key : keys) {
 					value = hmValues.get(key);
-					temp_value = userProperties.getProperty(key);
-					if (temp_value == null) {
+					tempValue = userProperties.getProperty(key);
+					if (tempValue == null) {
 						userProperties.setProperty(key, value);
 					}
 				}

@@ -13,7 +13,7 @@ public class LeagueRoundDto extends LeagueRound {
 	}
 	
 	public LeagueRound getSeasonRound() throws SQLException {
-		this.setRound(rs.getInt("round")); //$NON-NLS-1$
+		this.setRound(rs.getInt("round")); 
 		return this;
 	}
 }

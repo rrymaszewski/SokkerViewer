@@ -61,7 +61,7 @@ public class PlayerChartsComposite extends Composite {
 		spinner.setValues(1, 1, 1, 0, 1, 1);
 
 		Button button = new Button(composite, SWT.PUSH);
-		button.setText(Messages.getString("button.show")); //$NON-NLS-1$
+		button.setText(Messages.getString("button.show")); 
 		button.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -142,14 +142,14 @@ public class PlayerChartsComposite extends Composite {
 			playmaker.add(skills[i].getPlaymaker());
 			scorer.add(skills[i].getScorer());
 		}
-		staminaGraph.fillGraph(stamina, form, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.stamina") + " & " + Messages.getString("player.form"), Messages.getString("player.stamina"), Messages.getString("player.form")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		paceGraph.fillGraph(pace, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.pace")); //$NON-NLS-1$
-		techniqueGraph.fillGraph(technique, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.technique")); //$NON-NLS-1$
-		passingGraph.fillGraph(passing, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.passing")); //$NON-NLS-1$
-		keeperGraph.fillGraph(keeper, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.keeper")); //$NON-NLS-1$
-		defenderGraph.fillGraph(defender, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.defender")); //$NON-NLS-1$
-		playmakerGraph.fillGraph(playmaker, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.playmaker")); //$NON-NLS-1$
-		scorerGraph.fillGraph(scorer, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.scorer")); //$NON-NLS-1$
+		staminaGraph.fillGraph(stamina, form, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.stamina") + " & " + Messages.getString("player.form"), Messages.getString("player.stamina"), Messages.getString("player.form"));     
+		paceGraph.fillGraph(pace, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.pace")); 
+		techniqueGraph.fillGraph(technique, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.technique")); 
+		passingGraph.fillGraph(passing, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.passing")); 
+		keeperGraph.fillGraph(keeper, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.keeper")); 
+		defenderGraph.fillGraph(defender, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.defender")); 
+		playmakerGraph.fillGraph(playmaker, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.playmaker")); 
+		scorerGraph.fillGraph(scorer, date, SokkerDate.THURSDAY, true, 18, false, Messages.getString("player.scorer")); 
 	}
 
 }

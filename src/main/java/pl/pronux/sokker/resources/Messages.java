@@ -9,10 +9,11 @@ import java.util.ResourceBundle;
 import pl.pronux.sokker.utils.Log;
 
 public class Messages {
-	private static String bundleName = "lang.sokker"; //$NON-NLS-1$
 
-	private static final Map<Locale, LangResources> cache = new HashMap<Locale, LangResources>();
+	private static Map<Locale, LangResources> cache = new HashMap<Locale, LangResources>();
 
+	private static String bundleName = "lang.sokker"; 
+	
 	private static ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName);
 
 //	private Messages() {

@@ -29,7 +29,7 @@ public class MatchResultGroup extends Group {
 
 		FormData formData;
 		
-		this.setText(Messages.getString("match")); //$NON-NLS-1$
+		this.setText(Messages.getString("match")); 
 		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
 		
@@ -48,7 +48,7 @@ public class MatchResultGroup extends Group {
 	}
 	
 	public void fill(Match match) {
-		this.setText(String.format("%s: %d", Messages.getString("match"), match.getMatchID())); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setText(String.format("%s: %d", Messages.getString("match"), match.getMatchId()));  
 //		this.headerLabel.update();
 		resultsTable.fill(match);
 	}

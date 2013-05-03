@@ -63,7 +63,7 @@ public class PDFexport {
 		width = 800;
 		height = 750;
 		int maxSkill = player.getSkills().length - 1;
-		String cards = "\u2588"; //$NON-NLS-1$
+		String cards = "\u2588"; 
 		// step 1: creation of a document-object
 		Document document = new Document(new com.lowagie.text.Rectangle(width,height));
 		try {
@@ -78,7 +78,7 @@ public class PDFexport {
 
 			// document.setMargins(2,2,2,2);
 			// step 4: we add a paragraph to the document
-			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "fonts" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED); //$NON-NLS-1$ //$NON-NLS-2$
+			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "fonts" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);  
 			Font font = new Font(bfCourier, 12);
 
 			Font fontBold = new Font(bfCourier, 14);
@@ -93,46 +93,46 @@ public class PDFexport {
 			table.getDefaultCell().setBorder(0);
 			table.getDefaultCell().setVerticalAlignment(Element.ALIGN_TOP);
 
-			PdfPCell cell = new PdfPCell(new Paragraph(Messages.getString("player.information"), fontBold)); //$NON-NLS-1$
+			PdfPCell cell = new PdfPCell(new Paragraph(Messages.getString("player.information"), fontBold)); 
 			cell.setColspan(2);
 			cell.setBorder(0);
 			table.addCell(cell);
 
-			table.addCell(new Phrase(Messages.getString("player.id"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.id"), font)); 
 			table.addCell(new Phrase(String.valueOf(player.getId()), font));
 
-			table.addCell(new Phrase(Messages.getString("player.name"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.name"), font)); 
 			table.addCell(new Phrase(player.getName(), font));
 
-			table.addCell(new Phrase(Messages.getString("player.surname"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.surname"), font)); 
 			table.addCell(new Phrase(player.getSurname(), font));
 
-			table.addCell(new Phrase(Messages.getString("player.country"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("country." + player.getCountryfrom() + ".name"), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.country"), font)); 
+			table.addCell(new Phrase(Messages.getString("country." + player.getCountryfrom() + ".name"), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.age"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%d [%d %s]", player.getSkills()[maxSkill].getAge(), player.getSkills()[maxSkill].getAge(),  SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getAge() - player.getSkills()[0].getAge())), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.age"), font)); 
+			table.addCell(new Phrase(String.format("%d [%d %s]", player.getSkills()[maxSkill].getAge(), player.getSkills()[maxSkill].getAge(),  SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getAge() - player.getSkills()[0].getAge())), font)); 
 
-			table.addCell(new Phrase(Messages.getString("player.value"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.value"), font)); 
 			table.addCell(new Phrase(player.getSkills()[maxSkill].getValue().formatDoubleCurrencySymbol(), font));
 
-			table.addCell(new Phrase(Messages.getString("player.salary"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.salary"), font)); 
 			table.addCell(new Phrase(player.getSkills()[maxSkill].getSalary().formatDoubleCurrencySymbol(), font));
 
-			table.addCell(new Phrase(Messages.getString("player.matches"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.matches"), font)); 
 			table.addCell(new Phrase(String.valueOf(player.getSkills()[maxSkill].getMatches()), font));
 
-			table.addCell(new Phrase(Messages.getString("player.goals"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.goals"), font)); 
 			table.addCell(new Phrase(String.valueOf(player.getSkills()[maxSkill].getGoals()), font));
 
-			table.addCell(new Phrase(Messages.getString("player.assists"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.assists"), font)); 
 			table.addCell(new Phrase(String.valueOf(player.getSkills()[maxSkill].getAssists()), font));
 
-			table.addCell(new Phrase(Messages.getString("player.cards"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.cards"), font)); 
 			if (player.getSkills()[maxSkill].getCards() == 2) {
-				cards += " " + cards; //$NON-NLS-1$
+				cards += " " + cards; 
 			} else if (player.getSkills()[maxSkill].getCards() == 0) {
-				cards = ""; //$NON-NLS-1$
+				cards = ""; 
 			}
 
 			diffrents = player.getSkills()[maxSkill].getCards();
@@ -144,65 +144,65 @@ public class PDFexport {
 				table.addCell(cards);
 			}
 
-			table.addCell(new Phrase(Messages.getString("player.injurydays"), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.injurydays"), font)); 
 			double injury = player.getSkills()[maxSkill].getInjurydays();
 			if (injury > 7) {
-				table.addCell(new Phrase(String.format("%d %s [%d]", new BigDecimal(injury).setScale(0, BigDecimal.ROUND_UP), Messages.getString("injury.days"), injury), red)); //$NON-NLS-1$ //$NON-NLS-2$
+				table.addCell(new Phrase(String.format("%d %s [%d]", new BigDecimal(injury).setScale(0, BigDecimal.ROUND_UP), Messages.getString("injury.days"), injury), red));  
 			} else if (injury > 0 && injury < 7) {
-				table.addCell(new Phrase(String.format("%s [%d]", Messages.getString("injury.lastDays"), injury), red)); //$NON-NLS-1$ //$NON-NLS-2$
+				table.addCell(new Phrase(String.format("%s [%d]", Messages.getString("injury.lastDays"), injury), red));  
 			} else {
-				table.addCell(new Phrase(String.format("[%f]", injury), font)); //$NON-NLS-1$
+				table.addCell(new Phrase(String.format("[%f]", injury), font)); 
 			}
 
-			table.addCell(new Phrase(Messages.getString("player.position"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("assistant.position." + player.getPosition()), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.position"), font)); 
+			table.addCell(new Phrase(Messages.getString("assistant.position." + player.getPosition()), font)); 
 
 			document.add(table);
 
-			document.add(new Paragraph(" ")); //$NON-NLS-1$
+			document.add(new Paragraph(" ")); 
 
 			table = new PdfPTable(2);
 			table.getDefaultCell().setBorder(0);
 			table.getDefaultCell().setVerticalAlignment(Element.ALIGN_TOP);
 
-			cell = new PdfPCell(new Paragraph(Messages.getString("player.skills"), fontBold)); //$NON-NLS-1$
+			cell = new PdfPCell(new Paragraph(Messages.getString("player.skills"), fontBold)); 
 			cell.setColspan(2);
 			cell.setBorder(0);
 			table.addCell(cell);
 
-			table.addCell(new Phrase(Messages.getString("player.form"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getForm()), player.getSkills()[maxSkill].getForm()), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.form"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getForm()), player.getSkills()[maxSkill].getForm()), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.stamina"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getStamina()), player.getSkills()[maxSkill].getStamina(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getStamina() - player.getSkills()[0].getStamina())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.stamina"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getStamina()), player.getSkills()[maxSkill].getStamina(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getStamina() - player.getSkills()[0].getStamina())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.pace"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getPace()), player.getSkills()[maxSkill].getPace(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPace() - player.getSkills()[0].getPace())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.pace"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getPace()), player.getSkills()[maxSkill].getPace(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPace() - player.getSkills()[0].getPace())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.technique"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getTechnique()), player.getSkills()[maxSkill].getTechnique(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getTechnique() - player.getSkills()[0].getTechnique())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.technique"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getTechnique()), player.getSkills()[maxSkill].getTechnique(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getTechnique() - player.getSkills()[0].getTechnique())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.passing"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getPassing()), player.getSkills()[maxSkill].getPassing(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPassing() - player.getSkills()[0].getPassing())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.passing"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.b" + player.getSkills()[maxSkill].getPassing()), player.getSkills()[maxSkill].getPassing(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPassing() - player.getSkills()[0].getPassing())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.keeper"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getKeeper()), player.getSkills()[maxSkill].getKeeper(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getKeeper() - player.getSkills()[0].getKeeper())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.keeper"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getKeeper()), player.getSkills()[maxSkill].getKeeper(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getKeeper() - player.getSkills()[0].getKeeper())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.defender"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getDefender()), player.getSkills()[maxSkill].getDefender(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getDefender() - player.getSkills()[0].getDefender())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.defender"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getDefender()), player.getSkills()[maxSkill].getDefender(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getDefender() - player.getSkills()[0].getDefender())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.playmaker"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getPlaymaker()), player.getSkills()[maxSkill].getPlaymaker(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPlaymaker() - player.getSkills()[0].getPlaymaker())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.playmaker"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getPlaymaker()), player.getSkills()[maxSkill].getPlaymaker(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getPlaymaker() - player.getSkills()[0].getPlaymaker())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.scorer"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getScorer()), player.getSkills()[maxSkill].getScorer(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getScorer() - player.getSkills()[0].getScorer())), font)); //$NON-NLS-1$ //$NON-NLS-2$
+			table.addCell(new Phrase(Messages.getString("player.scorer"), font)); 
+			table.addCell(new Phrase(String.format("%s [%d %s] ", Messages.getString("skill.a" + player.getSkills()[maxSkill].getScorer()), player.getSkills()[maxSkill].getScorer(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getScorer() - player.getSkills()[0].getScorer())), font));  
 
-			table.addCell(new Phrase(Messages.getString("player.general"), font)); //$NON-NLS-1$
-			table.addCell(new Phrase(String.format("[%d %s] ", player.getSkills()[maxSkill].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getSummarySkill() - player.getSkills()[0].getSummarySkill())), font)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("player.general"), font)); 
+			table.addCell(new Phrase(String.format("[%d %s] ", player.getSkills()[maxSkill].getSummarySkill(), SVNumberFormat.formatIntegerWithSignZero(player.getSkills()[maxSkill].getSummarySkill() - player.getSkills()[0].getSummarySkill())), font)); 
 			document.add(table);
 
 			helv = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, false);
-			String text = "Document generated by SokkerViewer " + SV.SK_VERSION; //$NON-NLS-1$
+			String text = "Document generated by SokkerViewer " + SV.SK_VERSION; 
 			float textBase = document.bottom() - 20;
 			float textCenter = document.getPageSize().width() / 2;
 
@@ -223,12 +223,12 @@ public class PDFexport {
 
   		DefaultFontMapper mapper = new DefaultFontMapper();
 
-  		mapper.insertDirectory(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "fonts" + File.separator); //$NON-NLS-1$
+  		mapper.insertDirectory(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator + "fonts" + File.separator); 
   		DefaultFontMapper.BaseFontParameters pp;
   		if (SettingsHandler.IS_LINUX) {
-  			pp = mapper.getBaseFontParameters("Free Monospaced"); //$NON-NLS-1$
+  			pp = mapper.getBaseFontParameters("Free Monospaced"); 
   		} else {
-  			pp = mapper.getBaseFontParameters("Courier New"); //$NON-NLS-1$
+  			pp = mapper.getBaseFontParameters("Courier New"); 
   		}
 
   		if (pp != null) {
@@ -258,22 +258,22 @@ public class PDFexport {
 			// table.getDefaultCell().setBorder(1);
 			table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
-			cell = new PdfPCell(new Paragraph(Messages.getString("player.history"), fontBold)); //$NON-NLS-1$
+			cell = new PdfPCell(new Paragraph(Messages.getString("player.history"), fontBold)); 
 			cell.setColspan(11);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			table.addCell(cell);
 
-			table.addCell(new Phrase(Messages.getString("table.date"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.form"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.stamina"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.pace"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.technique"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.passing"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.keeper"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.defender"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.playmaker"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.scorer"), fontMini)); //$NON-NLS-1$
-			table.addCell(new Phrase(Messages.getString("table.generallSkill"), fontMini)); //$NON-NLS-1$
+			table.addCell(new Phrase(Messages.getString("table.date"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.form"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.stamina"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.pace"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.technique"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.passing"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.keeper"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.defender"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.playmaker"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.scorer"), fontMini)); 
+			table.addCell(new Phrase(Messages.getString("table.generallSkill"), fontMini)); 
 
 			for (int i = player.getSkills().length - 1; i >= 0; i--) {
 				table.addCell(new Phrase(String.valueOf(player.getSkills()[i].getDate().toDateString()), fontMini));
@@ -298,15 +298,15 @@ public class PDFexport {
 				table = new PdfPTable(2);
 				table.getDefaultCell().setBorder(0);
 
-				table.addCell(new Phrase(Messages.getString("junior.id"), fontMini)); //$NON-NLS-1$
+				table.addCell(new Phrase(Messages.getString("junior.id"), fontMini)); 
 				table.addCell(new Phrase(String.valueOf(junior.getId()), fontMini));
-				table.addCell(new Phrase(Messages.getString("junior.skill"), fontMini)); //$NON-NLS-1$
-				table.addCell(new Phrase(String.format("%s [%d] ", Messages.getString("skill.a" + junior.getSkills()[maxSkill].getSkill()), junior.getSkills()[maxSkill].getSkill()), fontMini)); //$NON-NLS-1$ //$NON-NLS-2$
-				table.addCell(new Phrase(Messages.getString("junior.weeksAll"), fontMini)); //$NON-NLS-1$
+				table.addCell(new Phrase(Messages.getString("junior.skill"), fontMini)); 
+				table.addCell(new Phrase(String.format("%s [%d] ", Messages.getString("skill.a" + junior.getSkills()[maxSkill].getSkill()), junior.getSkills()[maxSkill].getSkill()), fontMini));  
+				table.addCell(new Phrase(Messages.getString("junior.weeksAll"), fontMini)); 
 				table.addCell(new Phrase(String.valueOf(junior.getSkills()[0].getWeeks()), fontMini));
-				table.addCell(new Phrase(Messages.getString("junior.numberOfJumps"), fontMini)); //$NON-NLS-1$
+				table.addCell(new Phrase(Messages.getString("junior.numberOfJumps"), fontMini)); 
 				table.addCell(new Phrase(String.valueOf(junior.getPops()), fontMini));
-				table.addCell(new Phrase(Messages.getString("junior.averageJumps"), fontMini)); //$NON-NLS-1$
+				table.addCell(new Phrase(Messages.getString("junior.averageJumps"), fontMini)); 
 				table.addCell(new Phrase(String.valueOf(new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP)), fontMini));
 
 				document.add(table);
@@ -314,10 +314,10 @@ public class PDFexport {
 				table = new PdfPTable(4);
 				table.getDefaultCell().setBorder(0);
 
-				table.addCell(new Phrase(Messages.getString("table.date"), fontMini)); //$NON-NLS-1$
-				table.addCell(new Phrase(Messages.getString("table.skill"), fontMini)); //$NON-NLS-1$
-				table.addCell(new Phrase(Messages.getString("table.week"), fontMini)); //$NON-NLS-1$
-				table.addCell(new Phrase(Messages.getString("table.coach"), fontMini)); //$NON-NLS-1$
+				table.addCell(new Phrase(Messages.getString("table.date"), fontMini)); 
+				table.addCell(new Phrase(Messages.getString("table.skill"), fontMini)); 
+				table.addCell(new Phrase(Messages.getString("table.week"), fontMini)); 
+				table.addCell(new Phrase(Messages.getString("table.coach"), fontMini)); 
 				document.add(table);
 
 				table = new PdfPTable(4);
@@ -332,10 +332,10 @@ public class PDFexport {
 							int value = coach.getGeneralskill();
 							table.addCell(new Phrase(String.valueOf(value), fontMini));
 						} else {
-							table.addCell(new Phrase(String.valueOf(" - "), fontMini)); //$NON-NLS-1$
+							table.addCell(new Phrase(String.valueOf(" - "), fontMini)); 
 						}
 					} else {
-						table.addCell(new Phrase(String.valueOf(" - "), fontMini)); //$NON-NLS-1$
+						table.addCell(new Phrase(String.valueOf(" - "), fontMini)); 
 					}
 				}
 
@@ -353,7 +353,7 @@ public class PDFexport {
 				intTable = intList.toArray(new Integer[intList.size()]);
 				dateTable = dateList.toArray(new Date[dateList.size()]);
 
-				convertToPdf(getXYChart(Messages.getString("junior.skill"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 4, g2, cb, tp); //$NON-NLS-1$
+				convertToPdf(getXYChart(Messages.getString("junior.skill"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 4, g2, cb, tp); 
 
 			}
 
@@ -384,7 +384,7 @@ public class PDFexport {
 			intTable = intList.toArray(new Integer[intList.size()]);
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.value"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 0, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.value"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 0, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -395,7 +395,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.form"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 1, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.form"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 1, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -406,7 +406,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.stamina"), intTable, dateTable, Calendar.THURSDAY, true, 12), document.getPageSize().width(), 2, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.stamina"), intTable, dateTable, Calendar.THURSDAY, true, 12), document.getPageSize().width(), 2, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -424,7 +424,7 @@ public class PDFexport {
       tp = cb.createTemplate(width, height);
       g2 = tp.createGraphics(width, height, mapper);
 
-			convertToPdf(getXYChart(Messages.getString("player.pace"), intTable, dateTable, Calendar.THURSDAY, true,18), document.getPageSize().width(), 0, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.pace"), intTable, dateTable, Calendar.THURSDAY, true,18), document.getPageSize().width(), 0, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -435,7 +435,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.technique"), intTable, dateTable, Calendar.THURSDAY, true,18), document.getPageSize().width(), 1, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.technique"), intTable, dateTable, Calendar.THURSDAY, true,18), document.getPageSize().width(), 1, g2, cb, tp); 
 
 
 			intList.clear();
@@ -447,7 +447,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.passing"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 2, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.passing"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 2, g2, cb, tp); 
 
 
 			document.newPage();
@@ -466,7 +466,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.keeper"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 0, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.keeper"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 0, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -477,7 +477,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.defender"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 1, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.defender"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 1, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -488,7 +488,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.playmaker"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 2, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.playmaker"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 2, g2, cb, tp); 
 
 
 			document.newPage();
@@ -507,7 +507,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.scorer"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 0, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.scorer"), intTable, dateTable, Calendar.THURSDAY, true, 18), document.getPageSize().width(), 0, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -518,7 +518,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.age"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 1, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.age"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 1, g2, cb, tp); 
 
 			intList.clear();
 			dateList.clear();
@@ -529,7 +529,7 @@ public class PDFexport {
 			dateTable = dateList.toArray(new Date[dateList.size()]);
 			intTable = intList.toArray(new Integer[intList.size()]);
 
-			convertToPdf(getXYChart(Messages.getString("player.general"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 2, g2, cb, tp); //$NON-NLS-1$
+			convertToPdf(getXYChart(Messages.getString("player.general"), intTable, dateTable, Calendar.THURSDAY, true, -1), document.getPageSize().width(), 2, g2, cb, tp); 
 
 
 			g2.dispose();
@@ -553,7 +553,7 @@ public class PDFexport {
 	 */
 	public static JFreeChart getXYChart(String title, final Integer[] tempIntTable, final Date[] tempDateTable, final int trainingDay, final boolean zero, int maxValue) throws UnsupportedEncodingException {
 
-		final TimeSeries series = new TimeSeries("Weeks Periods", Day.class); //$NON-NLS-1$
+		final TimeSeries series = new TimeSeries("Weeks Periods", Day.class); 
 
 		GregorianCalendar date = new GregorianCalendar();
 
@@ -572,13 +572,13 @@ public class PDFexport {
 		}
 
 		final TimeSeriesCollection dataset = new TimeSeriesCollection(series);
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false);   
 
 		java.awt.Font font;
 		if (SettingsHandler.IS_LINUX) {
-			font = new java.awt.Font("Free Monospaced", java.awt.Font.PLAIN, 14); //$NON-NLS-1$
+			font = new java.awt.Font("Free Monospaced", java.awt.Font.PLAIN, 14); 
 		} else {
-			font = new java.awt.Font("Courier New", java.awt.Font.TRUETYPE_FONT, 14); //$NON-NLS-1$
+			font = new java.awt.Font("Courier New", java.awt.Font.TRUETYPE_FONT, 14); 
 		}
 
 		chart.setTitle(new TextTitle(title, font));
@@ -628,11 +628,11 @@ public class PDFexport {
 	 * @throws IOException
 	 * @throws DocumentException
 	 */
-	public static void convertToPdf(JFreeChart chart, float width, int chart_number, Graphics2D g2, PdfContentByte cb, PdfTemplate tp ) throws DocumentException, IOException {
+	public static void convertToPdf(JFreeChart chart, float width, int chartNumber, Graphics2D g2, PdfContentByte cb, PdfTemplate tp ) throws DocumentException, IOException {
 
 		int height = 250;
 
-    Double rectangle2D = new Rectangle2D.Double(0, chart_number * height, width, height);
+    Double rectangle2D = new Rectangle2D.Double(0, chartNumber * height, width, height);
     chart.draw(g2, rectangle2D);
     cb.addTemplate(tp, 0, 0);
 

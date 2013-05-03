@@ -24,12 +24,12 @@ public class JuniorTable extends SVTable<Junior> {
 		this.setFont(ConfigBean.getFontTable());
 
 		String[] titles = {
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.skill"), //$NON-NLS-1$
-				Messages.getString("table.week"), //$NON-NLS-1$
-				Messages.getString("table.coach"), //$NON-NLS-1$
+				Messages.getString("table.date"), 
+				Messages.getString("table.skill"), 
+				Messages.getString("table.week"), 
+				Messages.getString("table.coach"), 
 				Messages.getString("table.age"),
-				"" //$NON-NLS-1$
+				"" 
 		};
 
 		for (int j = 0; j < titles.length; j++) {
@@ -37,13 +37,13 @@ public class JuniorTable extends SVTable<Junior> {
 			column.setText(titles[j]);
 			column.setResizable(false);
 			column.setMoveable(false);
-			if (titles[j].equals(Messages.getString("table.date"))) { //$NON-NLS-1$
+			if (titles[j].equals(Messages.getString("table.date"))) { 
 				column.setWidth(90);
-			} else if (titles[j].equals(Messages.getString("table.skill"))) { //$NON-NLS-1$
+			} else if (titles[j].equals(Messages.getString("table.skill"))) { 
 				column.setWidth(50);
-			} else if (titles[j].equals(Messages.getString("table.week"))) { //$NON-NLS-1$
+			} else if (titles[j].equals(Messages.getString("table.week"))) { 
 				column.setWidth(50);
-			} else if (titles[j].equals(Messages.getString("table.age"))) { //$NON-NLS-1$
+			} else if (titles[j].equals(Messages.getString("table.age"))) { 
 				column.setWidth(50);
 			} else if (titles[j].isEmpty()) {
 				if (SettingsHandler.IS_LINUX) {
@@ -69,7 +69,7 @@ public class JuniorTable extends SVTable<Junior> {
 
 		for (int i = maxSkill - 1; i >= 0; i--) {
 			TableItem thisItem = new TableItem(this, SWT.NONE);
-			thisItem.setData("date", junior.getSkills()[i].getDate()); //$NON-NLS-1$
+			thisItem.setData("date", junior.getSkills()[i].getDate()); 
 			thisItem.setText(0, junior.getSkills()[i].getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());
 			thisItem.setText(1, String.valueOf(junior.getSkills()[i].getSkill()));
 			thisItem.setText(2, String.valueOf(junior.getSkills()[i].getWeeks()));

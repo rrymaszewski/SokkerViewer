@@ -22,14 +22,14 @@ import pl.pronux.sokker.model.Rank;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 
-public class ConfigurationManager {
+public final class ConfigurationManager {
 
 	private static ConfigurationManager instance = new ConfigurationManager();
 
 	private ConfigurationManager() {
 	}
 
-	public static ConfigurationManager instance() {
+	public static ConfigurationManager getInstance() {
 		return instance;
 	}
 
@@ -91,14 +91,14 @@ public class ConfigurationManager {
 		}
 	}
 
-	public void updateDbTeamID(int teamID) throws SQLException {
+	public void updateDbTeamId(int teamId) throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
-		dbConfDao.setDBTeamID(teamID);
+		dbConfDao.setDBTeamId(teamId);
 	}
 
-	public int getTeamID() throws SQLException {
+	public int getTeamId() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
-		return dbConfDao.getTeamID();
+		return dbConfDao.getTeamId();
 	}
 
 	public void setJuniorMinimumPop(double pop) throws SQLException {
@@ -121,21 +121,21 @@ public class ConfigurationManager {
 	}
 
 	public void repairDatabase() throws SQLException {
-		int teamID = getTeamID();
+		int teamId = getTeamId();
 		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
 
-		List<ClubArenaName> clubArenaNameList = teamsDao.getClubArenaName(teamID);
-		List<ClubName> clubNameList = teamsDao.getClubName(teamID);
-		List<Rank> rankList = teamsDao.getRank(teamID);
+		List<ClubArenaName> clubArenaNameList = teamsDao.getClubArenaName(teamId);
+		List<ClubName> clubNameList = teamsDao.getClubName(teamId);
+		List<Rank> rankList = teamsDao.getRank(teamId);
 		Rank previousRank = null;
 		for (Rank rank : rankList) {
 			if (previousRank == null) {
 				previousRank = rank;
 			} else {
 				if (rank.getRank() == previousRank.getRank()) {
-					teamsDao.deleteRank(teamID, rank);
+					teamsDao.deleteRank(teamId, rank);
 				} else {
 					previousRank = rank;
 				}
@@ -147,7 +147,7 @@ public class ConfigurationManager {
 				previousClubArenaName = clubArenaName;
 			} else {
 				if (clubArenaName.getArenaName().equals(previousClubArenaName.getArenaName())) {
-					teamsDao.deleteClubArenaName(teamID, clubArenaName);
+					teamsDao.deleteClubArenaName(teamId, clubArenaName);
 				} else {
 					previousClubArenaName = clubArenaName;
 				}
@@ -159,7 +159,7 @@ public class ConfigurationManager {
 				previousClubName = clubName;
 			} else {
 				if (clubName.getName().equals(previousClubName.getName())) {
-					teamsDao.deleteClubName(teamID, clubName);
+					teamsDao.deleteClubName(teamId, clubName);
 				} else {
 					previousClubName = clubName;
 				}
@@ -172,11 +172,11 @@ public class ConfigurationManager {
 			trainingsMap.put(training.getDate().getSokkerDate().getTrainingWeek(), training);
 		}
 
-		List<PlayerSkills> skills = playersDao.getPlayerSkillsWithoutTrainingID();
+		List<PlayerSkills> skills = playersDao.getPlayerSkillsWithoutTrainingId();
 		for (PlayerSkills playerSkills : skills) {
 			Training training = trainingsMap.get(playerSkills.getDate().getSokkerDate().getTrainingWeek());
 			if (training != null) {
-				playerSkills.setTrainingID(training.getId());
+				playerSkills.setTrainingId(training.getId());
 			} else {
 				Training trainingDefault = new Training();
 				trainingDefault.setFormation(Training.FORMATION_ALL);
@@ -184,20 +184,20 @@ public class ConfigurationManager {
 				trainingDefault.setDate(playerSkills.getDate());
 
 				teamsDao.addTraining(trainingDefault);
-				int trainingID = teamsDao.getTrainingId(trainingDefault);
-				if (trainingID > -1) {
-					trainingDefault.setId(trainingID);
-					playerSkills.setTrainingID(trainingID);
+				int trainingId = teamsDao.getTrainingId(trainingDefault);
+				if (trainingId > -1) {
+					trainingDefault.setId(trainingId);
+					playerSkills.setTrainingId(trainingId);
 					trainingsMap.put(trainingDefault.getDate().getSokkerDate().getTrainingWeek(), trainingDefault);
 				} else {
-					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.players")); //$NON-NLS-1$
+					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.players")); 
 				}
 
 			}
-			playersDao.updatePlayerTrainingID(playerSkills);
+			playersDao.updatePlayerTrainingId(playerSkills);
 		}
 
-		List<JuniorSkills> juniorsSkills = juniorsDao.getJuniorSkillsWithoutTrainingID();
+		List<JuniorSkills> juniorsSkills = juniorsDao.getJuniorSkillsWithoutTrainingId();
 		for (JuniorSkills juniorSkills : juniorsSkills) {
 			Training training = trainingsMap.get(juniorSkills.getDate().getSokkerDate().getTrainingWeek());
 			if (training != null) {
@@ -209,17 +209,17 @@ public class ConfigurationManager {
 				trainingDefault.setDate(juniorSkills.getDate());
 
 				teamsDao.addTraining(trainingDefault);
-				int trainingID = teamsDao.getTrainingId(trainingDefault);
-				if (trainingID > -1) {
-					trainingDefault.setId(trainingID);
+				int trainingId = teamsDao.getTrainingId(trainingDefault);
+				if (trainingId > -1) {
+					trainingDefault.setId(trainingId);
 					juniorSkills.setTraining(trainingDefault);
 					trainingsMap.put(trainingDefault.getDate().getSokkerDate().getTrainingWeek(), trainingDefault);
 				} else {
-					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.juniors")); //$NON-NLS-1$
+					throw new SQLException(Messages.getString("DatabaseConfiguration.exception.repairing.juniors")); 
 				}
 
 			}
-			juniorsDao.updateJuniorTrainingID(juniorSkills);
+			juniorsDao.updateJuniorTrainingId(juniorSkills);
 		}
 
 	}

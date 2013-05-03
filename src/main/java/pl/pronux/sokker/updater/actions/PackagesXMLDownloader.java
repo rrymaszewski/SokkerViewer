@@ -31,7 +31,7 @@ public class PackagesXMLDownloader implements IRunnableWithProgress {
 	private String os;
 	private String mirror;
 	private PackagesCollection packages;
-	private String info = ""; //$NON-NLS-1$
+	private String info = ""; 
 
 	public PackagesXMLDownloader(String mirror, String version, String os, PackagesCollection packages) {
 		this.version = version;
@@ -44,75 +44,75 @@ public class PackagesXMLDownloader implements IRunnableWithProgress {
 		String signature;
 		HTMLDownloader htmlDownloader;
 
-		monitor.beginTask(String.format("%s (1/4)", Messages.getString("updater.label.xml.download")), 4); //$NON-NLS-1$ //$NON-NLS-2$
+		monitor.beginTask(String.format("%s (1/4)", Messages.getString("updater.label.xml.download")), 4);  
 		try {
-			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(ISecurity.SERVER_PUBLIC_KEY), "RSA"); //$NON-NLS-1$
+			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(ISecurity.SERVER_PUBLIC_KEY), "RSA"); 
 
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
 
 			htmlDownloader = new HTMLDownloader(proxySettings);
-			htmlDownloader.getInternetFile(mirror + version + os + "/packages.xml", "packages.xml", System.getProperty("user.dir") + File.separator + "tmp" + File.separator); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			signature = htmlDownloader.getPageInBytes(mirror + version + os + "/packages.xml.md5"); //$NON-NLS-1$
+			htmlDownloader.getInternetFile(mirror + version + os + "/packages.xml", "packages.xml", System.getProperty("user.dir") + File.separator + "tmp" + File.separator);    
+			signature = htmlDownloader.getPageInBytes(mirror + version + os + "/packages.xml.md5"); 
 
 			monitor.worked(1);
 
-			monitor.setTaskName(String.format("%s (2/4)", Messages.getString("updater.label.xml.verify"))); //$NON-NLS-1$ //$NON-NLS-2$
+			monitor.setTaskName(String.format("%s (2/4)", Messages.getString("updater.label.xml.verify")));  
 
-			if (Crypto.verifySignature(pubk, Crypto.decodeBase64(signature), new File(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + "packages.xml"))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if (Crypto.verifySignature(pubk, Crypto.decodeBase64(signature), new File(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + "packages.xml"))) {   
 				monitor.worked(1);
 				// PARSE XML
-				monitor.setTaskName(String.format("%s (3/4)", Messages.getString("updater.label.xml.parse"))); //$NON-NLS-1$ //$NON-NLS-2$
+				monitor.setTaskName(String.format("%s (3/4)", Messages.getString("updater.label.xml.parse")));  
 
-				String xml = OperationOnFile.readFromFile(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + "packages.xml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String xml = OperationOnFile.readFromFile(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + "packages.xml");   
 				final UpdateXMLParser parser = new UpdateXMLParser();
 				InputSource input = new InputSource(new StringReader(xml));
 				parser.parseXmlSax(input, null);
 
 				UpdateXMLParser oldParser = new UpdateXMLParser();
-				InputSource inputOld = new InputSource(new FileReader(new File(System.getProperty("user.dir") + File.separator + "packages.xml"))); //$NON-NLS-1$ //$NON-NLS-2$
+				InputSource inputOld = new InputSource(new FileReader(new File(System.getProperty("user.dir") + File.separator + "packages.xml")));  
 				oldParser.parseXmlSax(inputOld, null);
 
 				monitor.worked(1);
-				monitor.setTaskName(String.format("%s (4/4)", Messages.getString("updater.label.xml.compare"))); //$NON-NLS-1$ //$NON-NLS-2$
+				monitor.setTaskName(String.format("%s (4/4)", Messages.getString("updater.label.xml.compare")));  
 
 				packages.setPackages(parser.compareTo(oldParser));
 				
 				if (packages.getPackages().size() > 0) {
-					int counter = oldParser.revision + 1;
-					while (counter <= parser.revision) {
-						info += "revision = " + counter + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
-						String desc = htmlDownloader.getNormalPage(mirror + version + "/packages/description/revision." + counter); //$NON-NLS-1$
-						String[] lines = desc.split("\n"); //$NON-NLS-1$
+					int counter = oldParser.getRevision() + 1;
+					while (counter <= parser.getRevision()) {
+						info += "revision = " + counter + "\r\n";  
+						String desc = htmlDownloader.getNormalPage(mirror + version + "/packages/description/revision." + counter); 
+						String[] lines = desc.split("\n"); 
 						for (int i = 0; i < lines.length; i++) {
-							info += lines[i] + "\r\n"; //$NON-NLS-1$
+							info += lines[i] + "\r\n"; 
 						}
-						info += "\r\n\r\n"; //$NON-NLS-1$
+						info += "\r\n\r\n"; 
 						counter++;
 					}
 					packages.setInfo(info);
 				} else {
 					monitor.interrupt();
-//					throw new SVException(Messages.getString("updater.label.info.empty")); //$NON-NLS-1$
+//					throw new SVException(Messages.getString("updater.label.info.empty")); 
 				}
 				monitor.worked(1);
 			} else {
-				throw new SVException(Messages.getString("updater.label.info.verify.xml")); //$NON-NLS-1$
+				throw new SVException(Messages.getString("updater.label.info.verify.xml")); 
 			}
-			monitor.setTaskName(""); //$NON-NLS-1$
+			monitor.setTaskName(""); 
 			monitor.done();
 		} catch (SVException sve) {
 			monitor.interrupt();
 			throw new InvocationTargetException(sve, sve.getMessage());
 		} catch (IOException e) {
-			throw new InvocationTargetException(e, Messages.getString("error.internet.connection") + " " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new InvocationTargetException(e, Messages.getString("error.internet.connection") + " " + e.getMessage());  
 		} catch (SAXException e) {
-			throw new InvocationTargetException(e, Messages.getString("error.xml.parse")); //$NON-NLS-1$
+			throw new InvocationTargetException(e, Messages.getString("error.xml.parse")); 
 		} catch (NoSuchAlgorithmException e) {
-			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); //$NON-NLS-1$
+			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); 
 		} catch (InvalidKeySpecException e) {
-			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); //$NON-NLS-1$
+			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); 
 		} catch (BadArgumentException e) {
-			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); //$NON-NLS-1$
+			throw new InvocationTargetException(e, Messages.getString("error.security.crypto")); 
 		}
 	}
 

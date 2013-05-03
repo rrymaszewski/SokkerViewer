@@ -17,32 +17,32 @@ import pl.pronux.sokker.utils.Log;
 
 public class CountryXmlParser {
 
-	static int current_tag = 0;
-	static final int TAG_COUNTRY = 1;
+	private static int currentTag = 0;
+	private static final int TAG_COUNTRY = 1;
 
-	static final int TAG_COUNTRY_ID =2;
+	private static final int TAG_COUNTRY_ID =2;
 
-	static final int TAG_NAME = 3;
+	private static final int TAG_NAME = 3;
 
-	static final int TAG_CURRENCY_NAME = 4;
+	private static final int TAG_CURRENCY_NAME = 4;
 
-	static final int TAG_CURRENCY_RATE = 5;
+	private static final int TAG_CURRENCY_RATE = 5;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private Country country;
 
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuilder message;
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_COUNTRY_ID:
-					country.setCountryID(Integer.valueOf(message.toString()));
+					country.setCountryId(Integer.valueOf(message.toString()));
 					break;
 				case TAG_NAME:
 					country.setName(message.toString());
@@ -64,9 +64,9 @@ public class CountryXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("country")) { //$NON-NLS-1$
-					if(country.getCountryID() == -1) {
+				currentTag = 0;
+				if (localName.equals("country")) { 
+					if(country.getCountryId() == -1) {
 						country = null;
 					}
 				}
@@ -79,21 +79,21 @@ public class CountryXmlParser {
 
 				message = new StringBuilder();
 
-				if (localName.equals("country")) { //$NON-NLS-1$
-					TAG_switch = TAG_COUNTRY;
+				if (localName.equals("country")) { 
+					tagSwitch = TAG_COUNTRY;
 					country = new Country();
-					country.setCountryID(-1);
+					country.setCountryId(-1);
 				}
 
-				if (TAG_switch == TAG_COUNTRY) {
-					if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_COUNTRY_ID;
-					} else if (localName.equalsIgnoreCase("name")) { //$NON-NLS-1$
-						current_tag = TAG_NAME;
-					} else if (localName.equalsIgnoreCase("currencyName")) { //$NON-NLS-1$
-						current_tag = TAG_CURRENCY_NAME;
-					} else if (localName.equalsIgnoreCase("currencyRate")) { //$NON-NLS-1$
-						current_tag = TAG_CURRENCY_RATE;
+				if (tagSwitch == TAG_COUNTRY) {
+					if (localName.equals("countryID")) { 
+						currentTag = TAG_COUNTRY_ID;
+					} else if (localName.equalsIgnoreCase("name")) { 
+						currentTag = TAG_NAME;
+					} else if (localName.equalsIgnoreCase("currencyName")) { 
+						currentTag = TAG_CURRENCY_NAME;
+					} else if (localName.equalsIgnoreCase("currencyRate")) { 
+						currentTag = TAG_CURRENCY_RATE;
 					}
 				}
 			}
@@ -109,7 +109,7 @@ public class CountryXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

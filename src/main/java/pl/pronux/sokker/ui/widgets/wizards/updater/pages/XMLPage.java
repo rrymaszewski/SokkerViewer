@@ -18,7 +18,7 @@ import pl.pronux.sokker.updater.actions.PackagesXMLDownloader;
 import pl.pronux.sokker.updater.model.PackagesCollection;
 
 public class XMLPage extends Page {
-	public static final String PAGE_NAME = "XML_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "XML_PAGE"; 
 //	private Text information;
 	private String mirror;
 	private String osType;
@@ -27,7 +27,7 @@ public class XMLPage extends Page {
 	private PackagesCollection packagesCollection;
 
 	public XMLPage(Wizard parent) {
-		super(parent, Messages.getString("updater.page.xml"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("updater.page.xml"), PAGE_NAME); 
 	}
 
 	@Override
@@ -69,9 +69,9 @@ public class XMLPage extends Page {
 		try {
 			progressBar.run(true, true, new PackagesXMLDownloader(mirror, versionType, osType, packagesCollection));
 		} catch (InterruptedException e) {
-			MessageDialog.openErrorMessage(getWizard().getShell(), e.getMessage()); //$NON-NLS-1$
+			MessageDialog.openErrorMessage(getWizard().getShell(), e.getMessage()); 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openErrorMessage(getWizard().getShell(), e.getMessage()); //$NON-NLS-1$
+			MessageDialog.openErrorMessage(getWizard().getShell(), e.getMessage()); 
 		}
 
 		Thread monitorThread = new Thread(new Runnable() {
@@ -89,15 +89,15 @@ public class XMLPage extends Page {
 							if(packagesCollection.getPackages().size() > 0) {
 								getWizard().getPreviousButton().setEnabled(false);
 								getWizard().getNextButton().setEnabled(true);
-								MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.successful")); //$NON-NLS-1$
-//								information.setText(Messages.getString("updater.label.info.successful")); //$NON-NLS-1$
+								MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.successful")); 
+//								information.setText(Messages.getString("updater.label.info.successful")); 
 							} else {
 								getWizard().getPreviousButton().setEnabled(false);
 								getWizard().getNextButton().setEnabled(false);
 								getWizard().getFinishButton().setEnabled(true);
 								getWizard().getCancelButton().setEnabled(false);
-								MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.empty")); //$NON-NLS-1$
-//								information.setText(Messages.getString("updater.label.info.empty")); //$NON-NLS-1$
+								MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.empty")); 
+//								information.setText(Messages.getString("updater.label.info.empty")); 
 							}
 						}
 					});
@@ -106,8 +106,8 @@ public class XMLPage extends Page {
 				if (monitor.isInterrupted() && monitor.isDone()) {
 					getWizard().getDisplay().asyncExec(new Runnable() {
 						public void run() {
-							MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.empty")); //$NON-NLS-1$
-//							information.setText(Messages.getString("updater.label.info.empty")); //$NON-NLS-1$							
+							MessageDialog.openInformationMessage(getWizard().getShell(), Messages.getString("updater.label.info.empty")); 
+//							information.setText(Messages.getString("updater.label.info.empty")); 							
 						}
 					});
 				}

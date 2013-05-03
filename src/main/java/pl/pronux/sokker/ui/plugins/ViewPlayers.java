@@ -73,7 +73,7 @@ import pl.pronux.sokker.utils.pdf.PDFexport;
 
 public class ViewPlayers implements IPlugin, ISort {
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private TreeItem _treeItem;
 

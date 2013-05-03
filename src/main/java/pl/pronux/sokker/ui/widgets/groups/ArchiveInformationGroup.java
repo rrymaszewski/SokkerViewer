@@ -28,7 +28,7 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ArchiveInformationGroup extends Group {
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private FormData formData;
 	private Label idLabel;
@@ -64,14 +64,14 @@ public class ArchiveInformationGroup extends Group {
 	}
 
 	public Integer getPlayerID() {
-		if (idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ 
+		if (idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) {  
 			return -1;
 		}
 		return Integer.valueOf(idText.getText());
 	}
 
 	public Integer getPlayerYouthTeamId() {
-		if (youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ 
+		if (youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) {  
 			return -1;
 		}
 		return Integer.valueOf(youthTeamIdText.getText());
@@ -89,7 +89,7 @@ public class ArchiveInformationGroup extends Group {
 
 		this.setLayout(layout);
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("archive.group.information.text")); //$NON-NLS-1$
+		this.setText(Messages.getString("archive.group.information.text")); 
 		this.setForeground(Colors.getBlueDescription());
 
 		GridData warningGD = new GridData();
@@ -101,7 +101,7 @@ public class ArchiveInformationGroup extends Group {
 
 		idLabel = new Label(this, SWT.LEFT);
 		idLabel.setLayoutData(formData);
-		idLabel.setText(Messages.getString("player.id")); //$NON-NLS-1$
+		idLabel.setText(Messages.getString("player.id")); 
 		idLabel.setFont(this.getFont());
 
 		idText = new Text(this, SWT.BORDER);
@@ -112,13 +112,13 @@ public class ArchiveInformationGroup extends Group {
 
 		idWarningLabel = new Label(this, SWT.NONE);
 		idWarningLabel.setForeground(ColorResources.getRed());
-		idWarningLabel.setText("*"); //$NON-NLS-1$
+		idWarningLabel.setText("*"); 
 		idWarningLabel.setVisible(false);
 		idWarningLabel.setLayoutData(warningGD);
 
 		nameLabel = new Label(this, SWT.LEFT);
 		nameLabel.setLayoutData(formData);
-		nameLabel.setText(Messages.getString("player.name")); //$NON-NLS-1$
+		nameLabel.setText(Messages.getString("player.name")); 
 		nameLabel.setFont(this.getFont());
 
 		nameText = new Text(this, SWT.BORDER);
@@ -129,13 +129,13 @@ public class ArchiveInformationGroup extends Group {
 
 		nameWarningLabel = new Label(this, SWT.NONE);
 		nameWarningLabel.setForeground(ColorResources.getRed());
-		nameWarningLabel.setText("*"); //$NON-NLS-1$
+		nameWarningLabel.setText("*"); 
 		nameWarningLabel.setVisible(false);
 		nameWarningLabel.setLayoutData(warningGD);
 
 		surnameLabel = new Label(this, SWT.LEFT);
 		surnameLabel.setLayoutData(formData);
-		surnameLabel.setText(Messages.getString("player.surname")); //$NON-NLS-1$
+		surnameLabel.setText(Messages.getString("player.surname")); 
 		surnameLabel.setFont(this.getFont());
 
 		surnameText = new Text(this, SWT.BORDER);
@@ -146,13 +146,13 @@ public class ArchiveInformationGroup extends Group {
 
 		surnameWarningLabel = new Label(this, SWT.NONE);
 		surnameWarningLabel.setForeground(ColorResources.getRed());
-		surnameWarningLabel.setText("*"); //$NON-NLS-1$
+		surnameWarningLabel.setText("*"); 
 		surnameWarningLabel.setVisible(false);
 		surnameWarningLabel.setLayoutData(warningGD);
 
 		youthTeamIdLabel = new Label(this, SWT.LEFT);
 		youthTeamIdLabel.setLayoutData(formData);
-		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id")); //$NON-NLS-1$
+		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id")); 
 		youthTeamIdLabel.setFont(this.getFont());
 
 		youthTeamIdText = new Text(this, SWT.BORDER);
@@ -163,13 +163,13 @@ public class ArchiveInformationGroup extends Group {
 
 		youthTeamIdWarningLabel = new Label(this, SWT.NONE);
 		youthTeamIdWarningLabel.setForeground(ColorResources.getRed());
-		youthTeamIdWarningLabel.setText("*"); //$NON-NLS-1$
+		youthTeamIdWarningLabel.setText("*"); 
 		youthTeamIdWarningLabel.setVisible(false);
 		youthTeamIdWarningLabel.setLayoutData(warningGD);
 
 		countryLabel = new Label(this, SWT.LEFT);
 		countryLabel.setLayoutData(formData);
-		countryLabel.setText(Messages.getString("player.country")); //$NON-NLS-1$
+		countryLabel.setText(Messages.getString("player.country")); 
 		countryLabel.setFont(this.getFont());
 
 		gridData = new GridData();
@@ -181,7 +181,7 @@ public class ArchiveInformationGroup extends Group {
 
 		countryWarningLabel = new Label(this, SWT.NONE);
 		countryWarningLabel.setForeground(ColorResources.getRed());
-		countryWarningLabel.setText("*"); //$NON-NLS-1$
+		countryWarningLabel.setText("*"); 
 		countryWarningLabel.setVisible(false);
 		countryWarningLabel.setLayoutData(warningGD);
 
@@ -192,7 +192,7 @@ public class ArchiveInformationGroup extends Group {
 
 		saveButton = new Button(this, SWT.PUSH);
 		saveButton.setLayoutData(gridData);
-		saveButton.setText(Messages.getString("button.save")); //$NON-NLS-1$
+		saveButton.setText(Messages.getString("button.save")); 
 		saveButton.setEnabled(false);
 		saveButton.setFont(this.getFont());
 
@@ -200,7 +200,7 @@ public class ArchiveInformationGroup extends Group {
 
 			public void handleEvent(Event arg0) {
 				if (playerArchive != null) {
-					int countryID = (Integer) countryImageLabel.getData("id");//$NON-NLS-1$
+					int countryID = (Integer) countryImageLabel.getData("id");
 					if (nameText.getText().length() == 0 || surnameText.getText().length() == 0 || countryID == FlagsResources.EMPTY_FLAG) {
 						if (nameText.getText().length() == 0) {
 							nameWarningLabel.setVisible(true);
@@ -225,14 +225,14 @@ public class ArchiveInformationGroup extends Group {
 						nameWarningLabel.setVisible(false);
 						playerArchive.setName(nameText.getText());
 						playerArchive.setSurname(surnameText.getText());
-						playerArchive.setCountryID(countryID);
-						if (youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$
-							playerArchive.setYouthTeamID(Integer.valueOf(youthTeamIdText.getText()));
+						playerArchive.setCountryId(countryID);
+						if (youthTeamIdText.getText().matches("[0-9]+")) { 
+							playerArchive.setYouthTeamId(Integer.valueOf(youthTeamIdText.getText()));
 						}
 						playerArchive.setExistsInSokker(PlayerArchive.EXISTS_IN_SOKKER_COMPLETED);
 						try {
 							playersManager.updatePlayerArchive(playerArchive);
-							MessageDialog.openInformationMessage(ArchiveInformationGroup.this.getShell(), Messages.getString("saved"));//$NON-NLS-1$
+							MessageDialog.openInformationMessage(ArchiveInformationGroup.this.getShell(), Messages.getString("saved"));
 						} catch (SQLException e) {
 							new BugReporter(ArchiveInformationGroup.this.getDisplay()).openErrorMessage("Update Player", e);
 						}
@@ -252,7 +252,7 @@ public class ArchiveInformationGroup extends Group {
 					int id = countryChooser.getId();
 					// if (id >= 0 && id < FlagsResources.EMPTY_FLAG) {
 					countryImageLabel.setImage(FlagsResources.getFlag(id));
-					countryImageLabel.setData("id", id); //$NON-NLS-1$
+					countryImageLabel.setData("id", id); 
 					// }
 					break;
 				default:
@@ -270,13 +270,13 @@ public class ArchiveInformationGroup extends Group {
 		idText.setText(String.valueOf(playerArchive.getId()));
 		nameText.setText(playerArchive.getName());
 		surnameText.setText(playerArchive.getSurname());
-		youthTeamIdText.setText(String.valueOf(playerArchive.getYouthTeamID()));
-		if (playerArchive.getCountryID() == 0) {
+		youthTeamIdText.setText(String.valueOf(playerArchive.getYouthTeamId()));
+		if (playerArchive.getCountryId() == 0) {
 			countryImageLabel.setImage(FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
-			countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); //$NON-NLS-1$
+			countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); 
 		} else {
-			countryImageLabel.setImage(FlagsResources.getFlag(playerArchive.getCountryID()));
-			countryImageLabel.setData("id", playerArchive.getCountryID()); //$NON-NLS-1$
+			countryImageLabel.setImage(FlagsResources.getFlag(playerArchive.getCountryId()));
+			countryImageLabel.setData("id", playerArchive.getCountryId()); 
 		}
 
 		if (playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_FALSE

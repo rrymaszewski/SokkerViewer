@@ -20,7 +20,7 @@ public class ReportsGroup extends Group {
 
 	public ReportsGroup(Composite arg0, int arg1) {
 		super(arg0, arg1);
-		this.setText(Messages.getString("ReportsGroup.reports")); //$NON-NLS-1$
+		this.setText(Messages.getString("ReportsGroup.reports")); 
 		setLayout(new FillLayout());
 		styledText = new StyledText(this, SWT.H_SCROLL | SWT.READ_ONLY);
 		this.setFont(ConfigBean.getFontMain());
@@ -30,12 +30,12 @@ public class ReportsGroup extends Group {
 	}
 
 	public void fill(List<Report> reports) {
-		styledText.setText(""); //$NON-NLS-1$
+		styledText.setText(""); 
 		int i = 0;
 		while ( i < 11 && i < reports.size() ) {
 			Report report = reports.get(i);
 			int start = styledText.getText().length();
-			addText(String.format("%s %s\r\n", report.getDate().toDateTimeString(), report.getMessage())); //$NON-NLS-1$
+			addText(String.format("%s %s\r\n", report.getDate().toDateTimeString(), report.getMessage())); 
 			int length = styledText.getText().length() - start;
 			
 			if(report.getStatus() == Report.COST) {

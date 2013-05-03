@@ -21,7 +21,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class TransfersXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
 //	private static final int TAG_transfers = 1;
 
@@ -47,31 +47,31 @@ public class TransfersXmlParser {
 
 //	private static final int TAG_WARNING = 12;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private List<Transfer> transfers;
 
-	private int teamID;
+	private int teamId;
 
 	private Transfer transfer;
 
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuilder message;
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_ID:
-					transfer.setTransferID(Integer.valueOf(message.toString()));
+					transfer.setTransferId(Integer.valueOf(message.toString()));
 					break;
 				case TAG_SELLER_TEAM_ID:
-					transfer.setSellerTeamID(Integer.valueOf(message.toString()));
+					transfer.setSellerTeamId(Integer.valueOf(message.toString()));
 					break;
 				case TAG_BUYER_TEAM_ID:
-						transfer.setBuyerTeamID(Integer.valueOf(message.toString()));
+						transfer.setBuyerTeamId(Integer.valueOf(message.toString()));
 						break;
 				case TAG_SELLER_TEAM_NAME:
 						transfer.setSellerTeamName(message.toString());
@@ -80,7 +80,7 @@ public class TransfersXmlParser {
 					transfer.setBuyerTeamName(message.toString());
 				break;
 				case TAG_PLAYER_ID:
-					transfer.setPlayerID(Integer.valueOf(message.toString()));
+					transfer.setPlayerId(Integer.valueOf(message.toString()));
 					break;
 				case TAG_PRICE:
 					transfer.setPrice(new Money(Integer.valueOf(message.toString())));
@@ -102,9 +102,9 @@ public class TransfersXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("transfer")) { //$NON-NLS-1$
-					if(transfer.getTransferID() != -1) {
+				currentTag = 0;
+				if (localName.equals("transfer")) { 
+					if(transfer.getTransferId() != -1) {
 						transfers.add(transfer);
 					}
 				}
@@ -117,46 +117,46 @@ public class TransfersXmlParser {
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
-				if (localName.equals("transfers")) { //$NON-NLS-1$
+				if (localName.equals("transfers")) { 
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("teamID")) { //$NON-NLS-1$
-							teamID = Integer.valueOf(value);
+						if (name.equalsIgnoreCase("teamID")) { 
+							teamId = Integer.valueOf(value);
 						}
 					}
 				}
 
-				if (localName.equals("transfer")) { //$NON-NLS-1$
-					TAG_switch = TAG_TRANSFER;
+				if (localName.equals("transfer")) { 
+					tagSwitch = TAG_TRANSFER;
 					transfer = new Transfer();
-					transfer.setTransferID(-1);
-					transfer.setBuyerTeamName(""); //$NON-NLS-1$
-					transfer.setBuyerTeamID(0);
-					transfer.setSellerTeamID(0);
-					transfer.setSellerTeamName(""); //$NON-NLS-1$
+					transfer.setTransferId(-1);
+					transfer.setBuyerTeamName(""); 
+					transfer.setBuyerTeamId(0);
+					transfer.setSellerTeamId(0);
+					transfer.setSellerTeamName(""); 
 				}
 
-				if (TAG_switch == TAG_TRANSFER) {
-					if (localName.equals("ID")) { //$NON-NLS-1$
-						current_tag = TAG_ID;
-					} else if (localName.equalsIgnoreCase("sellerTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_SELLER_TEAM_ID;
-					} else if (localName.equalsIgnoreCase("buyerTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_BUYER_TEAM_ID;
-					} else if (localName.equalsIgnoreCase("sellerTeamName")) { //$NON-NLS-1$
-						current_tag = TAG_SELLER_TEAM_NAME;
-					} else if (localName.equals("buyerTeamName")) { //$NON-NLS-1$
-						current_tag = TAG_BUYER_TEAM_NAME;
-					} else if (localName.equals("playerID")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_ID;
-					} else if (localName.equals("date")) { //$NON-NLS-1$
-						current_tag = TAG_DATE;
-					} else if (localName.equals("price")) { //$NON-NLS-1$
-						current_tag = TAG_PRICE;
-					} else if (localName.equalsIgnoreCase("playerValue")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_VALUE;
+				if (tagSwitch == TAG_TRANSFER) {
+					if (localName.equals("ID")) { 
+						currentTag = TAG_ID;
+					} else if (localName.equalsIgnoreCase("sellerTeamID")) { 
+						currentTag = TAG_SELLER_TEAM_ID;
+					} else if (localName.equalsIgnoreCase("buyerTeamID")) { 
+						currentTag = TAG_BUYER_TEAM_ID;
+					} else if (localName.equalsIgnoreCase("sellerTeamName")) { 
+						currentTag = TAG_SELLER_TEAM_NAME;
+					} else if (localName.equals("buyerTeamName")) { 
+						currentTag = TAG_BUYER_TEAM_NAME;
+					} else if (localName.equals("playerID")) { 
+						currentTag = TAG_PLAYER_ID;
+					} else if (localName.equals("date")) { 
+						currentTag = TAG_DATE;
+					} else if (localName.equals("price")) { 
+						currentTag = TAG_PRICE;
+					} else if (localName.equalsIgnoreCase("playerValue")) { 
+						currentTag = TAG_PLAYER_VALUE;
 					}
 				}
 			}
@@ -172,7 +172,7 @@ public class TransfersXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

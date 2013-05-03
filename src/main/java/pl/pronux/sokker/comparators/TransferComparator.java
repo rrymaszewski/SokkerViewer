@@ -72,11 +72,11 @@ public class TransferComparator implements SVComparator<Transfer>, ISort {
 					rc = coll.compare(t1.getPlayer().getName(), t2.getPlayer().getName());
 //					rc = t1.getPlayer().getName().compareTo(t2.getPlayer().getName());
 				} else if(t1.getPlayer() == null && t2.getPlayer() != null) {
-					rc = "".compareTo(t2.getPlayer().getName()); //$NON-NLS-1$
+					rc = "".compareTo(t2.getPlayer().getName()); 
 				} else if(t1.getPlayer() != null && t2.getPlayer() == null) {
-					rc = t1.getPlayer().getName().compareTo(""); //$NON-NLS-1$
+					rc = t1.getPlayer().getName().compareTo(""); 
 				} else if(t1.getPlayer() == null && t2.getPlayer() == null) {
-					rc = "".compareTo(""); //$NON-NLS-1$ //$NON-NLS-2$
+					rc = "".compareTo("");  
 				}
 				break;
 			case PLAYER_SURNAME:
@@ -84,11 +84,11 @@ public class TransferComparator implements SVComparator<Transfer>, ISort {
 					rc = coll.compare(t1.getPlayer().getSurname(), t2.getPlayer().getSurname());
 //					rc = t1.getPlayer().getSurname().compareTo(t2.getPlayer().getSurname());
 				} else if(t1.getPlayer() == null && t2.getPlayer() != null) {
-					rc = "".compareTo(t2.getPlayer().getSurname()); //$NON-NLS-1$
+					rc = "".compareTo(t2.getPlayer().getSurname()); 
 				} else if(t1.getPlayer() != null && t2.getPlayer() == null) {
-					rc = t1.getPlayer().getSurname().compareTo(""); //$NON-NLS-1$
+					rc = t1.getPlayer().getSurname().compareTo(""); 
 				} else if(t1.getPlayer() == null && t2.getPlayer() == null) {
-					rc = "".compareTo(""); //$NON-NLS-1$ //$NON-NLS-2$
+					rc = "".compareTo("");  
 				}
 				break;
 		}

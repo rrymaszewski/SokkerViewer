@@ -52,10 +52,10 @@ public class Log {
 		Logger logger = Logger.getLogger("");
 		// create a new handler to write to a named file
 		try {
-			fileHandler = new FileHandler("sokker.log", true); //$NON-NLS-1$
+			fileHandler = new FileHandler("sokker.log", true); 
 			fileHandler.setFormatter(new SimpleFormatter());
 		} catch (IOException ioe) {
-			logger.warning("Could not create a file..."); //$NON-NLS-1$
+			logger.warning("Could not create a file..."); 
 		}
 
 		// add the handlers to the logger

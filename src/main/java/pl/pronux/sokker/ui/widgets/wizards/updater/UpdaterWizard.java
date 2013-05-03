@@ -16,14 +16,14 @@ public class UpdaterWizard extends Wizard {
 	private String osType;
 
 	private void init() {
-		versionType = "stable"; //$NON-NLS-1$
+		versionType = "stable"; 
 
 		if (SettingsHandler.IS_WINDOWS) {
-			osType = "/windows"; //$NON-NLS-1$
+			osType = "/windows"; 
 		} else if (SettingsHandler.IS_LINUX) {
-			osType = "/linux"; //$NON-NLS-1$
+			osType = "/linux"; 
 		} else if (SettingsHandler.IS_MACOSX) {
-			osType = "/mac"; //$NON-NLS-1$
+			osType = "/mac"; 
 		}
 	}
 

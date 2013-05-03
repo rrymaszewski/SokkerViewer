@@ -40,7 +40,7 @@ public class BackupDBComparator implements SVComparator<File>, ISort {
 				rc = file1.getName().compareTo(file2.getName());
 				break;
 			case LONG:
-				rc = file1.getName().split("\\.")[0].compareTo(file2.getName().split("\\.")[0]); //$NON-NLS-1$ //$NON-NLS-2$
+				rc = file1.getName().split("\\.")[0].compareTo(file2.getName().split("\\.")[0]);  
 				break;
 			default: 
 				//TODO: Implement 'default' statement

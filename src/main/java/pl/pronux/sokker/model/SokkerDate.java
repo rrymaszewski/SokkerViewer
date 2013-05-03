@@ -14,8 +14,8 @@ public class SokkerDate {
 	public static final byte THURSDAY = 5;
 	public static final byte FRIDAY = 6;
 
-//	public final static long beginDate = 1057470289859l - Date.day;
-//	public final static long BEGIN_DATE = 1057379449859l - DateConst.HOUR * 6 - DateConst.MINUTE * 30 - DateConst.SECOND * 49 - 859;
+//	public static final long beginDate = 1057470289859l - Date.day;
+//	public static final long BEGIN_DATE = 1057379449859l - DateConst.HOUR * 6 - DateConst.MINUTE * 30 - DateConst.SECOND * 49 - 859;
 	public static final long BEGIN_DATE = 1057356000000l + DateConst.SECOND;
 	
 	private int day;

@@ -67,14 +67,14 @@ public class MatchPlayersComparator implements SVComparator<PlayerStats>, ISort 
 			break;
 		case PLAYER:
 			if(ps1.getPlayer() == null && ps2.getPlayer() == null) {
-				rc = (ps1.getPlayerID() < ps2.getPlayerID()) ? -1 : 1;
+				rc = (ps1.getPlayerId() < ps2.getPlayerId()) ? -1 : 1;
 			} else if(ps1.getPlayer() != null && ps2.getPlayer() == null) {
 				rc = 1;
 			} else if(ps1.getPlayer() == null && ps2.getPlayer() != null) {
 				rc = -1;
 			} else if(ps1.getPlayer() != null && ps2.getPlayer() != null) {
 				if(ps1.getPlayer().getSurname() == null && ps2.getPlayer().getSurname() == null) {
-					rc = (ps1.getPlayerID() < ps2.getPlayerID()) ? -1 : 1;
+					rc = (ps1.getPlayerId() < ps2.getPlayerId()) ? -1 : 1;
 				} else if(ps1.getPlayer().getSurname() == null) {
 					rc = 1;
 				} else if(ps2.getPlayer().getSurname() == null) {

@@ -28,7 +28,7 @@ public class MatchSummaryGroup extends Group {
 		this.setLayout(new FormLayout());
 
 		FormData formData;
-		this.setText(Messages.getString("summary")); //$NON-NLS-1$
+		this.setText(Messages.getString("summary")); 
 		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
 		

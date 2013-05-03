@@ -50,7 +50,7 @@ public class ViewAssistant implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
-		private PlayersManager playersManager = PlayersManager.instance();
+		private PlayersManager playersManager = PlayersManager.getInstance();
 		
 		private Composite composite;
 
@@ -64,7 +64,7 @@ public class ViewAssistant implements IPlugin, ISort {
 
 		private boolean changed;
 		
-		private AssistantManager assistantManager = AssistantManager.instance();
+		private AssistantManager assistantManager = AssistantManager.getInstance();
 		
 		private void addTableEditor(final Table table) {
 			final TableEditor editor = new TableEditor(table);
@@ -872,7 +872,7 @@ public class ViewAssistant implements IPlugin, ISort {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoAssistant"); //$NON-NLS-1$;
+		return Messages.getString("progressBar.info.setInfoAssistant");
 	}
 
 	public TreeItem getTreeItem() {

@@ -1,20 +1,20 @@
 package pl.pronux.sokker.model;
 
 public class Region {
-	private int idCountryFK;
+	private int countryId;
 
-	private int regionID;
+	private int regionId;
 
 	private String name;
 
 	private int weather;
 
-	public int getIdCountryFK() {
-		return idCountryFK;
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setIdCountryFK(int idCountryFk) {
-		this.idCountryFK = idCountryFk;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getName() {
@@ -25,12 +25,12 @@ public class Region {
 		this.name = name;
 	}
 
-	public int getRegionID() {
-		return regionID;
+	public int getRegionId() {
+		return regionId;
 	}
 
-	public void setRegionID(int regionID) {
-		this.regionID = regionID;
+	public void setRegionId(int regionId) {
+		this.regionId = regionId;
 	}
 
 	public int getWeather() {

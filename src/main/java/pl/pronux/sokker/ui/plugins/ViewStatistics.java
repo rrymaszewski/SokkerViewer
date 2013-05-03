@@ -81,7 +81,7 @@ public class ViewStatistics implements IPlugin {
 		});
 
 		cTabItemFans = new CTabItem(viewFolder, SWT.NONE);
-		cTabItemFans.setText(Messages.getString("statistics.fans")); //$NON-NLS-1$
+		cTabItemFans.setText(Messages.getString("statistics.fans")); 
 		cTabItemFans.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData();
@@ -104,7 +104,7 @@ public class ViewStatistics implements IPlugin {
 		cTabItemFans.setControl(tabComposite);
 
 		cTabItemEarns = new CTabItem(viewFolder, SWT.NONE);
-		cTabItemEarns.setText(Messages.getString("statistics.earns")); //$NON-NLS-1$
+		cTabItemEarns.setText(Messages.getString("statistics.earns")); 
 		cTabItemEarns.setFont(ConfigBean.getFontMain());
 
 		tabComposite = new TabComposite(viewFolder, SWT.NONE);
@@ -119,7 +119,7 @@ public class ViewStatistics implements IPlugin {
 		cTabItemEarns.setControl(tabComposite);
 
 		cTabItemRank = new CTabItem(viewFolder, SWT.NONE);
-		cTabItemRank.setText(Messages.getString("statistics.rank")); //$NON-NLS-1$
+		cTabItemRank.setText(Messages.getString("statistics.rank")); 
 		cTabItemRank.setFont(ConfigBean.getFontMain());
 
 		tabComposite = new TabComposite(viewFolder, SWT.NONE);
@@ -165,9 +165,9 @@ public class ViewStatistics implements IPlugin {
 					if (item != null) {
 						if (currentComposite.getGraphComposite().getVisible()) {
 							TableColumn tableColumn = item.getParent().getColumn(currentComposite.getGraphComposite().getColumn());
-							ArrayList<?> al = (ArrayList<?>) tableColumn.getData("data"); //$NON-NLS-1$
+							ArrayList<?> al = (ArrayList<?>) tableColumn.getData("data"); 
 							Object object = al.get(al.size() - 1 - item.getParent().indexOf(item));
-							currentComposite.getGraphComposite().setMarkers((Date) item.getData("date"), -1, object); //$NON-NLS-1$
+							currentComposite.getGraphComposite().setMarkers((Date) item.getData("date"), -1, object); 
 						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
@@ -192,7 +192,7 @@ public class ViewStatistics implements IPlugin {
 							currentComposite
 								.getGraphComposite()
 								.setMarkers(
-											(Date) item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+											(Date) item.getData("date"), Calendar.MONDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", "")));   
 						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
@@ -216,7 +216,7 @@ public class ViewStatistics implements IPlugin {
 							currentComposite
 								.getGraphComposite()
 								.setMarkers(
-											(Date) item.getData("date"), Calendar.SATURDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", ""))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+											(Date) item.getData("date"), Calendar.SATURDAY, Integer.valueOf(item.getText(currentComposite.getGraphComposite().getColumn()).replaceAll("[^0-9-]", "")));   
 						} else if (currentComposite.getDescriptionComposite().getVisible()) {
 							// int index = item.getParent().indexOf(item);
 							// setStatsJuniorInfo((Junior)item.getParent().getData("juniorObject"), universalJuniorComposite, index);
@@ -251,13 +251,13 @@ public class ViewStatistics implements IPlugin {
 
 		this._treeItem = treeItem;
 
-		_treeItem.setText(Messages.getString("tree.ViewStatistics")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewStatistics")); 
 
-		_treeItem.setImage(ImageResources.getImageResources("statistics.png")); //$NON-NLS-1$
+		_treeItem.setImage(ImageResources.getImageResources("statistics.png")); 
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoStatistics"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoStatistics"); 
 	}
 
 	public Composite getComposite() {
@@ -267,7 +267,7 @@ public class ViewStatistics implements IPlugin {
 	private void addListeners() {
 		graphList = new Listener() {
 
-			@SuppressWarnings("unchecked")//$NON-NLS-1$
+			@SuppressWarnings("unchecked")
 			public void handleEvent(Event event) {
 
 				TableColumn tempColumn = (TableColumn) event.widget;
@@ -278,7 +278,7 @@ public class ViewStatistics implements IPlugin {
 				// sprawdzamy czy tabela zawiera elementy
 				int k = tempTable.indexOf(tempColumn);
 				for (int x = 0; x < tempTable.getItemCount(); x++) {
-					tempIntTable[x] = Double.valueOf(tempTable.getItem(x).getText(k).replaceAll("[^0-9-]", "")).intValue(); //$NON-NLS-1$ //$NON-NLS-2$
+					tempIntTable[x] = Double.valueOf(tempTable.getItem(x).getText(k).replaceAll("[^0-9-]", "")).intValue();  
 					tempDateTable[x] = tempTable.getItem(x).getText(0);
 				}
 
@@ -287,7 +287,7 @@ public class ViewStatistics implements IPlugin {
 				currentComposite.getGraphComposite().setColumn(k);
 
 				if (viewFolder.getSelection().equals(cTabItemFans)) {
-					//					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { //$NON-NLS-1$
+					//					if(tempColumn.getText().equals(Messages.getString("statistics.fans.count"))) { 
 					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable, Calendar.MONDAY, false, -1);
 					// } else {
 					// currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable,Calendar.MONDAY,true, -1);
@@ -295,7 +295,7 @@ public class ViewStatistics implements IPlugin {
 				} else if (viewFolder.getSelection().equals(cTabItemEarns)) {
 					currentComposite.getGraphComposite().fillGraph(tempIntTable, tempDateTable, Calendar.SATURDAY, true, -1);
 				} else if (viewFolder.getSelection().equals(cTabItemRank)) {
-					ArrayList<Number> al = (ArrayList<Number>) tempColumn.getData("data"); //$NON-NLS-1$
+					ArrayList<Number> al = (ArrayList<Number>) tempColumn.getData("data"); 
 					currentComposite.getGraphComposite().fillGraph(al, tempDateTable, -1, false, -1);
 				}
 

@@ -29,7 +29,7 @@ public class TrainingDescription extends StyledText implements IDescription {
 	}
 	
 	private String getSkill(int skill) {
-		return String.format("%4s%s",String.format("[%d]", skill), Messages.getString("skill.a" + skill)); //$NON-NLS-1$ //$NON-NLS-2$
+		return String.format("%4s%s",String.format("[%d]", skill), Messages.getString("skill.a" + skill));  
 	}
 
 	public void setInfo(Training training) {
@@ -38,20 +38,20 @@ public class TrainingDescription extends StyledText implements IDescription {
 		this.setRedraw(false);
 		this.setText("");
 		
-		text = String.format("%s:", Messages.getString("training.main")); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%s:", Messages.getString("training.main"));  
 		this.addText(text);
 		
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 		
-		String formation = Messages.getString("formation." + training.getFormation()); //$NON-NLS-1$
-		text = String.format("%s: %s", Messages.getString("formation"), formation); //$NON-NLS-1$ //$NON-NLS-2$ 
+		String formation = Messages.getString("formation." + training.getFormation()); 
+		text = String.format("%s: %s", Messages.getString("formation"), formation);   
 		this.addText(text);
 		this.addStyle(this.getText().length() - formation.length(), formation.length(), ColorResources.getColor(48, 121, 182), this.getBackground(), SWT.NORMAL);
 		this.addText(NEW_LINE);
 		
-		String type = Messages.getString("training.type." + training.getType()); //$NON-NLS-1$
-		text = String.format("%s: %s" , Messages.getString("training.type"), type); //$NON-NLS-1$ //$NON-NLS-2$
+		String type = Messages.getString("training.type." + training.getType()); 
+		text = String.format("%s: %s" , Messages.getString("training.type"), type);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - type.length(), type.length(), ColorResources.getColor(48, 121, 182), this.getBackground(), SWT.NORMAL);
 		this.addText(NEW_LINE);
@@ -59,12 +59,12 @@ public class TrainingDescription extends StyledText implements IDescription {
 
 		if(training.getHeadCoach() != null) {
 			String skill = getSkill(training.getHeadCoach().getGeneralskill());
-			text = String.format("%-25s %s", Messages.getString("coach.job.head"), skill); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s %s", Messages.getString("coach.job.head"), skill);  
 			this.addText(text);
 			this.addStyle(this.getText().length() - skill.length(), 4, Colors.getGray(), this.getBackground(), SWT.NORMAL);
 			this.addStyle(this.getText().length() - skill.length() + 4, skill.length() - 4, Colors.getTrainerGeneralSkill(), this.getBackground(), SWT.BOLD);
 		} else {
-			text = String.format("%-25s %s", Messages.getString("coach.job.head"), "-"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("%-25s %s", Messages.getString("coach.job.head"), "-");   
 			this.addText(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 		}
@@ -73,7 +73,7 @@ public class TrainingDescription extends StyledText implements IDescription {
 		
 		if(training.getAssistants().size() > 3) {
 			for(int i=0; i < 3; i++) {
-				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), "-"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), "-");   
 				this.addText(text);
 				this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 				this.addText(NEW_LINE);
@@ -82,7 +82,7 @@ public class TrainingDescription extends StyledText implements IDescription {
 			List<Coach> assistants = training.getAssistants();
 			for(Coach trainer : assistants) {
 				String skill = getSkill(trainer.getGeneralskill());
-				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), skill); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), skill);   
 				this.addText(text);
 				this.addStyle(this.getText().length() - skill.length(), 4, Colors.getGray(), this.getBackground(), SWT.NORMAL);
 				this.addStyle(this.getText().length() - skill.length() + 4, skill.length() - 4, Colors.getTrainerGeneralSkill(), this.getBackground(), SWT.NORMAL);
@@ -90,7 +90,7 @@ public class TrainingDescription extends StyledText implements IDescription {
 			}
 			
 			for(int i = assistants.size(); i < 3; i++ ) {
-				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), "-"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				text = String.format("%-25s %s", Messages.getString("coach.job.assistant"), "-");   
 				this.addText(text);
 				this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 				this.addText(NEW_LINE);
@@ -99,7 +99,7 @@ public class TrainingDescription extends StyledText implements IDescription {
 		
 		this.addText(NEW_LINE);
 		
-		text = String.format("%s:", Messages.getString("training.general")); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%s:", Messages.getString("training.general"));  
 		this.addText(text);
 		
 		this.addText(NEW_LINE);
@@ -121,20 +121,20 @@ public class TrainingDescription extends StyledText implements IDescription {
 			this.addText(NEW_LINE);
 		}
 		
-//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.date"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString()); //$NON-NLS-1$ //$NON-NLS-2$
+//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.date"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());  
 //		this.addText(text);
 //
-//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.date.insert"), training.getDate().toDateString()); //$NON-NLS-1$ //$NON-NLS-2$
+//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.date.insert"), training.getDate().toDateString());  
 //		this.addText(text);	
 //
-//		text = String.format("%-25s%-15d" + NEW_LINE, Messages.getString("training.week"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).getSokkerDate().getSeasonWeek()); //$NON-NLS-1$ //$NON-NLS-2$
+//		text = String.format("%-25s%-15d" + NEW_LINE, Messages.getString("training.week"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).getSokkerDate().getSeasonWeek());  
 //		this.addText(text);
 //		
 //
 //		
 //		String headCoachStats = getHeadCoachStats(training);
 //		int rightColumn = 15;
-//		text = String.format("%-25s%-" + rightColumn + "s" + NEW_LINE, Messages.getString("coach.job.head"), headCoachStats); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//		text = String.format("%-25s%-" + rightColumn + "s" + NEW_LINE, Messages.getString("coach.job.head"), headCoachStats);   
 //		this.addText(text);
 //
 //		if (training.getHeadCoach() != null) {
@@ -145,13 +145,13 @@ public class TrainingDescription extends StyledText implements IDescription {
 //			}
 //		}
 //
-//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.assistants"), getAssistantsStats(training)); //$NON-NLS-1$ //$NON-NLS-2$
+//		text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("training.assistants"), getAssistantsStats(training));  
 //		this.addText(text);
 //		
 //		if (training.getJuniorCoach() != null) {
-//			text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("coach.job.juniors"), Messages.getString("skill.a" + training.getJuniorCoach().getGeneralskill()) + " [" + training.getJuniorCoach().getGeneralskill() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+//			text = String.format("%-25s%-15s" + NEW_LINE, Messages.getString("coach.job.juniors"), Messages.getString("skill.a" + training.getJuniorCoach().getGeneralskill()) + " [" + training.getJuniorCoach().getGeneralskill() + "]");     
 //		} else {
-//			text = "-"; //$NON-NLS-1$
+//			text = "-"; 
 //		}
 //		this.addText(text);
 		

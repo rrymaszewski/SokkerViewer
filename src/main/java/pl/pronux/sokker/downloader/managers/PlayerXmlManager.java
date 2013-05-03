@@ -22,7 +22,7 @@ import pl.pronux.sokker.model.PlayerArchive;
 public class PlayerXmlManager extends XmlManager<Player> {
 
 	public void completePlayersArchive(int limit) throws SQLException {
-		String value = "-3"; //$NON-NLS-1$
+		String value = "-3"; 
 		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		Set<Integer> playersToDownload = new HashSet<Integer>();
@@ -36,16 +36,16 @@ public class PlayerXmlManager extends XmlManager<Player> {
 			playersToDownload.addAll(alPlayersToDownload);
 		}
 		
-		if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
-			value = "0"; //$NON-NLS-1$
+		if (downloader.getStatus().equals("OK")) { 
+			value = "0"; 
 		} else {
 			value = downloader.getErrorno();
 		}
 
-		if (value.equals("0")) { //$NON-NLS-1$
-			for (Integer playerID : playersToDownload) {
+		if (value.equals("0")) { 
+			for (Integer playerId : playersToDownload) {
 				try {
-					String xml = downloader.getPlayer(String.valueOf(playerID));
+					String xml = downloader.getPlayer(String.valueOf(playerId));
 					PlayerXmlParser parser = new PlayerXmlParser();
 					InputSource input = new InputSource(new StringReader(xml));
 					try {
@@ -56,9 +56,9 @@ public class PlayerXmlManager extends XmlManager<Player> {
 					Player player = parser.getPlayer();
 					if (player != null) {
 						playersArchiveDao.addPlayer(new PlayerArchive(player));
-						write(xml, playerID);
+						write(xml, playerId);
 					} else {
-						playersArchiveDao.addNotExists(playerID);
+						playersArchiveDao.addNotExists(playerId);
 					}
 				} catch (IOException ioex) {
 					// value = "-1";
@@ -73,7 +73,7 @@ public class PlayerXmlManager extends XmlManager<Player> {
 	}
 
 	public PlayerXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("player", destination, downloader, currentDay); //$NON-NLS-1$
+		super("player", destination, downloader, currentDay); 
 	}
 
 	@Override

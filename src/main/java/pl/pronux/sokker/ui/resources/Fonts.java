@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public final class Fonts {
 	private static class FDArray {
-		public FontData[] fontData;
+		private FontData[] fontData;
 
 		public FDArray(FontData[] fontData) {
 			super();

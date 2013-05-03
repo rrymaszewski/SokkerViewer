@@ -21,19 +21,12 @@ import pl.pronux.sokker.ui.widgets.composites.CountryChooser;
 
 public class ArchiveSearchGroup extends Group {
 
-	private Label idLabel;
-	private Label nameLabel;
-	private Label surnameLabel;
-	private Label youthTeamIdLabel;
-	private Label countryLabel;
 	private Button searchButton;
 	private Text idText;
 	private Text nameText;
 	private Text surnameText;
 	private Text youthTeamIdText;
-	private Button clearButton;
 	private Label countryImageLabel;
-	private Listener countryListener;
 
 	@Override
 	protected void checkSubclass() {
@@ -49,14 +42,14 @@ public class ArchiveSearchGroup extends Group {
 	}
 	
 	public Integer getPlayerID() {
-		if(idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(idText == null || !idText.getText().matches("[0-9]+")) {  
 			return -1;
 		}
 		return Integer.valueOf(idText.getText());
 	}
 	
 	public Integer getPlayerYouthTeamId() {
-		if(youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) { //$NON-NLS-1$ //$NON-NLS-2$
+		if(youthTeamIdText == null || !youthTeamIdText.getText().matches("[0-9]+")) {  
 			return -1;
 		}
 		return Integer.valueOf(youthTeamIdText.getText());
@@ -74,7 +67,7 @@ public class ArchiveSearchGroup extends Group {
 
 		this.setLayout(layout);
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("ArchiveSearchGroup.search")); //$NON-NLS-1$
+		this.setText(Messages.getString("ArchiveSearchGroup.search")); 
 		this.setForeground(Colors.getBlueDescription());
 
 		GridData gridData1 = new GridData();
@@ -86,51 +79,51 @@ public class ArchiveSearchGroup extends Group {
 		gridData2.horizontalAlignment = GridData.FILL;
 		gridData2.horizontalSpan = 3;
 		
-		idLabel = new Label(this, SWT.LEFT);
+		Label idLabel = new Label(this, SWT.LEFT);
 		idLabel.setLayoutData(gridData1);
-		idLabel.setText(Messages.getString("player.id")); //$NON-NLS-1$
+		idLabel.setText(Messages.getString("player.id")); 
 		idLabel.setFont(this.getFont());
 		
 		idText = new Text(this, SWT.BORDER);
 		idText.setLayoutData(gridData2);
 		idText.setFont(this.getFont());
 		
-		nameLabel = new Label(this, SWT.LEFT);
+		Label nameLabel = new Label(this, SWT.LEFT);
 		nameLabel.setLayoutData(gridData1);
-		nameLabel.setText(Messages.getString("player.name")); //$NON-NLS-1$
+		nameLabel.setText(Messages.getString("player.name")); 
 		nameLabel.setFont(this.getFont());
 		
 		nameText = new Text(this, SWT.BORDER);
 		nameText.setLayoutData(gridData2);
 		nameText.setFont(this.getFont());
 		
-		surnameLabel = new Label(this, SWT.LEFT);
+		Label surnameLabel = new Label(this, SWT.LEFT);
 		surnameLabel.setLayoutData(gridData1);
-		surnameLabel.setText(Messages.getString("player.surname")); //$NON-NLS-1$
+		surnameLabel.setText(Messages.getString("player.surname")); 
 		surnameLabel.setFont(this.getFont());
 		
 		surnameText = new Text(this, SWT.BORDER);
 		surnameText.setLayoutData(gridData2);
 		surnameText.setFont(this.getFont());
 		
-		youthTeamIdLabel = new Label(this, SWT.LEFT);
+		Label youthTeamIdLabel = new Label(this, SWT.LEFT);
 		youthTeamIdLabel.setLayoutData(gridData1);
-		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id")); //$NON-NLS-1$
+		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id")); 
 		youthTeamIdLabel.setFont(this.getFont());
 		
 		youthTeamIdText = new Text(this, SWT.BORDER);
 		youthTeamIdText.setLayoutData(gridData2);
 		youthTeamIdText.setFont(this.getFont());
 		
-		countryLabel = new Label(this, SWT.LEFT);
+		Label countryLabel = new Label(this, SWT.LEFT);
 		countryLabel.setLayoutData(gridData1);
-		countryLabel.setText(Messages.getString("player.country")); //$NON-NLS-1$
+		countryLabel.setText(Messages.getString("player.country")); 
 		countryLabel.setFont(this.getFont());
 		
 		countryImageLabel = new Label(this, SWT.NONE);
 		countryImageLabel.setLayoutData(gridData2);
 		countryImageLabel.setImage(FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
-		countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); //$NON-NLS-1$
+		countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); 
 
 		GridData gridData = new GridData();
 		gridData.widthHint = 80;
@@ -139,28 +132,28 @@ public class ArchiveSearchGroup extends Group {
 		
 		searchButton = new Button(this, SWT.PUSH);
 		searchButton.setLayoutData(gridData);
-		searchButton.setText(Messages.getString("button.search")); //$NON-NLS-1$
+		searchButton.setText(Messages.getString("button.search")); 
 		searchButton.setFont(this.getFont());
 		
-		clearButton = new Button(this, SWT.PUSH);
+		Button clearButton = new Button(this, SWT.PUSH);
 		clearButton.setLayoutData(gridData);
-		clearButton.setText(Messages.getString("button.clear")); //$NON-NLS-1$
+		clearButton.setText(Messages.getString("button.clear")); 
 		clearButton.setFont(this.getFont());
 		
 		clearButton.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
-				idText.setText(""); //$NON-NLS-1$
-				nameText.setText(""); //$NON-NLS-1$
-				surnameText.setText(""); //$NON-NLS-1$
-				youthTeamIdText.setText(""); //$NON-NLS-1$
+				idText.setText(""); 
+				nameText.setText(""); 
+				surnameText.setText(""); 
+				youthTeamIdText.setText(""); 
 				countryImageLabel.setImage(FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
-				countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); //$NON-NLS-1$
+				countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); 
 			}
 			
 		});
 		
-		countryListener = new Listener() {
+		Listener countryListener = new Listener() {
 
 			public void handleEvent(Event event) {
 				switch(event.type) {
@@ -171,7 +164,7 @@ public class ArchiveSearchGroup extends Group {
 						int id = countryChooser.getId();
 //						if( id >= 0 ) {
 							countryImageLabel.setImage(FlagsResources.getFlag(id));
-							countryImageLabel.setData("id", id); //$NON-NLS-1$
+							countryImageLabel.setData("id", id); 
 //						}
 					}
 					break;
@@ -188,10 +181,10 @@ public class ArchiveSearchGroup extends Group {
 	}
 	
 	public int getPlayerCountryID() {
-		if(countryImageLabel.getData("id") == null) { //$NON-NLS-1$
+		if(countryImageLabel.getData("id") == null) { 
 			return FlagsResources.EMPTY_FLAG;
 		}
-		return (Integer)countryImageLabel.getData("id"); //$NON-NLS-1$
+		return (Integer)countryImageLabel.getData("id"); 
 		
 	}
 }

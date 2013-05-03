@@ -12,7 +12,7 @@ import pl.pronux.sokker.data.sql.dao.TrainersDao;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Training;
 
-public class TrainersManager {
+public final class TrainersManager {
 	
 	private static final int JUNIOR_COACH = 3;
 	private static final int ASSISTANT = 2;
@@ -23,7 +23,7 @@ public class TrainersManager {
 	private TrainersManager(){
 	}
 	
-	public static TrainersManager instance() {
+	public static TrainersManager getInstance() {
 		return instance;
 	}
 	
@@ -75,16 +75,16 @@ public class TrainersManager {
 	
 	public void importTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); 
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
 				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); 
 		}
-		sb.append(")"); //$NON-NLS-1$
+		sb.append(")"); 
 		if (trainers.size() > 0) {
 			trainersDao.removeCoaches(sb.toString());
 		} else {
@@ -112,16 +112,16 @@ public class TrainersManager {
 
 	public void importerTrainers(List<Coach> trainers) throws SQLException {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
-		StringBuilder sb = new StringBuilder("("); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("("); 
 		for (int i = 0; i < trainers.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == trainers.size() - 1) {
 				sb.append(trainers.get(i).getId());
 				break;
 			}
-			sb.append(trainers.get(i).getId()).append(","); //$NON-NLS-1$
+			sb.append(trainers.get(i).getId()).append(","); 
 		}
-		sb.append(")"); //$NON-NLS-1$
+		sb.append(")"); 
 		if (trainers.size() > 0) {
 			trainersDao.removeCoaches(sb.toString());
 		} else {

@@ -20,37 +20,37 @@ public class ChartsMenu extends Menu {
 		super(parentItem);
 		MenuItem item;
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.value")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.value")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.salary")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.salary")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.age")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.age")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.stamina")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.stamina")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.pace")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.pace")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.technique")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.technique")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.passing")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.passing")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.keeper")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.keeper")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.defender")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.defender")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.playmaker")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.playmaker")); 
 
 		item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("player.scorer")); //$NON-NLS-1$
+		item.setText(Messages.getString("player.scorer")); 
 }
 	
 	public void setPlayer(Player player) {

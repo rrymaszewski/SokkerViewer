@@ -1,6 +1,7 @@
 package pl.pronux.sokker.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import pl.pronux.sokker.actions.SettingsManager;
 import pl.pronux.sokker.data.properties.SVProperties;
 import pl.pronux.sokker.downloader.VersionDownloader;
 import pl.pronux.sokker.enums.Language;
+import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -64,7 +66,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class Viewer extends Shell {
 
-	private SettingsManager settingsManager = SettingsManager.instance();
+	private SettingsManager settingsManager = SettingsManager.getInstance();
 	
 	private Properties defaultProperties;
 
@@ -98,7 +100,7 @@ public class Viewer extends Shell {
 
 	private Group viewGroup;
 
-	public Viewer(Display display, int style) throws Exception {
+	public Viewer(Display display, int style) throws IOException, SVException {
 		super(display, style);
 		monitor = display.getPrimaryMonitor();
 		// checking OS
@@ -123,7 +125,7 @@ public class Viewer extends Shell {
 			settingsManager.updateSettings(settings);
 		}
 
-		String[] table = settings.getLangCode().split("_"); //$NON-NLS-1$
+		String[] table = settings.getLangCode().split("_"); 
 		// Messages = Messages.getLangResources(new Locale(table[0], table[1]));
 		Messages.setDefault(new Locale(table[0], table[1]));
 
@@ -134,14 +136,14 @@ public class Viewer extends Shell {
 		// add body
 		this.setLayout(new FormLayout());
 		// set title of mainShell
-		this.setText(Messages.getString("mainShell.title") + " " + SV.SK_VERSION); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setText(Messages.getString("mainShell.title") + " " + SV.SK_VERSION);  
 
 		this.setLocation(monitor.getClientArea().x, monitor.getClientArea().y);
 		this.setSize(monitor.getClientArea().width, monitor.getClientArea().height);
 		this.setEnabled(false);
 
 		// settings mainShell ICO
-		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[32x32].png")); //$NON-NLS-1$
+		this.setImage(ImageResources.getImageResources("sokkerViewer_ico[32x32].png")); 
 
 		// adding listener for checking if window is close
 		this.addListener(SWT.Close, new Listener() {
@@ -149,8 +151,8 @@ public class Viewer extends Shell {
 			public void handleEvent(Event event) {
 				if (settings.isInfoClose()) {
 					MessageBox messageBox = new MessageBox(Viewer.this, SWT.ICON_QUESTION | SWT.APPLICATION_MODAL | SWT.YES | SWT.NO);
-					messageBox.setText(Messages.getString("message.exit.title")); //$NON-NLS-1$
-					messageBox.setMessage(Messages.getString("message.mainShell.exit.text")); //$NON-NLS-1$
+					messageBox.setText(Messages.getString("message.exit.title")); 
+					messageBox.setMessage(Messages.getString("message.mainShell.exit.text")); 
 					event.doit = messageBox.open() == SWT.YES;
 				}
 			}
@@ -160,13 +162,13 @@ public class Viewer extends Shell {
 		addFonts();
 
 		addTrayItem(this);
-		defaultProperties = PropertiesResources.getProperties("default.properties"); //$NON-NLS-1$
+		defaultProperties = PropertiesResources.getProperties("default.properties"); 
 		SettingsHandler.setDefaultProperties(defaultProperties);
 
 		// loading default colors
-		if (new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties").exists()) { //$NON-NLS-1$ //$NON-NLS-2$
+		if (new File(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties").exists()) {  
 			userProperties = new SVProperties();
-			userProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties"); //$NON-NLS-1$ //$NON-NLS-2$
+			userProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "user.properties");  
 			SettingsHandler.setUserProperties(userProperties);
 			ConfigBean.setDefaults(userProperties);
 		} else {
@@ -203,8 +205,8 @@ public class Viewer extends Shell {
 
 		SVProperties pluginsProperties = new SVProperties();
 
-		pluginsProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties"); //$NON-NLS-1$ //$NON-NLS-2$
-		String[] viewClass = pluginsProperties.getProperty("plugins").split(";"); //$NON-NLS-1$ //$NON-NLS-2$
+		pluginsProperties.loadFile(settings.getBaseDirectory() + File.separator + "settings" + File.separator + "plugins.properties");  
+		String[] viewClass = pluginsProperties.getProperty("plugins").split(";");  
 
 		plugins = new ArrayList<IPlugin>();
 
@@ -215,7 +217,7 @@ public class Viewer extends Shell {
 		formData.right = new FormAttachment(100, 0);
 
 		for (int i = 0; i < viewClass.length; i++) {
-			if (Integer.valueOf(pluginsProperties.getProperty(viewClass[i] + ".turn")).intValue() == 0) { //$NON-NLS-1$
+			if (Integer.valueOf(pluginsProperties.getProperty(viewClass[i] + ".turn")).intValue() == 0) { 
 				continue;
 			}
 			IPlugin view = null;
@@ -339,7 +341,7 @@ public class Viewer extends Shell {
 		if (SettingsHandler.IS_WINDOWS) {
 			ConfigBean.setFontMain(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 			ConfigBean.setFontDescription(Fonts.getFont(display,
-														"Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL)); //$NON-NLS-1$
+														"Bitstream Vera Sans Mono, Luxi Mono,Nimbus Mono L", fontCurrent.getFontData()[0].height, SWT.NORMAL)); 
 			ConfigBean.setFontTable(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.NORMAL));
 			ConfigBean.setFontItalic(Fonts.getFont(display, fontCurrent.getFontData()[0].getName(), fontCurrent.getFontData()[0].height, SWT.ITALIC));
 		} else {
@@ -440,7 +442,7 @@ public class Viewer extends Shell {
 						display.asyncExec(new Runnable() {
 
 							public void run() {
-								statusBar.setVersion(Messages.getString("statusBar.versionLabel.text") + version); //$NON-NLS-1$
+								statusBar.setVersion(Messages.getString("statusBar.versionLabel.text") + version); 
 								statusBar.getVersionLabel().addListener(SWT.MouseDoubleClick, new Listener() {
 
 									public void handleEvent(Event event) {

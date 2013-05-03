@@ -66,7 +66,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	private class Configure implements IViewConfigure {
 
-		private ConfigurationManager configurationManager = ConfigurationManager.instance();
+		private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 		
 		private Composite composite;
 
@@ -78,7 +78,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			if (SQLSession.getConnection() != null) {
 				try {
 					configurationManager.setJuniorMinimumPop(spinner.getSelection() / 10.0);
-					Junior.minimumPop = spinner.getSelection() / 10.0;
+					Junior.setMinimumPop(spinner.getSelection() / 10.0);
 					for (int i = 0; i < juniors.size(); i++) {
 						juniors.get(i).reload();
 					}
@@ -117,7 +117,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			formData.top = new FormAttachment(0, 5);
 
 			Label label = new Label(composite, SWT.NONE);
-			label.setText(Messages.getString("junior.pop.average.min")); //$NON-NLS-1$
+			label.setText(Messages.getString("junior.pop.average.min")); 
 			label.setFont(ConfigBean.getFontMain());
 			label.setLayoutData(formData);
 
@@ -132,12 +132,12 @@ public class ViewJuniors implements IPlugin, ISort {
 		}
 
 		public void restoreDefaultChanges() {
-			this.spinner.setSelection(Double.valueOf(Junior.minimumPop * 10).intValue());
+			this.spinner.setSelection(Double.valueOf(Junior.getMinimumPop() * 10).intValue());
 
 		}
 
 		public void set() {
-			this.spinner.setSelection(Double.valueOf(Junior.minimumPop * 10).intValue());
+			this.spinner.setSelection(Double.valueOf(Junior.getMinimumPop() * 10).intValue());
 		}
 
 		public void setSettings(SokkerViewerSettings sokkerViewerSettings) {
@@ -147,7 +147,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 		public void setTreeItem(TreeItem treeItem) {
 			this.treeItem = treeItem;
-			this.treeItem.setText(Messages.getString("tree.ViewJuniors")); //$NON-NLS-1$
+			this.treeItem.setText(Messages.getString("tree.ViewJuniors")); 
 
 		}
 	}
@@ -158,7 +158,7 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	private String cbData;
 
-	protected Combo comboFilter;
+	private Combo comboFilter;
 
 	private Combo comboGraph;
 
@@ -221,7 +221,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		descriptionComposite.setVisible(true);
 
 		// descriptionComposite.setDescriptionStringFormat(40, 15);
-		descriptionComposite.setDescriptionStringFormat("%-40s%-15s\r\n"); //$NON-NLS-1$
+		descriptionComposite.setDescriptionStringFormat("%-40s%-15s\r\n"); 
 		descriptionComposite.setFirstColumnSize(40);
 		descriptionComposite.setSecondColumnSize(15);
 
@@ -260,7 +260,7 @@ public class ViewJuniors implements IPlugin, ISort {
 						if (event.button == 3) {
 
 							// setCbData(juniorDesc);
-							menuPopUp.setData("item", item); //$NON-NLS-1$
+							menuPopUp.setData("item", item); 
 							_treeItem.getParent().setMenu(menuPopUp);
 							// _treeItem.getParent().getMenu()._setVisible(true);
 							_treeItem.getParent().getMenu().setVisible(true);
@@ -286,11 +286,11 @@ public class ViewJuniors implements IPlugin, ISort {
 
 							showMainView(vComposite);
 						}
-					} else if (item.getData("juniorCharts") != null) { //$NON-NLS-1$
+					} else if (item.getData("juniorCharts") != null) { 
 
 						if (item.getParentItem().getParentItem().equals(_treeItem)) {
-							if (item.getData("juniorCharts") instanceof Junior) { //$NON-NLS-1$
-								Junior junior = (Junior) item.getData("juniorCharts"); //$NON-NLS-1$
+							if (item.getData("juniorCharts") instanceof Junior) { 
+								Junior junior = (Junior) item.getData("juniorCharts"); 
 								graphsComposite.fill(junior);
 								showMainView(graphsComposite);
 							}
@@ -309,11 +309,11 @@ public class ViewJuniors implements IPlugin, ISort {
 		MenuItem menuItem;
 
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.note.open")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.note.open")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				if (menuPopUp.getData("item") != null) { //$NON-NLS-1$
-					Item item = (Item) menuPopUp.getData("item"); //$NON-NLS-1$
+				if (menuPopUp.getData("item") != null) { 
+					Item item = (Item) menuPopUp.getData("item"); 
 					if (item.getData(Junior.class.getName()) != null) {
 						openNote(item);
 					}
@@ -324,7 +324,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		menuItem = new MenuItem(menuPopUp, SWT.SEPARATOR);
 
 		menuItem = new MenuItem(menuPopUp, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 
@@ -347,7 +347,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		// added popup menu
 		menuPopUpParentTree = new Menu(vComposite.getShell(), SWT.POP_UP);
 		MenuItem menuItem = new MenuItem(menuPopUpParentTree, SWT.PUSH);
-		menuItem.setText(Messages.getString("popup.clipboard")); //$NON-NLS-1$
+		menuItem.setText(Messages.getString("popup.clipboard")); 
 		menuItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 
@@ -395,9 +395,9 @@ public class ViewJuniors implements IPlugin, ISort {
 
 		comboFilter = new Combo(generalStatusComposite, SWT.READ_ONLY);
 
-		comboFilter.add(Messages.getString("view.all")); //$NON-NLS-1$
-		comboFilter.add(Messages.getString("view.jumps")); //$NON-NLS-1$
-		comboFilter.setText(Messages.getString("view.all")); //$NON-NLS-1$
+		comboFilter.add(Messages.getString("view.all")); 
+		comboFilter.add(Messages.getString("view.jumps")); 
+		comboFilter.setText(Messages.getString("view.all")); 
 		comboFilter.setFont(ConfigBean.getFontMain());
 
 		formData = new FormData(100, 25);
@@ -413,7 +413,7 @@ public class ViewJuniors implements IPlugin, ISort {
 		formData.left = new FormAttachment(0, 5);
 
 		labelGraph = new CLabel(detailStatusComposite, SWT.NONE);
-		labelGraph.setText(Messages.getString("canvasShell.graph")); //$NON-NLS-1$
+		labelGraph.setText(Messages.getString("canvasShell.graph")); 
 		labelGraph.setLayoutData(formData);
 		labelGraph.setFont(ConfigBean.getFontMain());
 		labelGraph.pack();
@@ -423,9 +423,9 @@ public class ViewJuniors implements IPlugin, ISort {
 		formData.left = new FormAttachment(labelGraph, 5);
 
 		comboGraph = new Combo(detailStatusComposite, SWT.READ_ONLY);
-		comboGraph.add(Messages.getString("view.description")); //$NON-NLS-1$
-		comboGraph.add(Messages.getString("view.skill")); //$NON-NLS-1$
-		comboGraph.setText(Messages.getString("view.description")); //$NON-NLS-1$
+		comboGraph.add(Messages.getString("view.description")); 
+		comboGraph.add(Messages.getString("view.skill")); 
+		comboGraph.setText(Messages.getString("view.description")); 
 		comboGraph.setFont(ConfigBean.getFontMain());
 
 		comboGraph.addListener(SWT.Selection, new Listener() {
@@ -473,9 +473,9 @@ public class ViewJuniors implements IPlugin, ISort {
 					JuniorsComparator comparator = juniorsTable.getComparator();
 					if (column != comparator.getColumn()) {
 						if (comparator.getDirection() == 0) {
-							juniorsTable.getColumn(comparator.getColumn()).setText(juniorsTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_UP, "")); //$NON-NLS-1$
+							juniorsTable.getColumn(comparator.getColumn()).setText(juniorsTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_UP, "")); 
 						} else {
-							juniorsTable.getColumn(comparator.getColumn()).setText(juniorsTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_DOWN, "")); //$NON-NLS-1$
+							juniorsTable.getColumn(comparator.getColumn()).setText(juniorsTable.getColumn(comparator.getColumn()).getText().replaceAll(ARROW_DOWN, "")); 
 						}
 						comparator.setDirection(0);
 						juniorsTable.getColumn(column).setText(juniorsTable.getColumn(column).getText() + ARROW_UP);
@@ -519,12 +519,12 @@ public class ViewJuniors implements IPlugin, ISort {
 		return new Listener() {
 			public void handleEvent(Event event) {
 				String text = ((Combo) event.widget).getItem(((Combo) event.widget).getSelectionIndex());
-				if (text.equalsIgnoreCase(Messages.getString("view.all"))) { //$NON-NLS-1$
+				if (text.equalsIgnoreCase(Messages.getString("view.all"))) { 
 					table.setRedraw(false);
 					table.clearAll();
 					table.fill(juniors);
 					table.setRedraw(true);
-				} else if (text.equalsIgnoreCase(Messages.getString("view.jumps"))) { //$NON-NLS-1$
+				} else if (text.equalsIgnoreCase(Messages.getString("view.jumps"))) { 
 					table.setRedraw(false);
 					filterTable(table);
 					table.setRedraw(true);
@@ -594,7 +594,7 @@ public class ViewJuniors implements IPlugin, ISort {
 			TreeItem item = new TreeItem(_treeItem, SWT.NONE);
 			// item.setData("id", junior.get(i).getId());
 			item.setData(Junior.class.getName(), junior.get(i)); 
-			item.setText(junior.get(i).getSurname() + " " + junior.get(i).getName()); //$NON-NLS-1$
+			item.setText(junior.get(i).getSurname() + " " + junior.get(i).getName()); 
 			item.setImage(FlagsResources.getFlag(Cache.getClub().getCountry()));
 
 			if (junior.get(i).getSkills().length == 1) {
@@ -605,16 +605,16 @@ public class ViewJuniors implements IPlugin, ISort {
 			}
 
 			TreeItem chartItem = new TreeItem(item, SWT.NONE);
-			chartItem.setText(Messages.getString("charts")); //$NON-NLS-1$
-			chartItem.setData("juniorCharts", junior.get(i)); //$NON-NLS-1$
-			chartItem.setImage(ImageResources.getImageResources("chart_blue.png")); //$NON-NLS-1$
+			chartItem.setText(Messages.getString("charts")); 
+			chartItem.setData("juniorCharts", junior.get(i)); 
+			chartItem.setImage(ImageResources.getImageResources("chart_blue.png")); 
 			
 			itemMap.put(junior.get(i).getId(), item);
 		}
 	}
 
 	protected void filterTable(Table table) {
-		if (comboFilter.getText().equalsIgnoreCase(Messages.getString("view.jumps"))) { //$NON-NLS-1$
+		if (comboFilter.getText().equalsIgnoreCase(Messages.getString("view.jumps"))) { 
 			for (int i = 0; i < table.getItemCount(); i++) {
 				if (!(table.getItem(i).getBackground(2).equals(ConfigBean.getColorIncrease()) || table.getItem(i).getBackground(2).equals(ConfigBean.getColorDecrease()))) {
 					table.remove(i);
@@ -637,7 +637,7 @@ public class ViewJuniors implements IPlugin, ISort {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoJuniors"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoJuniors"); 
 	}
 
 	public TreeItem getTreeItem() {
@@ -731,7 +731,7 @@ public class ViewJuniors implements IPlugin, ISort {
 					TableItem item = juniorsTable.getItem(pt);
 					if (item != null) {
 						// Junior junior = (Junior) item.getData(Junior.class.getName());
-						menuPopUp.setData("item", item); //$NON-NLS-1$
+						menuPopUp.setData("item", item); 
 						juniorsTable.setMenu(menuPopUp);
 						juniorsTable.getMenu().setVisible(true);
 					} else {
@@ -845,7 +845,7 @@ public class ViewJuniors implements IPlugin, ISort {
 				if (junior.getNote().isEmpty()) {
 					((TableItem) item).setImage(JuniorsComparator.NOTE, null);
 				} else {
-					((TableItem) item).setImage(JuniorsComparator.NOTE, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+					((TableItem) item).setImage(JuniorsComparator.NOTE, ImageResources.getImageResources("note.png")); 
 				}
 			}
 		}
@@ -900,7 +900,7 @@ public class ViewJuniors implements IPlugin, ISort {
 					TableItem item = currentView.getItem(point);
 					if (item != null) {
 						if (currentDesc instanceof ChartDateComposite) {
-							((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(1))); //$NON-NLS-1$
+							((ChartDateComposite) currentDesc).setMarkers((Date) item.getData("date"), Calendar.THURSDAY, Integer.valueOf(item.getText(1))); 
 						} else if (currentDesc instanceof DescriptionDoubleComposite) {
 							int index = item.getParent().indexOf(item);
 							universalComposite.setStatsJuniorInfo((Junior) item.getParent().getData(Junior.class.getName()), index); 
@@ -938,24 +938,24 @@ public class ViewJuniors implements IPlugin, ISort {
 		values = new String[5][2];
 
 		if (juniors.size() != 0) {
-			values[0][0] = Messages.getString("junior.averageSkill"); //$NON-NLS-1$
-			values[0][1] = Messages.getString("skill.a" + BigDecimal.valueOf(averJuniorSkill / juniors.size()).setScale(0, BigDecimal.ROUND_HALF_UP)) + " (" + BigDecimal.valueOf(averJuniorSkill / juniors.size()).setScale(2, BigDecimal.ROUND_HALF_UP).toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			values[0][0] = Messages.getString("junior.averageSkill"); 
+			values[0][1] = Messages.getString("skill.a" + BigDecimal.valueOf(averJuniorSkill / juniors.size()).setScale(0, BigDecimal.ROUND_HALF_UP)) + " (" + BigDecimal.valueOf(averJuniorSkill / juniors.size()).setScale(2, BigDecimal.ROUND_HALF_UP).toString() + ")";   
 		} else {
-			values[0][0] = Messages.getString("junior.averageSkill"); //$NON-NLS-1$
-			values[0][1] = "0"; //$NON-NLS-1$
+			values[0][0] = Messages.getString("junior.averageSkill"); 
+			values[0][1] = "0"; 
 		}
 
-		values[1][0] = Messages.getString("junior.allJuniors"); //$NON-NLS-1$
-		values[1][1] = String.format("%d/%d", juniors.size(), juniorsMax); //$NON-NLS-1$
+		values[1][0] = Messages.getString("junior.allJuniors"); 
+		values[1][1] = String.format("%d/%d", juniors.size(), juniorsMax); 
 
-		values[2][0] = Messages.getString("junior.size.max"); //$NON-NLS-1$
-		values[2][1] = String.format("%d/%d",juniorsMax, maxSize); //$NON-NLS-1$
+		values[2][0] = Messages.getString("junior.size.max"); 
+		values[2][1] = String.format("%d/%d",juniorsMax, maxSize); 
 
-		values[3][0] = Messages.getString("junior.juniorsCosts"); //$NON-NLS-1$
-		values[3][1] = Money.formatDoubleCurrencySymbol(juniors.size() * Junior.juniorCost.toInt());
+		values[3][0] = Messages.getString("junior.juniorsCosts"); 
+		values[3][1] = Money.formatDoubleCurrencySymbol(juniors.size() * Junior.JUNIOR_COST.toInt());
 
-		values[4][0] = Messages.getString("junior.cost.single"); //$NON-NLS-1$
-		values[4][1] = Junior.juniorCost.formatDoubleCurrencySymbol();
+		values[4][0] = Messages.getString("junior.cost.single"); 
+		values[4][1] = Junior.JUNIOR_COST.formatDoubleCurrencySymbol();
 
 		for (int i = 0; i < values.length; i++) {
 			descriptionComposite.addText(values[i]);
@@ -973,8 +973,8 @@ public class ViewJuniors implements IPlugin, ISort {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this._treeItem = treeItem;
-		_treeItem.setText(Messages.getString("tree.ViewJuniors")); //$NON-NLS-1$
-		_treeItem.setImage(ImageResources.getImageResources("junior.png")); //$NON-NLS-1$
+		_treeItem.setText(Messages.getString("tree.ViewJuniors")); 
+		_treeItem.setImage(ImageResources.getImageResources("junior.png")); 
 	}
 
 	//FIXME: 
@@ -1060,11 +1060,11 @@ public class ViewJuniors implements IPlugin, ISort {
 
 					showDescription(descriptionComposite);
 					showView(allTable);
-				} else if (item.getData("juniorCharts") != null) { //$NON-NLS-1$
+				} else if (item.getData("juniorCharts") != null) { 
 
 					if (item.getParentItem().getParentItem().equals(_treeItem)) {
-						if (item.getData("juniorCharts") instanceof Junior) { //$NON-NLS-1$
-							Junior junior = (Junior) item.getData("juniorCharts"); //$NON-NLS-1$
+						if (item.getData("juniorCharts") instanceof Junior) { 
+							Junior junior = (Junior) item.getData("juniorCharts"); 
 							graphsComposite.fill(junior);
 							showMainView(graphsComposite);
 						}

@@ -55,7 +55,7 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewTrash implements IPlugin, ISort {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 
 	private TreeItem _treeItem;
 

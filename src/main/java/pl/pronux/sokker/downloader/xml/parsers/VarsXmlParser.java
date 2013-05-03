@@ -17,15 +17,15 @@ import pl.pronux.sokker.utils.Log;
 
 public class VarsXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_vars = 0;
-	static final int TAG_week = 1;
-	static final int TAG_day = 2;
+	private static final int TAG_VARS = 0;
+	private static final int TAG_WEEK = 1;
+	private static final int TAG_DAY = 2;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
-	public SokkerDate sokkerDate;
+	private SokkerDate sokkerDate;
 
 	public void parseXmlSax(final InputSource input) throws SAXException {
 		parseXmlSax(input, null);
@@ -35,15 +35,17 @@ public class VarsXmlParser {
 
 		class SAXHandler extends DefaultHandler {
 
+			private StringBuilder message;
+
 			public void characters(char ch[], int start, int length) throws SAXException {
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
-				case TAG_day:
-					sokkerDate.setDay(Integer.valueOf(message.toString()));
+				switch (currentTag) {
+				case TAG_DAY:
+					getSokkerDate().setDay(Integer.valueOf(message.toString()));
 					break;
-				case TAG_week:
-					sokkerDate.setWeek(Integer.valueOf(message.toString()));
+				case TAG_WEEK:
+					getSokkerDate().setWeek(Integer.valueOf(message.toString()));
 					break;
 				default:
 					break;
@@ -56,28 +58,27 @@ public class VarsXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
+				currentTag = 0;
 			}
 
 			public void startDocument() {
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("vars")) { //$NON-NLS-1$
-					TAG_switch = TAG_vars;
-					sokkerDate = new SokkerDate();
+				if (localName.equalsIgnoreCase("vars")) { 
+					tagSwitch = TAG_VARS;
+					setSokkerDate(new SokkerDate());
 				}
 
-				if (TAG_switch == 0) {
-					if (localName.equals("week")) { //$NON-NLS-1$
-						current_tag = TAG_week;
-					} else if (localName.equals("day")) { //$NON-NLS-1$
-						current_tag = TAG_day;
+				if (tagSwitch == 0) {
+					if (localName.equals("week")) { 
+						currentTag = TAG_WEEK;
+					} else if (localName.equals("day")) { 
+						currentTag = TAG_DAY;
 					}
 				}
 			}
@@ -93,13 +94,21 @@ public class VarsXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();
 			}
 			throw e;
 		}
+	}
+
+	public SokkerDate getSokkerDate() {
+		return sokkerDate;
+	}
+
+	public void setSokkerDate(SokkerDate sokkerDate) {
+		this.sokkerDate = sokkerDate;
 	}
 
 }

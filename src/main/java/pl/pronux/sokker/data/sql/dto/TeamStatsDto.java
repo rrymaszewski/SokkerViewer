@@ -13,19 +13,19 @@ public class TeamStatsDto extends TeamStats {
 	}
 
 	public TeamStats getTeamStats() throws SQLException {
-		this.setFouls(rs.getInt("fouls")); //$NON-NLS-1$
-		this.setOffsides(rs.getInt("offsides")); //$NON-NLS-1$
-		this.setRatingDefending(rs.getInt("rating_defending")); //$NON-NLS-1$
-		this.setRatingPassing(rs.getInt("rating_passing")); //$NON-NLS-1$
-		this.setRatingScoring(rs.getInt("rating_scoring")); //$NON-NLS-1$
-		this.setRedCards(rs.getInt("red_cards")); //$NON-NLS-1$
-		this.setYellowCards(rs.getInt("yellow_cards")); //$NON-NLS-1$
-		this.setShoots(rs.getInt("shoots")); //$NON-NLS-1$
-		this.setTacticName(rs.getString("tactic_name")); //$NON-NLS-1$
-		this.setTimeOnHalf(rs.getInt("time_on_half")); //$NON-NLS-1$
-		this.setTimePossession(rs.getInt("time_possession")); //$NON-NLS-1$
-		this.setTeamID(rs.getInt("team_id")); //$NON-NLS-1$
-		this.setAverageRating(rs.getDouble("rating_sum") / rs.getInt("players_count")); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setFouls(rs.getInt("fouls")); 
+		this.setOffsides(rs.getInt("offsides")); 
+		this.setRatingDefending(rs.getInt("rating_defending")); 
+		this.setRatingPassing(rs.getInt("rating_passing")); 
+		this.setRatingScoring(rs.getInt("rating_scoring")); 
+		this.setRedCards(rs.getInt("red_cards")); 
+		this.setYellowCards(rs.getInt("yellow_cards")); 
+		this.setShoots(rs.getInt("shoots")); 
+		this.setTacticName(rs.getString("tactic_name")); 
+		this.setTimeOnHalf(rs.getInt("time_on_half")); 
+		this.setTimePossession(rs.getInt("time_possession")); 
+		this.setTeamId(rs.getInt("team_id")); 
+		this.setAverageRating(rs.getDouble("rating_sum") / rs.getInt("players_count"));  
 		return this;
 	}
 }

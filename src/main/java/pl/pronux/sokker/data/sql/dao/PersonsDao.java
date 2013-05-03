@@ -19,11 +19,11 @@ public class PersonsDao {
 	public void updatePersonStatus(Person person) throws SQLException {
 		PreparedStatement ps = null;
 		if (person instanceof Player) {
-			ps = connection.prepareStatement("UPDATE player SET status = ? WHERE id_player = ?"); //$NON-NLS-1$
+			ps = connection.prepareStatement("UPDATE player SET status = ? WHERE id_player = ?"); 
 		} else if (person instanceof Coach) {
-			ps = connection.prepareStatement("UPDATE coach SET status = ? WHERE id_coach = ?"); //$NON-NLS-1$
+			ps = connection.prepareStatement("UPDATE coach SET status = ? WHERE id_coach = ?"); 
 		} else if (person instanceof Junior) {
-			ps = connection.prepareStatement("UPDATE junior SET status = ? WHERE id_junior = ?"); //$NON-NLS-1$
+			ps = connection.prepareStatement("UPDATE junior SET status = ? WHERE id_junior = ?"); 
 		}
 
 		if (ps != null) {

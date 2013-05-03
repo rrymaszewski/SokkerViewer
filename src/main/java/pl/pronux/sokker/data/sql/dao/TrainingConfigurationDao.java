@@ -16,8 +16,7 @@ public class TrainingConfigurationDao {
 	}
 
 	public void setValues(Map<Integer, Integer[][]> values) throws SQLException {
-		PreparedStatement pstm = null;
-		pstm = connection.prepareStatement("UPDATE configuration_trainings SET GK = ?, DEF = ?, MID = ?, ATT = ? WHERE TYPE = ? AND FORMATION = ?"); //$NON-NLS-1
+		PreparedStatement pstm = connection.prepareStatement("UPDATE configuration_trainings SET GK = ?, DEF = ?, MID = ?, ATT = ? WHERE TYPE = ? AND FORMATION = ?"); //$NON-NLS-1
 		for (Integer key : values.keySet()) {
 			for(int i = 0 ; i < values.get(key).length; i++) {
 				pstm.setInt(1, values.get(key)[i][0]);
@@ -34,11 +33,10 @@ public class TrainingConfigurationDao {
 	
 	public Map<Integer, Integer[][]> getValues() throws SQLException {
 		Map<Integer, Integer[][]> values = new HashMap<Integer, Integer[][]>();
-		PreparedStatement ps;
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM configuration_trainings ORDER BY type, formation"); 
 		Integer[][] table = new Integer[4][4];
 		int type = -1;
 		int formation = 0;
-		ps = connection.prepareStatement("SELECT * FROM configuration_trainings ORDER BY type, formation"); //$NON-NLS-1$
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			if(type != rs.getInt("type")) {

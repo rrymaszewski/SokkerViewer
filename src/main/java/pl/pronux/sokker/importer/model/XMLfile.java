@@ -2,17 +2,19 @@ package pl.pronux.sokker.importer.model;
 
 import java.io.File;
 
-public class XMLfile implements Comparable<Object> {
-	public int compareTo(Object o) {
-		if (this.timeInMilis < ((XMLfile) o).timeInMilis) {
+public class XMLfile implements Comparable<XMLfile> {
+
+	private String fileName;
+	private long timeInMilis;
+
+	public int compareTo(XMLfile xmlFile) {
+		if (this.timeInMilis < xmlFile.timeInMilis) {
 			return -1;
-		} else if (this.timeInMilis> ((XMLfile) o).timeInMilis) {
+		} else if (this.timeInMilis > xmlFile.timeInMilis) {
 			return 1;
 		}
 		return 0;
 	}
-	String fileName;
-	long timeInMilis;
 
 	public String getFileName() {
 		return fileName;
@@ -31,8 +33,9 @@ public class XMLfile implements Comparable<Object> {
 	}
 
 	public XMLfile(File file) {
-		if(file.getName().matches("[0-9]+\\.xml")) { //$NON-NLS-1$
-			this.timeInMilis = Long.valueOf(file.getName().split("\\.")[0]).longValue(); //$NON-NLS-1$
+		if (file.getName().matches("[0-9]+\\.xml")) { 
+			this.timeInMilis = Long
+					.valueOf(file.getName().split("\\.")[0]).longValue(); 
 		} else {
 			this.timeInMilis = file.lastModified();
 		}

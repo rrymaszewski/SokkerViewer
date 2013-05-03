@@ -30,15 +30,15 @@ public class MatchesTable extends SVTable<Match> {
 		comparator.setDirection(MatchesComparator.DESCENDING);
 
 		String[] columns = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.week"), //$NON-NLS-1$
+				"", 
+				Messages.getString("table.date"), 
+				Messages.getString("table.week"), 
 //				"",
-				Messages.getString("table.team.home"), //$NON-NLS-1$
-				Messages.getString("table.match.result"), //$NON-NLS-1$
-				Messages.getString("table.team.away"), //$NON-NLS-1$
+				Messages.getString("table.team.home"), 
+				Messages.getString("table.match.result"), 
+				Messages.getString("table.team.away"), 
 //				"",
-				"" //$NON-NLS-1$
+				"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
@@ -98,13 +98,13 @@ public class MatchesTable extends SVTable<Match> {
 				} else {
 					item.setFont(c, Fonts.getBoldFont(this.getDisplay(), this.getFont().getFontData()));
 					if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
-						if(match.getHomeTeamID() == teamID) {
+						if(match.getHomeTeamId() == teamID) {
 							item.setForeground(c, Colors.getMatchWin());	
 						} else {
 							item.setForeground(c, Colors.getMatchLost());
 						}
 					} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
-						if(match.getHomeTeamID() == teamID) {
+						if(match.getHomeTeamId() == teamID) {
 							item.setForeground(c, Colors.getMatchLost());	
 						} else {
 							item.setForeground(c, Colors.getMatchWin());
@@ -112,7 +112,7 @@ public class MatchesTable extends SVTable<Match> {
 					} else {
 						item.setForeground(c, Colors.getMatchDraw());
 					}
-					item.setText(c++, match.getHomeTeamScore() + " : " + match.getAwayTeamScore()); //$NON-NLS-1$
+					item.setText(c++, match.getHomeTeamScore() + " : " + match.getAwayTeamScore()); 
 				}
 				
 				item.setText(c++, match.getAwayTeamName());

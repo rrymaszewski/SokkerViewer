@@ -14,9 +14,9 @@ public class LeagueSeasonDto extends LeagueSeason {
 	}
 
 	public LeagueSeason getLeagueSeason() throws SQLException {
-		this.setLeagueID(rs.getInt("league_id")); //$NON-NLS-1$
-		this.setSeason(rs.getInt("season")); //$NON-NLS-1$
-		this.setRawSeason(rs.getInt("raw_season")); //$NON-NLS-1$
+		this.setLeagueId(rs.getInt("league_id")); 
+		this.setSeason(rs.getInt("season")); 
+		this.setRawSeason(rs.getInt("raw_season")); 
 //		this.setSeasonRoundID(rs.getInt("season_round_id"));
 		return this;
 	}

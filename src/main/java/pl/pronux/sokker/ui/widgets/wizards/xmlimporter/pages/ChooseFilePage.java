@@ -25,14 +25,14 @@ import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class ChooseFilePage extends Page {
 
-	public static final String PAGE_NAME = "CHOOSEFILE_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "CHOOSEFILE_PAGE"; 
 	private List<IXMLpack> packages;
 	private ProgressBarCustom progressBar;
 	private Table table;
 	private PackagesManager packagesManager;
 
 	public ChooseFilePage(Wizard parent) {
-		super(parent, Messages.getString("importer.page.packages.title"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("importer.page.packages.title"), PAGE_NAME); 
 	}
 
 	protected void createControl(Composite parent) {
@@ -58,14 +58,13 @@ public class ChooseFilePage extends Page {
 		table.setLinesVisible(true);
 
 		String[] columns = {
-				"date", //$NON-NLS-1$
-				"complete", //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				"date", 
+				"complete", 
+				"" 
 		};
 
 		for (int i = 0; i < columns.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.LEFT);
-			;
 			column.setText(columns[i]);
 		}
 
@@ -88,7 +87,7 @@ public class ChooseFilePage extends Page {
 
 		for (int i = 0; i < list.size(); i++) {
 			TableItem item = new TableItem(table, SWT.NONE);
-			item.setData("package", list.get(i)); //$NON-NLS-1$
+			item.setData("package", list.get(i)); 
 			IXMLpack pack = list.get(i);
 			item.setText(new String[] {
 					pack.getDate().toDateTimeString(),
@@ -145,7 +144,7 @@ public class ChooseFilePage extends Page {
 							// getProgressBar().setVisible(false);
 							ChooseFilePage.this.setPackages(packagesManager.getPackages());
 							getWizard().getNextButton().setEnabled(true);
-							getWizard().getNextButton().setText(Messages.getString("button.import")); //$NON-NLS-1$
+							getWizard().getNextButton().setText(Messages.getString("button.import")); 
 						}
 					});
 				}

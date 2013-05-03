@@ -29,7 +29,7 @@ public class MatchInfoGroup extends Group {
 		FormData formData;
 		this.setFont(ConfigBean.getFontMain());
 		
-		this.setText(Messages.getString("match.information")); //$NON-NLS-1$
+		this.setText(Messages.getString("match.information")); 
 		this.setForeground(Colors.getBlueDescription());
 
 		matchInfoTable = new MatchInfoTable(this, SWT.FULL_SELECTION);

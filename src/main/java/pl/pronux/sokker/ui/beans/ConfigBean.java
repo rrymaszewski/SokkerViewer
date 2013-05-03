@@ -185,47 +185,47 @@ public class ConfigBean {
 			String string;
 			String[] tempTable;
 	
-			tempTable = defaultProperties.getProperty("color.decreaseTable").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.decreaseTable").split(",");  
 			setColorDecrease(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.decreaseDescription").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.decreaseDescription").split(",");  
 			setColorDecreaseDescription(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.error").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.error").split(",");  
 			setColorError(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
 	//		tempTable = defaultProperties.getProperty("color.font").split(",");
 	//		SokkerBean.setColorFont(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.increaseTable").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.increaseTable").split(",");  
 			setColorIncrease(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.increaseDescription").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.increaseDescription").split(",");  
 			setColorIncreaseDescription(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.injuryBg").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.injuryBg").split(",");  
 			setColorInjuryBg(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.injuryFg").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.injuryFg").split(",");  
 			setColorInjuryFg(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.newTableItem").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.newTableItem").split(",");  
 			setColorNewTableObject(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.newTreeItem").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.newTreeItem").split(",");  
 			setColorNewTreeObject(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
-			tempTable = defaultProperties.getProperty("color.trainedJunior").split(","); //$NON-NLS-1$ //$NON-NLS-2$
+			tempTable = defaultProperties.getProperty("color.trainedJunior").split(",");  
 			setColorTrainedJunior(ColorResources.getColor(Integer.valueOf(tempTable[0]), Integer.valueOf(tempTable[1]), Integer.valueOf(tempTable[2])));
 	
 	
-			string = defaultProperties.getProperty("font.main"); //$NON-NLS-1$
+			string = defaultProperties.getProperty("font.main"); 
 			setFontMain(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(string)}));
 			
-			string = defaultProperties.getProperty("font.table"); //$NON-NLS-1$
+			string = defaultProperties.getProperty("font.table"); 
 			setFontTable(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(string)}));
 			
-			string = defaultProperties.getProperty("font.description"); //$NON-NLS-1$
+			string = defaultProperties.getProperty("font.description"); 
 			setFontDescription(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {new FontData(string)}));
 		}
 }

@@ -29,14 +29,14 @@ public class VersionDownloader {
 
 		String version = NO_UPDATES;
 		if (SettingsHandler.IS_WINDOWS) {
-			osType = "/windows"; //$NON-NLS-1$
+			osType = "/windows"; 
 		} else if (SettingsHandler.IS_LINUX) {
-			osType = "/linux"; //$NON-NLS-1$
+			osType = "/linux"; 
 		} else if (SettingsHandler.IS_MACOSX) {
-			osType = "/mac"; //$NON-NLS-1$
+			osType = "/mac"; 
 		}
 
-		String query = "http://www.sokkerviewer.net/sv/updates/stable" + osType + "/packages.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+		String query = "http://www.sokkerviewer.net/sv/updates/stable" + osType + "/packages.xml";  
 
 		ProxySettings proxySettings = settings.getProxySettings();
 		xml = new HTMLDownloader(proxySettings).getNormalPage(query);
@@ -46,11 +46,11 @@ public class VersionDownloader {
 		parser.parseXmlSax(input, null);
 
 		UpdateXMLParser oldParser = new UpdateXMLParser();
-		InputSource inputOld = new InputSource(new FileReader(new File(settings.getBaseDirectory() + File.separator + "packages.xml"))); //$NON-NLS-1$
+		InputSource inputOld = new InputSource(new FileReader(new File(settings.getBaseDirectory() + File.separator + "packages.xml"))); 
 		oldParser.parseXmlSax(inputOld, null);
 
-		if (parser.revision > oldParser.revision) {
-			version = parser.version;
+		if (parser.getRevision() > oldParser.getRevision()) {
+			version = parser.getVersion();
 		}
 		return version;
 	}

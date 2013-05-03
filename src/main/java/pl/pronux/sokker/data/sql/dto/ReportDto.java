@@ -15,13 +15,13 @@ public class ReportDto extends Report {
 	}
 	
 	public Report getReport() throws SQLException {
-		this.setPersonID(rs.getInt("player_id")); //$NON-NLS-1$
-		this.setReportID(rs.getInt("id_report")); //$NON-NLS-1$
-		this.setType(rs.getInt("type")); //$NON-NLS-1$
-		this.setValue(rs.getInt("value")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.setWeek(rs.getInt("week")); //$NON-NLS-1$
-		this.setChecked(rs.getBoolean("checked")); //$NON-NLS-1$
+		this.setPersonId(rs.getInt("player_id")); 
+		this.setReportId(rs.getInt("id_report")); 
+		this.setType(rs.getInt("type")); 
+		this.setValue(rs.getInt("value")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.setWeek(rs.getInt("week")); 
+		this.setChecked(rs.getBoolean("checked")); 
 		return this;
 	}
 }

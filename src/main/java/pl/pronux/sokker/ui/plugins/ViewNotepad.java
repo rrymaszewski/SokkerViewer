@@ -49,7 +49,7 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
 public class ViewNotepad implements IPlugin, ISort {
 
-	private SchedulerManager schedulerManager = SchedulerManager.instance();
+	private SchedulerManager schedulerManager = SchedulerManager.getInstance();
 	
 	private Listener clearListener;
 
@@ -137,8 +137,8 @@ public class ViewNotepad implements IPlugin, ISort {
 		newNoteListener = new Listener() {
 
 			public void handleEvent(Event event) {
-				viewText.setText(""); //$NON-NLS-1$
-				viewTitle.setText(""); //$NON-NLS-1$
+				viewText.setText(""); 
+				viewTitle.setText(""); 
 				alertButton.setSelection(false);
 				datePicker.setEnabled(false);
 				timePicker.setEnabled(false);
@@ -166,8 +166,8 @@ public class ViewNotepad implements IPlugin, ISort {
 				if (newDocument) {
 					MessageBox msg = new MessageBox(viewNoteComposite.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
 
-					msg.setText(Messages.getString("message.note.save.title")); //$NON-NLS-1$
-					msg.setMessage(Messages.getString("message.note.save.text")); //$NON-NLS-1$
+					msg.setText(Messages.getString("message.note.save.title")); 
+					msg.setMessage(Messages.getString("message.note.save.text")); 
 
 					if (msg.open() == SWT.YES) {
 						saveNote();
@@ -204,8 +204,8 @@ public class ViewNotepad implements IPlugin, ISort {
 						if (check) {
 							MessageBox msg = new MessageBox(viewNoteComposite.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
 
-							msg.setText(Messages.getString("message.note.save.title")); //$NON-NLS-1$
-							msg.setMessage(Messages.getString("message.note.save.text")); //$NON-NLS-1$
+							msg.setText(Messages.getString("message.note.save.title")); 
+							msg.setMessage(Messages.getString("message.note.save.text")); 
 
 							if (msg.open() == SWT.YES) {
 								saveNote();
@@ -235,12 +235,12 @@ public class ViewNotepad implements IPlugin, ISort {
 
 				MessageBox msg = new MessageBox(viewNoteComposite.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
 
-				msg.setText(Messages.getString("message.note.eraser.title")); //$NON-NLS-1$
-				msg.setMessage(Messages.getString("message.note.eraser.text")); //$NON-NLS-1$
+				msg.setText(Messages.getString("message.note.eraser.title")); 
+				msg.setMessage(Messages.getString("message.note.eraser.text")); 
 
 				if (msg.open() == SWT.YES) {
-					viewTitle.setText(""); //$NON-NLS-1$
-					viewText.setText(""); //$NON-NLS-1$
+					viewTitle.setText(""); 
+					viewText.setText(""); 
 					alertButton.setSelection(false);
 					datePicker.setEnabled(false);
 					timePicker.setEnabled(false);
@@ -254,8 +254,8 @@ public class ViewNotepad implements IPlugin, ISort {
 				TableItem[] items = viewTableNote.getSelection();
 				if (items.length > 0) {
 					MessageBox msg = new MessageBox(viewTableNote.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
-					msg.setText(Messages.getString("message.note.delete.title")); //$NON-NLS-1$
-					msg.setMessage(Messages.getString("message.note.delete.text")); //$NON-NLS-1$
+					msg.setText(Messages.getString("message.note.delete.title")); 
+					msg.setMessage(Messages.getString("message.note.delete.text")); 
 					if (msg.open() == SWT.YES) {
 						for (int i = 0; i < items.length; i++) {
 							Note note = (Note) items[i].getData(Note.class.getName());
@@ -380,12 +380,12 @@ public class ViewNotepad implements IPlugin, ISort {
 		viewTableNote.setFont(ConfigBean.getFontTable());
 
 		String[] titles = {
-				Messages.getString("notepad.date"), //$NON-NLS-1$
-				Messages.getString("notepad.title"), //$NON-NLS-1$
-				Messages.getString("notepad.text"), //$NON-NLS-1$
-				Messages.getString("notepad.alert"), //$NON-NLS-1$
-				Messages.getString("notepad.modification"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("notepad.date"), 
+				Messages.getString("notepad.title"), 
+				Messages.getString("notepad.text"), 
+				Messages.getString("notepad.alert"), 
+				Messages.getString("notepad.modification"), 
+				"" 
 		};
 
 		for (int i = 0; i < titles.length; i++) {
@@ -511,8 +511,8 @@ public class ViewNotepad implements IPlugin, ISort {
 			}
 		});
 
-		alertButton.setImage(ImageResources.getImageResources("reminder.png")); //$NON-NLS-1$
-		alertButton.setToolTipText(Messages.getString("notepad.button.alert.description")); //$NON-NLS-1$
+		alertButton.setImage(ImageResources.getImageResources("reminder.png")); 
+		alertButton.setToolTipText(Messages.getString("notepad.button.alert.description")); 
 		alertButton.pack();
 
 		layoutData = new GridData();
@@ -543,7 +543,7 @@ public class ViewNotepad implements IPlugin, ISort {
 		viewTitle = new StyledText(composite, SWT.SINGLE | SWT.BORDER);
 		viewTitle.setLayoutData(formData);
 		viewTitle.setFont(ConfigBean.getFontMain());
-		viewTitle.setToolTipText(Messages.getString("notepad.title")); //$NON-NLS-1$
+		viewTitle.setToolTipText(Messages.getString("notepad.title")); 
 	}
 
 	private void addToolBar() {
@@ -557,55 +557,55 @@ public class ViewNotepad implements IPlugin, ISort {
 		toolBar.setEnabled(false);
 
 		ToolItem item = new ToolItem(toolBar, SWT.NONE);
-		item.setImage(ImageResources.getImageResources("new_note.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("new_note_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("new_note.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("new_note_bw.png")); 
 		item.addListener(SWT.Selection, newNoteListener);
-		item.setToolTipText(Messages.getString("notepad.button.new.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.new")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.new.description")); 
+		item.setText(Messages.getString("notepad.button.new")); 
 
 		item = new ToolItem(toolBar, SWT.NONE);
-		item.setImage(ImageResources.getImageResources("open.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("open_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("open.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("open_bw.png")); 
 		item.addListener(SWT.Selection, openListener);
-		item.setToolTipText(Messages.getString("notepad.button.open.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.open")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.open.description")); 
+		item.setText(Messages.getString("notepad.button.open")); 
 
 		item = new ToolItem(toolBar, SWT.SEPARATOR);
 
 		item = new ToolItem(toolBar, SWT.NONE);
 		item.setWidth(32);
-		item.setImage(ImageResources.getImageResources("delete.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("delete_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("delete.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("delete_bw.png")); 
 		item.addListener(SWT.Selection, deleteListener);
-		item.setToolTipText(Messages.getString("notepad.button.delete.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.delete")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.delete.description")); 
+		item.setText(Messages.getString("notepad.button.delete")); 
 
 		item = new ToolItem(toolBar, SWT.SEPARATOR);
 
 		item = new ToolItem(toolBar, SWT.NONE);
-		item.setImage(ImageResources.getImageResources("save.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("save_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("save.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("save_bw.png")); 
 		item.setEnabled(false);
-		item.setToolTipText(Messages.getString("notepad.button.save.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.save")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.save.description")); 
+		item.setText(Messages.getString("notepad.button.save")); 
 
 		item.addListener(SWT.Selection, saveListener);
 
 		item = new ToolItem(toolBar, SWT.NONE);
-		item.setImage(ImageResources.getImageResources("eraser.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("eraser_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("eraser.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("eraser_bw.png")); 
 		item.addListener(SWT.Selection, clearListener);
 		item.setEnabled(false);
-		item.setToolTipText(Messages.getString("notepad.button.eraser.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.eraser")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.eraser.description")); 
+		item.setText(Messages.getString("notepad.button.eraser")); 
 
 		item = new ToolItem(toolBar, SWT.NONE);
-		item.setImage(ImageResources.getImageResources("list.png")); //$NON-NLS-1$
-		item.setDisabledImage(ImageResources.getImageResources("list_bw.png")); //$NON-NLS-1$
+		item.setImage(ImageResources.getImageResources("list.png")); 
+		item.setDisabledImage(ImageResources.getImageResources("list_bw.png")); 
 		item.addListener(SWT.Selection, showTableListener);
 		item.setEnabled(false);
-		item.setToolTipText(Messages.getString("notepad.button.list.description")); //$NON-NLS-1$
-		item.setText(Messages.getString("notepad.button.list")); //$NON-NLS-1$
+		item.setToolTipText(Messages.getString("notepad.button.list.description")); 
+		item.setText(Messages.getString("notepad.button.list")); 
 
 	}
 
@@ -630,7 +630,7 @@ public class ViewNotepad implements IPlugin, ISort {
 	}
 
 	public void clear() {
-		viewText.setText(""); //$NON-NLS-1$
+		viewText.setText(""); 
 	}
 
 	public Composite getComposite() {
@@ -646,7 +646,7 @@ public class ViewNotepad implements IPlugin, ISort {
 	}
 
 	public String getStatusInfo() {
-		return Messages.getString("progressBar.info.setInfoNotepad"); //$NON-NLS-1$
+		return Messages.getString("progressBar.info.setInfoNotepad"); 
 	}
 
 	public TreeItem getTreeItem() {
@@ -674,8 +674,8 @@ public class ViewNotepad implements IPlugin, ISort {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		treeItem.setText(Messages.getString("tree.ViewNotepad")); //$NON-NLS-1$
-		treeItem.setImage(ImageResources.getImageResources("notepad.png")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("tree.ViewNotepad")); 
+		treeItem.setImage(ImageResources.getImageResources("notepad.png")); 
 	}
 
 	public void set() {
@@ -704,8 +704,8 @@ public class ViewNotepad implements IPlugin, ISort {
 			composite.getDisplay().asyncExec(new Runnable() {
 				public void run() {
 					MessageBox msg = new MessageBox(composite.getShell(), SWT.YES | SWT.NO | SWT.ICON_INFORMATION);
-					msg.setText(Messages.getString("message.reminder.title")); //$NON-NLS-1$
-					msg.setMessage(Messages.getString("message.reminder.text") + " " + finalCounter + Messages.getString("message.reminder.question")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					msg.setText(Messages.getString("message.reminder.title")); 
+					msg.setMessage(Messages.getString("message.reminder.text") + " " + finalCounter + Messages.getString("message.reminder.question"));   
 					if (msg.open() == SWT.YES) {
 						treeItem.getParent().setSelection(treeItem);
 						ViewerHandler.getViewer().notifyListeners(IEvents.SHOW, new Event());
@@ -733,25 +733,25 @@ public class ViewNotepad implements IPlugin, ISort {
 			if (note.getDate() != null) {
 				item.setText(c++, note.getDate().toDateTimeString());
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
 			}
 
 			if (note.getTitle().length() > 20) {
-				item.setText(c++, note.getTitle().substring(0, 20).replaceAll("\n", "") + "..."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				item.setText(c++, note.getTitle().substring(0, 20).replaceAll("\n", "") + "...");   
 
 			} else {
 				item.setText(c++, note.getTitle());
 			}
 
 			if (note.getText().length() > 40) {
-				item.setText(c++, note.getText().substring(0, 40).replaceAll("\n", "") + "..."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				item.setText(c++, note.getText().substring(0, 40).replaceAll("\n", "") + "...");   
 			} else {
 				item.setText(c++, note.getText());
 			}
 
 			if (note.getAlertDate() != null) {
 				if (note.getAlertDate() == null) {
-					item.setText(c++, ""); //$NON-NLS-1$
+					item.setText(c++, ""); 
 				} else {
 					if (new GregorianCalendar().getTimeInMillis() > note.getAlertDate().getMillis()) {
 						item.setForeground(c, ConfigBean.getColorError());
@@ -761,13 +761,13 @@ public class ViewNotepad implements IPlugin, ISort {
 					}
 				}
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
 			}
 
 			if (note.getModificationDate() != null) {
 				item.setText(c++, note.getModificationDate().toDateTimeString());
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
 			}
 
 		}

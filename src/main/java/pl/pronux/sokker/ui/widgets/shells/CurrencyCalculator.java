@@ -37,8 +37,8 @@ public class CurrencyCalculator extends Shell {
 
 	private List<Country> countries;
 	
-	final private static int FROM = 0;
-	final private static int TO = 1;
+	private static final  int FROM = 0;
+	private static final  int TO = 1;
 	private static int state = FROM;
 
 	@Override
@@ -49,7 +49,7 @@ public class CurrencyCalculator extends Shell {
 	private String count(String from, int indexFrom, int indexTo) {
 		int value;
 		try {
-			value = Integer.valueOf(from.replaceAll("[^0-9]", ""));	 //$NON-NLS-1$ //$NON-NLS-2$
+			value = Integer.valueOf(from.replaceAll("[^0-9]", ""));	  
 		} catch(NumberFormatException ex) {
 			value = 0;
 		}
@@ -58,7 +58,7 @@ public class CurrencyCalculator extends Shell {
 			double converted = Money.calculatePrices(value, countries.get(indexFrom).getCurrencyRate(), countries.get(indexTo).getCurrencyRate());
 			return SVNumberFormat.formatInteger(Double.valueOf(converted).intValue());
 		} else {
-			return "0"; //$NON-NLS-1$
+			return "0"; 
 		}
 	}
 
@@ -83,7 +83,7 @@ public class CurrencyCalculator extends Shell {
 						Text text = (Text) event.widget;
 						if (text != null) {
 							try {
-								String string = text.getText().replaceAll("[^0-9]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+								String string = text.getText().replaceAll("[^0-9]", "");  
 								value = Integer.valueOf(string);
 							} catch (NumberFormatException ex) {
 								value = 0;
@@ -162,7 +162,7 @@ public class CurrencyCalculator extends Shell {
 		formData.width = 15;
 
 		CLabel label = new CLabel(this, SWT.CENTER);
-		label.setText("="); //$NON-NLS-1$
+		label.setText("="); 
 		label.setLayoutData(formData);
 
 		formData = new FormData();

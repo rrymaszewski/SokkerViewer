@@ -9,10 +9,10 @@ import pl.pronux.sokker.ui.widgets.wizards.Wizard;
 import pl.pronux.sokker.ui.widgets.wizards.pages.Page;
 
 public class FinishPage extends Page {
-	public static final String PAGE_NAME = "FINISH_PAGE"; //$NON-NLS-1$
+	public static final String PAGE_NAME = "FINISH_PAGE"; 
 	
 	public FinishPage(Wizard parent) {
-		super(parent, Messages.getString("importer.page.finishtitle"), PAGE_NAME); //$NON-NLS-1$
+		super(parent, Messages.getString("importer.page.finishtitle"), PAGE_NAME); 
 	}
 
 	@Override

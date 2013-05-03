@@ -116,7 +116,7 @@ public class Package {
 	public void unzip() throws IOException {
 		ZipFile zipFile;
 		Enumeration<? extends ZipEntry> entries;
-		if (filename.matches("[a-zA-Z0-9.-]+.zip")) { //$NON-NLS-1$
+		if (filename.matches("[a-zA-Z0-9.-]+.zip")) { 
 			zipFile = new ZipFile(rootDirectory + localpath + filename);
 
 			entries = zipFile.entries();

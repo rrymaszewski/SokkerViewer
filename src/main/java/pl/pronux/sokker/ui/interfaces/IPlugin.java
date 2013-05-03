@@ -15,7 +15,7 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
  *
  */
 public interface IPlugin extends SV {
-	String IDENTIFIER = "IPlugin"; //$NON-NLS-1$
+	String IDENTIFIER = "IPlugin"; 
 	/**
 	 * method run before shell dispose
 	 * in this method all resources like fonts, images, colors 

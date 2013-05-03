@@ -1,21 +1,21 @@
 package pl.pronux.sokker.actions;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dao.NotesDao;
 import pl.pronux.sokker.model.Note;
 
-public class SchedulerManager {
+public final class SchedulerManager {
 
 	private static SchedulerManager instance = new SchedulerManager();
 	
 	private SchedulerManager() {
 	}
 	
-	public static SchedulerManager instance() {
+	public static SchedulerManager getInstance() {
 		return instance;
 	}
 	
@@ -24,7 +24,7 @@ public class SchedulerManager {
 			SQLSession.connect();
 			NotesDao notesDao = new NotesDao(SQLSession.getConnection());
 			notesDao.insertNote(note);
-			note.setId(notesDao.getMaxNoteID());
+			note.setId(notesDao.getMaxNoteId());
 		} catch (SQLException e) {
 			throw e;
 		} finally {
@@ -53,10 +53,9 @@ public class SchedulerManager {
 		}
 	}
 
-	public ArrayList<Note> getNoteData() throws SQLException {
-		ArrayList<Note> notes;
+	public List<Note> getNoteData() throws SQLException {
 		boolean newConnection = SQLQuery.connect();
-		notes = new NotesDao(SQLSession.getConnection()).getNotes();
+		List<Note> notes = new NotesDao(SQLSession.getConnection()).getNotes();
 		SQLQuery.close(newConnection);
 		return notes;
 	}

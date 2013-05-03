@@ -3,6 +3,7 @@ package pl.pronux.sokker.downloader.xml.parsers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -18,39 +19,39 @@ import pl.pronux.sokker.utils.Log;
 
 public class MatchesLeagueXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_MATCHES = 1;
+//	private static final int TAG_MATCHES = 1;
 
-	static final int TAG_MATCH = 2;
+	private static final int TAG_MATCH = 2;
 
-	static final int TAG_MATCH_ID = 3;
+	private static final int TAG_MATCH_ID = 3;
 
-	static final int TAG_HOME_TEAM_ID = 4;
+	private static final int TAG_HOME_TEAM_ID = 4;
 
-	static final int TAG_AWAY_TEAM_ID = 5;
+	private static final int TAG_AWAY_TEAM_ID = 5;
 
-	static final int TAG_LEAGUE_ID = 6;
+	private static final int TAG_LEAGUE_ID = 6;
 
-	static final int TAG_ROUND = 7;
+	private static final int TAG_ROUND = 7;
 
-	static final int TAG_SEASON = 8;
+	private static final int TAG_SEASON = 8;
 
-	static final int TAG_HOME_TEAM_SCORE = 9;
+	private static final int TAG_HOME_TEAM_SCORE = 9;
 
-	static final int TAG_AWAY_TEAM_SCORE = 10;
+	private static final int TAG_AWAY_TEAM_SCORE = 10;
 
-	static final int TAG_IS_FINISHED = 11;
+	private static final int TAG_IS_FINISHED = 11;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
-	private ArrayList<Match> alMatches;
+	private List<Match> matches;
 
-	public int teamID;
+	private int teamId;
 
 	private Match match;
 
-	private Integer leagueID;
+	private Integer leagueId;
 
 	private Integer season;
 
@@ -63,24 +64,24 @@ public class MatchesLeagueXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
-			StringBuilder message;
+			private StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_MATCH_ID:
-					match.setMatchID(Integer.parseInt(message.toString()));
+					match.setMatchId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_HOME_TEAM_ID:
-					match.setHomeTeamID(Integer.parseInt(message.toString()));
+					match.setHomeTeamId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_AWAY_TEAM_ID:
-					match.setAwayTeamID(Integer.parseInt(message.toString()));
+					match.setAwayTeamId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_LEAGUE_ID:
-					match.setLeagueID(Integer.parseInt(message.toString()));
+					match.setLeagueId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_ROUND:
 					match.setRound(Integer.parseInt(message.toString()));
@@ -108,14 +109,14 @@ public class MatchesLeagueXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("match")) { //$NON-NLS-1$
-					if (match.getMatchID() != -1) {
+				currentTag = 0;
+				if (localName.equals("match")) { 
+					if (match.getMatchId() != -1) {
 						match.setSeason(season);
-						match.setLeagueID(leagueID);
+						match.setLeagueId(leagueId);
 						match.setRound(round);
-						if (match.getLeagueID() != -1 && match.getRound() != -1 && match.getSeason() != -1) {
-							alMatches.add(match);
+						if (match.getLeagueId() != -1 && match.getRound() != -1 && match.getSeason() != -1) {
+							matches.add(match);
 						}
 
 					}
@@ -123,52 +124,52 @@ public class MatchesLeagueXmlParser {
 			}
 
 			public void startDocument() {
-				alMatches = new ArrayList<Match>();
+				matches = new ArrayList<Match>();
 			}
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 				message = new StringBuilder();
-				if (localName.equals("matches")) { //$NON-NLS-1$
+				if (localName.equals("matches")) { 
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("leagueID")) { //$NON-NLS-1$
-							leagueID = Integer.valueOf(value);
+						if (name.equalsIgnoreCase("leagueID")) { 
+							leagueId = Integer.valueOf(value);
 						}
-						if (name.equalsIgnoreCase("season")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("season")) { 
 							season = Integer.valueOf(value);
 						}
-						if (name.equalsIgnoreCase("round")) { //$NON-NLS-1$
+						if (name.equalsIgnoreCase("round")) { 
 							round = Integer.valueOf(value);
 						}
 					}
 				}
 
-				if (localName.equals("match")) { //$NON-NLS-1$
-					TAG_switch = TAG_MATCH;
+				if (localName.equals("match")) { 
+					tagSwitch = TAG_MATCH;
 					match = new Match();
-					match.setMatchID(-1);
-					match.setHomeTeamID(0);
-					match.setAwayTeamID(0);
+					match.setMatchId(-1);
+					match.setHomeTeamId(0);
+					match.setAwayTeamId(0);
 					match.setSeason(-1);
-					match.setLeagueID(-1);
+					match.setLeagueId(-1);
 					match.setRound(-1);
 				}
 
-				if (TAG_switch == TAG_MATCH) {
-					if (localName.equals("matchID")) { //$NON-NLS-1$
-						current_tag = TAG_MATCH_ID;
-					} else if (localName.equalsIgnoreCase("homeTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_HOME_TEAM_ID;
-					} else if (localName.equalsIgnoreCase("awayTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_AWAY_TEAM_ID;
-					} else if (localName.equalsIgnoreCase("homeTeamScore")) { //$NON-NLS-1$
-						current_tag = TAG_HOME_TEAM_SCORE;
-					} else if (localName.equalsIgnoreCase("awayTeamScore")) { //$NON-NLS-1$
-						current_tag = TAG_AWAY_TEAM_SCORE;
-					} else if (localName.equalsIgnoreCase("isFinished")) { //$NON-NLS-1$
-						current_tag = TAG_IS_FINISHED;
+				if (tagSwitch == TAG_MATCH) {
+					if (localName.equals("matchID")) { 
+						currentTag = TAG_MATCH_ID;
+					} else if (localName.equalsIgnoreCase("homeTeamID")) { 
+						currentTag = TAG_HOME_TEAM_ID;
+					} else if (localName.equalsIgnoreCase("awayTeamID")) { 
+						currentTag = TAG_AWAY_TEAM_ID;
+					} else if (localName.equalsIgnoreCase("homeTeamScore")) { 
+						currentTag = TAG_HOME_TEAM_SCORE;
+					} else if (localName.equalsIgnoreCase("awayTeamScore")) { 
+						currentTag = TAG_AWAY_TEAM_SCORE;
+					} else if (localName.equalsIgnoreCase("isFinished")) { 
+						currentTag = TAG_IS_FINISHED;
 					}
 				}
 			}
@@ -184,7 +185,7 @@ public class MatchesLeagueXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();
@@ -198,8 +199,8 @@ public class MatchesLeagueXmlParser {
 	 *
 	 * @see pl.pronux.sokker.downloader.xml.parsers.TransferXmlParserInterface#getAlTransfers()
 	 */
-	public ArrayList<Match> getAlMatches() {
-		return alMatches;
+	public List<Match> getMatches() {
+		return matches;
 	}
 }
 

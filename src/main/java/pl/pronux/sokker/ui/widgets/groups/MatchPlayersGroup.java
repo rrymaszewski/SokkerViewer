@@ -28,7 +28,7 @@ public class MatchPlayersGroup extends Group {
 		this.setLayout(new FormLayout());
 		FormData formData;
 
-		this.setText(Messages.getString("team")); //$NON-NLS-1$
+		this.setText(Messages.getString("team")); 
 		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
 		
@@ -46,12 +46,12 @@ public class MatchPlayersGroup extends Group {
 
 	public void fill(TeamStats teamStats, String teamName) {
 		if (teamStats == null) {
-			this.setText(""); //$NON-NLS-1$
+			this.setText(""); 
 			// this.headerLabel.update();
 			matchPlayersTable.fill(null);
 		} else {
 			if (teamName == null) {
-				this.setText(String.valueOf(teamStats.getTeamID()));
+				this.setText(String.valueOf(teamStats.getTeamId()));
 				// this.headerLabel.update();
 			} else {
 				this.setText(teamName);

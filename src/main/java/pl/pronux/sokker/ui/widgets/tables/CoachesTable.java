@@ -40,24 +40,24 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 		// tworzymy kolumny dla trenerow
 
 		String[] titles = {
-				"", //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.job"), //$NON-NLS-1$
-				Messages.getString("coach.signed"), //$NON-NLS-1$
-				Messages.getString("table.salary"), //$NON-NLS-1$
-				Messages.getString("table.age"), //$NON-NLS-1$
-				Messages.getString("table.generallSkill"), //$NON-NLS-1$
-				Messages.getString("table.stamina"), //$NON-NLS-1$
-				Messages.getString("table.pace"), //$NON-NLS-1$
-				Messages.getString("table.technique"), //$NON-NLS-1$
-				Messages.getString("table.passing"), //$NON-NLS-1$
-				Messages.getString("table.keeper"), //$NON-NLS-1$
-				Messages.getString("table.defender"), //$NON-NLS-1$
-				Messages.getString("table.playmaker"), //$NON-NLS-1$
-				Messages.getString("table.scorer"), //$NON-NLS-1$
-				Messages.getString("table.note.short"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				"", 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
+				Messages.getString("table.job"), 
+				Messages.getString("coach.signed"), 
+				Messages.getString("table.salary"), 
+				Messages.getString("table.age"), 
+				Messages.getString("table.generallSkill"), 
+				Messages.getString("table.stamina"), 
+				Messages.getString("table.pace"), 
+				Messages.getString("table.technique"), 
+				Messages.getString("table.passing"), 
+				Messages.getString("table.keeper"), 
+				Messages.getString("table.defender"), 
+				Messages.getString("table.playmaker"), 
+				Messages.getString("table.scorer"), 
+				Messages.getString("table.note.short"), 
+				"" 
 		};
 
 		for (int j = 0; j < titles.length; j++) {
@@ -72,7 +72,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 			column.setResizable(false);
 			column.setMoveable(false);
 
-			if (titles[j].isEmpty()) { //$NON-NLS-1$
+			if (titles[j].isEmpty()) { 
 				if (SettingsHandler.IS_LINUX) {
 					column.pack();
 				}
@@ -105,26 +105,26 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 		for (Coach coach : coaches) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
-			item.setData(Coach.class.getName(), coach); //$NON-NLS-1$
+			item.setData(Coach.class.getName(), coach); 
 
 			item.setImage(c++, FlagsResources.getFlag(coach.getCountryfrom()));
 			item.setText(c++, coach.getName());
 			item.setText(c++, coach.getSurname());
 
 			if (coach.getJob() == Coach.JOB_HEAD) {
-				item.setText(c++, Messages.getString("coach.job.head.short")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.job.head.short")); 
 			} else if (coach.getJob() == Coach.JOB_JUNIORS) {
-				item.setText(c++, Messages.getString("coach.job.juniors.short")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.job.juniors.short")); 
 			} else if (coach.getJob() == Coach.JOB_ASSISTANT) {
-				item.setText(c++, Messages.getString("coach.job.assistant.short")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.job.assistant.short")); 
 			} else if (coach.getJob() == Coach.JOB_NONE) {
-				item.setText(c++, Messages.getString("coach.job.none")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.job.none")); 
 			}
 
 			if (coach.getSigned() == 0) {
-				item.setText(c++, Messages.getString("coach.signed.no")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.signed.no")); 
 			} else {
-				item.setText(c++, Messages.getString("coach.signed.yes")); //$NON-NLS-1$
+				item.setText(c++, Messages.getString("coach.signed.yes")); 
 			}
 
 			item.setText(c++, coach.getSalary().formatIntegerCurrency());
@@ -143,7 +143,7 @@ public class CoachesTable extends SVTable<Coach> implements IViewSort<Coach> {
 				if (coach.getNote().isEmpty()) { 
 					c++;
 				} else {
-					item.setImage(c++, ImageResources.getImageResources("note.png")); //$NON-NLS-1$
+					item.setImage(c++, ImageResources.getImageResources("note.png")); 
 				}
 			}
 		}

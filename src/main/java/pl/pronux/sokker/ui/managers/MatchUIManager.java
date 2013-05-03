@@ -8,7 +8,7 @@ import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
 
-public class MatchUIManager {
+public final class MatchUIManager {
 	private static MatchUIManager instance = new MatchUIManager();
 	
 	private MatchUIManager() {
@@ -22,19 +22,19 @@ public class MatchUIManager {
 		if (league != null) {
 			if (league.getIsOfficial() == League.OFFICIAL) {
 				if (league.getType() == League.TYPE_LEAGUE) {
-					return ImageResources.getImageResources("league_match.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("league_match.png"); 
 				} else if (league.getType() == League.TYPE_PLAYOFF && league.getIsCup() == League.CUP) {
-					return ImageResources.getImageResources("playoff.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("playoff.png"); 
 				} else if (league.getType() == League.TYPE_CUP && league.getIsCup() == League.CUP) {
-					return ImageResources.getImageResources("cup.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("cup.png"); 
 				} else if (league.getType() == League.TYPE_JUNIOR_LEAGUE) {
-					return ImageResources.getImageResources("juniors_league.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("juniors_league.png"); 
 				}
 			} else {
 				if (league.getType() == League.TYPE_FRIENDLY_MATCH) {
-					return ImageResources.getImageResources("friendly_match.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("friendly_match.png"); 
 				} else if (league.getType() == League.TYPE_LEAGUE) {
-					return ImageResources.getImageResources("friendly_league.png"); //$NON-NLS-1$
+					return ImageResources.getImageResources("friendly_league.png"); 
 				}
 			}
 		}

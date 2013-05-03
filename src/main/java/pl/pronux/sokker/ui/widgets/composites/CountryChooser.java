@@ -22,12 +22,14 @@ public class CountryChooser extends Shell {
 
 	private Listener listener;
 
+	private int id = FlagsResources.EMPTY_FLAG;
+
+	private List<Label> labels = new ArrayList<Label>();
+
 	@Override
 	protected void checkSubclass() {
 		// super.checkSubclass();
 	}
-
-	private int id = FlagsResources.EMPTY_FLAG;
 
 	public int getId() {
 		return id;
@@ -55,25 +57,25 @@ public class CountryChooser extends Shell {
 
 				case SWT.MouseExit:
 				case SWT.Dispose:
-					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { //$NON-NLS-1$
+					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { 
 						Label label = (Label) event.widget;
-						Integer id = (Integer) label.getData("id"); //$NON-NLS-1$
+						Integer id = (Integer) label.getData("id"); 
 						label.setImage(FlagsResources.getFlagVeryLight(id));
 					}
 					break;
 				case SWT.MouseMove:
 				case SWT.KeyDown:
 				case SWT.MouseHover:
-					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { //$NON-NLS-1$
+					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { 
 						Label label = (Label) event.widget;
-						Integer id = (Integer) label.getData("id"); //$NON-NLS-1$
+						Integer id = (Integer) label.getData("id"); 
 						label.setImage(FlagsResources.getFlag(id));
 					}
 					break;
 				case SWT.MouseDown:
-					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { //$NON-NLS-1$
+					if (event.widget != null && event.widget instanceof Label && event.widget.getData("id") != null) { 
 						Label label = (Label) event.widget;
-						Integer id = (Integer) label.getData("id"); //$NON-NLS-1$
+						Integer id = (Integer) label.getData("id"); 
 						CountryChooser.this.setId(id);
 						CountryChooser.this.close();
 					}
@@ -85,7 +87,6 @@ public class CountryChooser extends Shell {
 		};
 	}
 
-	private List<Label> labels = new ArrayList<Label>();
 
 	public void fill(List<Country> countries) {
 		fill(countries, false);
@@ -103,8 +104,8 @@ public class CountryChooser extends Shell {
 		if (emptyFlag) {
 			countryLabel = new Label(this, SWT.NONE);
 			this.labels.add(countryLabel);
-			countryLabel.setToolTipText(""); //$NON-NLS-1$
-			countryLabel.setData("id", FlagsResources.QUESTION_FLAG); //$NON-NLS-1$
+			countryLabel.setToolTipText(""); 
+			countryLabel.setData("id", FlagsResources.QUESTION_FLAG); 
 			countryLabel.setImage(FlagsResources.getFlagVeryLight(FlagsResources.QUESTION_FLAG));
 			countryLabel.addListener(SWT.Dispose, listener);
 			countryLabel.addListener(SWT.KeyDown, listener);
@@ -116,8 +117,8 @@ public class CountryChooser extends Shell {
 
 		countryLabel = new Label(this, SWT.NONE);
 		this.labels.add(countryLabel);
-		countryLabel.setToolTipText(""); //$NON-NLS-1$
-		countryLabel.setData("id", FlagsResources.EMPTY_FLAG); //$NON-NLS-1$
+		countryLabel.setToolTipText(""); 
+		countryLabel.setData("id", FlagsResources.EMPTY_FLAG); 
 		countryLabel.setImage(FlagsResources.getFlagVeryLight(FlagsResources.EMPTY_FLAG));
 		countryLabel.addListener(SWT.Dispose, listener);
 		countryLabel.addListener(SWT.KeyDown, listener);
@@ -129,9 +130,9 @@ public class CountryChooser extends Shell {
 		for (Country country : countries) {
 			countryLabel = new Label(this, SWT.NONE);
 			this.labels.add(countryLabel);
-			countryLabel.setToolTipText(Messages.getString("country." + country.getCountryID() + ".name")); //$NON-NLS-1$ //$NON-NLS-2$
-			countryLabel.setData("id", country.getCountryID()); //$NON-NLS-1$
-			countryLabel.setImage(FlagsResources.getFlagVeryLight(country.getCountryID()));
+			countryLabel.setToolTipText(Messages.getString("country." + country.getCountryId() + ".name"));  
+			countryLabel.setData("id", country.getCountryId()); 
+			countryLabel.setImage(FlagsResources.getFlagVeryLight(country.getCountryId()));
 			countryLabel.addListener(SWT.Dispose, listener);
 			countryLabel.addListener(SWT.KeyDown, listener);
 			countryLabel.addListener(SWT.MouseMove, listener);

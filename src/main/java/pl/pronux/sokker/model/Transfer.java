@@ -4,17 +4,17 @@ public class Transfer {
 	public static final int IN = 0;
 	public static final int OUT = 1;
 	
-	private int transferID;
+	private int transferId;
 
-	private int sellerTeamID;
+	private int sellerTeamId;
 
-	private int buyerTeamID;
+	private int buyerTeamId;
 
 	private String sellerTeamName;
 
 	private String buyerTeamName;
 
-	private int playerID;
+	private int playerId;
 
 	private Date date;
 
@@ -36,12 +36,12 @@ public class Transfer {
 		this.earned = earned;
 	}
 
-	public int getBuyerTeamID() {
-		return buyerTeamID;
+	public int getBuyerTeamId() {
+		return buyerTeamId;
 	}
 
-	public void setBuyerTeamID(int buyerTeamID) {
-		this.buyerTeamID = buyerTeamID;
+	public void setBuyerTeamId(int buyerTeamId) {
+		this.buyerTeamId = buyerTeamId;
 	}
 
 	public String getBuyerTeamName() {
@@ -60,12 +60,12 @@ public class Transfer {
 		this.date = date;
 	}
 
-	public int getPlayerID() {
-		return playerID;
+	public int getPlayerId() {
+		return playerId;
 	}
 
-	public void setPlayerID(int playerID) {
-		this.playerID = playerID;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 
 	public Money getPlayerValue() {
@@ -84,12 +84,12 @@ public class Transfer {
 		this.price = price;
 	}
 
-	public int getSellerTeamID() {
-		return sellerTeamID;
+	public int getSellerTeamId() {
+		return sellerTeamId;
 	}
 
-	public void setSellerTeamID(int sellerTeamID) {
-		this.sellerTeamID = sellerTeamID;
+	public void setSellerTeamId(int sellerTeamId) {
+		this.sellerTeamId = sellerTeamId;
 	}
 
 	public String getSellerTeamName() {
@@ -100,12 +100,12 @@ public class Transfer {
 		this.sellerTeamName = sellerTeamName;
 	}
 
-	public int getTransferID() {
-		return transferID;
+	public int getTransferId() {
+		return transferId;
 	}
 
-	public void setTransferID(int transferID) {
-		this.transferID = transferID;
+	public void setTransferId(int transferId) {
+		this.transferId = transferId;
 	}
 
 	public Player getPlayer() {

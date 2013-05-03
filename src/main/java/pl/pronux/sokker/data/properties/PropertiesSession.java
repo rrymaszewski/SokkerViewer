@@ -2,7 +2,6 @@ package pl.pronux.sokker.data.properties;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -15,7 +14,7 @@ public class PropertiesSession {
 	private Properties properties;
 	private String filename;
 	
-	public Properties init(String filename) throws FileNotFoundException, IOException {
+	public Properties init(String filename) throws IOException {
 		properties = new Properties();
 		properties.load(new FileInputStream(filename));
 		this.filename = filename;
@@ -26,17 +25,17 @@ public class PropertiesSession {
 		if(properties != null) {
 			return properties;
 		} else {
-			throw new SVException("There is no such properties"); //$NON-NLS-1$
+			throw new SVException("There is no such properties"); 
 		}
 	}
 	
-	public void save(Properties properties, String filename) throws FileNotFoundException, IOException {
+	public void save(Properties properties, String filename) throws IOException {
 		if(filename != null) {
-			properties.store(new FileOutputStream(new File(filename)), "");	 //$NON-NLS-1$
+			properties.store(new FileOutputStream(new File(filename)), "");	 
 		}
 	}
 	
-	public void save() throws FileNotFoundException, IOException {
+	public void save() throws IOException {
 		save(properties, filename);
 	}
 	

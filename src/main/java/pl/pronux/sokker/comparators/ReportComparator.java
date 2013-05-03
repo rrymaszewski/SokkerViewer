@@ -37,7 +37,7 @@ public class ReportComparator implements SVComparator<Report>, ISort {
 			} else if(r1.getType() > r2.getType()) {
 				rc = 1;
 			} else {
-				rc = (r1.getReportID() < r2.getReportID()) ? -1 : 1;
+				rc = (r1.getReportId() < r2.getReportId()) ? -1 : 1;
 			}
 			break;
 			case TYPE:
@@ -46,7 +46,7 @@ public class ReportComparator implements SVComparator<Report>, ISort {
 				} else if(r1.getType() > r2.getType()) {
 					rc = 1;
 				} else {
-					rc = (r1.getReportID() < r2.getReportID()) ? -1 : 1;
+					rc = (r1.getReportId() < r2.getReportId()) ? -1 : 1;
 				}
 				break;
 			case DATE:

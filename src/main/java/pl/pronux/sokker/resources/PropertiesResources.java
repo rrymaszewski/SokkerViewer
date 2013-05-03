@@ -3,15 +3,17 @@ package pl.pronux.sokker.resources;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 /**
  * @author rym3k
  *
  */
-final public class PropertiesResources {
-	private static final HashMap<String, Properties> cache = new HashMap<String, Properties>();
+public final class PropertiesResources {
 
-	private static final String PROPERTIES_PATH = "/properties/"; //$NON-NLS-1$
+	private static final String PROPERTIES_PATH = "/properties/"; 
+
+	private static Map<String, Properties> cache = new HashMap<String, Properties>();
 
 	private PropertiesResources() {
 	}

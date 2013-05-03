@@ -58,8 +58,8 @@ public class MatchesComposite extends Composite {
 						Match emptyMatch = new Match();
 						emptyMatch.setWeek(week);
 						emptyMatch.setDay(SokkerDate.WEDNESDAY);
-						emptyMatch.setAwayTeamName(""); //$NON-NLS-1$
-						emptyMatch.setHomeTeamName(""); //$NON-NLS-1$
+						emptyMatch.setAwayTeamName(""); 
+						emptyMatch.setHomeTeamName(""); 
 						emptyMatch.setAwayTeamScore(-1);
 						emptyMatch.setHomeTeamScore(-1);
 						emptyMatch.setDateStarted(new Date(previousMatch.getDateStarted().getCalendar().getTimeInMillis() + 3 * Date.DAY));
@@ -68,8 +68,8 @@ public class MatchesComposite extends Composite {
 					} else if(counter == 2) {
 						Match emptyMatch = new Match();
 						emptyMatch.setWeek(week);
-						emptyMatch.setAwayTeamName(""); //$NON-NLS-1$
-						emptyMatch.setHomeTeamName(""); //$NON-NLS-1$
+						emptyMatch.setAwayTeamName(""); 
+						emptyMatch.setHomeTeamName(""); 
 						emptyMatch.setDateStarted(new Date(previousMatch.getDateStarted().getCalendar().getTimeInMillis() - 3 * Date.DAY));
 						emptyMatch.setAwayTeamScore(-1);
 						emptyMatch.setHomeTeamScore(-1);

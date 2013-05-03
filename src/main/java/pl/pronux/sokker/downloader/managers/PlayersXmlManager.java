@@ -23,29 +23,29 @@ import pl.pronux.sokker.model.Training;
 
 public class PlayersXmlManager extends XmlManager<Player> {
 
-	private PlayersManager playersManager = PlayersManager.instance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 	
 	private Map<String, String> teamsMap = new HashMap<String, String>();
 	
 	private List<Player> players;
 	
 	public String completeUncompletedPlayers() throws SQLException {
-		String value = "-3"; //$NON-NLS-1$
-		List<Integer> playersID = new ArrayList<Integer>();
+		String value = "-3"; 
+		List<Integer> playersId = new ArrayList<Integer>();
 
 		try {
 			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-			playersID = playersDao.getUncompletePlayers();
-			if (downloader.getStatus().equals("OK")) { //$NON-NLS-1$
-				value = "0"; //$NON-NLS-1$
+			playersId = playersDao.getUncompletePlayers();
+			if (downloader.getStatus().equals("OK")) { 
+				value = "0"; 
 			} else {
 				value = downloader.getErrorno();
 			}
 			// download xmls
-			if (value.equals("0")) { //$NON-NLS-1$
-				for (int i = 0; i < playersID.size(); i++) {
+			if (value.equals("0")) { 
+				for (int i = 0; i < playersId.size(); i++) {
 					try {
-						String xml = downloader.getPlayer(String.valueOf(playersID.get(i)));
+						String xml = downloader.getPlayer(String.valueOf(playersId.get(i)));
 						PlayerXmlParser parser = new PlayerXmlParser();
 						InputSource input = new InputSource(new StringReader(xml));
 						try {
@@ -57,7 +57,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 						if (player != null) {
 							playersDao.updateUncompletedPlayer(player);
 						} else {
-							playersDao.updateNotExists(playersID.get(i));
+							playersDao.updateNotExists(playersId.get(i));
 						}
 					} catch (IOException ioex) {
 					}
@@ -74,21 +74,21 @@ public class PlayersXmlManager extends XmlManager<Player> {
 		super(name, destination, downloader, currentDay);
 	}
 	
-	public PlayersXmlManager(String content, Date currentDay, int teamID) {
-		super(content, currentDay, teamID);
+	public PlayersXmlManager(String content, Date currentDay, int teamId) {
+		super(content, currentDay, teamId);
 	}
 
 	public PlayersXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("players", destination, downloader, currentDay); //$NON-NLS-1$
+		super("players", destination, downloader, currentDay); 
 	}
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getPlayers(downloader.getTeamID()));
+		setContent(downloader.getPlayers(downloader.getTeamId()));
 	}
 
-	public void download(String teamID) throws IOException {
-		teamsMap.put(teamID, downloader.getPlayers(teamID));
+	public void download(String teamId) throws IOException {
+		teamsMap.put(teamId, downloader.getPlayers(teamId));
 	}
 	
 	public void importToSQL(Training training) throws SQLException {
@@ -100,8 +100,8 @@ public class PlayersXmlManager extends XmlManager<Player> {
 		return this.players;
 	}
 
-	public List<Player> parseXML(int teamID) throws SAXException {
-		return parseXML(teamsMap.get(String.valueOf(teamID)));
+	public List<Player> parseXML(int teamId) throws SAXException {
+		return parseXML(teamsMap.get(String.valueOf(teamId)));
 	}
 	
 	@Override
@@ -120,12 +120,12 @@ public class PlayersXmlManager extends XmlManager<Player> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			playersXmlParser.parseXmlSax(input, null);
 		}
-		return playersXmlParser.getAlPlayers();
+		return playersXmlParser.getPlayers();
 	}
 
 	@Override
 	public boolean write() throws IOException {
-		return write(getContent(), downloader.getTeamID());
+		return write(getContent(), downloader.getTeamId());
 	}
 
 }

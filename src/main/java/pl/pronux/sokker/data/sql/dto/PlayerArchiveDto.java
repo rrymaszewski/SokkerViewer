@@ -18,13 +18,13 @@ public class PlayerArchiveDto extends PlayerArchive {
 	}
 	
 	public PlayerArchive getPlayerArchive() throws SQLException {
-		this.setId(rs.getInt("player_id")); //$NON-NLS-1$
-		this.setName(rs.getString("name")); //$NON-NLS-1$
-		this.setSurname(rs.getString("surname")); //$NON-NLS-1$
-		this.setCountryID(rs.getInt("country_id")); //$NON-NLS-1$
-		this.setYouthTeamID(rs.getInt("youth_team_id")); //$NON-NLS-1$
-		this.setNote(rs.getString("note")); //$NON-NLS-1$
-		this.setExistsInSokker(rs.getInt("exists_in_sokker")); //$NON-NLS-1$
+		this.setId(rs.getInt("player_id")); 
+		this.setName(rs.getString("name")); 
+		this.setSurname(rs.getString("surname")); 
+		this.setCountryId(rs.getInt("country_id")); 
+		this.setYouthTeamId(rs.getInt("youth_team_id")); 
+		this.setNote(rs.getString("note")); 
+		this.setExistsInSokker(rs.getInt("exists_in_sokker")); 
 		return this;
 	}
 	

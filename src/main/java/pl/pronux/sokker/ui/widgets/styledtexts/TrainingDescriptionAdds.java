@@ -31,17 +31,17 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 		this.setRedraw(false);
 		this.setText("");
 		String text;
-		text = String.format("%-25s%-15s", Messages.getString("training.date"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%-25s%-15s", Messages.getString("training.date"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());  
 		this.append(text);
 		this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 		this.append(NEW_LINE);
 
-		text = String.format("%-25s%-15s", Messages.getString("training.date.insert"), training.getDate().toDateString()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%-25s%-15s", Messages.getString("training.date.insert"), training.getDate().toDateString());  
 		this.append(text);
 		this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 		this.append(NEW_LINE);
 
-		text = String.format("%-25s%-15d", Messages.getString("training.week"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).getSokkerDate().getSeasonWeek()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("%-25s%-15d", Messages.getString("training.week"), training.getDate().getTrainingDate(SokkerDate.THURSDAY).getSokkerDate().getSeasonWeek());  
 		this.append(text);
 		this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 		this.append(NEW_LINE);
@@ -50,12 +50,12 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 
 		if (training.getJuniorCoach() != null) {
 			String skill = getSkill(training.getJuniorCoach().getGeneralskill());
-			text = String.format("%-25s %s", Messages.getString("coach.job.juniors"), skill); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s %s", Messages.getString("coach.job.juniors"), skill);  
 			this.append(text);
 			this.addStyle(this.getText().length() - skill.length(), 4, Colors.getGray(), this.getBackground(), SWT.NORMAL);
 			this.addStyle(this.getText().length() - skill.length() + 4, skill.length() - 4, Colors.getTrainerGeneralSkill(), this.getBackground(), SWT.BOLD);
 		} else {
-			text = String.format("%-25s %s", Messages.getString("coach.job.juniors"), "-"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("%-25s %s", Messages.getString("coach.job.juniors"), "-");   
 			this.append(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), Colors.getGray(), this.getBackground(), SWT.NORMAL);
 		}
@@ -73,7 +73,7 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 		TrainingSummary trainedSkillSummary = training.getTrainingSummary();
 		
 		if (trainedSkillSummary.getStaminaPops() > 0 || trainedSkillSummary.getStaminaFalls() > 0) {
-			text = String.format("%-25s", Messages.getString("training.skill.stamina")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s", Messages.getString("training.skill.stamina"));  
 			this.append(text);
 			if (trainedSkillSummary.getStaminaPops() > 0) {
 				text = String.format("+%d", trainedSkillSummary.getStaminaPops());
@@ -91,13 +91,13 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 				this.append("-");
 			}
 		} else {
-			text = String.format("%-25s -/-", Messages.getString("training.skill.stamina")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s -/-", Messages.getString("training.skill.stamina"));  
 			this.append(text);
 		}
 		this.append(NEW_LINE);
 		
 		if (trainedSkillSummary.getTrainedSkillsPops() > 0 || trainedSkillSummary.getTrainedSkillsFalls() > 0) {
-			text = String.format("%-25s", Messages.getString("training.skill.trained")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s", Messages.getString("training.skill.trained"));  
 			this.append(text);
 			if (trainedSkillSummary.getTrainedSkillsPops() > 0) {
 				text = String.format("+%d", trainedSkillSummary.getTrainedSkillsPops());
@@ -115,13 +115,13 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 				this.append("-");
 			}
 		} else {
-			text = String.format("%-25s -/-", Messages.getString("training.skill.trained")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s -/-", Messages.getString("training.skill.trained"));  
 			this.append(text);
 		}
 		this.append(NEW_LINE);
 
 		if (trainedSkillSummary.getOthersSkillsPops() > 0 || trainedSkillSummary.getOthersSkillsFalls() > 0) {
-			text = String.format("%-25s", Messages.getString("training.skill.others")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s", Messages.getString("training.skill.others"));  
 			this.append(text);
 			if (trainedSkillSummary.getOthersSkillsPops() > 0) {
 				text = String.format("+%d", trainedSkillSummary.getOthersSkillsPops());
@@ -139,13 +139,13 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 				this.append("-");
 			}
 		} else {
-			text = String.format("%-25s -/-", Messages.getString("training.skill.others")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s -/-", Messages.getString("training.skill.others"));  
 			this.append(text);
 		}
 		this.append(NEW_LINE);
 
 		if (trainedSkillSummary.getJuniorsPops() > 0 || trainedSkillSummary.getJuniorsFalls() > 0) {
-			text = String.format("%-25s", Messages.getString("training.skill.juniors")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s", Messages.getString("training.skill.juniors"));  
 			this.append(text);
 			if (trainedSkillSummary.getJuniorsPops() > 0) {
 				text = String.format("+%d", trainedSkillSummary.getJuniorsPops());
@@ -163,7 +163,7 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 				this.append("-");
 			}
 		} else {
-			text = String.format("%-25s -/-", Messages.getString("training.skill.juniors")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%-25s -/-", Messages.getString("training.skill.juniors"));  
 			this.append(text);
 		}
 		
@@ -173,7 +173,7 @@ public class TrainingDescriptionAdds extends StyledText implements IDescription 
 	}
 
 	private String getSkill(int skill) {
-		return String.format("%4s%s", String.format("[%d]", skill), Messages.getString("skill.a" + skill)); //$NON-NLS-1$ //$NON-NLS-2$
+		return String.format("%4s%s", String.format("[%d]", skill), Messages.getString("skill.a" + skill));  
 	}
 
 	private void addStyle(int start, int length, Color foreground, Color background, int style) {

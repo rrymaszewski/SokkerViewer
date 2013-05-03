@@ -24,7 +24,7 @@ import pl.pronux.sokker.model.Match;
 public class LeagueMatchesXmlManager extends XmlManager<Match> {
 
 	public LeagueMatchesXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("league_matches", destination, downloader, currentDay); //$NON-NLS-1$
+		super("league_matches", destination, downloader, currentDay); 
 	}
 
 	private Map<String, String> leagueMatchesMap = new HashMap<String, String>();
@@ -44,7 +44,7 @@ public class LeagueMatchesXmlManager extends XmlManager<Match> {
 			// if not it means that we trying to download our previous league in which we aren't know
 			if (league.getLeagueTeams().size() > 0) {
 				for (LeagueTeam leagueTeam : league.getLeagueTeams()) {
-					if (leagueTeam.getTeamID() == Integer.valueOf(downloader.getTeamID())) {
+					if (leagueTeam.getTeamId() == Integer.valueOf(downloader.getTeamId())) {
 						check = true;
 						break;
 					}
@@ -71,7 +71,7 @@ public class LeagueMatchesXmlManager extends XmlManager<Match> {
 
 						for (int j = 1; j <= numberOfRounds; j++) {
 							if (!completedRounds.contains(j)) {
-								leagueMatchesMap.put(String.valueOf(league.getLeagueID()) + "_" + String.valueOf(j), downloader.getLeagueMatches(String.valueOf(league.getLeagueID()), String.valueOf(j))); //$NON-NLS-1$
+								leagueMatchesMap.put(league.getLeagueId() + "_" + j, downloader.getLeagueMatches(String.valueOf(league.getLeagueId()), String.valueOf(j))); 
 							}
 						}
 					} else {
@@ -101,7 +101,7 @@ public class LeagueMatchesXmlManager extends XmlManager<Match> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			matchesLeagueXMLParser.parseXmlSax(input, null);
 		}
-		return matchesLeagueXMLParser.getAlMatches();
+		return matchesLeagueXMLParser.getMatches();
 	}
 
 	public List<Match> parseXML() throws SAXException {

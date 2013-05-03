@@ -40,15 +40,15 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 		this.setFont(ConfigBean.getFontTable());
 
 		String[] columns = {
-				" ", //$NON-NLS-1$
-				Messages.getString("table.date"), //$NON-NLS-1$
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
-				Messages.getString("table.from"), //$NON-NLS-1$
-				Messages.getString("table.to"), //$NON-NLS-1$
-				Messages.getString("table.price"), //$NON-NLS-1$
-				Messages.getString("table.value"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				" ", 
+				Messages.getString("table.date"), 
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
+				Messages.getString("table.from"), 
+				Messages.getString("table.to"), 
+				Messages.getString("table.price"), 
+				Messages.getString("table.value"), 
+				"" 
 		};
 
 		for (int j = 0; j < columns.length; j++) {
@@ -94,18 +94,18 @@ public class TransfersTable extends SVTable<Transfer> implements IViewSort<Trans
 			TableItem item = new TableItem(this, SWT.NONE);
 			int c = 0;
 			item.setData(Transfer.class.getName(), transfer);
-			if (idClub == transfer.getSellerTeamID()) {
-				item.setImage(c++, ImageResources.getImageResources("outcoming.png")); //$NON-NLS-1$
+			if (idClub == transfer.getSellerTeamId()) {
+				item.setImage(c++, ImageResources.getImageResources("outcoming.png")); 
 			} else {
-				item.setImage(c++, ImageResources.getImageResources("incoming.png")); //$NON-NLS-1$
+				item.setImage(c++, ImageResources.getImageResources("incoming.png")); 
 			}
 			item.setText(c++, transfer.getDate().toDateTimeString());
 			if (transfer.getPlayer() != null) {
 				item.setText(c++, transfer.getPlayer().getName());
 				item.setText(c++, transfer.getPlayer().getSurname());
 			} else {
-				item.setText(c++, ""); //$NON-NLS-1$
-				item.setText(c++, ""); //$NON-NLS-1$
+				item.setText(c++, ""); 
+				item.setText(c++, ""); 
 			}
 
 			item.setText(c++, transfer.getSellerTeamName());

@@ -12,10 +12,10 @@ public class SVNumberFormat {
 	private static DecimalFormat doubleFormat;
 
 	static {
-		integerFormatWithSign = new DecimalFormat("'+'###,###,###,##0;'-'###,###,###,##0"); //$NON-NLS-1$
-		integerFormat = new DecimalFormat("###,###,###,##0"); //$NON-NLS-1$
-		doubleFormatWithSign = new DecimalFormat("'+'###,###,###,##0.00;'-'###,###,###,##0.00"); //$NON-NLS-1$
-		doubleFormat = new DecimalFormat("###,###,###,##0.00"); //$NON-NLS-1$
+		integerFormatWithSign = new DecimalFormat("'+'###,###,###,##0;'-'###,###,###,##0"); 
+		integerFormat = new DecimalFormat("###,###,###,##0"); 
+		doubleFormatWithSign = new DecimalFormat("'+'###,###,###,##0.00;'-'###,###,###,##0.00"); 
+		doubleFormat = new DecimalFormat("###,###,###,##0.00"); 
 	}
 
 	public static DecimalFormat getIntegerFormatWithSign() {
@@ -28,7 +28,7 @@ public class SVNumberFormat {
 
 	public static String formatIntegerWithSignZero(int value) {
 		if (value == 0) {
-			return "0"; //$NON-NLS-1$
+			return "0"; 
 		} else {
 			return integerFormatWithSign.format(value);
 		}
@@ -44,7 +44,7 @@ public class SVNumberFormat {
 
 	public static String formatDoubleWithSign(double value) {
 		if (value == 0) {
-			return "0"; //$NON-NLS-1$
+			return "0"; 
 		} else {
 			return doubleFormatWithSign.format(value);
 		}

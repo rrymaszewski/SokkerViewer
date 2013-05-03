@@ -75,7 +75,7 @@ public class Monitor implements IProgressMonitor {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 		setSubTask(false);
-		setSubTaskName(""); //$NON-NLS-1$
+		setSubTaskName(""); 
 	}
 
 	public void setTotalTime(int totalTime) {

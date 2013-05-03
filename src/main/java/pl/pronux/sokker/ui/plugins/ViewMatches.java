@@ -39,7 +39,7 @@ import pl.pronux.sokker.ui.widgets.tabs.MatchTabComposite;
 
 public class ViewMatches implements IPlugin {
 
-	private static final String MATCHES_IDENTIFIER = "matches"; //$NON-NLS-1$
+	private static final String MATCHES_IDENTIFIER = "matches"; 
 	
 	private Composite composite;
 
@@ -135,8 +135,8 @@ public class ViewMatches implements IPlugin {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		this.treeItem.setText(Messages.getString("tree.ViewMatches")); //$NON-NLS-1$
-		this.treeItem.setImage(ImageResources.getImageResources("match.png")); //$NON-NLS-1$
+		this.treeItem.setText(Messages.getString("tree.ViewMatches")); 
+		this.treeItem.setImage(ImageResources.getImageResources("match.png")); 
 	}
 
 	public void set() {
@@ -153,7 +153,7 @@ public class ViewMatches implements IPlugin {
 		matchesComposite.fill(team.getId(), matches);
 
 		Listener matchesListener = new Listener() {
-			@SuppressWarnings("unchecked")//$NON-NLS-1$
+			@SuppressWarnings("unchecked")
 			public void handleEvent(Event event) {
 				if (event.widget instanceof Table) {
 					Point point = new Point(event.x, event.y);
@@ -202,7 +202,7 @@ public class ViewMatches implements IPlugin {
 		seasonComposite.getRightTable().addListener(SWT.MouseDown, matchesListener);
 
 		viewListener = new Listener() {
-			@SuppressWarnings("unchecked")//$NON-NLS-1$
+			@SuppressWarnings("unchecked")
 			public void handleEvent(Event event) {
 
 				Point point = new Point(event.x, event.y);
@@ -240,7 +240,7 @@ public class ViewMatches implements IPlugin {
 
 		Listener viewKeyListener = new Listener() {
 
-			@SuppressWarnings("unchecked")//$NON-NLS-1$
+			@SuppressWarnings("unchecked")
 			public void handleEvent(Event event) {
 				TreeItem item = null;
 				for (int i = 0; i < treeItem.getParent().getSelection().length; i++) {
@@ -324,9 +324,9 @@ public class ViewMatches implements IPlugin {
 					seasonMatches.add(new ArrayList<Match>());
 					season = match.getWeek() / 16;
 					treeItemSeason = new TreeItem(treeItem, SWT.NONE);
-					treeItemSeason.setImage(ImageResources.getImageResources("matches_season.png")); //$NON-NLS-1$
+					treeItemSeason.setImage(ImageResources.getImageResources("matches_season.png")); 
 					treeItemSeason.setData(MATCHES_IDENTIFIER, seasonMatches.get(seasonMatches.size() - 1));
-					treeItemSeason.setText(Messages.getString("league.season") + " " + season); //$NON-NLS-1$ //$NON-NLS-2$
+					treeItemSeason.setText(Messages.getString("league.season") + " " + season);  
 				}
 
 				seasonMatches.get(seasonMatches.size() - 1).add(match);
@@ -342,9 +342,9 @@ public class ViewMatches implements IPlugin {
 					}
 					
 					if (match.getIsFinished() == Match.FINISHED) {
-						treeItemMatch.setText(match.getHomeTeamName() + " - " + match.getAwayTeamName()); //$NON-NLS-1$
+						treeItemMatch.setText(match.getHomeTeamName() + " - " + match.getAwayTeamName()); 
 					} else {
-						treeItemMatch.setText(match.getHomeTeamID() + " - " + match.getAwayTeamID()); //$NON-NLS-1$
+						treeItemMatch.setText(match.getHomeTeamId() + " - " + match.getAwayTeamId()); 
 						treeItemMatch.setForeground(ColorResources.getGray());
 					}
 				}

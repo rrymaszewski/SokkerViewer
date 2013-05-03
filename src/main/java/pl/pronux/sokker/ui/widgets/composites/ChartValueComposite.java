@@ -102,7 +102,7 @@ public class ChartValueComposite extends Composite {
 			return;
 		}
 
-		final XYSeries series = new XYSeries(""); //$NON-NLS-1$
+		final XYSeries series = new XYSeries(""); 
 
 		// GregorianCalendar date;
 		for (int i = values.size() - 1; i >= 0; i--) {
@@ -116,7 +116,7 @@ public class ChartValueComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempDateTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 		}
 		fillGraph(values, dates, trainingDay, zero, maxValue, true, title);
 	}
@@ -126,10 +126,10 @@ public class ChartValueComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempDoubleTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 			values.add(tempDoubleTable[i]);
 		}
-		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); //$NON-NLS-1$
+		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); 
 	}
 
 	/**
@@ -144,16 +144,16 @@ public class ChartValueComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempIntTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 			values.add(tempIntTable[i]);
 		}
-		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); //$NON-NLS-1$
+		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); 
 	}
 	
 	private void setSeries(final XYDataset dataset, final boolean zero, final double maxValue, boolean shapes, String title) {
 		chartFrame.removeAll();
 		
-		chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, true, true, false); //$NON-NLS-1$ //$NON-NLS-2$
+		chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, true, true, false);  
 		
 		final XYPlot plot = chart.getXYPlot();
 		// plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
@@ -194,7 +194,7 @@ public class ChartValueComposite extends Composite {
 	private void setSeries(final XYSeries series, final boolean zero, final double maxValue, boolean shapes, String title) {
 		chartFrame.removeAll();
 		final XYSeriesCollection dataset = new XYSeriesCollection(series);
-		chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, false, true, false); //$NON-NLS-1$ //$NON-NLS-2$
+		chart = ChartFactory.createXYLineChart(title, "", "", dataset, PlotOrientation.VERTICAL, false, true, false);  
 		
 		final XYPlot plot = chart.getXYPlot();
 		// plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));

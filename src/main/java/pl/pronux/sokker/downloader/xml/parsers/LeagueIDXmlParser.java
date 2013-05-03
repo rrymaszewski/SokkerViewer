@@ -20,55 +20,55 @@ import pl.pronux.sokker.utils.Log;
 
 public class LeagueIDXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
-	static final int TAG_LEAGUE = 0;
+	private static final int TAG_LEAGUE = 0;
 
-	static final int TAG_INFO = 1;
+	private static final int TAG_INFO = 1;
 
-	static final int TAG_LEAGUE_ID = 2;
+	private static final int TAG_LEAGUE_ID = 2;
 
-	static final int TAG_NAME = 3;
+	private static final int TAG_NAME = 3;
 
-	static final int TAG_COUNTRY_ID = 4;
+	private static final int TAG_COUNTRY_ID = 4;
 
-	static final int TAG_DIVISION = 5;
+	private static final int TAG_DIVISION = 5;
 
-	static final int TAG_ROUND = 6;
+	private static final int TAG_ROUND = 6;
 
-	static final int TAG_SEASON = 7;
+	private static final int TAG_SEASON = 7;
 
-	static final int TAG_TYPE = 8;
+	private static final int TAG_TYPE = 8;
 
-	static final int TAG_IS_OFFICIAL = 9;
+	private static final int TAG_IS_OFFICIAL = 9;
 
-	static final int TAG_IS_CUP = 10;
+	private static final int TAG_IS_CUP = 10;
 
-	static final int TAG_USER_ID = 11;
+	private static final int TAG_USER_ID = 11;
 
-	static final int TAG_TEAMS = 20;
+	private static final int TAG_TEAMS = 20;
 
-	static final int TAG_TEAM = 21;
+	private static final int TAG_TEAM = 21;
 
-	static final int TAG_ROUND_TEAM = 30;
+	private static final int TAG_ROUND_TEAM = 30;
 
-	static final int TAG_TEAM_ID = 22;
+	private static final int TAG_TEAM_ID = 22;
 
-	static final int TAG_POINTS = 23;
+	private static final int TAG_POINTS = 23;
 
-	static final int TAG_WINS = 24;
+	private static final int TAG_WINS = 24;
 
-	static final int TAG_DRAWS = 25;
+	private static final int TAG_DRAWS = 25;
 
-	static final int TAG_LOOSES = 26;
+	private static final int TAG_LOOSES = 26;
 
-	static final int TAG_GOALS_SCORED = 27;
+	private static final int TAG_GOALS_SCORED = 27;
 
-	static final int TAG_GOALS_LOST = 28;
+	private static final int TAG_GOALS_LOST = 28;
 
-	static final int TAG_RANK_TOTAL = 29;
+	private static final int TAG_RANK_TOTAL = 29;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
 	private League league;
 
@@ -82,20 +82,21 @@ public class LeagueIDXmlParser {
 	public void parseXmlSax(final InputSource input, final String file) throws SAXException {
 
 		class SAXHandler extends DefaultHandler {
+			private StringBuilder message;
 
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_LEAGUE_ID:
-					league.setLeagueID(Integer.parseInt(message.toString()));
+					league.setLeagueId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_NAME:
 					league.setName(message.toString());
 					break;
 				case TAG_COUNTRY_ID:
-					league.setCountryID(Integer.parseInt(message.toString()));
+					league.setCountryId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_DIVISION:
 					league.setDivision(Integer.parseInt(message.toString()));
@@ -116,10 +117,10 @@ public class LeagueIDXmlParser {
 					league.setIsCup(Integer.parseInt(message.toString()));
 					break;
 				case TAG_USER_ID:
-					league.setUserID(Integer.parseInt(message.toString()));
+					league.setUserId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_TEAM_ID:
-					team.setTeamID(Integer.parseInt(message.toString()));
+					team.setTeamId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_ROUND_TEAM:
 					team.setRound(Integer.parseInt(message.toString()));
@@ -156,83 +157,82 @@ public class LeagueIDXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equalsIgnoreCase("team")) { //$NON-NLS-1$
+				currentTag = 0;
+				if (localName.equalsIgnoreCase("team")) { 
 					teams.add(team);
-				} else if (localName.equalsIgnoreCase("teams")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("teams")) { 
 					league.setLeagueTeams(teams);
 				}
 			}
 
 			public void startDocument() {
 				league = new League();
-				league.setCountryID(1);
+				league.setCountryId(1);
 				teams = new ArrayList<LeagueTeam>();
 
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("teams")) { //$NON-NLS-1$
-					TAG_switch = TAG_TEAMS;
+				if (localName.equalsIgnoreCase("teams")) { 
+					tagSwitch = TAG_TEAMS;
 				}
 
-				if (localName.equalsIgnoreCase("league")) { //$NON-NLS-1$
-					TAG_switch = TAG_LEAGUE;
+				if (localName.equalsIgnoreCase("league")) { 
+					tagSwitch = TAG_LEAGUE;
 				}
 
-				if (localName.equalsIgnoreCase("info")) { //$NON-NLS-1$
-					TAG_switch = TAG_INFO;
+				if (localName.equalsIgnoreCase("info")) { 
+					tagSwitch = TAG_INFO;
 				}
 
-				if (TAG_switch == TAG_INFO) {
-					if (localName.equals("leagueID")) { //$NON-NLS-1$
-						current_tag = TAG_LEAGUE_ID;
-					} else if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_NAME;
-					} else if (localName.equals("countryID")) { //$NON-NLS-1$
-						current_tag = TAG_COUNTRY_ID;
-					} else if (localName.equals("division")) { //$NON-NLS-1$
-						current_tag = TAG_DIVISION;
-					} else if (localName.equals("round")) { //$NON-NLS-1$
-						current_tag = TAG_ROUND;
-					} else if (localName.equals("season")) { //$NON-NLS-1$
-						current_tag = TAG_SEASON;
-					} else if (localName.equals("type")) { //$NON-NLS-1$
-						current_tag = TAG_TYPE;
-					} else if (localName.equals("isOfficial")) { //$NON-NLS-1$
-						current_tag = TAG_IS_OFFICIAL;
-					} else if (localName.equals("isCup")) { //$NON-NLS-1$
-						current_tag = TAG_IS_CUP;
-					} else if (localName.equals("userID")) { //$NON-NLS-1$
-						current_tag = TAG_USER_ID;
+				if (tagSwitch == TAG_INFO) {
+					if (localName.equals("leagueID")) { 
+						currentTag = TAG_LEAGUE_ID;
+					} else if (localName.equals("name")) { 
+						currentTag = TAG_NAME;
+					} else if (localName.equals("countryID")) { 
+						currentTag = TAG_COUNTRY_ID;
+					} else if (localName.equals("division")) { 
+						currentTag = TAG_DIVISION;
+					} else if (localName.equals("round")) { 
+						currentTag = TAG_ROUND;
+					} else if (localName.equals("season")) { 
+						currentTag = TAG_SEASON;
+					} else if (localName.equals("type")) { 
+						currentTag = TAG_TYPE;
+					} else if (localName.equals("isOfficial")) { 
+						currentTag = TAG_IS_OFFICIAL;
+					} else if (localName.equals("isCup")) { 
+						currentTag = TAG_IS_CUP;
+					} else if (localName.equals("userID")) { 
+						currentTag = TAG_USER_ID;
 					}
 
-				} else if (TAG_switch == TAG_TEAMS) {
-					if (localName.equals("team")) { //$NON-NLS-1$
+				} else if (tagSwitch == TAG_TEAMS) {
+					if (localName.equals("team")) { 
 						team = new LeagueTeam();
-					} else if (localName.equalsIgnoreCase("teamID")) { //$NON-NLS-1$
-						current_tag = TAG_TEAM_ID;
-					} else if (localName.equalsIgnoreCase("round")) { //$NON-NLS-1$
-						current_tag = TAG_ROUND_TEAM;
-					} else if (localName.equals("wins")) { //$NON-NLS-1$
-						current_tag = TAG_WINS;
-					} else if (localName.equals("draws")) { //$NON-NLS-1$
-						current_tag = TAG_DRAWS;
-					} else if (localName.equals("losses")) { //$NON-NLS-1$
-						current_tag = TAG_LOOSES;
-					} else if (localName.equals("goalsScored")) { //$NON-NLS-1$
-						current_tag = TAG_GOALS_SCORED;
-					} else if (localName.equals("goalsLost")) { //$NON-NLS-1$
-						current_tag = TAG_GOALS_LOST;
-					} else if (localName.equals("rankTotal")) { //$NON-NLS-1$
-						current_tag = TAG_RANK_TOTAL;
-					}  else if (localName.equals("points")) { //$NON-NLS-1$
-						current_tag = TAG_POINTS;
+					} else if (localName.equalsIgnoreCase("teamID")) { 
+						currentTag = TAG_TEAM_ID;
+					} else if (localName.equalsIgnoreCase("round")) { 
+						currentTag = TAG_ROUND_TEAM;
+					} else if (localName.equals("wins")) { 
+						currentTag = TAG_WINS;
+					} else if (localName.equals("draws")) { 
+						currentTag = TAG_DRAWS;
+					} else if (localName.equals("losses")) { 
+						currentTag = TAG_LOOSES;
+					} else if (localName.equals("goalsScored")) { 
+						currentTag = TAG_GOALS_SCORED;
+					} else if (localName.equals("goalsLost")) { 
+						currentTag = TAG_GOALS_LOST;
+					} else if (localName.equals("rankTotal")) { 
+						currentTag = TAG_RANK_TOTAL;
+					}  else if (localName.equals("points")) { 
+						currentTag = TAG_POINTS;
 					}
 				}
 			}
@@ -248,7 +248,7 @@ public class LeagueIDXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

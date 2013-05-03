@@ -49,65 +49,65 @@ public class JuniorTrainedAdditionsDescription extends StyledText implements IDe
 		String text;
 		String temp;
 		String value;
-		Player player;
-		this.setText(""); //$NON-NLS-1$
+		this.setText(""); 
 
 		this.addText(NEW_LINE);
 		if(junior.getTrainersAverage() != null && junior.getTrainersAverage() > 0) {
-			value = String.format("[%d]", junior.getTrainersAverage().intValue()); //$NON-NLS-1$
-			temp = String.format("%s", Messages.getString("skill.a" + junior.getTrainersAverage().intValue())); //$NON-NLS-1$ //$NON-NLS-2$
-			text = String.format("%-25s %s%s", Messages.getString("junior.trainer.average"), value, temp); //$NON-NLS-1$ //$NON-NLS-2$
+			value = String.format("[%d]", junior.getTrainersAverage().intValue()); 
+			temp = String.format("%s", Messages.getString("skill.a" + junior.getTrainersAverage().intValue()));  
+			text = String.format("%-25s %s%s", Messages.getString("junior.trainer.average"), value, temp);  
 			this.addText(text);
 			this.addStyle(this.getText().length() - temp.length() - value.length(), value.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 			this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getDarkBlue(), SWT.BOLD);
-			text = String.format(" (%.1f)", junior.getTrainersAverage()); //$NON-NLS-1$
+			text = String.format(" (%.1f)", junior.getTrainersAverage()); 
 			this.addText(text);
 			this.addStyle(this.getText().length() - text.length(), text.length(), ColorResources.getDarkBlue(), SWT.NORMAL);
 		} else {
-			text = String.format("%-25s %s", Messages.getString("junior.trainer.average"), "-"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			text = String.format("%-25s %s", Messages.getString("junior.trainer.average"), "-");   
 			this.addText(text);
 		}
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 
-		temp = String.format("%d", junior.getSkills()[0].getWeeks()); //$NON-NLS-1$
-		text = String.format("%-25s %s", Messages.getString("junior.weeksAll"), temp); //$NON-NLS-1$ //$NON-NLS-2$
+		temp = String.format("%d", junior.getSkills()[0].getWeeks()); 
+		text = String.format("%-25s %s", Messages.getString("junior.weeksAll"), temp);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getBlack(), SWT.BOLD);
 		
-		this.addText(String.format(" %s" , Messages.getString("junior.weeks"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.addText(String.format(" %s" , Messages.getString("junior.weeks")));  
 		this.addText(NEW_LINE);
 
-		temp = String.format("%s", junior.getEndDate().toDateString()); //$NON-NLS-1$
-		text = String.format("%-25s %s", Messages.getString("junior.exit.date"), temp); //$NON-NLS-1$ //$NON-NLS-2$
+		temp = String.format("%s", junior.getEndDate().toDateString()); 
+		text = String.format("%-25s %s", Messages.getString("junior.exit.date"), temp);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getBlack(), SWT.BOLD);
 		this.addText(NEW_LINE);
 		
-		value = String.format("[%d]", junior.getSkills()[0].getSkill()); //$NON-NLS-1$
-		temp = String.format("%s", Messages.getString("skill.a" + junior.getSkills()[0].getSkill())); //$NON-NLS-1$ //$NON-NLS-2$
-		text = String.format("%-25s %s%s", Messages.getString("junior.skill.begin"), value, temp); //$NON-NLS-1$ //$NON-NLS-2$
+		value = String.format("[%d]", junior.getSkills()[0].getSkill()); 
+		temp = String.format("%s", Messages.getString("skill.a" + junior.getSkills()[0].getSkill()));  
+		text = String.format("%-25s %s%s", Messages.getString("junior.skill.begin"), value, temp);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - temp.length() - value.length(), value.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 		this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getBlack(), SWT.BOLD);
 		this.addText(NEW_LINE);
 		
-		if ((player = junior.getPlayer()) != null) {
-			temp = String.format("%d", player.getSkills()[0].getAge() - junior.getEstimatedAge()); //$NON-NLS-1$
-			text = String.format("%-25s %s", Messages.getString("junior.age.begin"), temp); //$NON-NLS-1$ //$NON-NLS-2$
+		Player player = junior.getPlayer();
+		if (player != null) {
+			temp = String.format("%d", player.getSkills()[0].getAge() - junior.getEstimatedAge()); 
+			text = String.format("%-25s %s", Messages.getString("junior.age.begin"), temp);  
 			this.addText(text);
 			this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getBlack(), SWT.BOLD);
 			this.addText(NEW_LINE);
 		}
 
-		temp = String.format("%d", junior.getPops()); //$NON-NLS-1$
-		text = String.format("%-25s %s", Messages.getString("junior.numberOfJumps"), temp); //$NON-NLS-1$ //$NON-NLS-2$
+		temp = String.format("%d", junior.getPops()); 
+		text = String.format("%-25s %s", Messages.getString("junior.numberOfJumps"), temp);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - temp.length(), temp.length(), ColorResources.getBlack(), SWT.BOLD);
 		this.addText(NEW_LINE);
 		
-		temp = String.format("%s", Money.formatIntegerCurrencySymbol((junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks() + 1) * Junior.juniorCost.toInt())); //$NON-NLS-1$
-		text = String.format("%-25s %s", Messages.getString("junior.money.spent"), temp); //$NON-NLS-1$ //$NON-NLS-2$
+		temp = String.format("%s", Money.formatIntegerCurrencySymbol((junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks() + 1) * Junior.JUNIOR_COST.toInt())); 
+		text = String.format("%-25s %s", Messages.getString("junior.money.spent"), temp);  
 		this.addText(text);
 		this.addStyle(this.getText().length() - temp.length(), temp.length() - Money.getCurrencySymbol().length() - 1, ColorResources.getBlack(), SWT.BOLD);
 		this.addText(NEW_LINE);

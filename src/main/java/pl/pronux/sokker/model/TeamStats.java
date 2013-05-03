@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TeamStats {
 
-	private int teamID;
+	private int teamId;
 
 	private int timeOnHalf;
 
@@ -115,12 +115,12 @@ public class TeamStats {
 		this.tacticName = tacticName;
 	}
 
-	public int getTeamID() {
-		return teamID;
+	public int getTeamId() {
+		return teamId;
 	}
 
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 
 	public int getTimeOnHalf() {

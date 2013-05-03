@@ -65,7 +65,7 @@ public class JuniorTrainedTable extends SVTable<Junior> {
 
 		for (int i = maxSkill - 1; i >= 0; i--) {
 			TableItem juniorTableItem = new TableItem(this, SWT.NONE);
-			juniorTableItem.setData("date", junior.getSkills()[i].getDate()); //$NON-NLS-1$
+			juniorTableItem.setData("date", junior.getSkills()[i].getDate()); 
 			juniorTableItem.setText(0, junior.getSkills()[i].getDate().getTrainingDate(SokkerDate.THURSDAY).toDateString());
 			juniorTableItem.setText(1, String.valueOf(junior.getSkills()[i].getSkill()));
 			juniorTableItem.setText(2, String.valueOf(junior.getSkills()[i].getWeeks()));

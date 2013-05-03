@@ -35,7 +35,7 @@ public class WeatherGroup extends Group {
 		this.setLayout(new FormLayout());
 		this.setFont(ConfigBean.getFontMain());
 
-		this.setText(Messages.getString("weather")); //$NON-NLS-1$
+		this.setText(Messages.getString("weather")); 
 
 		this.setForeground(Colors.getBlueDescription());
 
@@ -66,46 +66,46 @@ public class WeatherGroup extends Group {
 
 	public void setWeatherInfo(int weather) {
 		if (weather < 0 || weather > 7) {
-			weatherLabel.setText(""); //$NON-NLS-1$
+			weatherLabel.setText(""); 
 			weatherIcoLabel.setImage(null);
 			temperatureIcoLabel.setImage(null);
 			return;
 		}
-		weatherLabel.setText(Messages.getString("weather." + weather)); //$NON-NLS-1$
+		weatherLabel.setText(Messages.getString("weather." + weather)); 
 		// weatherLabel.pack();
 
 		switch (weather) {
 		case 0:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather0.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather0.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); 
 			break;
 		case 1:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather1.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather1.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); 
 			break;
 		case 2:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather2.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather2.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); 
 			break;
 		case 3:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather3.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather3.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp0.png")); 
 			break;
 		case 4:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather3.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather3.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); 
 			break;
 		case 5:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather4.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather4.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); 
 			break;
 		case 6:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather5.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather5.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp1.png")); 
 			break;
 		case 7:
-			weatherIcoLabel.setImage(ImageResources.getImageResources("weather5.png")); //$NON-NLS-1$
-			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp2.png")); //$NON-NLS-1$
+			weatherIcoLabel.setImage(ImageResources.getImageResources("weather5.png")); 
+			temperatureIcoLabel.setImage(ImageResources.getImageResources("temp2.png")); 
 			break;
 		default:
 			break;

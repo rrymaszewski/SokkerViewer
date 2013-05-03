@@ -107,7 +107,7 @@ public class ProgressBarCustom extends Composite {
 									if (monitor.isSubTask()) {
 										subtaskLabel.setText(monitor.getSubTaskName());
 									} else {
-										subtaskLabel.setText(""); //$NON-NLS-1$
+										subtaskLabel.setText(""); 
 									}
 								}
 							}
@@ -127,7 +127,7 @@ public class ProgressBarCustom extends Composite {
 									if (monitor.isSubTask()) {
 										subtaskLabel.setText(monitor.getSubTaskName());
 									} else {
-										subtaskLabel.setText(""); //$NON-NLS-1$
+										subtaskLabel.setText(""); 
 									}
 								}
 							}
@@ -139,8 +139,8 @@ public class ProgressBarCustom extends Composite {
 								if ((monitor.isCanceled() || monitor.isInterrupted())) {
 									progressBar.setMaximum(1);
 									progressBar.setSelection(1);
-									taskLabel.setText(""); //$NON-NLS-1$
-									subtaskLabel.setText(""); //$NON-NLS-1$
+									taskLabel.setText(""); 
+									subtaskLabel.setText(""); 
 									monitor.done();
 								}
 							}
@@ -169,7 +169,7 @@ public class ProgressBarCustom extends Composite {
 								Throwable throwable = e.getCause();
 								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage(throwable.getMessage(), throwable);
 							} else {
-								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage("ProgressBarCustom", e); //$NON-NLS-1$
+								new BugReporter(ProgressBarCustom.this.getShell()).openErrorMessage("ProgressBarCustom", e); 
 							}
 						}
 					});

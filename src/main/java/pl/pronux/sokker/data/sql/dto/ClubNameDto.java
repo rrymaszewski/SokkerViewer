@@ -15,9 +15,9 @@ public class ClubNameDto extends ClubName {
 	}
 
 	public ClubName getClubName() throws SQLException {
-		this.setName(rs.getString("name")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setName(rs.getString("name")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
 		return this;
 	}
 }

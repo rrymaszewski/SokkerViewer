@@ -82,7 +82,7 @@ public class ChartDateComposite extends Composite {
 			return;
 		}
 
-		final TimeSeries series = new TimeSeries("Weeks Periods", Day.class); //$NON-NLS-1$
+		final TimeSeries series = new TimeSeries("Weeks Periods", Day.class); 
 
 		// GregorianCalendar date;
 		for (int i = values.size() - 1; i >= 0; i--) {
@@ -96,9 +96,9 @@ public class ChartDateComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempDateTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 		}
-		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); //$NON-NLS-1$
+		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); 
 	}
 
 	public void fillGraph(final double[] tempDoubleTable, final String[] tempDateTable, final int trainingDay, final boolean zero, final double maxValue) {
@@ -106,10 +106,10 @@ public class ChartDateComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempDoubleTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 			values.add(tempDoubleTable[i]);
 		}
-		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); //$NON-NLS-1$
+		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); 
 	}
 
 	/**
@@ -124,16 +124,16 @@ public class ChartDateComposite extends Composite {
 		List<Date> dates = new ArrayList<Date>();
 
 		for (int i = tempIntTable.length - 1; i >= 0; i--) {
-			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", ""))); //$NON-NLS-1$ //$NON-NLS-2$
+			dates.add(new Date(tempDateTable[i].replaceAll("\\(.*\\)", "")));  
 			values.add(tempIntTable[i]);
 		}
-		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); //$NON-NLS-1$
+		fillGraph(values, dates, trainingDay, zero, maxValue, true, ""); 
 	}
 
 	private void setSeries(final TimeSeries series, final boolean zero, final double maxValue, boolean shapes, String title) {
 		chartFrame.removeAll();
 		final TimeSeriesCollection dataset = new TimeSeriesCollection(series);
-		chart = ChartFactory.createTimeSeriesChart(title, "", "", dataset, false, true, false); //$NON-NLS-1$ //$NON-NLS-2$
+		chart = ChartFactory.createTimeSeriesChart(title, "", "", dataset, false, true, false);  
 		
 		final XYPlot plot = chart.getXYPlot();
 		// plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));

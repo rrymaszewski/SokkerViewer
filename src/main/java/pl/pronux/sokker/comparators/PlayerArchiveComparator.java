@@ -44,7 +44,7 @@ public class PlayerArchiveComparator implements SVComparator<PlayerArchive>, ISo
 		// on that field
 		switch (column) {
 			case COUNTRY:
-				rc = (p1.getCountryID() < p2.getCountryID()) ? -1 : 1;
+				rc = (p1.getCountryId() < p2.getCountryId()) ? -1 : 1;
 				break;
 			case ID:
 				rc = (p1.getId() < p2.getId()) ? -1 : 1;
@@ -56,7 +56,7 @@ public class PlayerArchiveComparator implements SVComparator<PlayerArchive>, ISo
 				rc = coll.compare(p1.getSurname(), p2.getSurname());
 				break;
 			case YOUTH_TEAM_ID:
-				rc = (p1.getYouthTeamID() < p2.getYouthTeamID()) ? -1 : 1;
+				rc = (p1.getYouthTeamId() < p2.getYouthTeamId()) ? -1 : 1;
 				break;
 			case NOTE:
 				rc = coll.compare(p1.getNote(), p2.getNote());

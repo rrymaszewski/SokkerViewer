@@ -11,6 +11,6 @@ public class MatchClubsIdDto {
 	}
 	
 	public Integer getId() throws SQLException {
-		return rs.getInt("team_id"); //$NON-NLS-1$
+		return rs.getInt("team_id"); 
 	}
 }

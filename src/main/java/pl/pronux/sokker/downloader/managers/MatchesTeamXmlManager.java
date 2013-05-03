@@ -19,15 +19,16 @@ import pl.pronux.sokker.model.Match;
 
 public class MatchesTeamXmlManager extends XmlManager<Match> {
 
+	private List<Match> matchesTeam = new ArrayList<Match>();
+	private Map<String, String> matchesTeamMap = new HashMap<String, String>();
+
 	public MatchesTeamXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
 		super("matchesTeam", destination, downloader, currentDay); //$NON-NLS-1$
 	}
-	List<Match> matchesTeam = new ArrayList<Match>();
-	Map<String, String> matchesTeamMap = new HashMap<String, String>();
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getMatchesTeam(downloader.getTeamID()));
+		setContent(downloader.getMatchesTeam(downloader.getTeamId()));
 	}
 	
 	public void download(String teamID) throws IOException {
@@ -50,12 +51,12 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			matchesTeamXmlParser.parseXmlSax(input, null);
 		}
-		return matchesTeamXmlParser.getAlMatches();
+		return matchesTeamXmlParser.getMatches();
 	}
 	
 	@Override
 	public boolean write() throws IOException {
-		write(getContent(), downloader.getTeamID());
+		write(getContent(), downloader.getTeamId());
 
 		Set<String> matchesTeamStringSet = matchesTeamMap.keySet();
 
@@ -75,8 +76,7 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 	}
 
 	public List<Match> parseXML() throws SAXException {
-		List<Match> matches = new ArrayList<Match>();
-		matches = parseXML(getContent());
+		List<Match> matches = parseXML(getContent());
 		matchesTeam.addAll(matches);
 
 		Set<String> matchesTeamStringSet = matchesTeamMap.keySet();

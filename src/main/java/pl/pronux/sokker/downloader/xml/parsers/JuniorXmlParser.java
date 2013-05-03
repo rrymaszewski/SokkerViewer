@@ -20,7 +20,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class JuniorXmlParser  {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
 	private static final int TAG_JUNIOR_ID = 1;
 
@@ -40,11 +40,11 @@ public class JuniorXmlParser  {
 
 	private static final int TAG_JUNIOR = 5;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
-	public List<Junior> juniors;
+	private List<Junior> juniors;
 
-	public int teamID;
+	private int teamId;
 
 	private Junior junior;
 
@@ -54,11 +54,12 @@ public class JuniorXmlParser  {
 
 		class SAXHandler extends DefaultHandler {
 
+			private StringBuilder message;
 			public void characters(char ch[], int start, int length) throws SAXException {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_JUNIOR_ID:
 					junior.setId(Integer.valueOf(message.toString()));
 					break;
@@ -90,8 +91,8 @@ public class JuniorXmlParser  {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equals("junior")) { //$NON-NLS-1$
+				currentTag = 0;
+				if (localName.equals("junior")) { 
 					junior.setSkills(juniorSkills);
 					if (junior.getId() != -1) {
 						juniors.add(junior);
@@ -103,24 +104,23 @@ public class JuniorXmlParser  {
 				juniors = new ArrayList<Junior>();
 			}
 
-			StringBuilder message;
 
 			public void startElement(String namespaceURL, String localName, String qName, Attributes atts) {
 
 				message = new StringBuilder();
-				if (localName.equals("juniors")) { //$NON-NLS-1$
+				if (localName.equals("juniors")) { 
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("teamID")) { //$NON-NLS-1$
-							teamID = Integer.valueOf(value);
+						if (name.equalsIgnoreCase("teamID")) { 
+							teamId = Integer.valueOf(value);
 						}
 					}
 				}
 
-				if (localName.equals("junior")) { //$NON-NLS-1$
-					TAG_switch = TAG_JUNIOR;
+				if (localName.equals("junior")) { 
+					tagSwitch = TAG_JUNIOR;
 
 					junior = new Junior();
 					junior.setId(-1);
@@ -129,21 +129,21 @@ public class JuniorXmlParser  {
 
 				}
 
-				if (TAG_switch == TAG_JUNIOR) {
-					if (localName.equals("name")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_NAME;
-					} else if (localName.equals("surname")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_SURNAME;
-					} else if (localName.equals("weeks")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_WEEKS;
-					} else if (localName.equals("skill")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_SKILL;
-					} else if (localName.equals("ID")) { //$NON-NLS-1$
-						current_tag = TAG_JUNIOR_ID;
+				if (tagSwitch == TAG_JUNIOR) {
+					if (localName.equals("name")) { 
+						currentTag = TAG_JUNIOR_NAME;
+					} else if (localName.equals("surname")) { 
+						currentTag = TAG_JUNIOR_SURNAME;
+					} else if (localName.equals("weeks")) { 
+						currentTag = TAG_JUNIOR_WEEKS;
+					} else if (localName.equals("skill")) { 
+						currentTag = TAG_JUNIOR_SKILL;
+					} else if (localName.equals("ID")) { 
+						currentTag = TAG_JUNIOR_ID;
 					} else if (localName.equals("age")) {
-						current_tag = TAG_AGE;
+						currentTag = TAG_AGE;
 					} else if (localName.equals("formation")) {
-						current_tag = TAG_FORMATION;
+						currentTag = TAG_FORMATION;
 					}
 				}
 			}
@@ -159,7 +159,7 @@ public class JuniorXmlParser  {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

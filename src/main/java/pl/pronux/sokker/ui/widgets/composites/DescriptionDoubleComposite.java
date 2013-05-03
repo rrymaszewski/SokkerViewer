@@ -65,10 +65,10 @@ public class DescriptionDoubleComposite extends Composite {
 		setEnabled(false);
 
 		// initialize description string format
-		leftDescriptionStringFormat = "%s: %s\r\n"; //$NON-NLS-1$
+		leftDescriptionStringFormat = "%s: %s\r\n"; 
 
 		// initialize description string format
-		rightDescriptionStringFormat = "%s: %s\r\n"; //$NON-NLS-1$
+		rightDescriptionStringFormat = "%s: %s\r\n"; 
 
 		// create object for colorize text in description composite
 		leftStyleRanges = new ArrayList<StyleRange>();
@@ -76,7 +76,7 @@ public class DescriptionDoubleComposite extends Composite {
 	}
 
 	public String getText() {
-		return leftDescription.getText() + "\n" + rightDescription.getText(); //$NON-NLS-1$
+		return leftDescription.getText() + "\n" + rightDescription.getText(); 
 	}
 	public void addLeftText(Object[] object) {
 		leftDescription.setText(leftDescription.getText()
@@ -205,8 +205,8 @@ public class DescriptionDoubleComposite extends Composite {
 			int leftSecondColumnSize) {
 		this.leftFirstColumnSize = leftFirstColumnSize;
 		this.leftSecondColumnSize = leftSecondColumnSize;
-		leftDescriptionStringFormat = "%-" + leftFirstColumnSize + "s" + "%-" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ leftSecondColumnSize + "s" + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		leftDescriptionStringFormat = "%-" + leftFirstColumnSize + "s" + "%-"   
+				+ leftSecondColumnSize + "s" + "\r\n";  
 	}
 
 	public void setLeftDescriptionStringFormat(String descriptionStringFormat) {
@@ -233,8 +233,8 @@ public class DescriptionDoubleComposite extends Composite {
 			int rightSecondColumnSize) {
 		this.rightFirstColumnSize = rightFirstColumnSize;
 		this.rightSecondColumnSize = rightSecondColumnSize;
-		rightDescriptionStringFormat = "%-" + rightFirstColumnSize + "s" + "%-" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ rightSecondColumnSize + "s" + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		rightDescriptionStringFormat = "%-" + rightFirstColumnSize + "s" + "%-"   
+				+ rightSecondColumnSize + "s" + "\r\n";  
 	}
 
 	public void setRightDescriptionStringFormat(String descriptionStringFormat) {
@@ -279,8 +279,8 @@ public class DescriptionDoubleComposite extends Composite {
 	}
 
 	public void clearAll() {
-		this.leftDescription.setText(""); //$NON-NLS-1$
-		this.rightDescription.setText(""); //$NON-NLS-1$
+		this.leftDescription.setText(""); 
+		this.rightDescription.setText(""); 
 		leftStyleRanges.clear();
 		rightStyleRanges.clear();
 	}

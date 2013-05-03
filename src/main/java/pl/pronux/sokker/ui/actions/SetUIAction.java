@@ -14,7 +14,7 @@ public class SetUIAction implements IRunnableWithProgress {
 
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		List<IPlugin> pluginsList = ViewerHandler.getViewer().getPlugins();
-		monitor.beginTask(Messages.getString("SetUIAction.info"), pluginsList.size()); //$NON-NLS-1$
+		monitor.beginTask(Messages.getString("SetUIAction.info"), pluginsList.size()); 
 
 		for (IPlugin plugin : pluginsList) {
 			if (monitor.isCanceled() || monitor.isInterrupted()) {
@@ -29,7 +29,7 @@ public class SetUIAction implements IRunnableWithProgress {
 		}
 		ViewerHandler.getViewer().setView();
 		
-		ViewerHandler.getViewer().setLastUpdateDate(Messages.getString("statusBar.lastUpdateLabel.text") + " " + Cache.getDate().toDateTimeString()); //$NON-NLS-1$ //$NON-NLS-2$
+		ViewerHandler.getViewer().setLastUpdateDate(Messages.getString("statusBar.lastUpdateLabel.text") + " " + Cache.getDate().toDateTimeString());  
 	}
 
 	public void onFinish() {

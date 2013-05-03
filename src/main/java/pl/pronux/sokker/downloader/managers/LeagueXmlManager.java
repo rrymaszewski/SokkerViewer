@@ -22,13 +22,13 @@ import pl.pronux.sokker.model.Match;
 
 public class LeagueXmlManager extends XmlManager<League> {
 	
-	private LeaguesManager leaguesManager = LeaguesManager.instance();
+	private LeaguesManager leaguesManager = LeaguesManager.getInstance();
 	
 	private List<League> leagues = new ArrayList<League>();
 	private Map<String, String> leaguesMap = new HashMap<String, String>();
-	private Set<String> leagueIDSet = new HashSet<String>();
+	private Set<String> leagueIdSet = new HashSet<String>();
 	public LeagueXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("league", destination, downloader, currentDay); //$NON-NLS-1$
+		super("league", destination, downloader, currentDay); 
 	}
 	
 	public LeagueXmlManager() {
@@ -42,16 +42,16 @@ public class LeagueXmlManager extends XmlManager<League> {
 	
 	public void download(List<Match> matches) throws IOException {
 		for (Match match : matches) {
-			leagueIDSet.add(String.valueOf(match.getLeagueID()));
+			leagueIdSet.add(String.valueOf(match.getLeagueId()));
 		}
 		
-		for (String leagueID : leagueIDSet) {
-			leaguesMap.put(leagueID, downloader.getLeague(leagueID));
+		for (String leagueId : leagueIdSet) {
+			leaguesMap.put(leagueId, downloader.getLeague(leagueId));
 		}
 	}
 	
-	public void download(int leagueID) throws IOException {
-		leaguesMap.put(String.valueOf(leagueID), downloader.getLeague(String.valueOf(leagueID)));
+	public void download(int leagueId) throws IOException {
+		leaguesMap.put(String.valueOf(leagueId), downloader.getLeague(String.valueOf(leagueId)));
 	}
 
 	@Override
@@ -80,8 +80,8 @@ public class LeagueXmlManager extends XmlManager<League> {
 
 		for (String key : leaguesSet) {
 			List<League> tempLeagues = parseXML(leaguesMap.get(key));
-			if(tempLeagues.get(0).getLeagueID() == 0 && !key.equals("0")) { //$NON-NLS-1$
-				tempLeagues.get(0).setLeagueID(Integer.valueOf(key));
+			if(tempLeagues.get(0).getLeagueId() == 0 && !key.equals("0")) { 
+				tempLeagues.get(0).setLeagueId(Integer.valueOf(key));
 			}
 			leagues.addAll(tempLeagues);
 		}
@@ -97,15 +97,12 @@ public class LeagueXmlManager extends XmlManager<League> {
 
 	@Override
 	public boolean write() throws IOException {
-
 		Set<String> leaguesSet = leaguesMap.keySet();
-
 		for (String key : leaguesSet) {
 			if (!write(leaguesMap.get(key), key)) {
 				// return false;
 			}
 		}
-
 		return true;
 	}
 }

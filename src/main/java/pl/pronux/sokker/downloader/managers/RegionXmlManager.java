@@ -20,14 +20,14 @@ public class RegionXmlManager extends XmlManager<Region> {
 	private Region region;
 	private List<Region> regions = new ArrayList<Region>();
 
-	private CountriesManager countriesManager = CountriesManager.instance();
+	private CountriesManager countriesManager = CountriesManager.getInstance();
 
 	public RegionXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
 
 	public RegionXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("region", destination, downloader, currentDay); //$NON-NLS-1$
+		super("region", destination, downloader, currentDay); 
 	}
 
 	public RegionXmlManager(String content, Date currentDay, int teamID) {

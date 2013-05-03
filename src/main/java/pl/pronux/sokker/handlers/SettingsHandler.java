@@ -8,21 +8,21 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
 
 public class SettingsHandler {
 
-	public static OperatingSystem OS_TYPE = OperatingSystem.WINDOWS;
+	private static OperatingSystem operatingSystem = OperatingSystem.WINDOWS;
 
 	static {
-		String os = System.getProperty("os.name"); //$NON-NLS-1$
-		if (os.toLowerCase().startsWith("linux")) { //$NON-NLS-1$
-			OS_TYPE = OperatingSystem.LINUX;
-		} else if (os.toLowerCase().startsWith("mac")) { //$NON-NLS-1$
-			OS_TYPE = OperatingSystem.MACOSX;
-		} else if (os.toLowerCase().startsWith("windows")) { //$NON-NLS-1$
-			OS_TYPE = OperatingSystem.WINDOWS;
+		String os = System.getProperty("os.name"); 
+		if (os.toLowerCase().startsWith("linux")) { 
+			operatingSystem = OperatingSystem.LINUX;
+		} else if (os.toLowerCase().startsWith("mac")) { 
+			operatingSystem = OperatingSystem.MACOSX;
+		} else if (os.toLowerCase().startsWith("windows")) { 
+			operatingSystem = OperatingSystem.WINDOWS;
 		}
 	}
-	public final static boolean IS_WINDOWS = OS_TYPE == OperatingSystem.WINDOWS;
-	public final static boolean IS_LINUX = OS_TYPE == OperatingSystem.LINUX;
-	public final static boolean IS_MACOSX = OS_TYPE == OperatingSystem.MACOSX;
+	public static final boolean IS_WINDOWS = operatingSystem == OperatingSystem.WINDOWS;
+	public static final boolean IS_LINUX = operatingSystem == OperatingSystem.LINUX;
+	public static final boolean IS_MACOSX = operatingSystem == OperatingSystem.MACOSX;
 	
 	private static boolean logged;
 	private static SokkerViewerSettings sokkerViewerSettings;

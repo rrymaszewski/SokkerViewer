@@ -25,7 +25,7 @@ import pl.pronux.sokker.exceptions.BadArgumentException;
 *  &nbsp; New method decode(String) added.<br>
 */
 
-final public class Base64Coder {
+public final class Base64Coder {
 
 // Mapping table from 6-bit nibbles to Base64 characters.
 private static char[]    map1 = new char[64];
@@ -128,7 +128,7 @@ public static byte[] decode (String s) throws BadArgumentException {
 public static byte[] decode (char[] in) throws BadArgumentException {
    int iLen = in.length;
    if (iLen%4 != 0) {
-		throw new BadArgumentException ("Length of Base64 encoded input string is not a multiple of 4."); //$NON-NLS-1$
+		throw new BadArgumentException ("Length of Base64 encoded input string is not a multiple of 4."); 
 	}
    while (iLen > 0 && in[iLen-1] == '=') {
 		iLen--;
@@ -143,14 +143,14 @@ public static byte[] decode (char[] in) throws BadArgumentException {
       int i2 = ip < iLen ? in[ip++] : 'A';
       int i3 = ip < iLen ? in[ip++] : 'A';
       if (i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127) {
-				throw new BadArgumentException ("Illegal character in Base64 encoded data."); //$NON-NLS-1$
+				throw new BadArgumentException ("Illegal character in Base64 encoded data."); 
 			}
       int b0 = map2[i0];
       int b1 = map2[i1];
       int b2 = map2[i2];
       int b3 = map2[i3];
       if (b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0) {
-				throw new BadArgumentException ("Illegal character in Base64 encoded data."); //$NON-NLS-1$
+				throw new BadArgumentException ("Illegal character in Base64 encoded data."); 
 			}
       int o0 = ( b0       <<2) | (b1>>>4);
       int o1 = ((b1 & 0xf)<<4) | (b2>>>2);

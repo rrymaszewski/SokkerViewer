@@ -1,5 +1,5 @@
 package pl.pronux.sokker.ui.widgets.styledtexts;
 
 public interface IDescription {
-	String NEW_LINE = System.getProperty("line.separator"); //$NON-NLS-1$
+	String NEW_LINE = System.getProperty("line.separator"); 
 }

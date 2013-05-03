@@ -21,14 +21,14 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 
 	private List<Transfer> transfers = new ArrayList<Transfer>();
 	
-	private TeamManager teamManager = TeamManager.instance();
+	private TeamManager teamManager = TeamManager.getInstance();
 
 	public TransfersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
 
 	public TransfersXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("transfers", destination, downloader, currentDay); //$NON-NLS-1$
+		super("transfers", destination, downloader, currentDay); 
 	}
 
 	public TransfersXmlManager(String content, Date currentDay, int teamID) {

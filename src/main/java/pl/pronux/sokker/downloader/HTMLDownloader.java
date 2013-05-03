@@ -20,7 +20,7 @@ import pl.pronux.sokker.resources.Messages;
 
 public class HTMLDownloader extends AbstractDownloader {
 
-	private String cookies = ""; //$NON-NLS-1$
+	private String cookies = ""; 
 
 	public HTMLDownloader(ProxySettings proxySettings) {
 		super.setProxy(proxySettings.getProxy());
@@ -42,7 +42,7 @@ public class HTMLDownloader extends AbstractDownloader {
 		}
 
 		if (url == null) {
-			throw new IOException(Messages.getString("exception.url.null")); //$NON-NLS-1$
+			throw new IOException(Messages.getString("exception.url.null")); 
 		}
 
 		try {
@@ -60,9 +60,9 @@ public class HTMLDownloader extends AbstractDownloader {
 				counter = counter + (len);
 				out.write(buf, 0, len);
 				if (length != -1) {
-					monitor.subTask(String.format("%s ( %dkb of %dkb )", srcFile, counter / 1000, length / 1000)); //$NON-NLS-1$
+					monitor.subTask(String.format("%s ( %dkb of %dkb )", srcFile, counter / 1000, length / 1000)); 
 				} else {
-					monitor.subTask(String.format("%s ( %dkb)", srcFile, counter / 1000)); //$NON-NLS-1$
+					monitor.subTask(String.format("%s ( %dkb)", srcFile, counter / 1000)); 
 				}
 			}
 			in.close();
@@ -78,10 +78,10 @@ public class HTMLDownloader extends AbstractDownloader {
 		StringBuilder buffer = new StringBuilder();
 		try {
 			connection = getDefaultConnection(urlString, GET);
-			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
+			connection.setRequestProperty("Cookie", cookies); 
 			// for first request cookie doesn't exist
-			if (!cookies.isEmpty()) { //$NON-NLS-1$
-				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
+			if (!cookies.isEmpty()) { 
+				connection.setRequestProperty("Cookie", cookies); 
 			} else {
 				cookies = getPHPSESSIONID(connection);
 			}
@@ -110,10 +110,10 @@ public class HTMLDownloader extends AbstractDownloader {
 		HttpURLConnection connection = null;
 		try {
 			connection = getDefaultConnection(urlString, GET);
-			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
+			connection.setRequestProperty("Cookie", cookies); 
 			// for first request cookie doesn't exist
-			if (!cookies.isEmpty()) { //$NON-NLS-1$
-				connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
+			if (!cookies.isEmpty()) { 
+				connection.setRequestProperty("Cookie", cookies); 
 			} else {
 				cookies = getPHPSESSIONID(connection);
 			}
@@ -121,7 +121,7 @@ public class HTMLDownloader extends AbstractDownloader {
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			while ((line = in.readLine()) != null) {
-				content.append(line).append("\n"); //$NON-NLS-1$
+				content.append(line).append("\n"); 
 			}
 		} finally {
 			if (in != null) {
@@ -200,9 +200,9 @@ public class HTMLDownloader extends AbstractDownloader {
 				// No more headers
 				break;
 			}
-			if ("Set-Cookie".equalsIgnoreCase(headerName)) { //$NON-NLS-1$
+			if ("Set-Cookie".equalsIgnoreCase(headerName)) { 
 				// Parse cookie
-				String[] fields = headerValue.split(";\\s*"); //$NON-NLS-1$
+				String[] fields = headerValue.split(";\\s*"); 
 
 				String cookieValue = fields[0];
 				String expires = null;
@@ -212,15 +212,15 @@ public class HTMLDownloader extends AbstractDownloader {
 
 				// Parse each field
 				for (int j = 1; j < fields.length; j++) {
-					if ("secure".equalsIgnoreCase(fields[j])) { //$NON-NLS-1$
+					if ("secure".equalsIgnoreCase(fields[j])) { 
 						secure = true;
 					} else if (fields[j].indexOf('=') > 0) {
-						String[] f = fields[j].split("="); //$NON-NLS-1$
-						if ("expires".equalsIgnoreCase(f[0])) { //$NON-NLS-1$
+						String[] f = fields[j].split("="); 
+						if ("expires".equalsIgnoreCase(f[0])) { 
 							expires = f[1];
-						} else if ("domain".equalsIgnoreCase(f[0])) { //$NON-NLS-1$
+						} else if ("domain".equalsIgnoreCase(f[0])) { 
 							domain = f[1];
-						} else if ("path".equalsIgnoreCase(f[0])) { //$NON-NLS-1$
+						} else if ("path".equalsIgnoreCase(f[0])) { 
 							path = f[1];
 						}
 					}
@@ -228,7 +228,7 @@ public class HTMLDownloader extends AbstractDownloader {
 
 				// Save the cookie...
 
-				cookie.append(cookieValue).append(";"); //$NON-NLS-1$
+				cookie.append(cookieValue).append(";"); 
 				cookies.setCookieValue(cookieValue);
 				cookies.setDomain(domain);
 				cookies.setExpires(expires);
@@ -246,8 +246,8 @@ public class HTMLDownloader extends AbstractDownloader {
 		DataOutputStream out = null;
 		try {
 			connection = getDefaultConnection(urlString, POST);
-			connection.setRequestProperty("Referer", referer); //$NON-NLS-1$
-			connection.setRequestProperty("Cookie", cookies); //$NON-NLS-1$
+			connection.setRequestProperty("Referer", referer); 
+			connection.setRequestProperty("Cookie", cookies); 
 			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// helping with loggin into the page
 			// connection.setInstanceFollowRedirects(false);
@@ -263,11 +263,11 @@ public class HTMLDownloader extends AbstractDownloader {
 			out.writeBytes(parameters);
 			out.flush();
 
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); //$NON-NLS-1$
+			in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8")); 
 
 			String line;
 			while ((line = in.readLine()) != null) {
-				content.append(line.replaceAll("&", "&amp;")).append('\n'); //$NON-NLS-1$ //$NON-NLS-2$
+				content.append(line.replaceAll("&", "&amp;")).append('\n');  
 				// stringCache = stringCache.replaceAll("<", "&lt;");
 				// stringCache = stringCache.replaceAll(">", "&gt;");
 				// stringCache = stringCache.replaceAll("\"", "&quot;");

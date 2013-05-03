@@ -60,7 +60,7 @@ public class ProgressBarDialog extends Shell {
 
 		cancelButton = new Button(this, SWT.PUSH);
 		cancelButton.setLayoutData(formData);
-		cancelButton.setText(Messages.getString("button.cancel")); //$NON-NLS-1$
+		cancelButton.setText(Messages.getString("button.cancel")); 
 		cancelButton.addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
@@ -74,7 +74,7 @@ public class ProgressBarDialog extends Shell {
 
 		closeButton = new Button(this, SWT.PUSH);
 		closeButton.setLayoutData(formData);
-		closeButton.setText(Messages.getString("button.close")); //$NON-NLS-1$
+		closeButton.setText(Messages.getString("button.close")); 
 		closeButton.setEnabled(false);
 		closeButton.addListener(SWT.Selection, new Listener() {
 

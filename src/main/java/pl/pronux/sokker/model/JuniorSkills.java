@@ -6,7 +6,7 @@ public class JuniorSkills {
 	
 	private int id;
 
-	private int idJuniorFK;
+	private int juniorId;
 
 	private int skill;
 
@@ -20,8 +20,8 @@ public class JuniorSkills {
 		return date;
 	}
 
-	public int getIdJuniorFK() {
-		return idJuniorFK;
+	public int getJuniorId() {
+		return juniorId;
 	}
 
 	public int getSkill() {
@@ -36,8 +36,8 @@ public class JuniorSkills {
 		this.date = date;
 	}
 
-	public void setIdJuniorFK(int id_junior_fk) {
-		this.idJuniorFK = id_junior_fk;
+	public void setJuniorId(int juniorId) {
+		this.juniorId = juniorId;
 	}
 
 	public void setSkill(int skill) {

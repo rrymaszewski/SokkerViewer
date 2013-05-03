@@ -40,8 +40,8 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 
 		
 		String[] title = {
-				Messages.getString("table.name"), //$NON-NLS-1$
-				Messages.getString("table.surname"), //$NON-NLS-1$
+				Messages.getString("table.name"), 
+				Messages.getString("table.surname"), 
 				// langProperties.getProperty("table.form"),
 				// langProperties.getProperty("table.stamina"),
 				// langProperties.getProperty("table.pace"),
@@ -51,19 +51,19 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 				// langProperties.getProperty("table.defender"),
 				// langProperties.getProperty("table.playmaker"),
 				// langProperties.getProperty("table.scorer"),
-				Messages.getString("assistant.position.short.1"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.2"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.3"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.4"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.5"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.6"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.7"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.8"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.9"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.10"), //$NON-NLS-1$
-				Messages.getString("assistant.position.short.11"), //$NON-NLS-1$
-				Messages.getString("table.position.best"), //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				Messages.getString("assistant.position.short.1"), 
+				Messages.getString("assistant.position.short.2"), 
+				Messages.getString("assistant.position.short.3"), 
+				Messages.getString("assistant.position.short.4"), 
+				Messages.getString("assistant.position.short.5"), 
+				Messages.getString("assistant.position.short.6"), 
+				Messages.getString("assistant.position.short.7"), 
+				Messages.getString("assistant.position.short.8"), 
+				Messages.getString("assistant.position.short.9"), 
+				Messages.getString("assistant.position.short.10"), 
+				Messages.getString("assistant.position.short.11"), 
+				Messages.getString("table.position.best"), 
+				"" 
 		};
 		
 		for (int i = 0; i < title.length; i++) {
@@ -135,7 +135,7 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			
 			int c = 0;
 			int j = 0;
-			item.setData("person", player); //$NON-NLS-1$
+			item.setData("person", player); 
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			// item.setText(c++,
@@ -179,7 +179,7 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 
-			item.setText(c++, Messages.getString("assistant.position." + player.getPosition())); //$NON-NLS-1$
+			item.setText(c++, Messages.getString("assistant.position." + player.getPosition())); 
 
 			item.setFont(player.getPosition() + 1, Fonts.getBoldFont(item.getDisplay(), item.getFont().getFontData()));
 			// item.setForeground(player.getPosition() + 1,

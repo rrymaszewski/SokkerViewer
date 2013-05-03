@@ -56,7 +56,7 @@ import pl.pronux.sokker.ui.widgets.tables.JuniorsTrainedTable;
 
 public class ViewJuniorsTrained implements IPlugin, ISort {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 	
 	private TreeItem _treeItem;
 
@@ -525,7 +525,7 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 		}
 	}
 
-	private void setJuniorsTrainedTable(List<Junior> junior) {
+	private void setJuniorsTrainedTable(List<Junior> juniors) {
 
 		juniorsTrainedTable.fill(juniors);
 
@@ -696,8 +696,8 @@ public class ViewJuniorsTrained implements IPlugin, ISort {
 		composite.layout(true);
 	}
 
-	private void setViewComposite(List<Junior> junior) {
-		setJuniorsTrainedTable(junior);
+	private void setViewComposite(List<Junior> juniors) {
+		setJuniorsTrainedTable(juniors);
 	}
 
 	private void showDescription(Composite composite) {

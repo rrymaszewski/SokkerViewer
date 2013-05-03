@@ -36,55 +36,18 @@ import pl.pronux.sokker.ui.widgets.wizards.xmlimporter.ImporterWizard;
 import pl.pronux.sokker.utils.file.Database;
 
 public class ViewerMenu extends Menu {
-	private MenuItem mainShellMenuItemAbout;
-
-	private MenuItem mainShellMenuItemBackupDatabase;
-
-	private MenuItem mainShellMenuItemClose;
-
-	private MenuItem mainShellMenuItemConnect;
-
-	private MenuItem mainShellMenuItemGet;
-
-	private MenuItem mainShellMenuItemImportXML;
-
-	private MenuItem mainShellMenuItemRestoreDatabase;
-
-	private Menu mainShellSubmenuHelp;
-
-	private MenuItem mainShellSubmenuItemFile;
-
-	private MenuItem mainShellSubmenuItemHelp;
-
-	private MenuItem mainShellMenuItemUpdate;
-
-	private MenuItem mainShellSubmenuItemTools;
-
-	private Menu mainShellSubmenuTools;
-
-	private MenuItem mainShellMenuItemPreferences;
-	private MenuItem mainShellMenuItemPlugins;
-	private MenuItem mainShellMenuItemCurrencyConverter;
-	private MenuItem mainShellMenuItemTaxCalculator;
-	private MenuItem mainShellMenuItemRefresh;
-
-	private MenuItem mainShellMenuItemPrintScreen;
-
-	private Shell mainShell;
 
 	public ViewerMenu(Decorations decorations, int style) {
 		super(decorations, style);
 
-		mainShell = decorations.getShell();
+		final Shell mainShell = decorations.getShell();
 
-		Menu mainShellSubmenuFile;
+		MenuItem mainShellSubmenuItemFile = new MenuItem(this, SWT.CASCADE);
+		mainShellSubmenuItemFile.setText(Messages.getString("button.file")); 
+		Menu mainShellSubmenuFile = new Menu(mainShellSubmenuItemFile);
 
-		mainShellSubmenuItemFile = new MenuItem(this, SWT.CASCADE);
-		mainShellSubmenuItemFile.setText(Messages.getString("button.file")); //$NON-NLS-1$
-		mainShellSubmenuFile = new Menu(mainShellSubmenuItemFile);
-
-		mainShellMenuItemConnect = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemConnect.setText(Messages.getString("button.connect") + "\tF2"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemConnect = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemConnect.setText(Messages.getString("button.connect") + "\tF2");  
 		mainShellMenuItemConnect.setAccelerator(SWT.F2);
 		Listener mainShellConfList = new Listener() {
 			public void handleEvent(Event event) {
@@ -93,8 +56,8 @@ public class ViewerMenu extends Menu {
 		};
 		mainShellMenuItemConnect.addListener(SWT.Selection, mainShellConfList);
 
-		mainShellMenuItemGet = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemGet.setText(Messages.getString("button.update") + "\tF3"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemGet = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemGet.setText(Messages.getString("button.update") + "\tF3");  
 		mainShellMenuItemGet.setAccelerator(SWT.F3);
 		Listener mainShellGetList = new Listener() {
 			public void handleEvent(Event event) {
@@ -104,8 +67,8 @@ public class ViewerMenu extends Menu {
 		mainShellMenuItemGet.addListener(SWT.Selection, mainShellGetList);
 		mainShellMenuItemGet.setEnabled(true);
 
-		mainShellMenuItemRefresh = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemRefresh.setText(Messages.getString("button.reload") + "\tF5"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemRefresh = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemRefresh.setText(Messages.getString("button.reload") + "\tF5");  
 		mainShellMenuItemRefresh.setAccelerator(SWT.F5);
 		Listener mainShellRefreshList = new Listener() {
 			public void handleEvent(Event event) {
@@ -117,8 +80,8 @@ public class ViewerMenu extends Menu {
 
 		new MenuItem(mainShellSubmenuFile, SWT.SEPARATOR);
 
-		mainShellMenuItemImportXML = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemImportXML.setText(Messages.getString("button.import.xml")); //$NON-NLS-1$
+		MenuItem mainShellMenuItemImportXML = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemImportXML.setText(Messages.getString("button.import.xml")); 
 		mainShellMenuItemImportXML.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if(SettingsHandler.isLogged()) {
@@ -131,8 +94,8 @@ public class ViewerMenu extends Menu {
 
 		new MenuItem(mainShellSubmenuFile, SWT.SEPARATOR);
 
-		mainShellMenuItemBackupDatabase = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemBackupDatabase.setText(Messages.getString("button.database.backup")); //$NON-NLS-1$
+		MenuItem mainShellMenuItemBackupDatabase = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemBackupDatabase.setText(Messages.getString("button.database.backup")); 
 		mainShellMenuItemBackupDatabase.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if(SettingsHandler.isLogged()) {
@@ -140,13 +103,13 @@ public class ViewerMenu extends Menu {
 						boolean operation = Database.backup(SettingsHandler.getSokkerViewerSettings());
 						if (operation) {
 							MessageBox msg = new MessageBox(mainShell, SWT.OK | SWT.ICON_INFORMATION);
-							msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
-							msg.setMessage(Messages.getString("message.db.backup.text")); //$NON-NLS-1$
+							msg.setText(Messages.getString("message.db.backup.title")); 
+							msg.setMessage(Messages.getString("message.db.backup.text")); 
 							msg.open();
 						} else {
 							MessageBox msg = new MessageBox(mainShell, SWT.OK | SWT.ICON_ERROR);
-							msg.setText(Messages.getString("message.db.backup.title")); //$NON-NLS-1$
-							msg.setMessage(Messages.getString("message.db.backup.error.text")); //$NON-NLS-1$
+							msg.setText(Messages.getString("message.db.backup.title")); 
+							msg.setMessage(Messages.getString("message.db.backup.error.text")); 
 							msg.open();
 						}
 					} catch (IOException e) {
@@ -157,8 +120,8 @@ public class ViewerMenu extends Menu {
 		});
 		mainShellMenuItemBackupDatabase.setEnabled(true);
 
-		mainShellMenuItemRestoreDatabase = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemRestoreDatabase.setText(Messages.getString("button.database.restore")); //$NON-NLS-1$
+		MenuItem mainShellMenuItemRestoreDatabase = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemRestoreDatabase.setText(Messages.getString("button.database.restore")); 
 		mainShellMenuItemRestoreDatabase.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				if(SettingsHandler.isLogged()) {
@@ -171,8 +134,8 @@ public class ViewerMenu extends Menu {
 
 		new MenuItem(mainShellSubmenuFile, SWT.SEPARATOR);
 
-		mainShellMenuItemClose = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
-		mainShellMenuItemClose.setText(Messages.getString("button.close")); //$NON-NLS-1$
+		MenuItem mainShellMenuItemClose = new MenuItem(mainShellSubmenuFile, SWT.PUSH);
+		mainShellMenuItemClose.setText(Messages.getString("button.close")); 
 		mainShellMenuItemClose.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				mainShell.close();
@@ -181,14 +144,14 @@ public class ViewerMenu extends Menu {
 
 		mainShellSubmenuItemFile.setMenu(mainShellSubmenuFile);
 
-		mainShellSubmenuItemTools = new MenuItem(this, SWT.CASCADE);
-		mainShellSubmenuItemTools.setText(Messages.getString("viewer.menu.tools")); //$NON-NLS-1$
-		mainShellSubmenuTools = new Menu(mainShellSubmenuItemTools);
+		MenuItem mainShellSubmenuItemTools = new MenuItem(this, SWT.CASCADE);
+		mainShellSubmenuItemTools.setText(Messages.getString("viewer.menu.tools")); 
+		Menu mainShellSubmenuTools = new Menu(mainShellSubmenuItemTools);
 		mainShellSubmenuItemTools.setMenu(mainShellSubmenuTools);
 
-		mainShellMenuItemPreferences = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
+		MenuItem mainShellMenuItemPreferences = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
 
-		mainShellMenuItemPreferences.setText(Messages.getString("viewer.menu.tools.preferences") + "\tF4"); //$NON-NLS-1$ //$NON-NLS-2$
+		mainShellMenuItemPreferences.setText(Messages.getString("viewer.menu.tools.preferences") + "\tF4");  
 
 		Listener preferencesListener = new Listener() {
 			public void handleEvent(Event event) {
@@ -199,8 +162,8 @@ public class ViewerMenu extends Menu {
 		mainShellMenuItemPreferences.addListener(SWT.Selection, preferencesListener);
 		mainShellMenuItemPreferences.setAccelerator(SWT.F4);
 
-		mainShellMenuItemTaxCalculator = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
-		mainShellMenuItemTaxCalculator.setText(Messages.getString("viewer.menu.tools.taxcalculator") + "\tF10"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemTaxCalculator = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
+		mainShellMenuItemTaxCalculator.setText(Messages.getString("viewer.menu.tools.taxcalculator") + "\tF10");  
 		mainShellMenuItemTaxCalculator.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				new TaxCalculator(mainShell, SWT.PRIMARY_MODAL | SWT.CLOSE).open();
@@ -208,8 +171,8 @@ public class ViewerMenu extends Menu {
 		});
 		mainShellMenuItemTaxCalculator.setAccelerator(SWT.F10);
 
-		mainShellMenuItemCurrencyConverter = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
-		mainShellMenuItemCurrencyConverter.setText(Messages.getString("viewer.menu.tools.currencycalculator") + "\tF11"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemCurrencyConverter = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
+		mainShellMenuItemCurrencyConverter.setText(Messages.getString("viewer.menu.tools.currencycalculator") + "\tF11");  
 		mainShellMenuItemCurrencyConverter.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				new CurrencyCalculator(mainShell, SWT.PRIMARY_MODAL | SWT.CLOSE).open();
@@ -218,8 +181,8 @@ public class ViewerMenu extends Menu {
 		});
 		mainShellMenuItemCurrencyConverter.setAccelerator(SWT.F11);
 
-		mainShellMenuItemPrintScreen = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
-		mainShellMenuItemPrintScreen.setText(Messages.getString("viewer.menu.tools.printscreen") + "\tAlt+P"); //$NON-NLS-1$ //$NON-NLS-2$
+		MenuItem mainShellMenuItemPrintScreen = new MenuItem(mainShellSubmenuTools, SWT.PUSH);
+		mainShellMenuItemPrintScreen.setText(Messages.getString("viewer.menu.tools.printscreen") + "\tAlt+P");  
 		mainShellMenuItemPrintScreen.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				Composite currentView = ViewerHandler.getViewer().getCurrentView();
@@ -230,10 +193,10 @@ public class ViewerMenu extends Menu {
 					gc.copyArea(image, 0, 0);
 					gc.dispose();
 
-					String[] extensions = { "*.png" //$NON-NLS-1$
+					String[] extensions = { "*.png" 
 					};
 					FileDialog fileDialog = new FileDialog(mainShell, SWT.SAVE);
-					fileDialog.setFileName("screen.png"); //$NON-NLS-1$
+					fileDialog.setFileName("screen.png"); 
 					fileDialog.setFilterExtensions(extensions);
 					String filename = fileDialog.open();
 					if (filename != null) {
@@ -255,22 +218,22 @@ public class ViewerMenu extends Menu {
 		});
 		mainShellMenuItemPrintScreen.setAccelerator(SWT.ALT | 'P');
 
-		mainShellSubmenuItemHelp = new MenuItem(this, SWT.CASCADE);
-		mainShellSubmenuItemHelp.setText(Messages.getString("button.help")); //$NON-NLS-1$
-		mainShellSubmenuHelp = new Menu(mainShellSubmenuItemHelp);
+		MenuItem mainShellSubmenuItemHelp = new MenuItem(this, SWT.CASCADE);
+		mainShellSubmenuItemHelp.setText(Messages.getString("button.help")); 
+		Menu mainShellSubmenuHelp = new Menu(mainShellSubmenuItemHelp);
 		mainShellSubmenuItemHelp.setMenu(mainShellSubmenuHelp);
 
-		mainShellMenuItemAbout = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
+		MenuItem mainShellMenuItemAbout = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
 
-		mainShellMenuItemAbout.setText(Messages.getString("button.about")); //$NON-NLS-1$
+		mainShellMenuItemAbout.setText(Messages.getString("button.about")); 
 
 		Listener aboutListener = new Listener() {
 
 			public void handleEvent(Event event) {
 
 				MessageBox messageBox = new MessageBox(mainShell, SWT.ICON_INFORMATION | SWT.APPLICATION_MODAL | SWT.OK);
-				messageBox.setText(Messages.getString("message.help.text")); //$NON-NLS-1$
-				messageBox.setMessage(Messages.getString("message.help.message")); //$NON-NLS-1$
+				messageBox.setText(Messages.getString("message.help.text")); 
+				messageBox.setMessage(Messages.getString("message.help.message")); 
 				messageBox.open();
 			}
 
@@ -280,9 +243,9 @@ public class ViewerMenu extends Menu {
 
 		new MenuItem(mainShellSubmenuHelp, SWT.SEPARATOR);
 
-		mainShellMenuItemUpdate = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
+		MenuItem mainShellMenuItemUpdate = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
 
-		mainShellMenuItemUpdate.setText(Messages.getString("viewer.menu.help.update") + "\tF12"); //$NON-NLS-1$ //$NON-NLS-2$
+		mainShellMenuItemUpdate.setText(Messages.getString("viewer.menu.help.update") + "\tF12");  
 		mainShellMenuItemUpdate.setAccelerator(SWT.F12);
 		Listener updateListener = new Listener() {
 
@@ -296,9 +259,9 @@ public class ViewerMenu extends Menu {
 
 		new MenuItem(mainShellSubmenuHelp, SWT.SEPARATOR);
 
-		mainShellMenuItemPlugins = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
+		MenuItem mainShellMenuItemPlugins = new MenuItem(mainShellSubmenuHelp, SWT.PUSH);
 
-		mainShellMenuItemPlugins.setText(Messages.getString("viewer.menu.help.plugins")); //$NON-NLS-1$
+		mainShellMenuItemPlugins.setText(Messages.getString("viewer.menu.help.plugins")); 
 
 		Listener pluginsListener = new Listener() {
 

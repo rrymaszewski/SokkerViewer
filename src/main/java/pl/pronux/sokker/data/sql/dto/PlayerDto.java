@@ -20,16 +20,16 @@ public class PlayerDto extends Player {
 		this.setName(rs.getString("name"));
 		this.setSurname(rs.getString("surname"));
 		this.setCountryfrom(rs.getInt("countryfrom"));
-		this.setIdJuniorFK(rs.getInt("id_junior_fk"));
+		this.setJuniorId(rs.getInt("id_junior_fk"));
 		this.setStatus(rs.getInt("status"));
 		this.setNote(rs.getString("note"));
 		this.setPosition(rs.getInt("id_position"));
 		this.setSoldPrice(rs.getDouble("sold_price"));
 		this.setBuyPrice(rs.getDouble("buy_price"));
-		this.setTeamID(rs.getInt("id_club_fk"));
+		this.setTeamId(rs.getInt("id_club_fk"));
 		this.setTransferList(rs.getInt("transfer_list"));
 		this.setNational(rs.getInt("national"));
-		this.setYouthTeamID(rs.getInt("youth_team_id"));
+		this.setYouthTeamId(rs.getInt("youth_team_id"));
 		this.setHeight(rs.getInt("height"));
 		return this;
 	}

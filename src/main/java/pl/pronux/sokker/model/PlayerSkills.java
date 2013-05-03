@@ -25,7 +25,7 @@ public class PlayerSkills implements Serializable {
 
 	private double injurydays;
 
-	private int idPlayerFK;
+	private int playerId;
 
 	private int id;
 
@@ -55,11 +55,13 @@ public class PlayerSkills implements Serializable {
 
 	private byte scorer;
 
-	private int trainingID;
+	private int trainingId;
 	
 	private boolean passTraining = true;
 
 	private Training training;
+
+	private int summarySkill;
 
 	public int[] getStatsTable() {
 		int[] intTable = {
@@ -90,7 +92,6 @@ public class PlayerSkills implements Serializable {
 		return summarySkill;
 	}
 
-	int summarySkill;
 
 	public byte getAge() {
 		return age;
@@ -124,12 +125,12 @@ public class PlayerSkills implements Serializable {
 		this.form = form;
 	}
 
-	public int getIdPlayerFK() {
-		return idPlayerFK;
+	public int getPlayerId() {
+		return playerId;
 	}
 
-	public void setIdPlayerFK(int idPlayerFK) {
-		this.idPlayerFK = idPlayerFK;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 
 	public byte getKeeper() {
@@ -284,12 +285,12 @@ public class PlayerSkills implements Serializable {
 		this.training = training;
 	}
 
-	public int getTrainingID() {
-		return trainingID;
+	public int getTrainingId() {
+		return trainingId;
 	}
 
-	public void setTrainingID(int trainingID) {
-		this.trainingID = trainingID;
+	public void setTrainingId(int trainingId) {
+		this.trainingId = trainingId;
 	}
 
 	public boolean isPassTraining() {

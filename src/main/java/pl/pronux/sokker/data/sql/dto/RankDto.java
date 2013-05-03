@@ -15,10 +15,10 @@ public class RankDto extends Rank {
 	}
 	
 	public Rank getRankDto() throws SQLException {
-		this.setId(rs.getInt("id_data")); //$NON-NLS-1$
-		this.setRank(rs.getDouble("rank")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.setId(rs.getInt("id_data")); 
+		this.setRank(rs.getDouble("rank")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.getDate().setSokkerDate(new SokkerDate(rs.getInt("day"), rs.getInt("week")));  
 		return this;
 	}
 }

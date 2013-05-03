@@ -91,10 +91,10 @@ public class TrainingReportShell extends Shell {
 
 		Label labelTitle = new Label(shell, SWT.NONE);
 		labelTitle.setLayoutData(formData);
-		labelTitle.setText(Messages.getString("training.report")); //$NON-NLS-1$
+		labelTitle.setText(Messages.getString("training.report")); 
 		labelTitle.setAlignment(SWT.CENTER);
 
-		Font font = Fonts.getFont(display, "Arial", 20, SWT.BOLD); //$NON-NLS-1$
+		Font font = Fonts.getFont(display, "Arial", 20, SWT.BOLD); 
 
 		labelTitle.setFont(font);
 
@@ -108,12 +108,12 @@ public class TrainingReportShell extends Shell {
 		labelDate.setLayoutData(formData);
 
 		if(training != null) {
-			labelDate.setText(String.format("%s: %s", Messages.getString("training.date"), training.getDate().toDateString()));	 //$NON-NLS-1$ //$NON-NLS-2$
+			labelDate.setText(String.format("%s: %s", Messages.getString("training.date"), training.getDate().toDateString()));	  
 		}
 		
 		labelDate.setAlignment(SWT.CENTER);
 
-		Font fontDate = Fonts.getFont(display, "Arial", 16, SWT.BOLD); //$NON-NLS-1$
+		Font fontDate = Fonts.getFont(display, "Arial", 16, SWT.BOLD); 
 
 		labelDate.setFont(fontDate);
 
@@ -127,7 +127,7 @@ public class TrainingReportShell extends Shell {
 		labelSeason.setLayoutData(formData);
 
 		if( training!= null) {
-			labelSeason.setText(String.format("%s %d", Messages.getString("training.week"), training.getDate().getSokkerDate().getWeek()));	 //$NON-NLS-1$ //$NON-NLS-2$
+			labelSeason.setText(String.format("%s %d", Messages.getString("training.week"), training.getDate().getSokkerDate().getWeek()));	  
 		}
 		
 		labelSeason.setAlignment(SWT.CENTER);
@@ -142,7 +142,7 @@ public class TrainingReportShell extends Shell {
 		addTreeTable(formData);
 
 		Button button1 = new Button(shell, SWT.NONE);
-		button1.setText(Messages.getString("button.ok")); //$NON-NLS-1$
+		button1.setText(Messages.getString("button.ok")); 
 
 		formData = new FormData();
 		formData.left = new FormAttachment(0, (shell.getClientArea().width / 2) - 60 / 2);
@@ -166,21 +166,21 @@ public class TrainingReportShell extends Shell {
 		viewTree.setLinesVisible(true);
 		viewTree.setLayoutData(formData);
 		String[] columns = {
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				" ", //$NON-NLS-1$
-				"" //$NON-NLS-1$
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				" ", 
+				"" 
 		};
 
 		viewTree.setFont(ConfigBean.getFontTable());
@@ -248,13 +248,13 @@ public class TrainingReportShell extends Shell {
 
 		switch (job) {
 		case Coach.JOB_HEAD:
-			item.setText(c++, Messages.getString("coach.job.head.short")); //$NON-NLS-1$
+			item.setText(c++, Messages.getString("coach.job.head.short")); 
 			break;
 		case Coach.JOB_JUNIORS:
-			item.setText(c++, Messages.getString("coach.job.juniors.short")); //$NON-NLS-1$
+			item.setText(c++, Messages.getString("coach.job.juniors.short")); 
 			break;
 		case Coach.JOB_ASSISTANT:
-			item.setText(c++, Messages.getString("coach.job.assistant.short")); //$NON-NLS-1$
+			item.setText(c++, Messages.getString("coach.job.assistant.short")); 
 			break;
 		default:
 			return;
@@ -274,18 +274,18 @@ public class TrainingReportShell extends Shell {
 	private void fillCoachTreeItemVirtualColumns(TreeItem item) {
 		int c = 0;
 
-		item.setText(c++, Messages.getString("table.name")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.surname")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.job")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.stamina")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.pace")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.technique")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.passing")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.keeper")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.defender")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.playmaker")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.scorer")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.generallSkill")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.name")); 
+		item.setText(c++, Messages.getString("table.surname")); 
+		item.setText(c++, Messages.getString("table.job")); 
+		item.setText(c++, Messages.getString("table.stamina")); 
+		item.setText(c++, Messages.getString("table.pace")); 
+		item.setText(c++, Messages.getString("table.technique")); 
+		item.setText(c++, Messages.getString("table.passing")); 
+		item.setText(c++, Messages.getString("table.keeper")); 
+		item.setText(c++, Messages.getString("table.defender")); 
+		item.setText(c++, Messages.getString("table.playmaker")); 
+		item.setText(c++, Messages.getString("table.scorer")); 
+		item.setText(c++, Messages.getString("table.generallSkill")); 
 	}
 
 	private void fillJuniorNode(TreeItem treeItem, Training training) {
@@ -350,11 +350,11 @@ public class TrainingReportShell extends Shell {
 	private void fillJuniorTrainedTreeItemVirtualColumns(TreeItem item) {
 		int c = 0;
 
-		item.setText(c++, Messages.getString("table.name")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.surname")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.name")); 
+		item.setText(c++, Messages.getString("table.surname")); 
 		c++;
 
-		item.setText(c++, Messages.getString("table.skill.short")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.skill.short")); 
 	}
 
 	private void fillJuniorTreeItem(TreeItem item, Junior junior, int index) {
@@ -371,19 +371,19 @@ public class TrainingReportShell extends Shell {
 			item.setBackground(c, ConfigBean.getColorDecrease());
 		}
 		
-		item.setText(c++, junior.getSkills()[index].getSkill() + "  " + SVNumberFormat.formatIntegerWithSignZero(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill())); //$NON-NLS-1$
+		item.setText(c++, junior.getSkills()[index].getSkill() + "  " + SVNumberFormat.formatIntegerWithSignZero(junior.getSkills()[index].getSkill() - junior.getSkills()[index - 1].getSkill())); 
 		item.setText(c++, String.valueOf(junior.getSkills()[index].getWeeks()));
 	}
 
 	private void fillJuniorTreeItemVirtualColumns(TreeItem item) {
 		int c = 0;
 
-		item.setText(c++, Messages.getString("table.name")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.surname")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.name")); 
+		item.setText(c++, Messages.getString("table.surname")); 
 		c++;
 		// item.setText(c++, Messages.getString("table.skill"));
-		item.setText(c++, Messages.getString("table.skill.short")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.week.short")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.skill.short")); 
+		item.setText(c++, Messages.getString("table.week.short")); 
 
 	}
 
@@ -461,10 +461,10 @@ public class TrainingReportShell extends Shell {
 			diff = player.getSkills()[index].getStatsTable()[i] - player.getSkills()[index - 1].getStatsTable()[i];
 			if (diff > 0) {
 				item.setBackground(c, ConfigBean.getColorIncrease());
-				item.setText(c++, player.getSkills()[index].getStatsTable()[i] + "  " + SVNumberFormat.formatIntegerWithSignZero(diff)); //$NON-NLS-1$
+				item.setText(c++, player.getSkills()[index].getStatsTable()[i] + "  " + SVNumberFormat.formatIntegerWithSignZero(diff)); 
 			} else if (diff < 0) {
 				item.setBackground(c, ConfigBean.getColorDecrease());
-				item.setText(c++, player.getSkills()[index].getStatsTable()[i] + "  " + SVNumberFormat.formatIntegerWithSignZero(diff)); //$NON-NLS-1$
+				item.setText(c++, player.getSkills()[index].getStatsTable()[i] + "  " + SVNumberFormat.formatIntegerWithSignZero(diff)); 
 			} else {
 				c++;
 			}
@@ -475,20 +475,20 @@ public class TrainingReportShell extends Shell {
 
 	private void fillPlayerTreeItemVirtualColumns(TreeItem item) {
 		int c = 0;
-		item.setText(c++, Messages.getString("table.name")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.surname")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.name")); 
+		item.setText(c++, Messages.getString("table.surname")); 
 		c++;
-		item.setText(c++, Messages.getString("table.stamina")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.pace")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.technique")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.passing")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.keeper")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.defender")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.playmaker")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.scorer")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.discipline")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.experience")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("table.teamwork")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("table.stamina")); 
+		item.setText(c++, Messages.getString("table.pace")); 
+		item.setText(c++, Messages.getString("table.technique")); 
+		item.setText(c++, Messages.getString("table.passing")); 
+		item.setText(c++, Messages.getString("table.keeper")); 
+		item.setText(c++, Messages.getString("table.defender")); 
+		item.setText(c++, Messages.getString("table.playmaker")); 
+		item.setText(c++, Messages.getString("table.scorer")); 
+		item.setText(c++, Messages.getString("table.discipline")); 
+		item.setText(c++, Messages.getString("table.experience")); 
+		item.setText(c++, Messages.getString("table.teamwork")); 
 	}
 
 	private void fillTrainingTable(Tree tree, Training training) {
@@ -504,32 +504,32 @@ public class TrainingReportShell extends Shell {
 		// List the entries using entrySet()
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("formation")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("formation." + training.getFormation())); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("formation")); 
+		item.setText(c++, Messages.getString("formation." + training.getFormation())); 
 
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("training.type")); //$NON-NLS-1$
-		item.setText(c++, Messages.getString("training.type." + training.getType())); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("training.type")); 
+		item.setText(c++, Messages.getString("training.type." + training.getType())); 
 
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("tree.ViewCoaches")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("tree.ViewCoaches")); 
 		fillCoachNode(item, training);
 
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("tree.ViewPlayers")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("tree.ViewPlayers")); 
 		fillPlayerNode(item, training);
 
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("tree.ViewJuniors")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("tree.ViewJuniors")); 
 		fillJuniorNode(item, training);
 
 		item = new TreeItem(tree, SWT.NONE);
 		c = 0;
-		item.setText(c++, Messages.getString("tree.ViewJuniorsTrained")); //$NON-NLS-1$
+		item.setText(c++, Messages.getString("tree.ViewJuniorsTrained")); 
 		fillJuniorTrainedNode(item, training);
 		// for (int i = 0; i < tree.getColumnCount() - 1; i++) {
 		// tree.getColumn(i).pack();

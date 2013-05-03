@@ -14,16 +14,16 @@ public class NoteDto extends Note {
 	}
 	
 	public Note getNote() throws SQLException {
-		this.setId(rs.getInt("id_note")); //$NON-NLS-1$
-		this.setDate(new Date(rs.getLong("millis"))); //$NON-NLS-1$
-		this.setTitle(rs.getString("title")); //$NON-NLS-1$
-		this.setText(rs.getString("text")); //$NON-NLS-1$
-		long time = rs.getLong("alert_millis"); //$NON-NLS-1$
+		this.setId(rs.getInt("id_note")); 
+		this.setDate(new Date(rs.getLong("millis"))); 
+		this.setTitle(rs.getString("title")); 
+		this.setText(rs.getString("text")); 
+		long time = rs.getLong("alert_millis"); 
 		if (time != 0) {
 			this.setAlertDate(new Date(time));
 		}
-		this.setModificationDate(new Date(rs.getLong("mod_millis"))); //$NON-NLS-1$
-		this.setChecked(rs.getBoolean("checked")); //$NON-NLS-1$
+		this.setModificationDate(new Date(rs.getLong("mod_millis"))); 
+		this.setChecked(rs.getBoolean("checked")); 
 		return this;
 	}
 }

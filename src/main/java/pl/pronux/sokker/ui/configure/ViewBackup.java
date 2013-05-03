@@ -35,9 +35,9 @@ public class ViewBackup implements IViewConfigure {
 	private CLabel backupLabel;
 	private Text backupPathText;
 	private Button backupPathButton;
-	protected String tempPropsFile;
+	private String tempPropsFile;
 
-	private SettingsManager settingsManager = SettingsManager.instance();
+	private SettingsManager settingsManager = SettingsManager.getInstance();
 
 	public void clear() {
 
@@ -85,7 +85,7 @@ public class ViewBackup implements IViewConfigure {
 		formData.right = new FormAttachment(100, -10);
 
 		backupPathButton = new Button(backupGroup, SWT.NONE | SWT.FLAT);
-		backupPathButton.setText("..."); //$NON-NLS-1$
+		backupPathButton.setText("..."); 
 		backupPathButton.setLayoutData(formData);
 		backupPathButton.pack();
 
@@ -94,7 +94,7 @@ public class ViewBackup implements IViewConfigure {
 			public void handleEvent(Event arg0) {
 
 				DirectoryDialog dirDialog = new DirectoryDialog(composite.getShell(), SWT.OPEN);
-				dirDialog.setText(Messages.getString("confShell.chooser.title")); //$NON-NLS-1$
+				dirDialog.setText(Messages.getString("confShell.chooser.title")); 
 				dirDialog.setFilterPath(settings.getBackupDirectory());
 
 				tempPropsFile = dirDialog.open();
@@ -114,9 +114,9 @@ public class ViewBackup implements IViewConfigure {
 		backupPathText = new Text(backupGroup, SWT.BORDER | SWT.READ_ONLY);
 		backupPathText.setLayoutData(formData);
 
-		backupGroup.setText(Messages.getString("configure.backup.group")); //$NON-NLS-1$
-		backupLabel.setText(Messages.getString("configure.backup.label")); //$NON-NLS-1$
-		treeItem.setText(Messages.getString("configure.backup")); //$NON-NLS-1$
+		backupGroup.setText(Messages.getString("configure.backup.group")); 
+		backupLabel.setText(Messages.getString("configure.backup.label")); 
+		treeItem.setText(Messages.getString("configure.backup")); 
 		setWidgets();
 		composite.layout(true);
 	}
@@ -136,7 +136,7 @@ public class ViewBackup implements IViewConfigure {
 
 	public void setTreeItem(TreeItem treeItem) {
 		this.treeItem = treeItem;
-		treeItem.setText(Messages.getString("configure.backup")); //$NON-NLS-1$
+		treeItem.setText(Messages.getString("configure.backup")); 
 
 	}
 
@@ -158,17 +158,17 @@ public class ViewBackup implements IViewConfigure {
 						backupPathText.setText(tempPropsFile);
 						settings.setBackupDirectory(tempPropsFile);
 						settingsManager.updateSettings(settings);
-						MessageDialog.openInformationMessage(composite.getShell(), Messages.getString("message.db.move.text")); //$NON-NLS-1$
+						MessageDialog.openInformationMessage(composite.getShell(), Messages.getString("message.db.move.text")); 
 					} catch (IOException e) {
 						MessageDialog.openErrorMessage(composite.getShell(), e.getLocalizedMessage());
 					} catch (SVException e) {
 						MessageDialog.openErrorMessage(composite.getShell(), e.getLocalizedMessage());
 					}
 				} else {
-					MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("message.db.backup.path.permissions.error.text")); //$NON-NLS-1$
+					MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("message.db.backup.path.permissions.error.text")); 
 				}
 			} else {
-				MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("message.db.backup.dir.empty.error.text")); //$NON-NLS-1$
+				MessageDialog.openErrorMessage(composite.getShell(), Messages.getString("message.db.backup.dir.empty.error.text")); 
 			}
 		}
 	}

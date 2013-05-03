@@ -2,6 +2,7 @@ package pl.pronux.sokker.launcher;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 import org.eclipse.swt.SWT;
@@ -13,6 +14,7 @@ import pl.pronux.sokker.data.properties.PropertiesDatabase;
 import pl.pronux.sokker.data.sql.SQLQuery;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.downloader.Synchronizer;
+import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -24,7 +26,7 @@ import pl.pronux.sokker.utils.file.PropertiesChecker;
 
 public class Launcher {
 
-	private static SettingsManager settingsManager = SettingsManager.instance();
+	private static SettingsManager settingsManager = SettingsManager.getInstance();
 
 	/**
 	 * @param args
@@ -69,8 +71,16 @@ public class Launcher {
 				System.out.println(showHelp());
 			}
 
-		} catch (Exception e) {
-			Log.error("Error Viewer", e); //$NON-NLS-1$
+		} catch (FileNotFoundException e) {
+			Log.error("Error Viewer", e); 
+		} catch (IOException e) {
+			Log.error("Error Viewer", e); 
+		} catch (InvocationTargetException e) {
+			Log.error("Error Viewer", e); 
+		} catch (InterruptedException e) {
+			Log.error("Error Viewer", e); 
+		} catch (SVException e) {
+			Log.error("Error Viewer", e); 
 		} finally {
 			Log.close();
 			try {
@@ -81,17 +91,17 @@ public class Launcher {
 	}
 
 	private static String showHelp() {
-		return "--donwload-only\r\n" + //$NON-NLS-1$
-			   "--help"; //$NON-NLS-1$
+		return "--donwload-only\r\n" + 
+			   "--help"; 
 	}
 
 	private static void setProxy(ProxySettings proxySettings) {
 		if (proxySettings.isEnabled()) {
-			System.setProperty("proxySet", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-			System.setProperty("http.proxyHost", proxySettings.getHostname()); //$NON-NLS-1$
-			System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); //$NON-NLS-1$
-			System.setProperty("http.proxyUser", proxySettings.getUsername()); //$NON-NLS-1$
-			System.setProperty("http.proxyPassword", proxySettings.getPassword()); //$NON-NLS-1$
+			System.setProperty("proxySet", "true");  
+			System.setProperty("http.proxyHost", proxySettings.getHostname()); 
+			System.setProperty("http.proxyPort", String.valueOf(proxySettings.getPort())); 
+			System.setProperty("http.proxyUser", proxySettings.getUsername()); 
+			System.setProperty("http.proxyPassword", proxySettings.getPassword()); 
 		}
 	}
 }

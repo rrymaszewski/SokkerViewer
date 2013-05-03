@@ -40,15 +40,15 @@ public class JuniorDescription extends StyledText implements IDescription {
 
 	private String getNumberSkill(int before, int now) {
 		if (now - before != 0) {
-			return String.format("[%s %s]", now, SVNumberFormat.formatIntegerWithSignZero(now - before)); //$NON-NLS-1$
+			return String.format("[%s %s]", now, SVNumberFormat.formatIntegerWithSignZero(now - before)); 
 		} else {
-			return String.format("[%s]", now); //$NON-NLS-1$
+			return String.format("[%s]", now); 
 		}
 	}
 
 	private void addSkill(String name, String value, int now, int before, int begin, int offset) {
-		String text = ""; //$NON-NLS-1$
-		text = String.format("%8s%s %s", getNumberSkill(begin, now), value, name); //$NON-NLS-1$
+		String text = ""; 
+		text = String.format("%8s%s %s", getNumberSkill(begin, now), value, name); 
 		this.addText(text);
 		addStyle(offset, 8, ColorResources.getDarkGray(), SWT.NONE);
 		if (now > before) {
@@ -79,9 +79,9 @@ public class JuniorDescription extends StyledText implements IDescription {
 		String text2;
 		String text1;
 
-		this.setText(""); //$NON-NLS-1$
+		this.setText(""); 
 
-		text = String.format(" %s %s ", junior.getName(), junior.getSurname()); //$NON-NLS-1$
+		text = String.format(" %s %s ", junior.getName(), junior.getSurname()); 
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getBlack(), SWT.BOLD);
 
@@ -95,66 +95,66 @@ public class JuniorDescription extends StyledText implements IDescription {
 		}
 		this.addText(text);
 
-		text = String.format("\t(ID %d)", junior.getId()); //$NON-NLS-1$
+		text = String.format("\t(ID %d)", junior.getId()); 
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
 		this.addText(NEW_LINE);
 
 		if (max > 0) {
 			addSkill(
-					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[max - 1].getSkill(), junior.getSkills()[0].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), junior.getSkills()[max - 1].getSkill(), junior.getSkills()[0].getSkill(), getText().length());  
 		} else {
 			addSkill(
-					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), getText().length()); //$NON-NLS-1$ //$NON-NLS-2$
+					 Messages.getString("junior"), Messages.getString("skill.a" + junior.getSkills()[max].getSkill()), junior.getSkills()[max].getSkill(), getText().length());  
 		}
 
 		if (junior.getWeeksWithoutJump() > 0) {
-			text = String.format(" %s", SVNumberFormat.formatIntegerWithSignZero(junior.getWeeksWithoutJump())); //$NON-NLS-1$
+			text = String.format(" %s", SVNumberFormat.formatIntegerWithSignZero(junior.getWeeksWithoutJump())); 
 			this.addText(text);
 		}
 
 		if (junior.getAveragePops() > 0) {
-			text = String.format(" (%.2f)", junior.getSkills()[max].getSkill() + (junior.getWeeksWithoutJump() / junior.getAveragePops())); //$NON-NLS-1$
+			text = String.format(" (%.2f)", junior.getSkills()[max].getSkill() + (junior.getWeeksWithoutJump() / junior.getAveragePops())); 
 			this.addText(text);
 		}
 
 		if (junior.getSkills()[0].getWeeks() == 0) {
 			this.addText(NEW_LINE);
-			text = String.format("%s", Messages.getString("junior.ready")); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%s", Messages.getString("junior.ready"));  
 			this.addText(text);
 			addStyle(getText().length() - text.length(), text.length(), ColorResources.getBlue(), SWT.BOLD);
 		}
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s %d %s", Messages.getString("junior.weeksLeft"), junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		text = String.format(" %-25s %d %s", Messages.getString("junior.weeksLeft"), junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks"));   
 		this.addText(text);
 
-		text = String.format("\t(%s)", junior.getEndDate().toDateString()); //$NON-NLS-1$
+		text = String.format("\t(%s)", junior.getEndDate().toDateString()); 
 		this.addText(text);
 		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 		this.addText(NEW_LINE);
 
 		text = String
 			.format(
-					" %-25s %d %s", Messages.getString("junior.weeksPast"), junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					" %-25s %d %s", Messages.getString("junior.weeksPast"), junior.getSkills()[0].getWeeks() - junior.getSkills()[max].getWeeks(), Messages.getString("junior.weeks"));   
 		this.addText(text);
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s %d %s", Messages.getString("junior.weeksAll"), junior.getSkills()[0].getWeeks(), Messages.getString("junior.weeks")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		text = String.format(" %-25s %d %s", Messages.getString("junior.weeksAll"), junior.getSkills()[0].getWeeks(), Messages.getString("junior.weeks"));   
 		this.addText(text);
 
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 
-		text = String.format(" %-25s %d", Messages.getString("junior.numberOfJumps"), junior.getPops()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format(" %-25s %d", Messages.getString("junior.numberOfJumps"), junior.getPops());  
 		this.addText(text);
 		this.addText(NEW_LINE);
 
 		text = String.format(" %-25s ", Messages.getString("junior.averageJumps"));
 		this.addText(text);
 		if (junior.getPops() < 2) {
-			this.addText("~"); //$NON-NLS-1$
+			this.addText("~"); 
 		}
 		text = String.format("%.2f", new BigDecimal(junior.getAveragePops()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); 
 		this.addText(text);
@@ -205,7 +205,7 @@ public class JuniorDescription extends StyledText implements IDescription {
 
 		for (int i = 0; i <= max; i++) {
 			String value = String.valueOf(junior.getSkills()[i].getSkill());
-			text = String.format("%s ", value); //$NON-NLS-1$
+			text = String.format("%s ", value); 
 			this.addText(text);
 			this.addStyle(this.getText().length() - value.length() - 1, value.length(), ColorResources.getDarkGray(), SWT.NORMAL);
 			if (i > 0 && (junior.getSkills()[i].getSkill() - junior.getSkills()[i - 1].getSkill() > 0)) {

@@ -20,20 +20,20 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	private List<Coach> trainers;
 
-	private TrainersManager trainersManager = TrainersManager.instance();
+	private TrainersManager trainersManager = TrainersManager.getInstance();
 	
-	private ConfigurationManager configurationManager = ConfigurationManager.instance();
+	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 
 	public TrainersXmlManager(String name, String destination, XMLDownloader downloader, Date currentDay) {
 		super(name, destination, downloader, currentDay);
 	}
 
 	public TrainersXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("trainers", destination, downloader, currentDay); //$NON-NLS-1$
+		super("trainers", destination, downloader, currentDay); 
 	}
 
-	public TrainersXmlManager(String content, Date currentDay, int teamID) {
-		super(content, currentDay, teamID);
+	public TrainersXmlManager(String content, Date currentDay, int teamId) {
+		super(content, currentDay, teamId);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 			input = new InputSource(new StringReader(filterCharacters(xml)));
 			trainerXmlParser.parseXmlSax(input, null);
 		}
-		this.trainers = trainerXmlParser.getAlCoach();
+		this.trainers = trainerXmlParser.getCoaches();
 		return trainers;
 	}
 

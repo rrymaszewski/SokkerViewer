@@ -22,7 +22,7 @@ import pl.pronux.sokker.utils.Log;
 
 public class MatchXmlParser {
 
-	static int current_tag = 0;
+	private static int currentTag = 0;
 
 	private static final int TAG_MATCH = 1;
 
@@ -122,9 +122,9 @@ public class MatchXmlParser {
 
 	private static final int TAG_FOULS_PLAYER = 49;
 
-	static int TAG_switch = 0;
+	private static int tagSwitch = 0;
 
-	private int teamID;
+	private int teamId;
 
 	private PlayerStats playerStats;
 
@@ -160,20 +160,20 @@ public class MatchXmlParser {
 
 				message.append(new String(ch, start, length));
 
-				switch (current_tag) {
+				switch (currentTag) {
 				case TAG_MATCH:
 					break;
 				case TAG_INFO:
 					break;
 				case TAG_MATCH_ID:
-					match.setMatchID(Integer.parseInt(message.toString()));
+					match.setMatchId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_HOME_TEAM_ID:
-					match.setHomeTeamID(Integer.parseInt(message.toString()));
+					match.setHomeTeamId(Integer.parseInt(message.toString()));
 					homeTeamID = Integer.parseInt(message.toString());
 					break;
 				case TAG_AWAY_TEAM_ID:
-					match.setAwayTeamID(Integer.parseInt(message.toString()));
+					match.setAwayTeamId(Integer.parseInt(message.toString()));
 					awayTeamID = Integer.parseInt(message.toString());
 					break;
 				case TAG_HOME_TEAM_NAME:
@@ -183,7 +183,7 @@ public class MatchXmlParser {
 					match.setAwayTeamName(message.toString());
 					break;
 				case TAG_LEAGUE_ID:
-					match.setLeagueID(Integer.parseInt(message.toString()));
+					match.setLeagueId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_ROUND:
 					match.setRound(Integer.parseInt(message.toString()));
@@ -221,7 +221,7 @@ public class MatchXmlParser {
 				case TAG_TEAM_STATS:
 					break;
 				case TAG_TEAM_ID:
-					tempTeam.setTeamID(Integer.parseInt(message.toString()));
+					tempTeam.setTeamId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_TIME_ON_HALF:
 					tempTeam.setTimeOnHalf(Integer.parseInt(message.toString()));
@@ -259,7 +259,7 @@ public class MatchXmlParser {
 				case TAG_PLAYER_STATS:
 					break;
 				case TAG_PLAYER_ID:
-					playerStats.setPlayerID(Integer.parseInt(message.toString()));
+					playerStats.setPlayerId(Integer.parseInt(message.toString()));
 					break;
 				case TAG_NUMBER:
 					playerStats.setNumber(Integer.parseInt(message.toString()));
@@ -314,23 +314,23 @@ public class MatchXmlParser {
 			}
 
 			public void endElement(String namespaceURL, String localName, String qName) {
-				current_tag = 0;
-				if (localName.equalsIgnoreCase("teamStats")) { //$NON-NLS-1$
-					if (homeTeamID == tempTeam.getTeamID()) {
+				currentTag = 0;
+				if (localName.equalsIgnoreCase("teamStats")) { 
+					if (homeTeamID == tempTeam.getTeamId()) {
 						homeTeam = tempTeam;
 						match.setHomeTeamStats(homeTeam);
-					} else if (awayTeamID == tempTeam.getTeamID()) {
+					} else if (awayTeamID == tempTeam.getTeamId()) {
 						awayTeam = tempTeam;
 						match.setAwayTeamStats(awayTeam);
 					}
-				} else if (localName.equalsIgnoreCase("match")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("match")) { 
 
-				} else if (localName.equalsIgnoreCase("playerStats")) { //$NON-NLS-1$
+				} else if (localName.equalsIgnoreCase("playerStats")) { 
 					alPlayersStats.add(playerStats);
-				} else if (localName.equalsIgnoreCase("playersStats")) { //$NON-NLS-1$
-					if (homeTeam.getTeamID() == teamID) {
+				} else if (localName.equalsIgnoreCase("playersStats")) { 
+					if (homeTeam.getTeamId() == teamId) {
 						homeTeam.setPlayersStats(alPlayersStats);
-					} else if (awayTeam.getTeamID() == teamID) {
+					} else if (awayTeam.getTeamId() == teamId) {
 						awayTeam.setPlayersStats(alPlayersStats);
 					}
 				}
@@ -348,127 +348,127 @@ public class MatchXmlParser {
 
 				message = new StringBuilder();
 
-				if (localName.equalsIgnoreCase("match")) { //$NON-NLS-1$
-					TAG_switch = TAG_MATCH;
+				if (localName.equalsIgnoreCase("match")) { 
+					tagSwitch = TAG_MATCH;
 				}
 
-				if (localName.equalsIgnoreCase("teamStats")) { //$NON-NLS-1$
-					TAG_switch = TAG_TEAM_STATS;
+				if (localName.equalsIgnoreCase("teamStats")) { 
+					tagSwitch = TAG_TEAM_STATS;
 					tempTeam = new TeamStats();
 				}
 
-				if (localName.equalsIgnoreCase("playersStats")) { //$NON-NLS-1$
-					TAG_switch = TAG_PLAYERS_STATS;
+				if (localName.equalsIgnoreCase("playersStats")) { 
+					tagSwitch = TAG_PLAYERS_STATS;
 					int length = atts.getLength();
 					for (int i = 0; i < length; i++) {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
-						if (name.equalsIgnoreCase("teamID")) { //$NON-NLS-1$
-							teamID = Integer.parseInt(value);
+						if (name.equalsIgnoreCase("teamID")) { 
+							teamId = Integer.parseInt(value);
 						}
 					}
 					alPlayersStats = new ArrayList<PlayerStats>();
 				}
 
-				if (localName.equalsIgnoreCase("info")) { //$NON-NLS-1$
-					TAG_switch = TAG_INFO;
+				if (localName.equalsIgnoreCase("info")) { 
+					tagSwitch = TAG_INFO;
 				}
 
-				if (TAG_switch == TAG_INFO) {
-					if (localName.equals("matchID")) { //$NON-NLS-1$
-						current_tag = TAG_MATCH_ID;
-					} else if (localName.equals("homeTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_HOME_TEAM_ID;
-					} else if (localName.equals("awayTeamID")) { //$NON-NLS-1$
-						current_tag = TAG_AWAY_TEAM_ID;
-					} else if (localName.equals("homeTeamName")) { //$NON-NLS-1$
-						current_tag = TAG_HOME_TEAM_NAME;
-					} else if (localName.equals("awayTeamName")) { //$NON-NLS-1$
-						current_tag = TAG_AWAY_TEAM_NAME;
-					} else if (localName.equals("leagueID")) { //$NON-NLS-1$
-						current_tag = TAG_LEAGUE_ID;
-					} else if (localName.equals("round")) { //$NON-NLS-1$
-						current_tag = TAG_ROUND;
-					} else if (localName.equals("season")) { //$NON-NLS-1$
-						current_tag = TAG_SEASON;
-					} else if (localName.equals("week")) { //$NON-NLS-1$
-						current_tag = TAG_WEEK;
-					} else if (localName.equals("day")) { //$NON-NLS-1$
-						current_tag = TAG_DAY;
-					} else if (localName.equals("dateExpected")) { //$NON-NLS-1$
-						current_tag = TAG_DATE_EXPECTED;
-					} else if (localName.equals("dateStarted")) { //$NON-NLS-1$
-						current_tag = TAG_DATE_STARTED;
-					} else if (localName.equals("homeTeamScore")) { //$NON-NLS-1$
-						current_tag = TAG_HOME_TEAM_SCORE;
-					} else if (localName.equals("awayTeamScore")) { //$NON-NLS-1$
-						current_tag = TAG_AWAY_TEAM_SCORE;
-					} else if (localName.equals("supporters")) { //$NON-NLS-1$
-						current_tag = TAG_SUPPORTERS;
-					} else if (localName.equals("weather")) { //$NON-NLS-1$
-						current_tag = TAG_WEATHER;
-					} else if (localName.equals("isFinished")) { //$NON-NLS-1$
-						current_tag = TAG_IS_FINISHED;
+				if (tagSwitch == TAG_INFO) {
+					if (localName.equals("matchID")) { 
+						currentTag = TAG_MATCH_ID;
+					} else if (localName.equals("homeTeamID")) { 
+						currentTag = TAG_HOME_TEAM_ID;
+					} else if (localName.equals("awayTeamID")) { 
+						currentTag = TAG_AWAY_TEAM_ID;
+					} else if (localName.equals("homeTeamName")) { 
+						currentTag = TAG_HOME_TEAM_NAME;
+					} else if (localName.equals("awayTeamName")) { 
+						currentTag = TAG_AWAY_TEAM_NAME;
+					} else if (localName.equals("leagueID")) { 
+						currentTag = TAG_LEAGUE_ID;
+					} else if (localName.equals("round")) { 
+						currentTag = TAG_ROUND;
+					} else if (localName.equals("season")) { 
+						currentTag = TAG_SEASON;
+					} else if (localName.equals("week")) { 
+						currentTag = TAG_WEEK;
+					} else if (localName.equals("day")) { 
+						currentTag = TAG_DAY;
+					} else if (localName.equals("dateExpected")) { 
+						currentTag = TAG_DATE_EXPECTED;
+					} else if (localName.equals("dateStarted")) { 
+						currentTag = TAG_DATE_STARTED;
+					} else if (localName.equals("homeTeamScore")) { 
+						currentTag = TAG_HOME_TEAM_SCORE;
+					} else if (localName.equals("awayTeamScore")) { 
+						currentTag = TAG_AWAY_TEAM_SCORE;
+					} else if (localName.equals("supporters")) { 
+						currentTag = TAG_SUPPORTERS;
+					} else if (localName.equals("weather")) { 
+						currentTag = TAG_WEATHER;
+					} else if (localName.equals("isFinished")) { 
+						currentTag = TAG_IS_FINISHED;
 					}
-				} else if (TAG_switch == TAG_TEAM_STATS) {
-					if (localName.equals("teamID")) { //$NON-NLS-1$
-						current_tag = TAG_TEAM_ID;
-					} else if (localName.equals("timeOnHalf")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_ON_HALF;
-					} else if (localName.equals("timePossession")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_POSSESSION;
-					} else if (localName.equals("offsides")) { //$NON-NLS-1$
-						current_tag = TAG_OFFSIDES;
-					} else if (localName.equals("shoots")) { //$NON-NLS-1$
-						current_tag = TAG_SHOOTS_INFO;
-					} else if (localName.equals("fouls")) { //$NON-NLS-1$
-						current_tag = TAG_FOULS_INFO;
-					} else if (localName.equals("yellowCards")) { //$NON-NLS-1$
-						current_tag = TAG_YELLOW_CARDS_INFO;
-					} else if (localName.equals("redCards")) { //$NON-NLS-1$
-						current_tag = TAG_RED_CARDS_INFO;
-					} else if (localName.equals("tacticName")) { //$NON-NLS-1$
-						current_tag = TAG_TACTIC_NAME;
-					} else if (localName.equals("ratingScoring")) { //$NON-NLS-1$
-						current_tag = TAG_RATING_SCORING;
-					} else if (localName.equals("ratingPassing")) { //$NON-NLS-1$
-						current_tag = TAG_RATING_PASSING;
-					} else if (localName.equals("ratingDefending")) { //$NON-NLS-1$
-						current_tag = TAG_RATING_DEFENDING;
+				} else if (tagSwitch == TAG_TEAM_STATS) {
+					if (localName.equals("teamID")) { 
+						currentTag = TAG_TEAM_ID;
+					} else if (localName.equals("timeOnHalf")) { 
+						currentTag = TAG_TIME_ON_HALF;
+					} else if (localName.equals("timePossession")) { 
+						currentTag = TAG_TIME_POSSESSION;
+					} else if (localName.equals("offsides")) { 
+						currentTag = TAG_OFFSIDES;
+					} else if (localName.equals("shoots")) { 
+						currentTag = TAG_SHOOTS_INFO;
+					} else if (localName.equals("fouls")) { 
+						currentTag = TAG_FOULS_INFO;
+					} else if (localName.equals("yellowCards")) { 
+						currentTag = TAG_YELLOW_CARDS_INFO;
+					} else if (localName.equals("redCards")) { 
+						currentTag = TAG_RED_CARDS_INFO;
+					} else if (localName.equals("tacticName")) { 
+						currentTag = TAG_TACTIC_NAME;
+					} else if (localName.equals("ratingScoring")) { 
+						currentTag = TAG_RATING_SCORING;
+					} else if (localName.equals("ratingPassing")) { 
+						currentTag = TAG_RATING_PASSING;
+					} else if (localName.equals("ratingDefending")) { 
+						currentTag = TAG_RATING_DEFENDING;
 					}
-				} else if (TAG_switch == TAG_PLAYERS_STATS) {
-					if (localName.equals("playerStats")) { //$NON-NLS-1$
+				} else if (tagSwitch == TAG_PLAYERS_STATS) {
+					if (localName.equals("playerStats")) { 
 						playerStats = new PlayerStats();
-					} else if (localName.equals("playerID")) { //$NON-NLS-1$
-						current_tag = TAG_PLAYER_ID;
-					} else if (localName.equals("number")) { //$NON-NLS-1$
-						current_tag = TAG_NUMBER;
-					} else if (localName.equals("formation")) { //$NON-NLS-1$
-						current_tag = TAG_FORMATION;
-					} else if (localName.equals("timeIn")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_IN;
-					} else if (localName.equals("timeOut")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_OUT;
-					} else if (localName.equals("yellowCards")) { //$NON-NLS-1$
-						current_tag = TAG_YELLOW_CARDS_PLAYER;
-					} else if (localName.equals("redCards")) { //$NON-NLS-1$
-						current_tag = TAG_RED_CARDS_PLAYER;
-					} else if (localName.equals("isInjured")) { //$NON-NLS-1$
-						current_tag = TAG_IS_INJURED;
-					} else if (localName.equals("goals")) { //$NON-NLS-1$
-						current_tag = TAG_GOALS_PLAYER;
-					} else if (localName.equals("assists")) { //$NON-NLS-1$
-						current_tag = TAG_ASSISTS_PLAYER;
-					} else if (localName.equals("fouls")) { //$NON-NLS-1$
-						current_tag = TAG_FOULS_PLAYER;
-					} else if (localName.equals("shoots")) { //$NON-NLS-1$
-						current_tag = TAG_SHOOTS_PLAYER;
-					} else if (localName.equals("rating")) { //$NON-NLS-1$
-						current_tag = TAG_RATING;
-					} else if (localName.equals("timePlaying")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_PLAYING;
-					} else if (localName.equals("timeDefending")) { //$NON-NLS-1$
-						current_tag = TAG_TIME_DEFENDING;
+					} else if (localName.equals("playerID")) { 
+						currentTag = TAG_PLAYER_ID;
+					} else if (localName.equals("number")) { 
+						currentTag = TAG_NUMBER;
+					} else if (localName.equals("formation")) { 
+						currentTag = TAG_FORMATION;
+					} else if (localName.equals("timeIn")) { 
+						currentTag = TAG_TIME_IN;
+					} else if (localName.equals("timeOut")) { 
+						currentTag = TAG_TIME_OUT;
+					} else if (localName.equals("yellowCards")) { 
+						currentTag = TAG_YELLOW_CARDS_PLAYER;
+					} else if (localName.equals("redCards")) { 
+						currentTag = TAG_RED_CARDS_PLAYER;
+					} else if (localName.equals("isInjured")) { 
+						currentTag = TAG_IS_INJURED;
+					} else if (localName.equals("goals")) { 
+						currentTag = TAG_GOALS_PLAYER;
+					} else if (localName.equals("assists")) { 
+						currentTag = TAG_ASSISTS_PLAYER;
+					} else if (localName.equals("fouls")) { 
+						currentTag = TAG_FOULS_PLAYER;
+					} else if (localName.equals("shoots")) { 
+						currentTag = TAG_SHOOTS_PLAYER;
+					} else if (localName.equals("rating")) { 
+						currentTag = TAG_RATING;
+					} else if (localName.equals("timePlaying")) { 
+						currentTag = TAG_TIME_PLAYING;
+					} else if (localName.equals("timeDefending")) { 
+						currentTag = TAG_TIME_DEFENDING;
 					}
 				}
 
@@ -485,7 +485,7 @@ public class MatchXmlParser {
 
 			parser.parse(input);
 		} catch (IOException e) {
-			Log.error("Parser Class", e); //$NON-NLS-1$
+			Log.error("Parser Class", e); 
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

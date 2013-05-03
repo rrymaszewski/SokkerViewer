@@ -9,7 +9,7 @@ import java.util.Calendar;
 import pl.pronux.sokker.interfaces.DateConst;
 
 public class Date implements Serializable, DateConst, Comparable<Date> {
-	private static DecimalFormat doubleDigitFormat = new DecimalFormat("00"); //$NON-NLS-1$
+	private static DecimalFormat doubleDigitFormat = new DecimalFormat("00"); 
 
 	private SokkerDate sokkerDate;
 
@@ -32,8 +32,8 @@ public class Date implements Serializable, DateConst, Comparable<Date> {
 			return -1;
 		} else {
 			Calendar cal = Calendar.getInstance();
-			String[] dateTable = date.split("-"); //$NON-NLS-1$
-			String[] timeTable = time.split(":"); //$NON-NLS-1$
+			String[] dateTable = date.split("-"); 
+			String[] timeTable = time.split(":"); 
 			cal.set(Integer.valueOf(dateTable[0]), Integer.valueOf(dateTable[1]) - 1, Integer.valueOf(dateTable[2]), Integer.valueOf(timeTable[0]), Integer.valueOf(timeTable[1]));
 			return cal.getTimeInMillis();
 		}
@@ -49,15 +49,15 @@ public class Date implements Serializable, DateConst, Comparable<Date> {
 	 */
 	public Calendar parseDate(String date) {
 		Calendar cal = Calendar.getInstance();
-		if(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}")) { //$NON-NLS-1$
-			String[] dateTable = date.split("-|_"); //$NON-NLS-1$
+		if(date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}")) { 
+			String[] dateTable = date.split("-|_"); 
 			cal.set(Calendar.YEAR, Integer.valueOf(dateTable[0]));
 			cal.set(Calendar.MONTH, Integer.valueOf(dateTable[1]) - 1);
 			cal.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dateTable[2]));
 			cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(dateTable[3]));
 			cal.set(Calendar.MINUTE, Integer.valueOf(dateTable[4]));
 		} else {
-			String[] dateTable = date.split("-| |:"); //$NON-NLS-1$
+			String[] dateTable = date.split("-| |:"); 
 			if (dateTable.length > 2) {
 				cal.set(Calendar.YEAR, Integer.valueOf(dateTable[0]));
 				cal.set(Calendar.MONTH, Integer.valueOf(dateTable[1]) - 1);
@@ -198,19 +198,19 @@ public class Date implements Serializable, DateConst, Comparable<Date> {
 
 	public String toDateString() {
 		if (sokkerDate == null) {
-			return String.format("%d-%s-%s", calendar.get(Calendar.YEAR), doubleDigitFormat.format((calendar.get(Calendar.MONTH) + 1)), doubleDigitFormat.format(calendar.get(Calendar.DAY_OF_MONTH))); //$NON-NLS-1$
+			return String.format("%d-%s-%s", calendar.get(Calendar.YEAR), doubleDigitFormat.format((calendar.get(Calendar.MONTH) + 1)), doubleDigitFormat.format(calendar.get(Calendar.DAY_OF_MONTH))); 
 		} else {
-			return String.format("%d-%s-%s (%d)", calendar.get(Calendar.YEAR), doubleDigitFormat.format((calendar.get(Calendar.MONTH) + 1)), doubleDigitFormat.format(calendar.get(Calendar.DAY_OF_MONTH)), sokkerDate.getWeek()); //$NON-NLS-1$
+			return String.format("%d-%s-%s (%d)", calendar.get(Calendar.YEAR), doubleDigitFormat.format((calendar.get(Calendar.MONTH) + 1)), doubleDigitFormat.format(calendar.get(Calendar.DAY_OF_MONTH)), sokkerDate.getWeek()); 
 		}
 
 	}
 
 	public String toDateTimeString() {
-		return String.format("%s (%s)",toDateString(),toTimeString()); //$NON-NLS-1$
+		return String.format("%s (%s)",toDateString(),toTimeString()); 
 	}
 
 	public String toTimeString() {
-		return String.format("%s:%s", doubleDigitFormat.format(calendar.get(Calendar.HOUR_OF_DAY)), doubleDigitFormat.format(calendar.get(Calendar.MINUTE))); //$NON-NLS-1$
+		return String.format("%s:%s", doubleDigitFormat.format(calendar.get(Calendar.HOUR_OF_DAY)), doubleDigitFormat.format(calendar.get(Calendar.MINUTE))); 
 	}
 
 	public Date getTrainingDate(int firstDay) {

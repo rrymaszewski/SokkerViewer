@@ -48,7 +48,7 @@ public class DescriptionSingleComposite extends Composite {
 		setEnabled(false);
 
 		// initialize description string format
-		descriptionStringFormat = "%s: %s\r\n"; //$NON-NLS-1$
+		descriptionStringFormat = "%s: %s\r\n"; 
 		// create object for colorize text in description composite
 	}
 
@@ -119,8 +119,8 @@ public class DescriptionSingleComposite extends Composite {
 			int secondColumnSize) {
 		this.firstColumnSize = firstColumnSize;
 		this.secondColumnSize = secondColumnSize;
-		descriptionStringFormat = "%-" + firstColumnSize + "s" + "%-" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ secondColumnSize + "s" + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		descriptionStringFormat = "%-" + firstColumnSize + "s" + "%-"   
+				+ secondColumnSize + "s" + "\r\n";  
 	}
 
 	public void setDescriptionStringFormat(String descriptionStringFormat) {
@@ -140,7 +140,7 @@ public class DescriptionSingleComposite extends Composite {
 	}
 	
 	public void clearAll() {
-		this.centerDescription.setText(""); //$NON-NLS-1$
+		this.centerDescription.setText(""); 
 		styleRanges.clear();
 	}
 

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -54,13 +55,13 @@ import pl.pronux.sokker.ui.widgets.tables.JuniorsFiredTable;
 
 public class ViewJuniorsFired implements IPlugin, ISort {
 
-	private PersonsManager personsManager = PersonsManager.instance();
+	private PersonsManager personsManager = PersonsManager.getInstance();
 	
 	private TreeItem _treeItem;
 
-	private Clipboard cb;
+	private Clipboard clipboard;
 
-	private String cbData;
+	private String clipboardText;
 
 	private Composite composite;
 
@@ -98,7 +99,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 	// super(parent, style);
 	// }
 
-	private HashMap<Integer, TreeItem> treeItemMap;
+	private Map<Integer, TreeItem> treeItemMap;
 
 	private DescriptionSingleComposite universalDescription;
 
@@ -145,7 +146,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 			public void handleEvent(Event e) {
 
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { clipboardText }, new Transfer[] { textTransfer });
 			}
 		});
 
@@ -194,7 +195,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 			public void handleEvent(Event e) {
 
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { clipboardText }, new Transfer[] { textTransfer });
 			}
 		});
 
@@ -453,7 +454,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 		viewFormData = ((ViewComposite) this.composite).getViewFormData();
 		descriptionFormData = ((ViewComposite) this.composite).getDescriptionFormData();
 		composite.dispose();
-		cb = ViewerHandler.getClipboard();
+		clipboard = ViewerHandler.getClipboard();
 
 		addPopupMenuParentTree();
 
@@ -553,7 +554,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 				if (item != null) {
 					if (item.equals(_treeItem) && event.button == 3) {
 
-						cbData = descriptionComposite.getText();
+						clipboardText = descriptionComposite.getText();
 
 						_treeItem.getParent().setMenu(menuPopUpParentTree);
 						_treeItem.getParent().getMenu().setVisible(true);
@@ -571,7 +572,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 	private void setCbData(DescriptionSingleComposite juniorDesc) {
 		// TODO do poprawy dodac nowe okno z raportem i przyciskiem kopiuj do
 		// schowka!!!!!!!!
-		cbData = juniorDesc.getText();
+		clipboardText = juniorDesc.getText();
 	}
 
 	private void setDescriptionComposite(List<Junior> juniors) {
@@ -651,7 +652,7 @@ public class ViewJuniorsFired implements IPlugin, ISort {
 		_treeItem.setImage(ImageResources.getImageResources("sacked_junior.png"));
 	}
 
-	private void setViewComposite(List<Junior> junior) {
+	private void setViewComposite(List<Junior> juniors) {
 		juniorsTable.fill(juniors);
 
 		// for (int i = 0; i < junior.size(); i++) {

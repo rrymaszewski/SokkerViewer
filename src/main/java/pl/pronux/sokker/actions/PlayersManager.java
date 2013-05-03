@@ -24,14 +24,14 @@ import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.model.Transfer;
 
-public class PlayersManager {
+public final class PlayersManager {
 
 	private static PlayersManager instance = new PlayersManager();
 
 	private PlayersManager() {
 	}
 
-	public static PlayersManager instance() {
+	public static PlayersManager getInstance() {
 		return instance;
 	}
 
@@ -149,17 +149,17 @@ public class PlayersManager {
 		// FIXME instead of creating list of player in club get clubs and remove
 		// all (do everything on collections)
 
-		String sTemp = "("; //$NON-NLS-1$
+		String sTemp = "("; 
 		for (int i = 0; i < players.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
 			if (i == players.size() - 1) {
 				sTemp += players.get(i).getId();
 				break;
 			}
-			sTemp += players.get(i).getId() + ","; //$NON-NLS-1$
+			sTemp += players.get(i).getId() + ","; 
 		}
 
-		sTemp += ")"; //$NON-NLS-1$
+		sTemp += ")"; 
 		if (players.size() > 0) {
 			playersDao.removeSoldPlayer(sTemp);
 		} else {
@@ -249,7 +249,7 @@ public class PlayersManager {
 			NtSkills[] ntSkills = playersDao.getPlayerNtSkills(player);
 			player.setNtSkills(ntSkills);
 
-			Junior junior = juniorTrainedMap.get(player.getIdJuniorFK());
+			Junior junior = juniorTrainedMap.get(player.getJuniorId());
 			player.setJunior(junior);
 			if (junior != null) {
 				junior.setPlayer(player);

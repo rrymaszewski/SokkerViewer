@@ -6,7 +6,7 @@ import pl.pronux.sokker.model.Match;
 
 public class MatchesComparator implements SVComparator<Match>, ISort {
 
-	final public static int WEEK_DAY = -1;
+	public static final int WEEK_DAY = -1;
 
 	private int direction;
 

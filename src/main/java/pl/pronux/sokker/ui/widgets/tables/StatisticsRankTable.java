@@ -27,9 +27,9 @@ public class StatisticsRankTable extends SVTable<Club> {
 
 		this.setHeaderVisible(true);
 		this.setLinesVisible(true);
-		String[] columns3 = { Messages.getString("table.date"), //$NON-NLS-1$
-							 Messages.getString("statistics.rank"), //$NON-NLS-1$
-							 "" //$NON-NLS-1$
+		String[] columns3 = { Messages.getString("table.date"), 
+							 Messages.getString("statistics.rank"), 
+							 "" 
 		};
 
 		for (int i = 0; i < columns3.length; i++) {
@@ -59,7 +59,7 @@ public class StatisticsRankTable extends SVTable<Club> {
 		for (Rank rank : club.getRank()) {
 			TableItem item = new TableItem(this, SWT.NONE);
 			Date date = rank.getDate();
-			item.setData("date", rank.getDate().getTrainingDate(date.getSokkerDate().getDay())); //$NON-NLS-1$
+			item.setData("date", rank.getDate().getTrainingDate(date.getSokkerDate().getDay())); 
 			item.setText(0, date.getTrainingDate(date.getSokkerDate().getDay()).toDateString());
 			item.setText(1, SVNumberFormat.formatDouble(rank.getRank()));
 			alDouble.add(rank.getRank());
@@ -71,7 +71,7 @@ public class StatisticsRankTable extends SVTable<Club> {
 		}
 		Collections.reverse(alDouble);
 
-		this.getColumn(1).setData("data", alDouble); //$NON-NLS-1$
+		this.getColumn(1).setData("data", alDouble); 
 
 		this.getChanges(columns);
 

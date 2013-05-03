@@ -19,7 +19,7 @@ public class MatchesMenu extends Menu {
 	public MatchesMenu(final Decorations parent, int style) {
 		super(parent, style);
 		MenuItem item = new MenuItem(this, SWT.PUSH);
-		item.setText(Messages.getString("matchesmenu.item.match.add")); //$NON-NLS-1$
+		item.setText(Messages.getString("matchesmenu.item.match.add")); 
 		item.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {

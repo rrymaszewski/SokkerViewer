@@ -16,7 +16,7 @@ public class NoteGroup extends Group {
 
 	public NoteGroup(Composite arg0, int arg1) {
 		super(arg0, arg1);
-		this.setText(Messages.getString("note")); //$NON-NLS-1$
+		this.setText(Messages.getString("note")); 
 		setLayout(new FillLayout());
 		text = new Text(this, SWT.LEFT | SWT.MULTI | SWT.WRAP);
 		this.setFont(ConfigBean.getFontMain());

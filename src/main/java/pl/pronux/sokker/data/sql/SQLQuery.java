@@ -16,15 +16,15 @@ public class SQLQuery {
 	private static Statement batchStm;
 	private static SokkerViewerSettings settings;
 
-	private synchronized static void addBatch(String expression) throws SQLException {
+	private static synchronized void addBatch(String expression) throws SQLException {
 		batchStm.addBatch(expression);
 	}
 
-	private synchronized static void clearBatch() throws SQLException {
+	private static synchronized void clearBatch() throws SQLException {
 		batchStm.clearBatch();
 	}
 
-	private synchronized static void closeBatch() throws SQLException {
+	private static synchronized void closeBatch() throws SQLException {
 		try {
 			batchStm.close();
 		} catch (SQLException e) {
@@ -33,7 +33,7 @@ public class SQLQuery {
 	}
 
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
-	private synchronized static void createBatch() throws SQLException {
+	private static synchronized void createBatch() throws SQLException {
 		batchStm = SQLSession.getConnection().createStatement();
 	}
 
@@ -48,7 +48,7 @@ public class SQLQuery {
 		return new File(file).exists();
 	}
 
-	private synchronized static void executeBatch() throws SQLException {
+	private static synchronized void executeBatch() throws SQLException {
 		int[] batchArray = batchStm.executeBatch();
 		Log.info("Results");
 		for (int i = 0; i < batchArray.length; i++) {
@@ -62,9 +62,9 @@ public class SQLQuery {
 		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + "0.sql");
 
 		if (sqlBatch != null) {
-			String[] SQLBatchArray = sqlBatch.split("\n");
-			for (int i = 0; i < SQLBatchArray.length; i++) {
-				addBatch(SQLBatchArray[i]);
+			String[] sqlBatchArray = sqlBatch.split("\n");
+			for (int i = 0; i < sqlBatchArray.length; i++) {
+				addBatch(sqlBatchArray[i]);
 			}
 			addBatch("UPDATE system SET version = " + SV.DB_VERSION);
 			executeBatch();
@@ -74,7 +74,7 @@ public class SQLQuery {
 	}
 
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
-	public synchronized static void update(String expression) throws SQLException {
+	public static synchronized void update(String expression) throws SQLException {
 		Statement stm = null;
 		try {
 			stm = SQLSession.getConnection().createStatement();
@@ -93,9 +93,9 @@ public class SQLQuery {
 		Log.info("Update DB  " + dbVersion);
 		String sqlBatch = OperationOnFile.readFromFile(settings.getBaseDirectory() + File.separator + "sql" + File.separator + dbVersion + ".sql");
 		if (sqlBatch != null) {
-			String[] SQLBatchArray = sqlBatch.split("\n");
-			for (int i = 0; i < SQLBatchArray.length; i++) {
-				addBatch(SQLBatchArray[i]);
+			String[] sqlBatchArray = sqlBatch.split("\n");
+			for (int i = 0; i < sqlBatchArray.length; i++) {
+				addBatch(sqlBatchArray[i]);
 			}
 			executeBatch();
 			clearBatch();

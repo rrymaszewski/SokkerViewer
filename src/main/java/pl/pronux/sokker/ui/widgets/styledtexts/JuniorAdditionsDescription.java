@@ -58,8 +58,9 @@ public class JuniorAdditionsDescription extends StyledText implements IDescripti
 
 						offset = -1;
 					}
-					if (offset != -1 && offset >= start)
+					if (offset != -1 && offset >= start) {
 						offset += newCharCount - replaceCharCount;
+					}
 					offsets[i] = offset;
 				}
 			}
@@ -109,31 +110,31 @@ public class JuniorAdditionsDescription extends StyledText implements IDescripti
 		String text;
 		String value;
 		List<Image> imagesList = new ArrayList<Image>();
-		String imageText = "\uFFFC"; //$NON-NLS-1$
-		this.setText(""); //$NON-NLS-1$
+		String imageText = "\uFFFC"; 
+		this.setText(""); 
 
 		if (junior.getSkills()[max].getTrainer() != null) {
 			Coach trainer = junior.getSkills()[max].getTrainer();
 			imagesList.add(FlagsResources.getFlag(trainer.getCountryfrom()));
 			this.addText(imageText);
-			this.addText(String.format(" %s %s, %s: %d ", trainer.getName(), trainer.getSurname(), Messages.getString("player.age"), trainer.getAge())); //$NON-NLS-1$ //$NON-NLS-2$
+			this.addText(String.format(" %s %s, %s: %d ", trainer.getName(), trainer.getSurname(), Messages.getString("player.age"), trainer.getAge()));  
 
 			addStyle(2, trainer.getName().length() + trainer.getSurname().length() + 1, ColorResources.getBlack(), SWT.BOLD);
 			addStyle(getText().length() - 3, 2, ColorResources.getBlack(), SWT.BOLD);
 			this.addText(NEW_LINE);
 
-			text = String.format("[%d]", trainer.getGeneralskill()); //$NON-NLS-1$
+			text = String.format("[%d]", trainer.getGeneralskill()); 
 			this.addText(text);
 
-			value = Messages.getString("skill.a" + trainer.getGeneralskill()); //$NON-NLS-1$
-			text = String.format("%s %s ", value, Messages.getString("coach")); //$NON-NLS-1$ //$NON-NLS-2$
-			this.addText(String.format("%s", text)); //$NON-NLS-1$
+			value = Messages.getString("skill.a" + trainer.getGeneralskill()); 
+			text = String.format("%s %s ", value, Messages.getString("coach"));  
+			this.addText(String.format("%s", text)); 
 			addStyle(this.getText().length() - text.length(), value.length(), Colors.getTrainerGeneralSkill(), SWT.BOLD);
 			
 			this.addText(NEW_LINE);
 			
 			value = trainer.getSalary().formatIntegerCurrencySymbol();
-			text = String.format("%s: %s", Messages.getString("coach.salary"), value); //$NON-NLS-1$ //$NON-NLS-2$
+			text = String.format("%s: %s", Messages.getString("coach.salary"), value);  
 			this.addText(text);
 			addStyle(this.getText().length() - value.length(), value.length(), ColorResources.getBlack(), SWT.BOLD);
 			
@@ -141,39 +142,15 @@ public class JuniorAdditionsDescription extends StyledText implements IDescripti
 			this.addText(NEW_LINE);
 		}
 		
-		this.addText(Messages.getString("junior.cost.training")); //$NON-NLS-1$
+		this.addText(Messages.getString("junior.cost.training")); 
 		this.addText(NEW_LINE);
 		
-		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.school"), junior.getMoneySpent().formatIntegerCurrencySymbol()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.school"), junior.getMoneySpent().formatIntegerCurrencySymbol());  
 		this.addText(text);
 		this.addText(NEW_LINE);
 		
-		value = "n/a (yet)"; //$NON-NLS-1$
-		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.trainer"), value); //$NON-NLS-1$ //$NON-NLS-2$
-		this.addText(text);
-		
-		style = new StyleRange();
-		style.start = this.getText().length() - 16;
-		style.length = 16;
-		style.underline = true;
-		this.setStyleRange(style);
-		
-		this.addText(NEW_LINE);
-		
-		text = String.format("  %-35s%-12s", "", junior.getMoneySpent().formatIntegerCurrencySymbol()); //$NON-NLS-1$ //$NON-NLS-2$
-		this.addText(text);
-		
-		this.addText(NEW_LINE);
-		
-		this.addText(Messages.getString("junior.cost.rest")); //$NON-NLS-1$
-		this.addText(NEW_LINE);
-		
-		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.school"), junior.getRestMoneyToSpend().formatIntegerCurrencySymbol()); //$NON-NLS-1$ //$NON-NLS-2$
-		this.addText(text);
-		this.addText(NEW_LINE);
-		
-		value = "n/a (yet)"; //$NON-NLS-1$
-		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.trainer"), value); //$NON-NLS-1$ //$NON-NLS-2$
+		value = "n/a (yet)"; 
+		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.trainer"), value);  
 		this.addText(text);
 		
 		style = new StyleRange();
@@ -184,12 +161,36 @@ public class JuniorAdditionsDescription extends StyledText implements IDescripti
 		
 		this.addText(NEW_LINE);
 		
-		text = String.format("  %-35s%-12s", "", junior.getRestMoneyToSpend().formatIntegerCurrencySymbol()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("  %-35s%-12s", "", junior.getMoneySpent().formatIntegerCurrencySymbol());  
+		this.addText(text);
+		
+		this.addText(NEW_LINE);
+		
+		this.addText(Messages.getString("junior.cost.rest")); 
+		this.addText(NEW_LINE);
+		
+		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.school"), junior.getRestMoneyToSpend().formatIntegerCurrencySymbol());  
+		this.addText(text);
+		this.addText(NEW_LINE);
+		
+		value = "n/a (yet)"; 
+		text = String.format("* %-35s%-12s", Messages.getString("junior.cost.trainer"), value);  
+		this.addText(text);
+		
+		style = new StyleRange();
+		style.start = this.getText().length() - 16;
+		style.length = 16;
+		style.underline = true;
+		this.setStyleRange(style);
+		
+		this.addText(NEW_LINE);
+		
+		text = String.format("  %-35s%-12s", "", junior.getRestMoneyToSpend().formatIntegerCurrencySymbol());  
 		this.addText(text);
 		this.addText(NEW_LINE);
 		this.addText(NEW_LINE);
 		
-		text = String.format("  %-35s%-12s", Messages.getString("junior.sum"), junior.getAllMoneyToSpend().formatIntegerCurrencySymbol()); //$NON-NLS-1$ //$NON-NLS-2$
+		text = String.format("  %-35s%-12s", Messages.getString("junior.sum"), junior.getAllMoneyToSpend().formatIntegerCurrencySymbol());  
 		this.addText(text);
 		
 		

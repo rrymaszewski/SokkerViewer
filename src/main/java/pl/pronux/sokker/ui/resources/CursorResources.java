@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Display;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 
 public final class CursorResources {
-	private static final Map<Integer, Cursor> cache = new HashMap<Integer, Cursor>();
+	private static Map<Integer, Cursor> cache = new HashMap<Integer, Cursor>();
 
 	static {
 		DisplayHandler.getDisplay().disposeExec(new Runnable() {

@@ -15,7 +15,7 @@ import pl.pronux.sokker.ui.listeners.TableLabelsListener;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 
-abstract public class SVTable<T> extends Table {
+public abstract class SVTable<T> extends Table {
 	public SVTable(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -35,9 +35,9 @@ abstract public class SVTable<T> extends Table {
 	protected void getChanges( int[] columns) {
 		for (int i = 1; i < this.getItemCount(); i++) {
 			for (int j = 0; j < columns.length; j++) {
-				if (Double.valueOf(this.getItem(i).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue() < Double.valueOf((this.getItem(i - 1).getText(columns[j]).replaceAll("[^0-9-]", ""))).intValue()) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				if (Double.valueOf(this.getItem(i).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue() < Double.valueOf((this.getItem(i - 1).getText(columns[j]).replaceAll("[^0-9-]", ""))).intValue()) {    
 					this.getItem(i - 1).setBackground(columns[j], ConfigBean.getColorIncrease());
-				} else if (Double.valueOf(this.getItem(i).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue() > Double.valueOf(this.getItem(i - 1).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue()) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} else if (Double.valueOf(this.getItem(i).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue() > Double.valueOf(this.getItem(i - 1).getText(columns[j]).replaceAll("[^0-9-]", "")).intValue()) {    
 					this.getItem(i - 1).setBackground(columns[j], ConfigBean.getColorDecrease());
 				}
 			}

@@ -40,24 +40,24 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 		this.setFont(ConfigBean.getFontTable());
 		this.setVisible(true);
 
-		String[] titles = { Messages.getString("table.name"), //$NON-NLS-1$
-						   Messages.getString("table.surname"), //$NON-NLS-1$
-						   Messages.getString("table.formation"), Messages.getString("table.skill"), //$NON-NLS-1$
-						   Messages.getString("table.sum"), //$NON-NLS-1$
-						   Messages.getString("table.stamina"), //$NON-NLS-1$
-						   Messages.getString("table.sum.mainskills"), //$NON-NLS-1$
-						   Messages.getString("table.pace"), //$NON-NLS-1$
-						   Messages.getString("table.technique"), //$NON-NLS-1$
-						   Messages.getString("table.passing"), //$NON-NLS-1$
-						   Messages.getString("table.keeper"), //$NON-NLS-1$
-						   Messages.getString("table.defender"), //$NON-NLS-1$
-						   Messages.getString("table.playmaker"), //$NON-NLS-1$
-						   Messages.getString("table.scorer"), //$NON-NLS-1$
-						   Messages.getString("table.age"), //$NON-NLS-1$
-						   Messages.getString("table.week"), //$NON-NLS-1$
-						   Messages.getString("junior.averageJumps"), //$NON-NLS-1$
-						   Messages.getString("junior.table.money.all"), //$NON-NLS-1$
-						   "" //$NON-NLS-1$
+		String[] titles = { Messages.getString("table.name"), 
+						   Messages.getString("table.surname"), 
+						   Messages.getString("table.formation"), Messages.getString("table.skill"), 
+						   Messages.getString("table.sum"), 
+						   Messages.getString("table.stamina"), 
+						   Messages.getString("table.sum.mainskills"), 
+						   Messages.getString("table.pace"), 
+						   Messages.getString("table.technique"), 
+						   Messages.getString("table.passing"), 
+						   Messages.getString("table.keeper"), 
+						   Messages.getString("table.defender"), 
+						   Messages.getString("table.playmaker"), 
+						   Messages.getString("table.scorer"), 
+						   Messages.getString("table.age"), 
+						   Messages.getString("table.week"), 
+						   Messages.getString("junior.averageJumps"), 
+						   Messages.getString("junior.table.money.all"), 
+						   "" 
 		};
 		for (int j = 0; j < titles.length; j++) {
 			TableColumn column = new TableColumn(this, SWT.NONE);
@@ -136,13 +136,13 @@ public class JuniorsTrainedTable extends SVTable<Junior> implements IViewSort<Ju
 
 			item.setText(c++, String.valueOf(junior.getSkills()[0].getWeeks()));
 			if (junior.getAveragePops() == 0) {
-				item.setText(c++, "-"); //$NON-NLS-1$
+				item.setText(c++, "-"); 
 			} else {
 				if (junior.getPops() > 1) {
 					item.setText(c++, SVNumberFormat.formatDouble(junior.getAveragePops()));
 				} else {
 					item.setForeground(c, ColorResources.getDarkGray());
-					item.setText(c++, "~" + SVNumberFormat.formatDouble(junior.getAveragePops())); //$NON-NLS-1$
+					item.setText(c++, "~" + SVNumberFormat.formatDouble(junior.getAveragePops())); 
 				}
 			}
 			item.setText(c++, junior.getAllMoneyToSpend().formatIntegerCurrencySymbol());

@@ -67,7 +67,7 @@ public class Player extends Person implements Serializable, PlayerInterface {
 
 	private boolean nt;
 
-	private int youthTeamID;
+	private int youthTeamId;
 
 	private PlayerSkills[] skills;
 
@@ -79,7 +79,7 @@ public class Player extends Person implements Serializable, PlayerInterface {
 
 	private List<PlayerStats> playerMatchStatistics;
 	
-	private int idJuniorFK;
+	private int juniorId;
 	
 	private int existsInSokker = EXISTS_IN_SOKKER_TRUE;
 	
@@ -113,12 +113,12 @@ public class Player extends Person implements Serializable, PlayerInterface {
 		this.existsInSokker = existsInSokker;
 	}
 
-	public int getIdJuniorFK() {
-		return idJuniorFK;
+	public int getJuniorId() {
+		return juniorId;
 	}
 
-	public void setIdJuniorFK(int id_junior_fk) {
-		this.idJuniorFK = id_junior_fk;
+	public void setJuniorId(int juniorId) {
+		this.juniorId = juniorId;
 	}
 
 	public List<PlayerStats> getPlayerMatchStatistics() {
@@ -271,12 +271,12 @@ public class Player extends Person implements Serializable, PlayerInterface {
 		this.nt = nt;
 	}
 
-	public int getYouthTeamID() {
-		return youthTeamID;
+	public int getYouthTeamId() {
+		return youthTeamId;
 	}
 
-	public void setYouthTeamID(int youthTeamID) {
-		this.youthTeamID = youthTeamID;
+	public void setYouthTeamId(int youthTeamId) {
+		this.youthTeamId = youthTeamId;
 	}
 
 	public NtSkills[] getNtSkills() {

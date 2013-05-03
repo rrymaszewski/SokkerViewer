@@ -53,19 +53,19 @@ public class CoreAction implements IRunnableWithProgress {
 
 	private boolean update;
 
-	public final static boolean LOCK = false;
-	public final static boolean UNLOCK = true;
-	public static boolean lock = UNLOCK;
+	public static final boolean LOCK = false;
+	public static final boolean UNLOCK = true;
+	private static boolean lock = UNLOCK;
 
-	private MatchesManager matchesManager = MatchesManager.instance();
-	private AssistantManager assistantManager = AssistantManager.instance();
-	private CountriesManager countriesManager = CountriesManager.instance();
-	private ConfigurationManager configurationManager = ConfigurationManager.instance();
-	private SchedulerManager schedulerManager = SchedulerManager.instance();
-	private TrainersManager trainersManager = TrainersManager.instance();
-	private TeamManager teamManager = TeamManager.instance();
-	private LeaguesManager leaguesManager = LeaguesManager.instance();
-	private PlayersManager playersManager = PlayersManager.instance();
+	private MatchesManager matchesManager = MatchesManager.getInstance();
+	private AssistantManager assistantManager = AssistantManager.getInstance();
+	private CountriesManager countriesManager = CountriesManager.getInstance();
+	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+	private SchedulerManager schedulerManager = SchedulerManager.getInstance();
+	private TrainersManager trainersManager = TrainersManager.getInstance();
+	private TeamManager teamManager = TeamManager.getInstance();
+	private LeaguesManager leaguesManager = LeaguesManager.getInstance();
+	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	public boolean isUpdate() {
 		return update;
@@ -137,7 +137,7 @@ public class CoreAction implements IRunnableWithProgress {
 				new Synchronizer(settings, synchronizerConfiguration).run(monitor);
 			} else {
 				SQLSession.connect();
-				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); //$NON-NLS-1$
+				monitor.setTaskName(Messages.getString("progressBar.info.database.connection")); 
 				if (SQLQuery.dbPropertiesExist()) {
 
 					configurationManager.updateDbStructure(SV.DB_VERSION);
@@ -181,7 +181,7 @@ public class CoreAction implements IRunnableWithProgress {
 			} catch (IOException ioe) {
 				throw new SVException("Synchronizer -> post-autobackup failed", ioe);
 			}
-			// if (!value.equals("0")) { //$NON-NLS-1$
+			// if (!value.equals("0")) { 
 			//				
 			// return;
 			// }
@@ -195,7 +195,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("statusBar.lastUpdateLabel.text") + " " + sokkerDate.toDateTimeString()); 
 
-			Junior.minimumPop = configurationManager.getJuniorMinimumPop();
+			Junior.setMinimumPop(configurationManager.getJuniorMinimumPop());
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getNotesData")); 
@@ -205,7 +205,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getClubData")); 
 
-			Cache.setClub(teamManager.getTeam(configurationManager.getTeamID()));
+			Cache.setClub(teamManager.getTeam(configurationManager.getTeamId()));
 
 			monitor.worked(1);
 			monitor.subTask(Messages.getString("progressBar.info.getCountries"));
@@ -217,32 +217,32 @@ public class CoreAction implements IRunnableWithProgress {
 			Collections.sort(Cache.getCountries(), countryComparator);
 			Cache.setCountryMap(new HashMap<Integer, Country>());
 			for (Country country : Cache.getCountries()) {
-				Cache.getCountryMap().put(country.getCountryID(), country);
+				Cache.getCountryMap().put(country.getCountryId(), country);
 			}
 
 			Money.setCurrency(Cache.getCountryMap().get(Cache.getClub().getCountry()).getCurrencyRate());
 			Money.setCurrencySymbol(Cache.getCountryMap().get(Cache.getClub().getCountry()).getCurrencyName());
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getTransfersData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getTransfersData")); 
 
 			Cache.setTransfers(teamManager.getTransfers(Cache.getClub()));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.completeTransfers")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.completeTransfers")); 
 
 			HashMap<Integer, Transfer> transfersSellMap = new HashMap<Integer, Transfer>();
 			HashMap<Integer, Transfer> transfersBuyMap = new HashMap<Integer, Transfer>();
 			for (Transfer transfer : Cache.getTransfers()) {
-				if (transfer.getSellerTeamID() == Cache.getClub().getId()) {
-					transfersSellMap.put(transfer.getPlayerID(), transfer);
+				if (transfer.getSellerTeamId() == Cache.getClub().getId()) {
+					transfersSellMap.put(transfer.getPlayerId(), transfer);
 				} else {
-					transfersBuyMap.put(transfer.getPlayerID(), transfer);
+					transfersBuyMap.put(transfer.getPlayerId(), transfer);
 				}
 			}
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getCoachesData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getCoachesData")); 
 
 			Cache.setCoachesTrash(trainersManager.getCoachesFromTrashData());
 			Cache.setCoaches(trainersManager.getCoachesData());
@@ -269,7 +269,7 @@ public class CoreAction implements IRunnableWithProgress {
 			}
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getTrainingData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getTrainingData")); 
 
 			Cache.setTrainings(teamManager.getTrainingData(Cache.getCoachesMap()));
 
@@ -279,17 +279,17 @@ public class CoreAction implements IRunnableWithProgress {
 			}
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getJuniorsData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getJuniorsData")); 
 
 			Cache.setJuniors(teamManager.getJuniors(Cache.getTrainingsMap()));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getJuniorsTrainedData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getJuniorsTrainedData")); 
 
 			Cache.setJuniorsTrained(teamManager.getJuniorsTrained(Cache.getTrainingsMap()));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getJuniorsFiredData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getJuniorsFiredData")); 
 
 			Cache.setJuniorsFired(teamManager.getJuniorsFired(Cache.getTrainingsMap()));
 			Cache.setJuniorsTrash(teamManager.getJuniorsFromTrash(Cache.getTrainingsMap()));
@@ -307,12 +307,12 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setJuniorsTrainedMap(juniorTrainedMap);
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getPlayersData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getPlayersData")); 
 
 			Cache.setPlayers(playersManager.getPlayers(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap, transfersBuyMap));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getPlayersHistoryData")); 
 
 			Cache.setPlayersHistory(playersManager.getPlayersHistoryData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
 																		 transfersBuyMap));
@@ -335,19 +335,19 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setReports(teamManager.getReports(Cache.getPlayersArchiveMap(), Cache.getCoachesMap()));
 
 			for (Transfer transfer : Cache.getTransfers()) {
-				PlayerArchive player = Cache.getPlayersArchiveMap().get(transfer.getPlayerID());
+				PlayerArchive player = Cache.getPlayersArchiveMap().get(transfer.getPlayerId());
 				if (player != null) {
 					transfer.setPlayer(player.toPlayer());
 				}
 			}
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getAssistantData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getAssistantData")); 
 
 			Cache.setAssistant(assistantManager.getAssistantData());
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getLeaguesData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getLeaguesData")); 
 
 			Cache.setClubMap(teamManager.getTeams());
 
@@ -356,7 +356,7 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setLeagueSeasons(leaguesManager.getLeagueSeasons(Cache.getLeaguesMap(), Cache.getClubMap()));
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.getMatchesData")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.getMatchesData")); 
 
 			Cache.setPlayersMap(new HashMap<Integer, Player>());
 			for (Player player : alPlayers) {
@@ -369,7 +369,7 @@ public class CoreAction implements IRunnableWithProgress {
 			playersManager.calculatePositionForAllPlayer(Cache.getPlayers(), Cache.getAssistant());
 
 			monitor.worked(1);
-			monitor.subTask(Messages.getString("progressBar.info.completeYouthTeamId")); //$NON-NLS-1$
+			monitor.subTask(Messages.getString("progressBar.info.completeYouthTeamId")); 
 
 			new SetUIAction().run(monitor);
 			monitor.done();
@@ -377,7 +377,7 @@ public class CoreAction implements IRunnableWithProgress {
 		} catch (final InvocationTargetException e) {
 			// if(e.getCause() instanceof SVSynchronizerCriticalException) {
 			// new SVLogger(Level.WARNING, "Downloader -> Synchronizer", e);
-			// //$NON-NLS-1$
+			// 
 			// MessageDialog.openErrorMessage(ViewerHandler.getViewer(),
 			// e.getCause().getMessage());
 			// }

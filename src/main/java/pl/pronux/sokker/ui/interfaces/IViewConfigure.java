@@ -13,7 +13,8 @@ import pl.pronux.sokker.model.SokkerViewerSettings;
  *
  */
 public interface IViewConfigure  {
-	final static String IDENTIFIER = "IViewConfigure"; //$NON-NLS-1$
+	
+	String IDENTIFIER = "IViewConfigure"; 
 	/**
 	 * method run before shell dispose
 	 * in this method all resources like fonts, images, colors 
