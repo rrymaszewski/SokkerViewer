@@ -108,7 +108,7 @@ public final class TeamManager {
 		} else {
 			training.setId(lastTraining.getId());
 			if (lastTraining.getType() == Training.TYPE_UNKNOWN) {
-				this.updateTraining(training);
+				updateTraining(training);
 				training.setStatus(Training.UPDATE_TRAINING);
 			} else {
 				training.setStatus(Training.NO_TRAINING);
@@ -129,7 +129,7 @@ public final class TeamManager {
 		} else {
 			training.setId(trainingDB.getId());
 			if (trainingDB.getType() == Training.TYPE_UNKNOWN) {
-				this.updateTraining(training);
+				updateTraining(training);
 				training.setStatus(Training.UPDATE_TRAINING);
 			} else {
 				training.setStatus(Training.NO_TRAINING);
@@ -447,8 +447,6 @@ public final class TeamManager {
 		try {
 			SQLSession.connect();
 			new TeamsDao(SQLSession.getConnection()).updateClubImagePath(club);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -465,7 +463,6 @@ public final class TeamManager {
 			training.setJuniors(new ArrayList<Junior>());
 			training.setPlayers(new ArrayList<Player>());
 			trainersDao.getCoachesAtTraining(training, coachMap);
-			// hmTraining.put(training.getId(), training);
 		}
 		SQLSession.close(newConnection);
 		return trainings;
@@ -532,8 +529,6 @@ public final class TeamManager {
 			SQLSession.connect();
 			TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
 			teamsDao.updateReportedTrainings();
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -597,24 +592,19 @@ public final class TeamManager {
 		boolean newConnection = SQLQuery.connect();
 		TransfersDao transfersDao = new TransfersDao(SQLSession.getConnection());
 		List<Transfer> transfers = transfersDao.getTransfers(club);
-
 		SQLQuery.close(newConnection);
 		return transfers;
 	}
 
 	public void updateTraining(Training training) throws SQLException {
-		try {
-			boolean newConnection = SQLQuery.connect();
-			TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
-			TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
+		boolean newConnection = SQLQuery.connect();
+		TeamsDao teamsDao = new TeamsDao(SQLSession.getConnection());
+		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 
-			teamsDao.updateTraining(training);
-			trainersDao.deleteCoachesAtTraining(training);
-			trainersDao.addCoachesAtTraining(training);
-			SQLQuery.close(newConnection);
-		} catch (SQLException e) {
-			throw e;
-		}
+		teamsDao.updateTraining(training);
+		trainersDao.deleteCoachesAtTraining(training);
+		trainersDao.addCoachesAtTraining(training);
+		SQLQuery.close(newConnection);
 	}
 
 }

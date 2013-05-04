@@ -28,8 +28,8 @@ import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.downloader.Synchronizer;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.interfaces.SV;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Coach;
@@ -49,7 +49,7 @@ import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.Database;
 
-public class CoreAction implements IRunnableWithProgress {
+public class CoreAction implements RunnableWithProgress {
 
 	private boolean update;
 
@@ -79,7 +79,7 @@ public class CoreAction implements IRunnableWithProgress {
 		this.update = update;
 	}
 
-	public void run(final IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(final ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		if (lock == LOCK) {
 			monitor.interrupt();
 			return;
@@ -319,14 +319,14 @@ public class CoreAction implements IRunnableWithProgress {
 			Cache.setPlayersTrash(playersManager.getPlayersFromTrashData(Cache.getClub(), juniorTrainedMap, Cache.getTrainingsMap(), transfersSellMap,
 																		 transfersBuyMap));
 
-			ArrayList<Player> alPlayers = new ArrayList<Player>();
-			alPlayers.addAll(Cache.getPlayers());
-			alPlayers.addAll(Cache.getPlayersHistory());
-			alPlayers.addAll(Cache.getPlayersTrash());
+			List<Player> players = new ArrayList<Player>();
+			players.addAll(Cache.getPlayers());
+			players.addAll(Cache.getPlayersHistory());
+			players.addAll(Cache.getPlayersTrash());
 
 			Cache.setPlayersArchiveMap(playersManager.getPlayersArchive());
 
-			for (Player player : alPlayers) {
+			for (Player player : players) {
 				if (Cache.getPlayersArchiveMap().get(player.getId()) == null) {
 					Cache.getPlayersArchiveMap().put(player.getId(), new PlayerArchive(player));
 				}
@@ -359,7 +359,7 @@ public class CoreAction implements IRunnableWithProgress {
 			monitor.subTask(Messages.getString("progressBar.info.getMatchesData")); 
 
 			Cache.setPlayersMap(new HashMap<Integer, Player>());
-			for (Player player : alPlayers) {
+			for (Player player : players) {
 				Cache.getPlayersMap().put(player.getId(), player);
 			}
 

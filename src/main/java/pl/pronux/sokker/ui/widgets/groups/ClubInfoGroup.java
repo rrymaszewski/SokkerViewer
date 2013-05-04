@@ -28,7 +28,7 @@ public class ClubInfoGroup extends Group {
 		this.setLayout(new FormLayout());
 		FormData formData;
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("team.info")); 
+		this.setText(Messages.getString("team.info"));
 		this.setForeground(Colors.getBlueDescription());
 
 		clubInfoTable = new ClubInfoTable(this, SWT.FULL_SELECTION);

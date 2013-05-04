@@ -19,9 +19,7 @@ public class TrainingDescriptionComposite extends Composite {
 		super(parent, style);
 		this.setLayout(new FormLayout());
 		
-		FormData formData;
-		
-		formData = new FormData();
+		FormData formData = new FormData();
 		formData.left = new FormAttachment(0,0);
 		formData.top = new FormAttachment(0,0);
 		formData.right = new FormAttachment(60,0);

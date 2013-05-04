@@ -5,12 +5,12 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.TableColumn;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.ui.widgets.tables.SVTable;
 
 
-public class SortTableListener<T> implements SelectionListener, ISort {
+public class SortTableListener<T> implements SelectionListener, Sort {
 	private SVTable<T> table;
 	private SVComparator<T> comparator;
 

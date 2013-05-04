@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.TableItem;
 import pl.pronux.sokker.comparators.JuniorsComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.resources.Messages;
@@ -22,7 +22,7 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.FlagsResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 
-public class JuniorsTable extends SVTable<Junior> implements ISort {
+public class JuniorsTable extends SVTable<Junior> implements Sort {
 
 	private JuniorsComparator comparator;
 

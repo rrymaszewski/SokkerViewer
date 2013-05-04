@@ -3,11 +3,11 @@ package pl.pronux.sokker.comparators;
 import java.text.Collator;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.PlayerStats;
 
-public class PlayerStatsComparator implements SVComparator<PlayerStats>, ISort {
+public class PlayerStatsComparator implements SVComparator<PlayerStats>, Sort {
 	private int column;
 
 	private int direction;

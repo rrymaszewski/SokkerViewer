@@ -838,10 +838,9 @@ public class LeagueDao {
 		return assists;
 	}
 	
-	public HashMap<Integer, Integer> getFouls(LeagueRound leagueRound) throws SQLException {
-		PreparedStatement ps;
+	public Map<Integer, Integer> getFouls(LeagueRound leagueRound) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("select player_id, sum(fouls) as sum_fouls from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(fouls) > 0 order by sum_fouls desc, player_id limit 10;"); 
 		HashMap<Integer, Integer> fouls = new LinkedHashMap<Integer, Integer>();
-		ps = connection.prepareStatement("select player_id, sum(fouls) as sum_fouls from players_stats where match_id in (select match_id from matches_team where league_id = ? and round <= ? and season = ?) group by player_id having sum(fouls) > 0 order by sum_fouls desc, player_id limit 10;"); 
 		ps.setInt(1, leagueRound.getLeagueSeason().getLeagueId());
 		ps.setInt(2, leagueRound.getRoundNumber());
 		ps.setInt(3, leagueRound.getLeagueSeason().getSeason());

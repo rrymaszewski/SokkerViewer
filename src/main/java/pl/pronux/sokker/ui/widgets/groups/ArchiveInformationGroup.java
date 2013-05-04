@@ -64,14 +64,14 @@ public class ArchiveInformationGroup extends Group {
 	}
 
 	public Integer getPlayerID() {
-		if (idText == null || idText.getText().isEmpty() || !idText.getText().matches("[0-9]+")) {  
+		if (idText == null || !idText.getText().matches("[0-9]+")) {
 			return -1;
 		}
 		return Integer.valueOf(idText.getText());
 	}
 
 	public Integer getPlayerYouthTeamId() {
-		if (youthTeamIdText == null || youthTeamIdText.getText().isEmpty() || !youthTeamIdText.getText().matches("[0-9]+")) {  
+		if (youthTeamIdText == null || !youthTeamIdText.getText().matches("[0-9]+")) {
 			return -1;
 		}
 		return Integer.valueOf(youthTeamIdText.getText());
@@ -89,7 +89,7 @@ public class ArchiveInformationGroup extends Group {
 
 		this.setLayout(layout);
 		this.setFont(ConfigBean.getFontMain());
-		this.setText(Messages.getString("archive.group.information.text")); 
+		this.setText(Messages.getString("archive.group.information.text"));
 		this.setForeground(Colors.getBlueDescription());
 
 		GridData warningGD = new GridData();
@@ -101,7 +101,7 @@ public class ArchiveInformationGroup extends Group {
 
 		idLabel = new Label(this, SWT.LEFT);
 		idLabel.setLayoutData(formData);
-		idLabel.setText(Messages.getString("player.id")); 
+		idLabel.setText(Messages.getString("player.id"));
 		idLabel.setFont(this.getFont());
 
 		idText = new Text(this, SWT.BORDER);
@@ -112,13 +112,13 @@ public class ArchiveInformationGroup extends Group {
 
 		idWarningLabel = new Label(this, SWT.NONE);
 		idWarningLabel.setForeground(ColorResources.getRed());
-		idWarningLabel.setText("*"); 
+		idWarningLabel.setText("*");
 		idWarningLabel.setVisible(false);
 		idWarningLabel.setLayoutData(warningGD);
 
 		nameLabel = new Label(this, SWT.LEFT);
 		nameLabel.setLayoutData(formData);
-		nameLabel.setText(Messages.getString("player.name")); 
+		nameLabel.setText(Messages.getString("player.name"));
 		nameLabel.setFont(this.getFont());
 
 		nameText = new Text(this, SWT.BORDER);
@@ -129,13 +129,13 @@ public class ArchiveInformationGroup extends Group {
 
 		nameWarningLabel = new Label(this, SWT.NONE);
 		nameWarningLabel.setForeground(ColorResources.getRed());
-		nameWarningLabel.setText("*"); 
+		nameWarningLabel.setText("*");
 		nameWarningLabel.setVisible(false);
 		nameWarningLabel.setLayoutData(warningGD);
 
 		surnameLabel = new Label(this, SWT.LEFT);
 		surnameLabel.setLayoutData(formData);
-		surnameLabel.setText(Messages.getString("player.surname")); 
+		surnameLabel.setText(Messages.getString("player.surname"));
 		surnameLabel.setFont(this.getFont());
 
 		surnameText = new Text(this, SWT.BORDER);
@@ -146,13 +146,13 @@ public class ArchiveInformationGroup extends Group {
 
 		surnameWarningLabel = new Label(this, SWT.NONE);
 		surnameWarningLabel.setForeground(ColorResources.getRed());
-		surnameWarningLabel.setText("*"); 
+		surnameWarningLabel.setText("*");
 		surnameWarningLabel.setVisible(false);
 		surnameWarningLabel.setLayoutData(warningGD);
 
 		youthTeamIdLabel = new Label(this, SWT.LEFT);
 		youthTeamIdLabel.setLayoutData(formData);
-		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id")); 
+		youthTeamIdLabel.setText(Messages.getString("player.youth.team.id"));
 		youthTeamIdLabel.setFont(this.getFont());
 
 		youthTeamIdText = new Text(this, SWT.BORDER);
@@ -163,13 +163,13 @@ public class ArchiveInformationGroup extends Group {
 
 		youthTeamIdWarningLabel = new Label(this, SWT.NONE);
 		youthTeamIdWarningLabel.setForeground(ColorResources.getRed());
-		youthTeamIdWarningLabel.setText("*"); 
+		youthTeamIdWarningLabel.setText("*");
 		youthTeamIdWarningLabel.setVisible(false);
 		youthTeamIdWarningLabel.setLayoutData(warningGD);
 
 		countryLabel = new Label(this, SWT.LEFT);
 		countryLabel.setLayoutData(formData);
-		countryLabel.setText(Messages.getString("player.country")); 
+		countryLabel.setText(Messages.getString("player.country"));
 		countryLabel.setFont(this.getFont());
 
 		gridData = new GridData();
@@ -181,7 +181,7 @@ public class ArchiveInformationGroup extends Group {
 
 		countryWarningLabel = new Label(this, SWT.NONE);
 		countryWarningLabel.setForeground(ColorResources.getRed());
-		countryWarningLabel.setText("*"); 
+		countryWarningLabel.setText("*");
 		countryWarningLabel.setVisible(false);
 		countryWarningLabel.setLayoutData(warningGD);
 
@@ -192,7 +192,7 @@ public class ArchiveInformationGroup extends Group {
 
 		saveButton = new Button(this, SWT.PUSH);
 		saveButton.setLayoutData(gridData);
-		saveButton.setText(Messages.getString("button.save")); 
+		saveButton.setText(Messages.getString("button.save"));
 		saveButton.setEnabled(false);
 		saveButton.setFont(this.getFont());
 
@@ -201,14 +201,14 @@ public class ArchiveInformationGroup extends Group {
 			public void handleEvent(Event arg0) {
 				if (playerArchive != null) {
 					int countryID = (Integer) countryImageLabel.getData("id");
-					if (nameText.getText().length() == 0 || surnameText.getText().length() == 0 || countryID == FlagsResources.EMPTY_FLAG) {
-						if (nameText.getText().length() == 0) {
+					if (nameText.getText().isEmpty() || surnameText.getText().isEmpty() || countryID == FlagsResources.EMPTY_FLAG) {
+						if (nameText.getText().isEmpty()) {
 							nameWarningLabel.setVisible(true);
 						} else {
 							nameWarningLabel.setVisible(false);
 						}
 
-						if (surnameText.getText().length() == 0) {
+						if (surnameText.getText().isEmpty()) {
 							surnameWarningLabel.setVisible(true);
 						} else {
 							surnameWarningLabel.setVisible(false);
@@ -226,7 +226,7 @@ public class ArchiveInformationGroup extends Group {
 						playerArchive.setName(nameText.getText());
 						playerArchive.setSurname(surnameText.getText());
 						playerArchive.setCountryId(countryID);
-						if (youthTeamIdText.getText().matches("[0-9]+")) { 
+						if (youthTeamIdText.getText().matches("[0-9]+")) {
 							playerArchive.setYouthTeamId(Integer.valueOf(youthTeamIdText.getText()));
 						}
 						playerArchive.setExistsInSokker(PlayerArchive.EXISTS_IN_SOKKER_COMPLETED);
@@ -252,7 +252,7 @@ public class ArchiveInformationGroup extends Group {
 					int id = countryChooser.getId();
 					// if (id >= 0 && id < FlagsResources.EMPTY_FLAG) {
 					countryImageLabel.setImage(FlagsResources.getFlag(id));
-					countryImageLabel.setData("id", id); 
+					countryImageLabel.setData("id", id);
 					// }
 					break;
 				default:
@@ -273,14 +273,14 @@ public class ArchiveInformationGroup extends Group {
 		youthTeamIdText.setText(String.valueOf(playerArchive.getYouthTeamId()));
 		if (playerArchive.getCountryId() == 0) {
 			countryImageLabel.setImage(FlagsResources.getFlag(FlagsResources.EMPTY_FLAG));
-			countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG); 
+			countryImageLabel.setData("id", FlagsResources.EMPTY_FLAG);
 		} else {
 			countryImageLabel.setImage(FlagsResources.getFlag(playerArchive.getCountryId()));
-			countryImageLabel.setData("id", playerArchive.getCountryId()); 
+			countryImageLabel.setData("id", playerArchive.getCountryId());
 		}
 
 		if (playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_FALSE
-			|| playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_COMPLETED) {
+				|| playerArchive.getExistsInSokker() == PlayerArchive.EXISTS_IN_SOKKER_COMPLETED) {
 			saveButton.setEnabled(true);
 			surnameText.setEditable(true);
 			nameText.setEditable(true);

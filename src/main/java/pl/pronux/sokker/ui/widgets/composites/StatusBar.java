@@ -16,10 +16,9 @@ public class StatusBar extends Composite {
 	public StatusBar(Composite composite, int style) {
 		super(composite, style);
 		this.setLayout(new FormLayout());
-		FormData formData;
 		
 		lastUpdateLabel = new CLabel(this, SWT.NONE);
-		formData = new FormData();
+		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.bottom = new FormAttachment(100, 0);
 		formData.left = new FormAttachment(0, 5);

@@ -38,8 +38,8 @@ public final class TrainersManager {
 		TrainersDao trainersDao = new TrainersDao(SQLSession.getConnection());
 		trainersDao.deleteCoachesAtTraining(training);
 
-		List<Coach> alAssistants = new ArrayList<Coach>();
-		training.setAssistants(alAssistants);
+		List<Coach> assistants = new ArrayList<Coach>();
+		training.setAssistants(assistants);
 
 		for (Coach trainer : trainers) {
 			if (trainer.getJob() == HEAD_COACH) {
@@ -57,8 +57,8 @@ public final class TrainersManager {
 	
 	public void importTrainersAtTraining(List<Coach> alTrainers, Training training) throws SQLException {
 
-		List<Coach> alAssistants = new ArrayList<Coach>();
-		training.setAssistants(alAssistants);
+		List<Coach> assistants = new ArrayList<Coach>();
+		training.setAssistants(assistants);
 
 		for (Coach coach : alTrainers) {
 			if (coach.getJob() == HEAD_COACH) {
@@ -97,9 +97,7 @@ public final class TrainersManager {
 			// wstawiane dane przeparsowac a najlepiej przepisac do obiektu
 			// player
 			if (!trainersDao.existsCoach(coach.getId())) {
-
 				trainersDao.addCoach(coach);
-
 			} else {
 				if (trainersDao.existsCoachHistory(coach.getId())) {
 					trainersDao.moveCoach(coach.getId(), 0);
@@ -107,7 +105,6 @@ public final class TrainersManager {
 				trainersDao.updateCoach(coach);
 			}
 		}
-
 	}
 
 	public void importerTrainers(List<Coach> trainers) throws SQLException {
@@ -140,9 +137,7 @@ public final class TrainersManager {
 			// wstawiane dane przeparsowac a najlepiej przepisac do obiektu
 			// player
 			if (!trainersDao.existsCoach(coach.getId())) {
-
 				trainersDao.addCoach(coach);
-
 			} else {
 				if (trainersDao.existsCoachHistory(coach.getId())) {
 					trainersDao.moveCoach(coach.getId(), 0);
@@ -152,7 +147,6 @@ public final class TrainersManager {
 				}
 			}
 		}
-
 	}
 
 	

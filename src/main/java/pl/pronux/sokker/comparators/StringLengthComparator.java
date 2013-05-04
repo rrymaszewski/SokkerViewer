@@ -2,9 +2,9 @@ package pl.pronux.sokker.comparators;
 
 import java.util.Comparator;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 
-public class StringLengthComparator implements Comparator<String>, ISort {
+public class StringLengthComparator implements Comparator<String>, Sort {
 	
 	public static final int LENGTH = 0;
 	

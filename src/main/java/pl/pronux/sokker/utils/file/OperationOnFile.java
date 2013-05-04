@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
 import pl.pronux.sokker.model.PlayerInterface;
 import pl.pronux.sokker.resources.Messages;
 
@@ -144,8 +144,7 @@ public class OperationOnFile {
 
 	public static boolean moveFile(File source, String destination) {
 		// Move file to new directory
-		boolean success = source.renameTo(new File(destination, source.getName()));
-		return success;
+		return source.renameTo(new File(destination, source.getName()));
 	}
 
 	public static String readFromFile(String fileName) throws IOException {
@@ -188,8 +187,7 @@ public class OperationOnFile {
 		if (directoryName == null) {
 			return false;
 		}
-		boolean success = (new File(directoryName)).mkdirs();
-		return success;
+		return (new File(directoryName)).mkdirs();
 	}
 
 	public static void generateToPDF(String file, String text) throws IOException, DocumentException {
@@ -251,7 +249,7 @@ public class OperationOnFile {
 		}
 	}
 
-	public static List<File> getFileChildren(File dir, FileFilter filter, List<File> listFiles, IProgressMonitor monitor) {
+	public static List<File> getFileChildren(File dir, FileFilter filter, List<File> listFiles, ProgressMonitor monitor) {
 		// This filter only returns directories
 		if (dir.isDirectory()) {
 			monitor.beginTask(Messages.getString("OperationOnFile.scanning"), 1); 

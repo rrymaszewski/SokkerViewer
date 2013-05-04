@@ -36,8 +36,8 @@ import pl.pronux.sokker.downloader.xml.XMLDownloader;
 import pl.pronux.sokker.downloader.xml.parsers.VarsXmlParser;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.exceptions.SVSynchronizerCriticalException;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Match;
@@ -47,9 +47,8 @@ import pl.pronux.sokker.model.Training;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.utils.Log;
 
-public class Synchronizer implements IRunnableWithProgress {
+public class Synchronizer implements RunnableWithProgress {
 
-	private String vars;
 
 	private SokkerViewerSettings settings;
 
@@ -70,7 +69,7 @@ public class Synchronizer implements IRunnableWithProgress {
 		this.settings = settings;
 	}
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		if (configuration != null && configuration.isDownloadBase() && monitor != null) {
 
 			monitor.beginTask(Messages.getString("synchronizer.info"), 15); 
@@ -88,6 +87,7 @@ public class Synchronizer implements IRunnableWithProgress {
 				throw new InvocationTargetException(
 					new SVSynchronizerCriticalException(Messages.getString("login.error." + Synchronizer.ERROR_MESSAGE_NULL), e)); 
 			}
+			String vars;
 			if (downloader.getStatus().equals(SokkerAuthentication.OK)) {
 				try {
 					vars = downloader.getVars();

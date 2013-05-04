@@ -14,15 +14,15 @@ import pl.pronux.sokker.downloader.HTMLDownloader;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.updater.model.Package;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 import pl.pronux.sokker.utils.security.Crypto;
 
-public class PackagesDownloader implements IRunnableWithProgress {
+public class PackagesDownloader implements RunnableWithProgress {
 	
 	private static final String SERVER_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjI8H/0thn2jwRH/hWOGeK3bsCDoB7TJ9HyKlZT2jD8vA//CPcou4UPCk8HLPDVlbv5aETe572t+wz5En6k24wEjsO4H5cQicZ3aPM5tYDc1Abn0UsttZ7DJvCqHQqTP2xruNZ4LstYHm1WQG8CfT0aDUsK10Mlly0ZiSlmVunhQIDAQAB"; 
 
@@ -39,7 +39,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 
 	}
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		try {
 			monitor.beginTask(String.format("%s (1/5)", Messages.getString("updater.label.package.download")), 1);  
 			downloadPackages(mirror + versionType, System.getProperty("user.dir") + File.separator + "tmp", packages, monitor);  
@@ -77,7 +77,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 
 	}
 
-	private void unzipPackages(List<Package> packages, IProgressMonitor monitor) throws SVException {
+	private void unzipPackages(List<Package> packages, ProgressMonitor monitor) throws SVException {
 		monitor.setTotalTime(packages.size());
 		for (Package pkg : packages) {
 			monitor.subTask(pkg.getFilename());
@@ -93,7 +93,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 		}
 	}
 
-	private void downloadPackages(final String mirror, String tempDirectory, List<Package> packages, IProgressMonitor monitor) throws IOException, SVException {
+	private void downloadPackages(final String mirror, String tempDirectory, List<Package> packages, ProgressMonitor monitor) throws IOException, SVException {
 		monitor.setTotalTime(packages.size());
 		HTMLDownloader htmlDownloader;
 			for (Package pkg : packages) {
@@ -110,7 +110,7 @@ public class PackagesDownloader implements IRunnableWithProgress {
 			}
 	}
 
-	private void verifyPackages(List<Package> packages, PublicKey pubk, IProgressMonitor monitor) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, SVException, BadArgumentException {
+	private void verifyPackages(List<Package> packages, PublicKey pubk, ProgressMonitor monitor) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, SVException, BadArgumentException {
 
 		monitor.setTotalTime(packages.size());
 		for (Package pkg : packages) {

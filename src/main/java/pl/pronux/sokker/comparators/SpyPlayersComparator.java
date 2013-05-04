@@ -4,12 +4,12 @@ import java.text.Collator;
 import java.util.Collections;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.PlayerStats;
 
-public class SpyPlayersComparator implements SVComparator<Player>, ISort {
+public class SpyPlayersComparator implements SVComparator<Player>, Sort {
 	public static final int COUNTRY = 0;
 
 	public static final int NAME = 1;

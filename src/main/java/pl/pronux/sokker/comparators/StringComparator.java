@@ -4,9 +4,9 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 
-public class StringComparator implements Comparator<String>, ISort {
+public class StringComparator implements Comparator<String>, Sort {
 	
 	public static final int LENGTH = 0;
 	

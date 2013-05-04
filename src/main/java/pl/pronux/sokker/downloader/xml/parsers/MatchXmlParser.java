@@ -136,9 +136,9 @@ public class MatchXmlParser {
 
 	private TeamStats tempTeam;
 
-	private int homeTeamID;
+	private int homeTeamId;
 
-	private int awayTeamID;
+	private int awayTeamId;
 
 	private List<PlayerStats> alPlayersStats;
 	
@@ -170,11 +170,11 @@ public class MatchXmlParser {
 					break;
 				case TAG_HOME_TEAM_ID:
 					match.setHomeTeamId(Integer.parseInt(message.toString()));
-					homeTeamID = Integer.parseInt(message.toString());
+					homeTeamId = Integer.parseInt(message.toString());
 					break;
 				case TAG_AWAY_TEAM_ID:
 					match.setAwayTeamId(Integer.parseInt(message.toString()));
-					awayTeamID = Integer.parseInt(message.toString());
+					awayTeamId = Integer.parseInt(message.toString());
 					break;
 				case TAG_HOME_TEAM_NAME:
 					match.setHomeTeamName(message.toString());
@@ -316,10 +316,10 @@ public class MatchXmlParser {
 			public void endElement(String namespaceURL, String localName, String qName) {
 				currentTag = 0;
 				if (localName.equalsIgnoreCase("teamStats")) { 
-					if (homeTeamID == tempTeam.getTeamId()) {
+					if (homeTeamId == tempTeam.getTeamId()) {
 						homeTeam = tempTeam;
 						match.setHomeTeamStats(homeTeam);
-					} else if (awayTeamID == tempTeam.getTeamId()) {
+					} else if (awayTeamId == tempTeam.getTeamId()) {
 						awayTeam = tempTeam;
 						match.setAwayTeamStats(awayTeam);
 					}
@@ -338,8 +338,8 @@ public class MatchXmlParser {
 
 			public void startDocument() {
 				match = new Match();
-				awayTeamID = 0;
-				homeTeamID = 0;
+				awayTeamId = 0;
+				homeTeamId = 0;
 				homeTeam = new TeamStats();
 				awayTeam = new TeamStats();
 			}
@@ -476,9 +476,8 @@ public class MatchXmlParser {
 
 		} // SAXHandler
 
-		XMLReader parser;
 		try {
-			parser = XMLReaderFactory.createXMLReader();
+			XMLReader parser = XMLReaderFactory.createXMLReader();
 			SAXHandler handler = new SAXHandler();
 			parser.setContentHandler(handler);
 			parser.setErrorHandler(new MatchErrorHandler());

@@ -583,8 +583,7 @@ public class ViewNT implements IPlugin {
 			String params = "parser=" + parameters;
 			String referer = url;
 
-			String value = htmlDownloader.postDataToPage(url, params, referer);
-			return value;
+			return htmlDownloader.postDataToPage(url, params, referer);
 		} catch (InvalidKeyException e2) {
 			new BugReporter(composite.getDisplay()).openErrorMessage("ViewNT", e2);
 		} catch (NoSuchAlgorithmException e2) {

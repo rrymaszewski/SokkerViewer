@@ -31,7 +31,7 @@ import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Player;
 import pl.pronux.sokker.model.SVNumberFormat;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -46,7 +46,7 @@ import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.tables.AssitantPlayersTable;
 
-public class ViewAssistant implements IPlugin, ISort {
+public class ViewAssistant implements IPlugin, Sort {
 
 	private class Configure implements IViewConfigure {
 
@@ -432,36 +432,34 @@ public class ViewAssistant implements IPlugin, ISort {
 			// confTable.setMenu(menuClear);
 			fillConfigurationTable(confTable, data);
 			addTableEditor(confTable);
-			confTableListener = new Listener() {
-
-				public void handleEvent(Event event) {
-					switch (event.type) {
-					case SWT.MouseDown:
-						if (event.button == 3) {
-							// // Rectangle clientArea = allCoachesTable.getClientArea();
-							// Point pt = new Point(event.x, event.y);
-							// TableItem item = confTable.getItem(pt);
-							// if (item != null) {
-							// confTable.setMenu(menuPopUp);
-							// confTable.getMenu().setVisible(true);
-							// } else {
-							// confTable.setMenu(menuClear);
-							// }
-						}
-						break;
-					}
-				}
-			};
-			confTable.addListener(SWT.MouseDown, confTableListener);
-			confTable.addListener(SWT.Selection, confTableListener);
+//			confTableListener = new Listener() {
+//
+//				public void handleEvent(Event event) {
+//					switch (event.type) {
+//					case SWT.MouseDown:
+//						if (event.button == 3) {
+//							// // Rectangle clientArea = allCoachesTable.getClientArea();
+//							// Point pt = new Point(event.x, event.y);
+//							// TableItem item = confTable.getItem(pt);
+//							// if (item != null) {
+//							// confTable.setMenu(menuPopUp);
+//							// confTable.getMenu().setVisible(true);
+//							// } else {
+//							// confTable.setMenu(menuClear);
+//							// }
+//						}
+//						break;
+//					}
+//				}
+//			};
+//			confTable.addListener(SWT.MouseDown, confTableListener);
+//			confTable.addListener(SWT.Selection, confTableListener);
 
 		}
 
 	}
 
 	private Composite composite;
-
-	private Listener confTableListener;
 
 	private int[][] data;
 
@@ -472,8 +470,6 @@ public class ViewAssistant implements IPlugin, ISort {
 	private List<Player> players;
 
 	private AssitantPlayersTable playersTable;
-
-	private Listener playersTableListener;
 
 	private FormData sashFormData;
 
@@ -537,7 +533,7 @@ public class ViewAssistant implements IPlugin, ISort {
 		playersTable.setLayoutData(viewFormData);
 	}
 
-	private void addPopupMenu() {
+//	private void addPopupMenu() {
 		// added popup menu
 		// menuPopUp = new Menu(confTable.getShell(), SWT.POP_UP);
 		// MenuItem menuItem = new MenuItem(menuPopUp, SWT.PUSH);
@@ -555,8 +551,7 @@ public class ViewAssistant implements IPlugin, ISort {
 		// });
 
 //		menuClear = new Menu(composite.getShell(), SWT.POP_UP);
-
-	}
+//	}
 
 	public void clear() {
 
@@ -884,7 +879,7 @@ public class ViewAssistant implements IPlugin, ISort {
 		composite.setLayout(new FormLayout());
 
 		setPlayersView();
-		addPopupMenu();
+//		addPopupMenu();
 
 		composite.layout(true);
 	}
@@ -1068,23 +1063,23 @@ public class ViewAssistant implements IPlugin, ISort {
 		
 		playersTable.fill(players);
 
-		playersTableListener = new Listener() {
+		Listener playersTableListener = new Listener() {
 
 			public void handleEvent(Event event) {
 				switch (event.type) {
-				case SWT.MouseDown:
-					if (event.button == 3) {
-						// // Rectangle clientArea = allCoachesTable.getClientArea();
-						// Point pt = new Point(event.x, event.y);
-						// TableItem item = confTable.getItem(pt);
-						// if (item != null) {
-						// confTable.setMenu(menuPopUp);
-						// confTable.getMenu().setVisible(true);
-						// } else {
-						// confTable.setMenu(menuClear);
-						// }
-					}
-					break;
+//				case SWT.MouseDown:
+//					if (event.button == 3) {
+//						// // Rectangle clientArea = allCoachesTable.getClientArea();
+//						// Point pt = new Point(event.x, event.y);
+//						// TableItem item = confTable.getItem(pt);
+//						// if (item != null) {
+//						// confTable.setMenu(menuPopUp);
+//						// confTable.getMenu().setVisible(true);
+//						// } else {
+//						// confTable.setMenu(menuClear);
+//						// }
+//					}
+//					break;
 				case SWT.Selection:
 					if (playersTable.getSelectionCount() == 1) {
 						TableItem[] items = playersTable.getSelection();

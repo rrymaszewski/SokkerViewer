@@ -1,8 +1,8 @@
 package pl.pronux.sokker.ui.widgets.custom;
 
-import pl.pronux.sokker.interfaces.IProgressMonitor;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
 
-public class Monitor implements IProgressMonitor {
+public class Monitor implements ProgressMonitor {
 
 	private boolean canceled;
 	private boolean done;

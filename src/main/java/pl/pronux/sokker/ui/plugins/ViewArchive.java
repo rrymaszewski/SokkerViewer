@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.PlayerArchiveComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.PlayerArchive;
 import pl.pronux.sokker.model.SokkerViewerSettings;
 import pl.pronux.sokker.resources.Messages;
@@ -39,7 +39,7 @@ import pl.pronux.sokker.ui.widgets.groups.ArchiveSearchGroup;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 import pl.pronux.sokker.ui.widgets.tables.PlayersArchiveTable;
 
-public class ViewArchive implements IPlugin, ISort {
+public class ViewArchive implements IPlugin, Sort {
 
 	private Composite composite;
 	private TreeItem treeItem;

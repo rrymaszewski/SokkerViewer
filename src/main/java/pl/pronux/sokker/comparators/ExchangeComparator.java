@@ -3,11 +3,11 @@ package pl.pronux.sokker.comparators;
 import java.text.Collator;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Exchange;
 
-public class ExchangeComparator implements SVComparator<Exchange>, ISort {
+public class ExchangeComparator implements SVComparator<Exchange>, Sort {
 
 //	public static final int FLAG = 0;
 

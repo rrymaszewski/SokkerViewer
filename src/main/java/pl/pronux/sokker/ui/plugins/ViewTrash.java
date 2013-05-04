@@ -34,7 +34,7 @@ import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
 import pl.pronux.sokker.data.sql.dao.JuniorsDao;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Person;
@@ -53,7 +53,7 @@ import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.composites.TabComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
-public class ViewTrash implements IPlugin, ISort {
+public class ViewTrash implements IPlugin, Sort {
 
 	private PersonsManager personsManager = PersonsManager.getInstance();
 

@@ -3,11 +3,11 @@ package pl.pronux.sokker.comparators;
 import java.text.Collator;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Country;
 
-public class CountryComparator implements SVComparator<Country>, ISort {
+public class CountryComparator implements SVComparator<Country>, Sort {
 	public static final int ID = 0;
 	public static final int NAME = 1;
 	public static final int CURRENCY_NAME = 2;

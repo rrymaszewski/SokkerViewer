@@ -146,10 +146,10 @@ public class TeamsDao {
 		return club;
 	}
 
-	public Set<Integer> getVisitedCountries(int teamID) throws SQLException {
+	public Set<Integer> getVisitedCountries(int teamId) throws SQLException {
 		Set<Integer> visistedCountries = new HashSet<Integer>();
 		PreparedStatement ps = connection.prepareStatement("SELECT DISTINCT c.country FROM club as c, matches_team as m where m.away_team_id = ? and c.id = m.home_team_id"); 
-		ps.setInt(1, teamID);
+		ps.setInt(1, teamId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			visistedCountries.add(rs.getInt(1));

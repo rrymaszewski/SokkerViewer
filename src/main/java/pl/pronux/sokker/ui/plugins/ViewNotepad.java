@@ -34,7 +34,7 @@ import pl.pronux.sokker.comparators.NoteComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.DateConst;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Note;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -47,7 +47,7 @@ import pl.pronux.sokker.ui.interfaces.IViewConfigure;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
-public class ViewNotepad implements IPlugin, ISort {
+public class ViewNotepad implements IPlugin, Sort {
 
 	private SchedulerManager schedulerManager = SchedulerManager.getInstance();
 	

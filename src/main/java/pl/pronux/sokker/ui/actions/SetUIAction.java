@@ -4,15 +4,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.handlers.ViewerHandler;
 import pl.pronux.sokker.ui.interfaces.IPlugin;
 
-public class SetUIAction implements IRunnableWithProgress {
+public class SetUIAction implements RunnableWithProgress {
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		List<IPlugin> pluginsList = ViewerHandler.getViewer().getPlugins();
 		monitor.beginTask(Messages.getString("SetUIAction.info"), pluginsList.size()); 
 

@@ -19,6 +19,10 @@ import pl.pronux.sokker.model.Match;
 
 public final class LeaguesManager {
 
+	private static final int POINTS_FOR_DRAW = 1;
+	private static final int POINTS_FOR_LOSS = 0;
+	private static final int POINTS_FOR_WIN = 3;
+	
 	private static LeaguesManager instance = new LeaguesManager();
 
 	private LeaguesManager() {
@@ -121,18 +125,18 @@ public final class LeaguesManager {
 					homeLeagueTeam.setLeagueId(match.getLeagueId());
 					awayLeagueTeam.setLeagueId(match.getLeagueId());
 					if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
-						homeLeagueTeam.setPoints(3);
-						awayLeagueTeam.setPoints(0);
+						homeLeagueTeam.setPoints(POINTS_FOR_WIN);
+						awayLeagueTeam.setPoints(POINTS_FOR_LOSS);
 						homeLeagueTeam.setWins(1);
 						awayLeagueTeam.setLosses(1);
 					} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
-						homeLeagueTeam.setPoints(0);
-						awayLeagueTeam.setPoints(3);
+						homeLeagueTeam.setPoints(POINTS_FOR_LOSS);
+						awayLeagueTeam.setPoints(POINTS_FOR_WIN);
 						homeLeagueTeam.setLosses(1);
 						awayLeagueTeam.setWins(1);
 					} else {
-						homeLeagueTeam.setPoints(1);
-						awayLeagueTeam.setPoints(1);
+						homeLeagueTeam.setPoints(POINTS_FOR_DRAW);
+						awayLeagueTeam.setPoints(POINTS_FOR_DRAW);
 						homeLeagueTeam.setDraws(1);
 						awayLeagueTeam.setDraws(1);
 					}
@@ -210,18 +214,18 @@ public final class LeaguesManager {
 						homeLeagueTeam.setDraws(previousHomeLeagueTeam.getDraws());
 
 						if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
-							homeLeagueTeam.setPoints(previousHomeLeagueTeam.getPoints() + 3);
+							homeLeagueTeam.setPoints(previousHomeLeagueTeam.getPoints() + POINTS_FOR_WIN);
 							awayLeagueTeam.setPoints(previousAwayLeagueTeam.getPoints());
 							homeLeagueTeam.setWins(previousHomeLeagueTeam.getWins() + 1);
 							awayLeagueTeam.setLosses(previousAwayLeagueTeam.getLosses() + 1);
 						} else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
 							homeLeagueTeam.setPoints(previousHomeLeagueTeam.getPoints());
-							awayLeagueTeam.setPoints(previousAwayLeagueTeam.getPoints() + 3);
+							awayLeagueTeam.setPoints(previousAwayLeagueTeam.getPoints() + POINTS_FOR_WIN);
 							homeLeagueTeam.setLosses(previousHomeLeagueTeam.getLosses() + 1);
 							awayLeagueTeam.setWins(previousAwayLeagueTeam.getWins() + 1);
 						} else {
-							homeLeagueTeam.setPoints(previousHomeLeagueTeam.getPoints() + 1);
-							awayLeagueTeam.setPoints(previousAwayLeagueTeam.getPoints() + 1);
+							homeLeagueTeam.setPoints(previousHomeLeagueTeam.getPoints() + POINTS_FOR_DRAW);
+							awayLeagueTeam.setPoints(previousAwayLeagueTeam.getPoints() + POINTS_FOR_DRAW);
 							homeLeagueTeam.setDraws(previousHomeLeagueTeam.getDraws() + 1);
 							awayLeagueTeam.setDraws(previousAwayLeagueTeam.getDraws() + 1);
 						}

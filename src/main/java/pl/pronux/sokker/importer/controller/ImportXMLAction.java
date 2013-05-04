@@ -25,8 +25,8 @@ import pl.pronux.sokker.downloader.xml.parsers.OldXmlParser;
 import pl.pronux.sokker.importer.model.IXMLpack;
 import pl.pronux.sokker.importer.model.XMLpack;
 import pl.pronux.sokker.importer.model.XMLpackOld;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.model.Club;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Junior;
@@ -38,7 +38,7 @@ import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.utils.Log;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 
-public class ImportXMLAction implements IRunnableWithProgress {
+public class ImportXMLAction implements RunnableWithProgress {
 
 	private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
 
@@ -56,7 +56,7 @@ public class ImportXMLAction implements IRunnableWithProgress {
 		this.packages = packages;
 	}
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		monitor.beginTask(Messages.getString("ImportXMLAction.start"), packages.size()); 
 		try {
 			SQLSession.connect();

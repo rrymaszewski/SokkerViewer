@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import pl.pronux.sokker.comparators.BackupDBComparator;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.beans.ConfigBean;
 import pl.pronux.sokker.ui.events.UpdateEvent;
@@ -126,7 +126,7 @@ public class RestoreDatabaseShell extends Shell {
 		this.files = files;
 
 		BackupDBComparator comparator = new BackupDBComparator();
-		comparator.setDirection(ISort.DESCENDING);
+		comparator.setDirection(Sort.DESCENDING);
 		comparator.setColumn(BackupDBComparator.LONG);
 
 		Collections.sort(files, comparator);

@@ -1,10 +1,10 @@
 package pl.pronux.sokker.comparators;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Match;
 
-public class MatchesComparator implements SVComparator<Match>, ISort {
+public class MatchesComparator implements SVComparator<Match>, Sort {
 
 	public static final int WEEK_DAY = -1;
 

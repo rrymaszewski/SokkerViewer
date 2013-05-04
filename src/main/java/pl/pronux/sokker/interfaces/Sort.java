@@ -1,6 +1,6 @@
 package pl.pronux.sokker.interfaces;
 
-public interface ISort {
+public interface Sort {
 	String ARROW_UP = "  \u25b2  "; 
 	
 	String ARROW_DOWN  = "  \u25bc  "; 

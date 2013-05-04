@@ -3,12 +3,12 @@ package pl.pronux.sokker.comparators;
 import java.text.Collator;
 import java.util.Locale;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Player;
 
-public class JuniorsTrainedComparator implements SVComparator<Junior>, ISort {
+public class JuniorsTrainedComparator implements SVComparator<Junior>, Sort {
 //	public static final int ID = 0;
 
 	public static final int NAME = 0;

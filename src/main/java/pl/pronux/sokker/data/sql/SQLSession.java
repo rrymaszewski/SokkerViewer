@@ -19,12 +19,8 @@ public class SQLSession {
 	}
 
 	public static void close() throws SQLException {
-		try {
-			if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
-				SQLSession.getConnection().close();
-			}
-		} catch (SQLException e) {
-			throw e;
+		if (SQLSession.getConnection() != null && !SQLSession.getConnection().isClosed()) {
+			SQLSession.getConnection().close();
 		}
 	}
 

@@ -25,8 +25,6 @@ public final class SchedulerManager {
 			NotesDao notesDao = new NotesDao(SQLSession.getConnection());
 			notesDao.insertNote(note);
 			note.setId(notesDao.getMaxNoteId());
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -36,21 +34,15 @@ public final class SchedulerManager {
 		try {
 			SQLSession.connect();
 			new NotesDao(SQLSession.getConnection()).updateNote(note);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
 	}
 
 	public void dropNote(int id) throws SQLException {
-		try {
-			boolean newConnection = SQLQuery.connect();
-			new NotesDao(SQLSession.getConnection()).deleteNote(id);
-			SQLQuery.close(newConnection);
-		} catch (SQLException e) {
-			throw e;
-		}
+		boolean newConnection = SQLQuery.connect();
+		new NotesDao(SQLSession.getConnection()).deleteNote(id);
+		SQLQuery.close(newConnection);
 	}
 
 	public List<Note> getNoteData() throws SQLException {

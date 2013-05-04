@@ -25,7 +25,6 @@ public final class JuniorsManager {
 
 	public void addJuniors(List<Junior> juniors, Training training, int clubId) throws SQLException {
 		JuniorsDao juniorsDao = new JuniorsDao(SQLSession.getConnection());
-		String sTemp;
 		for (Junior junior : juniors) {
 			if (!juniorsDao.existsJunior(junior.getId())) {
 				juniorsDao.addJunior(junior);
@@ -43,7 +42,7 @@ public final class JuniorsManager {
 			}
 		}
 
-		sTemp = "("; 
+		String sTemp = "("; 
 
 		for (int i = 0; i < juniors.size(); i++) {
 			// warunek dla ostatniego stringa zeby nie dodawac na koncu ','
@@ -55,12 +54,12 @@ public final class JuniorsManager {
 		}
 		sTemp += ")"; 
 
-		if (juniors.size() > 0) {
-			juniorsDao.moveTrainedJuniors(sTemp, clubId);
-			juniorsDao.removeTrainedJuniors(sTemp, clubId);
-		} else {
+		if (juniors.isEmpty()) {
 			juniorsDao.moveTrainedJuniors(clubId);
 			juniorsDao.removeTrainedJuniors(clubId);
+		} else {
+			juniorsDao.moveTrainedJuniors(sTemp, clubId);
+			juniorsDao.removeTrainedJuniors(sTemp, clubId);
 		}
 	}
 
@@ -101,11 +100,11 @@ public final class JuniorsManager {
 	}
 
 	private int getJuniorAge(Date currentDay, Date oldDate, int age) {
-		int w1 = oldDate.getSokkerDate().getSeason();
+		int previousSeason = oldDate.getSokkerDate().getSeason();
 		if (oldDate.getSokkerDate().getSeasonWeek() == 15 && oldDate.getSokkerDate().getDay() == SokkerDate.FRIDAY) {
-			w1 += 1;
+			previousSeason += 1;
 		}
-		int w2 = currentDay.getSokkerDate().getSeason();
-		return age - (w2 - w1);
+		int currentSeason = currentDay.getSokkerDate().getSeason();
+		return age - (currentSeason - previousSeason);
 	}
 }

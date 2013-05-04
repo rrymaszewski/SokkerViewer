@@ -39,8 +39,6 @@ public final class PlayersManager {
 		try {
 			SQLSession.connect();
 			new PlayersArchiveDao(SQLSession.getConnection()).updatePlayerArchive(playerArchive);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -214,9 +212,6 @@ public final class PlayersManager {
 					}
 				}
 			}
-
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -278,8 +273,7 @@ public final class PlayersManager {
 
 	public String getPlayerArchiveNote(int playerID) throws SQLException {
 		PlayersArchiveDao playersArchiveDao = new PlayersArchiveDao(SQLSession.getConnection());
-		String note = playersArchiveDao.getPlayerArchiveNote(playerID);
-		return note;
+		return playersArchiveDao.getPlayerArchiveNote(playerID);
 	}
 
 	public List<Player> getPlayersFromTrashData(Club team, Map<Integer, Junior> juniorTrainedMap, Map<Integer, Training> trainingMap,
@@ -306,8 +300,6 @@ public final class PlayersManager {
 			SQLSession.connect();
 			playerSkills.setPassTraining(!playerSkills.isPassTraining());
 			new PlayersDao(SQLSession.getConnection()).updatePlayerPassTraining(playerSkills);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -317,8 +309,6 @@ public final class PlayersManager {
 		try {
 			SQLSession.connect();
 			new PlayersDao(SQLSession.getConnection()).updatePlayerBuyPrice(player);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -357,12 +347,11 @@ public final class PlayersManager {
 			}
 
 			new PlayersDao(SQLSession.getConnection()).updatePlayerPosition(player);
+
+		} finally {
 			if (!connect) {
 				SQLSession.close();
 			}
-
-		} catch (SQLException e) {
-			throw e;
 		}
 	}
 
@@ -370,8 +359,6 @@ public final class PlayersManager {
 		try {
 			SQLSession.connect();
 			new PlayersDao(SQLSession.getConnection()).updatePlayerSoldPrice(player);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
@@ -385,16 +372,14 @@ public final class PlayersManager {
 	}
 
 	public double[] calculatePosition(Player player, int[][] data) {
-		double sum = 0.0;
 		double[] table = new double[data.length];
 
 		for (int j = 0; j < data.length; j++) {
-			sum = 0.0;
+			double sum = 0.0;
 			for (int i = 1; i < data[j].length; i++) {
 				sum += data[j][i] * player.getSkills()[player.getSkills().length - 1].getStatsTable()[i + 2];
 			}
-			sum = sum / 100;
-			table[j] = sum;
+			table[j] = sum / 100;
 		}
 		return table;
 	}
@@ -404,8 +389,6 @@ public final class PlayersManager {
 			SQLSession.connect();
 			AssistantDao assistantDao = new AssistantDao(SQLSession.getConnection());
 			assistantDao.updateAssistantData(data);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}

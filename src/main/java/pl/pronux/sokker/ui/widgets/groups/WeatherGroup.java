@@ -16,8 +16,6 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class WeatherGroup extends Group {
 
-	private FormData formData;
-
 	private Label weatherIcoLabel;
 
 	private Label temperatureIcoLabel;
@@ -39,7 +37,7 @@ public class WeatherGroup extends Group {
 
 		this.setForeground(Colors.getBlueDescription());
 
-		formData = new FormData(45, 45);
+		FormData formData = new FormData(45, 45);
 		formData.left = new FormAttachment(0, 5);
 		formData.top = new FormAttachment(0, 5);
 

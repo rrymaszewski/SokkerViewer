@@ -52,7 +52,7 @@ public final class MatchesManager {
 				leagueDao.addMatch(match);
 			}
 
-			if (match.getIsFinished() == 1) {
+			if (match.getIsFinished() == Match.FINISHED) {
 				if (!leagueDao.existsTeamStats(match.getMatchId(), match.getAwayTeamId()) && match.getAwayTeamStats() != null) {
 					leagueDao.addTeamStats(match.getMatchId(), match.getAwayTeamStats());
 					List<PlayerStats> stats = match.getAwayTeamStats().getPlayersStats();
@@ -110,29 +110,22 @@ public final class MatchesManager {
 
 	public int importMatch(String matchId) throws SQLException, IOException, SAXException, SVException {
 		XMLDownloader downloader = new XMLDownloader();
-		Match match;
 		League league;
-		String value;
 		SokkerViewerSettings settings = SettingsHandler.getSokkerViewerSettings();
 		ProxySettings proxySettings = settings.getProxySettings();
 		String destination = settings.getBaseDirectory() + File.separator + "xml" + File.separator + settings.getUsername(); 
 		downloader.login(settings.getUsername(), settings.getPassword(), proxySettings);
 
-		if (downloader.getStatus().equals("OK")) { 
-			value = "0"; 
-		} else {
-			value = downloader.getErrorno();
-		}
 		// download xmls
 		try {
-			if (value.equals("0")) { 
+			if (downloader.getStatus().equals("OK")) { 
 				if (matchId.matches("[0-9]+") || matchId.matches("http://online\\.sokker\\.org/comment\\.php\\?matchID=[0-9]+")) {  
 					SQLSession.connect();
 					MatchXmlManager manager = new MatchXmlManager(destination, downloader, Cache.getDate());
 					manager.download(Integer.valueOf(matchId.replaceAll("[^0-9]", "")));  
 					List<Match> matches = manager.parseXML();
 					if (matches.get(0) != null) {
-						match = matches.get(0);
+						Match match = matches.get(0);
 						if ((match.getAwayTeamId() == Integer.valueOf(downloader.getTeamId()) || match.getHomeTeamId() == Integer.valueOf(downloader
 							.getTeamId()))
 							&& match.getDateStarted().compareTo(Cache.getClub().getDateCreated()) > -1) {
@@ -184,7 +177,7 @@ public final class MatchesManager {
 
 				}
 			} else {
-				throw new SVException(Messages.getString("login.error." + value)); 
+				throw new SVException(Messages.getString("login.error." + downloader.getErrorno())); 
 			}
 		} finally {
 			SQLSession.close();

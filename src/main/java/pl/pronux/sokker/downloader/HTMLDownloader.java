@@ -14,7 +14,7 @@ import java.net.URLConnection;
 import java.nio.ByteBuffer;
 
 import pl.pronux.sokker.bean.Cookie;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
 
@@ -27,9 +27,8 @@ public class HTMLDownloader extends AbstractDownloader {
 		super.setProxyAuth(proxySettings.getProxyAuthentication());
 	}
 
-	public void downloadPackage(final String srcFile, String dstDirectory, String dstFile, IProgressMonitor monitor) throws IOException {
+	public void downloadPackage(final String srcFile, String dstDirectory, String dstFile, ProgressMonitor monitor) throws IOException {
 		int length;
-		int counter;
 		URL url = null;
 		try {
 			URLConnection con = getDefaultConnection(srcFile);
@@ -45,17 +44,19 @@ public class HTMLDownloader extends AbstractDownloader {
 			throw new IOException(Messages.getString("exception.url.null")); 
 		}
 
+		BufferedInputStream in = null;
+		FileOutputStream out = null;
 		try {
 			File file = new File(dstDirectory);
 			if (!file.exists()) {
 				file.mkdirs();
 			}
 			byte[] buf = new byte[4096];
-			int len;
 
-			BufferedInputStream in = new BufferedInputStream(url.openStream());
-			FileOutputStream out = new FileOutputStream(dstDirectory + File.separator + dstFile);
-			counter = 0;
+			in = new BufferedInputStream(url.openStream());
+			out = new FileOutputStream(dstDirectory + File.separator + dstFile);
+			int counter = 0;
+			int len;
 			while ((len = in.read(buf)) > 0) {
 				counter = counter + (len);
 				out.write(buf, 0, len);
@@ -65,10 +66,15 @@ public class HTMLDownloader extends AbstractDownloader {
 					monitor.subTask(String.format("%s ( %dkb)", srcFile, counter / 1000)); 
 				}
 			}
-			in.close();
-			out.close();
 		} catch (final IOException e) {
 			throw e;
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+			if (out != null) {
+				out.close();
+			}
 		}
 	}
 
@@ -105,7 +111,6 @@ public class HTMLDownloader extends AbstractDownloader {
 
 	public String getNormalPage(String urlString) throws IOException {
 		StringBuilder content = new StringBuilder();
-		String line;
 		BufferedReader in = null;
 		HttpURLConnection connection = null;
 		try {
@@ -120,6 +125,7 @@ public class HTMLDownloader extends AbstractDownloader {
 
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
+			String line;
 			while ((line = in.readLine()) != null) {
 				content.append(line).append("\n"); 
 			}

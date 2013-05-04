@@ -59,7 +59,6 @@ public class CountriesDao {
 				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -89,7 +88,6 @@ public class CountriesDao {
 				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -100,7 +98,6 @@ public class CountriesDao {
 		ps.setInt(2, region.getRegionId());
 		ps.executeUpdate();
 		ps.close();
-
 	}
 
 	public void addRegion(Region region) throws SQLException {
@@ -123,7 +120,6 @@ public class CountriesDao {
 		}
 		rs.close();
 		ps.close();
-
 		return region;
 	}
 }

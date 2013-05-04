@@ -324,9 +324,8 @@ public class PlayerXmlParser {
 
 		} // SAXHandler
 
-		XMLReader parser;
 		try {
-			parser = XMLReaderFactory.createXMLReader();
+			XMLReader parser = XMLReaderFactory.createXMLReader();
 			SAXHandler handler = new SAXHandler();
 			parser.setContentHandler(handler);
 			parser.setErrorHandler(new PlayerErrorHandler());

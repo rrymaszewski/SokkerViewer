@@ -23,7 +23,7 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 	private Map<String, String> matchesTeamMap = new HashMap<String, String>();
 
 	public MatchesTeamXmlManager(String destination, XMLDownloader downloader, Date currentDay) {
-		super("matchesTeam", destination, downloader, currentDay); //$NON-NLS-1$
+		super("matchesTeam", destination, downloader, currentDay);
 	}
 
 	@Override
@@ -69,9 +69,8 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 		return true;
 	}
 	
-	public List<Match> parseXML(int teamID) throws SAXException {
-		List<Match> matches = new ArrayList<Match>();
-		matches = parseXML(matchesTeamMap.get(String.valueOf(teamID)));
+	public List<Match> parseXML(int teamId) throws SAXException {
+		List<Match> matches = parseXML(matchesTeamMap.get(String.valueOf(teamId)));
 		return matches;
 	}
 

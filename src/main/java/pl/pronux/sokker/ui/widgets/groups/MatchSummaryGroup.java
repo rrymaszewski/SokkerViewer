@@ -27,7 +27,6 @@ public class MatchSummaryGroup extends Group {
 		super(parent, style & ~SWT.BORDER);
 		this.setLayout(new FormLayout());
 
-		FormData formData;
 		this.setText(Messages.getString("summary")); 
 		this.setForeground(Colors.getBlueDescription());
 		this.setFont(ConfigBean.getFontMain());
@@ -35,7 +34,7 @@ public class MatchSummaryGroup extends Group {
 		summaryTable = new MatchSummaryTable(this, SWT.NONE);
 		ScrollBar bar = summaryTable.getVerticalBar();
 
-		formData = new FormData();
+		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, bar.getSize().x);
 		formData.top = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);

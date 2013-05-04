@@ -11,10 +11,11 @@ import pl.pronux.sokker.ui.resources.ImageResources;
 
 public class PaintStarListener implements Listener {
 
-	private int index;
 	private static final Image STAR_FULL = ImageResources.getImageResources("star_full.png"); 
 	private static final Image STAR_HALF = ImageResources.getImageResources("star_half.png"); 
 	private static final Image STAR_EMPTY = ImageResources.getImageResources("star_empty.png"); 
+
+	private int index;
 
 	public PaintStarListener(int index) {
 		this.index = index;
@@ -40,8 +41,8 @@ public class PaintStarListener implements Listener {
 				for (int i = starsFull; i < starsHalf + starsFull; i++) {
 					event.gc.drawImage(STAR_HALF, x + i * rect.width + 1, event.y + offset);
 				}
-				int stars_empty = 10 - starsFull - starsHalf;
-				for (int i = starsFull + starsHalf; i < stars_empty + starsFull + starsHalf; i++) {
+				int starsEmpty = 10 - starsFull - starsHalf;
+				for (int i = starsFull + starsHalf; i < starsEmpty + starsFull + starsHalf; i++) {
 					event.gc.drawImage(STAR_EMPTY, x + i * rect.width + 1, event.y + offset);
 				}
 				break;

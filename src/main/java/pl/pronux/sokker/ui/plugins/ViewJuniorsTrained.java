@@ -33,7 +33,7 @@ import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.JuniorsComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -54,7 +54,7 @@ import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.tables.JuniorTrainedTable;
 import pl.pronux.sokker.ui.widgets.tables.JuniorsTrainedTable;
 
-public class ViewJuniorsTrained implements IPlugin, ISort {
+public class ViewJuniorsTrained implements IPlugin, Sort {
 
 	private PersonsManager personsManager = PersonsManager.getInstance();
 	

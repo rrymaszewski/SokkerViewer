@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ProgressBar;
 
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 
@@ -25,7 +25,7 @@ public class ProgressBarCustom extends Composite {
 	private boolean cancellable;
 	private boolean fork;
 	private int running = 0;
-	private IRunnableWithProgress runnable;
+	private RunnableWithProgress runnable;
 
 	public ProgressBarCustom(Composite parent, int style) {
 		super(parent, style);
@@ -87,7 +87,7 @@ public class ProgressBarCustom extends Composite {
 		return running > 0;
 	}
 
-	public void run(boolean fork, boolean cancellable, final IRunnableWithProgress runnable) throws InterruptedException, InvocationTargetException {
+	public void run(boolean fork, boolean cancellable, final RunnableWithProgress runnable) throws InterruptedException, InvocationTargetException {
 		monitor = new Monitor();
 		this.cancellable = cancellable;
 		this.fork = fork;

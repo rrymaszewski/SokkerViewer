@@ -16,9 +16,9 @@ import pl.pronux.sokker.downloader.HTMLDownloader;
 import pl.pronux.sokker.exceptions.BadArgumentException;
 import pl.pronux.sokker.exceptions.SVException;
 import pl.pronux.sokker.handlers.SettingsHandler;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
-import pl.pronux.sokker.interfaces.ISecurity;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
+import pl.pronux.sokker.interfaces.Security;
 import pl.pronux.sokker.model.ProxySettings;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.updater.model.PackagesCollection;
@@ -26,7 +26,7 @@ import pl.pronux.sokker.updater.xml.UpdateXMLParser;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 import pl.pronux.sokker.utils.security.Crypto;
 
-public class PackagesXMLDownloader implements IRunnableWithProgress {
+public class PackagesXMLDownloader implements RunnableWithProgress {
 	private String version;
 	private String os;
 	private String mirror;
@@ -40,13 +40,13 @@ public class PackagesXMLDownloader implements IRunnableWithProgress {
 		this.packages = packages;
 	}
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		String signature;
 		HTMLDownloader htmlDownloader;
 
 		monitor.beginTask(String.format("%s (1/4)", Messages.getString("updater.label.xml.download")), 4);  
 		try {
-			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(ISecurity.SERVER_PUBLIC_KEY), "RSA"); 
+			PublicKey pubk = Crypto.convertByteArrayToPublicKey(Crypto.decodeBase64(Security.SERVER_PUBLIC_KEY), "RSA"); 
 
 			ProxySettings proxySettings = SettingsHandler.getSokkerViewerSettings().getProxySettings();
 

@@ -65,14 +65,12 @@ public final class ConfigurationManager {
 
 	public DbProperties getDbProperties() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
-		DbProperties dbProperties = dbConfDao.getDbProperties();
-		return dbProperties;
+		return dbConfDao.getDbProperties();
 	}
 
 	public Date getMaxDate() throws SQLException {
 		DatabaseConfigurationDao dbConfDao = new DatabaseConfigurationDao(SQLSession.getConnection());
-		Date date = dbConfDao.getMaxDate();
-		return date;
+		return dbConfDao.getMaxDate();
 	}
 
 	public void updateDbStructure(int dbVersion) throws SQLException, ClassNotFoundException, IOException {

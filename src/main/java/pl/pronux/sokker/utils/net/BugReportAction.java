@@ -49,10 +49,8 @@ public class BugReportAction {
 		String referer = url;
 
 		ProxySettings proxySettings = settings.getProxySettings();
-		HTMLDownloader htmlDownloader;
-		htmlDownloader = new HTMLDownloader(proxySettings);
-		String value = htmlDownloader.postDataToPage(url, params, referer).replaceAll("[^0-9]", "");  
-		return value;
+		HTMLDownloader htmlDownloader = new HTMLDownloader(proxySettings);
+		return htmlDownloader.postDataToPage(url, params, referer).replaceAll("[^0-9]", "");  
 	}
 
 	private String getEnvironment() {

@@ -6,13 +6,18 @@
 	<name>SokkerViewer</name>
 	<version>0.13.3</version>
 	<properties>
-		<swt.version>3.5.1</swt.version>
+		<swt.version>4.2.1</swt.version>
+		<swt.os-specific-dep>org.eclipse.swt.gtk.linux.x86</swt.os-specific-dep>
 	</properties>
 	<repositories>
 		<repository>
 			<id>SokkerViewer</id>
 			<name>SokkerViewer.repository</name>
 			<url>http://www.sokkerviewer.net/repo</url>
+		</repository>
+		<repository>
+			<id>swt-repo</id>
+			<url>https://swt-repo.googlecode.com/svn/repo/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -42,9 +47,9 @@
 			<version>1.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>swt</groupId>
-			<artifactId>${swt.os-specific-dep}</artifactId>
-			<version>${swt.version}</version>
+			<groupId>org.eclipse.swt</groupId>
+			<artifactId>org.eclipse.swt.gtk.linux.x86</artifactId>
+			<version>4.2.1</version>
 		</dependency>
 	</dependencies>
 	<profiles>

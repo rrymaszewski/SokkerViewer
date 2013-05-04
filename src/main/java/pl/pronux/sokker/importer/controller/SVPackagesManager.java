@@ -12,14 +12,14 @@ import pl.pronux.sokker.importer.controller.filters.sokkerviewer.XMLOldFormatFil
 import pl.pronux.sokker.importer.model.IXMLpack;
 import pl.pronux.sokker.importer.model.XMLpack;
 import pl.pronux.sokker.importer.model.XMLpackOld;
-import pl.pronux.sokker.interfaces.IProgressMonitor;
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.ProgressMonitor;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.SokkerDate;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 
-public class SVPackagesManager extends PackagesManager implements IRunnableWithProgress {
+public class SVPackagesManager extends PackagesManager implements RunnableWithProgress {
 
 	private File directory;
 	private int teamID;
@@ -35,7 +35,7 @@ public class SVPackagesManager extends PackagesManager implements IRunnableWithP
 		this.teamID = teamID;
 	}
 
-	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public void run(ProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 		monitor.setTaskName(String.format("%s (1/9)",  Messages.getString("PackagesManager.repair.scan")));  
 		List<File> files = OperationOnFile.visitAllDirs(directory, new XMLFilter("players-[0-9]+_[0-9]+_[0-9]+_[0-9]+.xml"), new ArrayList<File>(), 1); 

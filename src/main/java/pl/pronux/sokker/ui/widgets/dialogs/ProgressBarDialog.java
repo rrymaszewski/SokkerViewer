@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
-import pl.pronux.sokker.interfaces.IRunnableWithProgress;
+import pl.pronux.sokker.interfaces.RunnableWithProgress;
 import pl.pronux.sokker.resources.Messages;
 import pl.pronux.sokker.ui.widgets.custom.Monitor;
 import pl.pronux.sokker.ui.widgets.custom.ProgressBarCustom;
@@ -22,7 +22,7 @@ public class ProgressBarDialog extends Shell {
 	private ProgressBarCustom progressBar;
 	private Button cancelButton;
 	private Button closeButton;
-	private IRunnableWithProgress runnable;
+	private RunnableWithProgress runnable;
 
 	@Override
 	protected void checkSubclass() {
@@ -112,7 +112,7 @@ public class ProgressBarDialog extends Shell {
 		return progressBar.getProgressMonitor();
 	}
 
-	public void run(boolean fork, boolean cancellable, final boolean autoclose, final IRunnableWithProgress runnable) throws InterruptedException,
+	public void run(boolean fork, boolean cancellable, final boolean autoclose, final RunnableWithProgress runnable) throws InterruptedException,
 		InvocationTargetException {
 		this.runnable = runnable;
 

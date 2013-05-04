@@ -3,3 +3,8 @@ packages
 .project
 .settings
 target
+sokker.log*
+settings/*.properties
+db/
+bak/
+xml/

@@ -25,7 +25,7 @@ import pl.pronux.sokker.actions.PersonsManager;
 import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -43,7 +43,7 @@ import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
 import pl.pronux.sokker.ui.widgets.tables.CoachFiredTable;
 
-public class ViewCoachesFired implements IPlugin, ISort {
+public class ViewCoachesFired implements IPlugin, Sort {
 
 	private PersonsManager personsManager = PersonsManager.getInstance();
 	

@@ -18,6 +18,8 @@ import pl.pronux.sokker.ui.resources.FlagsResources;
 
 public class ClubCountriesGroup extends Group {
 
+	private List<Label> labels = new ArrayList<Label>();
+
 	@Override
 	protected void checkSubclass() {
 		// super.checkSubclass();
@@ -34,7 +36,6 @@ public class ClubCountriesGroup extends Group {
 		this.setForeground(Colors.getBlueDescription());
 	}
 
-	private List<Label> labels = new ArrayList<Label>();
 	public void fill(Set<Integer> visitedCountries, List<Country> countries) {
 		Iterator<Label> itrLabel = labels.iterator();
 		while(itrLabel.hasNext()) {
@@ -55,8 +56,6 @@ public class ClubCountriesGroup extends Group {
 				countryLabel.setImage(FlagsResources.getFlagVeryLight(country.getCountryId()));
 			}
 		}
-		
 		this.layout();
 	}
-
 }

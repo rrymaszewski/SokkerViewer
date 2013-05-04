@@ -1,6 +1,6 @@
 package pl.pronux.sokker.interfaces;
 
-public interface IProgressMonitor {
+public interface ProgressMonitor {
 	int UNKNOWN = -1;
 	void beginTask(String task, int totalTime);
 	boolean isCanceled();

@@ -38,7 +38,7 @@ import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.PlayerHistoryComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.data.sql.SQLSession;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Money;
@@ -67,7 +67,7 @@ import pl.pronux.sokker.ui.widgets.tables.PlayersHistoryTable;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 import pl.pronux.sokker.utils.pdf.PDFexport;
 
-public class ViewPlayersHistory implements IPlugin, ISort {
+public class ViewPlayersHistory implements IPlugin, Sort {
 
 	private PersonsManager personsManager = PersonsManager.getInstance();
 
@@ -293,7 +293,9 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							visible = true;
 						}
 					}
-					if (!visible) return;
+					if (!visible) {
+						return;
+					}
 				}
 			}
 		});
@@ -452,7 +454,9 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							visible = true;
 						}
 					}
-					if (!visible) return;
+					if (!visible) {
+						return;
+					}
 					index++;
 				}
 			}
@@ -509,10 +513,10 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 							showDescription(playersHistoryDescription);
 							showView(allPlayersTable);
 
-						} else if (item.getData("idJunior") != null) {
+						} else if (item.getData("juniorId") != null) {
 							if (item.getParentItem().getParentItem().equals(_treeItem)) {
 								juniorTrainedTable.removeAll();
-								Integer id = (Integer) item.getData("idJunior");
+								Integer id = (Integer) item.getData("juniorId");
 								juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
 								juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
 								showDescription(juniorTrainedComposite);
@@ -891,7 +895,7 @@ public class ViewPlayersHistory implements IPlugin, ISort {
 				item = new TreeItem(item, 0);
 				item.setImage(ImageResources.getImageResources("junior.png"));
 				item.setText(Messages.getString("tree.junior"));
-				item.setData("idJunior", Integer.valueOf(players.get(i).getJunior().getId()));
+				item.setData("juniorId", Integer.valueOf(players.get(i).getJunior().getId()));
 			}
 		}
 	}

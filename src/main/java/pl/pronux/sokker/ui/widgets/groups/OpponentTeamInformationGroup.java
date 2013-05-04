@@ -26,7 +26,7 @@ public class OpponentTeamInformationGroup extends Group {
 	public OpponentTeamInformationGroup(Composite parent, int style) {
 		super(parent, style & ~SWT.BORDER);
 		this.setLayout(new FormLayout());
-		FormData formData;
+		
 		this.setFont(ConfigBean.getFontMain());
 		this.setText(Messages.getString("team.info")); 
 		this.setForeground(Colors.getBlueDescription());
@@ -35,7 +35,7 @@ public class OpponentTeamInformationGroup extends Group {
 
 		ScrollBar bar = clubInfoTable.getVerticalBar();
 
-		formData = new FormData();
+		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, bar.getSize().x);
 		formData.top = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);

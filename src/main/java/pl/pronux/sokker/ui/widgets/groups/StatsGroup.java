@@ -24,8 +24,6 @@ public class StatsGroup extends Group {
 		super(parent, style & ~SWT.BORDER);
 		this.setLayout(new FormLayout());
 		
-		FormData formData;
-		
 		this.setText(Messages.getString("table")); 
 		this.setForeground(Colors.getBlueDescription());
 		
@@ -33,7 +31,7 @@ public class StatsGroup extends Group {
 		
 		ScrollBar bar = leagueTable.getVerticalBar();
 		
-		formData = new FormData();
+		FormData formData = new FormData();
 		formData.left = new FormAttachment(0,bar.getSize().x);
 		formData.top = new FormAttachment(0,5);
 		formData.bottom = new FormAttachment(100,-5);

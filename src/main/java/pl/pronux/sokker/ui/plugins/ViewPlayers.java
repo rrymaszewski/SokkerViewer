@@ -36,7 +36,7 @@ import pl.pronux.sokker.actions.PlayersManager;
 import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.PlayerComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Date;
 import pl.pronux.sokker.model.Junior;
 import pl.pronux.sokker.model.Player;
@@ -71,13 +71,13 @@ import pl.pronux.sokker.ui.widgets.tables.PlayersTable;
 import pl.pronux.sokker.utils.file.OperationOnFile;
 import pl.pronux.sokker.utils.pdf.PDFexport;
 
-public class ViewPlayers implements IPlugin, ISort {
+public class ViewPlayers implements IPlugin, Sort {
 
 	private PlayersManager playersManager = PlayersManager.getInstance();
 
 	private TreeItem _treeItem;
 
-	private Clipboard cb;
+	private Clipboard clipboard;
 
 	private String cbData;
 
@@ -264,7 +264,7 @@ public class ViewPlayers implements IPlugin, ISort {
 				TreeItem juniorItem = new TreeItem(item, 0);
 				juniorItem.setImage(ImageResources.getImageResources("junior.png"));
 				juniorItem.setText(Messages.getString("tree.junior"));
-				juniorItem.setData("idJunior", Integer.valueOf(players.get(i).getJunior().getId()));
+				juniorItem.setData("juniorId", Integer.valueOf(players.get(i).getJunior().getId()));
 
 				TreeItem chartItem = new TreeItem(juniorItem, SWT.NONE);
 				chartItem.setText(Messages.getString("charts"));
@@ -334,13 +334,13 @@ public class ViewPlayers implements IPlugin, ISort {
 						showDescription(playersDescription);
 						showView(playersTable);
 
-					} else if (item.getData("idJunior") != null) {
+					} else if (item.getData("juniorId") != null) {
 
 						if (item.getParentItem().getParentItem().equals(_treeItem)) {
 							showMainView(vComposite);
 							comboFilter.setVisible(false);
 							juniorTrainedTable.removeAll();
-							Integer id = (Integer) item.getData("idJunior");
+							Integer id = (Integer) item.getData("juniorId");
 							juniorTrainedTable.fill(Cache.getJuniorsTrainedMap().get(id));
 							juniorTrainedComposite.setStatsJuniorInfo(Cache.getJuniorsTrainedMap().get(id));
 							showDescription(juniorTrainedComposite);
@@ -374,7 +374,7 @@ public class ViewPlayers implements IPlugin, ISort {
 //						}
 					} else if (item.getData("juniorCharts") != null) {
 
-						if (item.getParentItem().getData("idJunior") != null && item.getParentItem().getParentItem().getParentItem() != null
+						if (item.getParentItem().getData("juniorId") != null && item.getParentItem().getParentItem().getParentItem() != null
 							&& item.getParentItem().getParentItem().getParentItem().equals(_treeItem)) {
 							if (item.getData("juniorCharts") instanceof Junior) {
 								Junior junior = (Junior) item.getData("juniorCharts");
@@ -491,7 +491,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 			public void handleEvent(Event e) {
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
 			}
 		});
 
@@ -620,7 +620,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 			public void handleEvent(Event e) {
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { playerDescription.getText() }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { playerDescription.getText() }, new Transfer[] { textTransfer });
 			}
 		});
 
@@ -662,7 +662,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 			public void handleEvent(Event e) {
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { cbData }, new Transfer[] { textTransfer });
 			}
 		});
 	}
@@ -888,7 +888,7 @@ public class ViewPlayers implements IPlugin, ISort {
 
 		showMainView(vComposite);
 
-		cb = ViewerHandler.getClipboard();
+		clipboard = ViewerHandler.getClipboard();
 		players = new ArrayList<Player>();
 
 		// descMap = new HashMap<Integer, Composite>();

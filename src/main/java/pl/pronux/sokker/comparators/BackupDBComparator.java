@@ -2,10 +2,10 @@ package pl.pronux.sokker.comparators;
 
 import java.io.File;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 
-public class BackupDBComparator implements SVComparator<File>, ISort {
+public class BackupDBComparator implements SVComparator<File>, Sort {
 	
 	public static final int NAME = 0;
 	

@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import pl.pronux.sokker.bean.SvBean;
 import pl.pronux.sokker.comparators.CoachComparator;
 import pl.pronux.sokker.data.cache.Cache;
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.model.Coach;
 import pl.pronux.sokker.model.Money;
 import pl.pronux.sokker.model.SokkerViewerSettings;
@@ -39,7 +39,7 @@ import pl.pronux.sokker.ui.widgets.composites.ViewComposite;
 import pl.pronux.sokker.ui.widgets.shells.NoteShell;
 import pl.pronux.sokker.ui.widgets.tables.CoachesTable;
 
-public class ViewCoaches implements IPlugin, ISort {
+public class ViewCoaches implements IPlugin, Sort {
 
 	private TreeItem _treeItem;
 

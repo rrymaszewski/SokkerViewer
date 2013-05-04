@@ -1,10 +1,10 @@
 package pl.pronux.sokker.comparators;
 
-import pl.pronux.sokker.interfaces.ISort;
+import pl.pronux.sokker.interfaces.Sort;
 import pl.pronux.sokker.interfaces.SVComparator;
 import pl.pronux.sokker.model.Report;
 
-public class ReportComparator implements SVComparator<Report>, ISort {
+public class ReportComparator implements SVComparator<Report>, Sort {
 
 	public static final int IMAGE = 0;
 	public static final int DATE = 1;
