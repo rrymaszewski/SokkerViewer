@@ -112,7 +112,7 @@ public class Viewer extends Shell {
 		splash.setStatus(this.getClass().getSimpleName());
 		splash.open();
 
-		addColors(display);
+		addColors();
 
 		cb = new Clipboard(display);
 
@@ -318,7 +318,7 @@ public class Viewer extends Shell {
 		cb.dispose();
 	}
 
-	private void addColors(Display display) {
+	private void addColors() {
 		ConfigBean.setColorDecrease(ColorResources.getColor(255, 210, 210));
 		ConfigBean.setColorDecreaseDescription(ColorResources.getColor(255, 0, 0));
 		ConfigBean.setColorError(ColorResources.getColor(255, 0, 0));

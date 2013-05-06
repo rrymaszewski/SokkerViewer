@@ -173,7 +173,7 @@ public class TrainerXmlParser {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
 						if (name.equalsIgnoreCase("teamID")) { 
-							teamId = Integer.valueOf(value);
+							setTeamId(Integer.valueOf(value));
 						}
 					}
 				}
@@ -248,6 +248,14 @@ public class TrainerXmlParser {
 	 */
 	public List<Coach> getCoaches() {
 		return coaches;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }
 

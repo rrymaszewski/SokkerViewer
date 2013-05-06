@@ -74,9 +74,9 @@ public class PackageSigner {
 
 	private PrivateKey prvk;
 
-	protected byte[] sig;
+	private byte[] sig;
 
-	protected String directory;
+	private String directory;
 
 	// final static String SERVER_PUBLIC_KEY = "" + "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVI2+8Sj++dr68S59468aGTKBbDuwXr3+akNYB\n" +
 	// "yea8ZtzIWuT4eFolC78jJCVZuAJzbJvcDy4iu0RhLKXNo+CujtrtLiM9rhfQvMtpyMSEcx1LVL82\n" + "4aEMpA0k/Lh+kEZ54uCQwTaVvpOj6GDvnZli9M49ZIOJamd86vkwhI/AJwIDAQAB";
@@ -170,15 +170,12 @@ public class PackageSigner {
 				// } else
 				// table.removeAll();
 				if (filenames != null) {
-					if (filenames.length > 0) {
-						for (int i = 0; i < filenames.length; i++) {
-							new TableItem(table, SWT.NONE).setText(directory + filenames[i]);
-						}
-						table.getColumn(0).pack();
-						signButton.setEnabled(true);
-						verifyButton.setEnabled(true);
+					for (int i = 0; i < filenames.length; i++) {
+						new TableItem(table, SWT.NONE).setText(directory + filenames[i]);
 					}
-
+					table.getColumn(0).pack();
+					signButton.setEnabled(true);
+					verifyButton.setEnabled(true);
 				}
 			}
 

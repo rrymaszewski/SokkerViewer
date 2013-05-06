@@ -1,6 +1,5 @@
 package pl.pronux.sokker.data.properties.dao;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pl.pronux.sokker.data.properties.PropertiesDatabase;

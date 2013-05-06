@@ -1,6 +1,5 @@
 package pl.pronux.sokker.actions;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import pl.pronux.sokker.data.properties.PropertiesDatabase;
@@ -19,11 +18,11 @@ public final class SettingsManager {
 		return instance;
 	}
 
-	public void updateSettings(SokkerViewerSettings settings) throws FileNotFoundException, IOException, SVException {
+	public void updateSettings(SokkerViewerSettings settings) throws IOException, SVException {
 		new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).updateSokkerViewerSettings(settings);
 	}
 	
-	public SokkerViewerSettings getSettings() throws FileNotFoundException, IOException {
+	public SokkerViewerSettings getSettings() throws IOException {
 		return new SokkerViewerSettingsDao(PropertiesDatabase.getSession()).getSokkerViewerSettings();
 	}
 

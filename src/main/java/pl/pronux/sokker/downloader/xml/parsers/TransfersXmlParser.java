@@ -123,7 +123,7 @@ public class TransfersXmlParser {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
 						if (name.equalsIgnoreCase("teamID")) { 
-							teamId = Integer.valueOf(value);
+							setTeamId(Integer.valueOf(value));
 						}
 					}
 				}
@@ -186,6 +186,14 @@ public class TransfersXmlParser {
 	 */
 	public List<Transfer> getTransfers() {
 		return transfers;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }
 

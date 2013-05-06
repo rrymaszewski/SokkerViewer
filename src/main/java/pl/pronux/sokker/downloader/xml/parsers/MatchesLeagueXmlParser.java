@@ -202,6 +202,14 @@ public class MatchesLeagueXmlParser {
 	public List<Match> getMatches() {
 		return matches;
 	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
+	}
 }
 
 class MatchesLeagueErrorHandler implements ErrorHandler {

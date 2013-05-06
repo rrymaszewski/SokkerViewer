@@ -25,9 +25,9 @@ public class PlayersHistoryDescriptionComposite extends DescriptionSingleComposi
 
 	public void setDescription(List<Player> players) {
 		int maxSkill = 0;
-		double teamValuePast = 0;
-		double teamSalaryPast = 0;
-		double averAgePast = 0;
+//		double teamValuePast = 0;
+//		double teamSalaryPast = 0;
+//		double averAgePast = 0;
 		double teamValue = 0;
 		double teamSalary = 0;
 		double averAge = 0;
@@ -39,11 +39,11 @@ public class PlayersHistoryDescriptionComposite extends DescriptionSingleComposi
 			teamSalary += players.get(i).getSkills()[maxSkill].getSalary().getDoubleValue();
 			averAge += players.get(i).getSkills()[maxSkill].getAge();
 
-			if (maxSkill > 1) {
-				teamValuePast += players.get(i).getSkills()[maxSkill - 1].getValue().getDoubleValue();
-				teamSalaryPast += players.get(i).getSkills()[maxSkill - 1].getSalary().getDoubleValue();
-				averAgePast += players.get(i).getSkills()[maxSkill - 1].getAge();
-			}
+//			if (maxSkill > 1) {
+//				teamValuePast += players.get(i).getSkills()[maxSkill - 1].getValue().getDoubleValue();
+//				teamSalaryPast += players.get(i).getSkills()[maxSkill - 1].getSalary().getDoubleValue();
+//				averAgePast += players.get(i).getSkills()[maxSkill - 1].getAge();
+//			}
 		}
 
 		// aktualizujemy srednie wartosci

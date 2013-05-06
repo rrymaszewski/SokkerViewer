@@ -44,7 +44,7 @@ public class LeagueMatchesXmlManager extends XmlManager<Match> {
 			// if not it means that we trying to download our previous league in which we aren't know
 			if (league.getLeagueTeams().size() > 0) {
 				for (LeagueTeam leagueTeam : league.getLeagueTeams()) {
-					if (leagueTeam.getTeamId() == Integer.valueOf(downloader.getTeamId())) {
+					if (leagueTeam.getTeamId() == Integer.valueOf(getDownloader().getTeamId())) {
 						check = true;
 						break;
 					}
@@ -71,7 +71,7 @@ public class LeagueMatchesXmlManager extends XmlManager<Match> {
 
 						for (int j = 1; j <= numberOfRounds; j++) {
 							if (!completedRounds.contains(j)) {
-								leagueMatchesMap.put(league.getLeagueId() + "_" + j, downloader.getLeagueMatches(String.valueOf(league.getLeagueId()), String.valueOf(j))); 
+								leagueMatchesMap.put(league.getLeagueId() + "_" + j, getDownloader().getLeagueMatches(String.valueOf(league.getLeagueId()), String.valueOf(j))); 
 							}
 						}
 					} else {

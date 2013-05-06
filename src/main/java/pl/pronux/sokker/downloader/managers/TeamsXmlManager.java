@@ -49,31 +49,31 @@ public class TeamsXmlManager extends XmlManager<Club> {
 	public TeamsXmlManager(String content, Date currentDay, int teamId) {
 		super(content, currentDay, teamId);
 		teamsStringMap.put(String.valueOf(teamId), content);
-		this.teamId = teamId;
+		this.setTeamId(teamId);
 	}
 
 	@Override
 	public void download() throws IOException {
-		String xml = downloader.getTeam(downloader.getTeamId());
+		String xml = getDownloader().getTeam(getDownloader().getTeamId());
 		setContent(xml);
-		teamsStringMap.put(downloader.getTeamId(), xml);
+		teamsStringMap.put(getDownloader().getTeamId(), xml);
 	}
 
 	public void download(String teamId) throws IOException {
-		teamsStringMap.put(teamId, downloader.getTeam(teamId));
+		teamsStringMap.put(teamId, getDownloader().getTeam(teamId));
 	}
 
 	@Override
 	public void importToSQL() throws SQLException {
 		int teamId = 0;
-		if(downloader.getTeamId() != null && downloader.getTeamId().matches("[0-9]+")) { 
-			teamId = Integer.valueOf(downloader.getTeamId());
+		if(getDownloader().getTeamId() != null && getDownloader().getTeamId().matches("[0-9]+")) { 
+			teamId = Integer.valueOf(getDownloader().getTeamId());
 		}
 		for(Club team : teams) {
 			if(team.getId() == teamId) {
-				teamManager.importTeam(team, currentDay);		
+				teamManager.importTeam(team, getCurrentDay());		
 			} else {
-				teamManager.importForeignClub(team, currentDay);	
+				teamManager.importForeignClub(team, getCurrentDay());	
 			}
 		}
 	}
@@ -96,7 +96,7 @@ public class TeamsXmlManager extends XmlManager<Club> {
 		}
 		
 		for (Club team : teams) {
-			if(team.getId() == Integer.valueOf(downloader.getTeamId())) {
+			if(team.getId() == Integer.valueOf(getDownloader().getTeamId())) {
 				this.setClub(team);
 			}
 		}
@@ -110,7 +110,7 @@ public class TeamsXmlManager extends XmlManager<Club> {
 		List<Integer> notImportedTeams = clubsDao.getNotImportedClubsId();
 		
 		for ( Integer integer : notImportedTeams) {
-			xml = downloader.getTeam(integer.toString());
+			xml = getDownloader().getTeam(integer.toString());
 			teamsStringMap.put(integer.toString(), xml);
 			parseXML(xml);
 			write(xml, integer.toString());
@@ -136,7 +136,7 @@ public class TeamsXmlManager extends XmlManager<Club> {
 
 	@Override
 	public boolean write() throws IOException {
-		write(getContent(), downloader.getTeamId());
+		write(getContent(), getDownloader().getTeamId());
 
 		Set<String> teamsStringSet = teamsStringMap.keySet();
 

@@ -36,7 +36,7 @@ public class CountriesXmlManager extends XmlManager<Country> {
 	
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getCountries());
+		setContent(getDownloader().getCountries());
 
 	}
 

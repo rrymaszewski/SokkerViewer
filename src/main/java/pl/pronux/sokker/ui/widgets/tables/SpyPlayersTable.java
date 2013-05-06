@@ -145,14 +145,14 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			item.setText(c++, String.valueOf(player.getSkills()[max].getGoals()));
 			item.setText(c++, String.valueOf(player.getSkills()[max].getAssists()));
 			c++;
-			if (player.getPlayerMatchStatistics().size() > 0) {
+			if (player.getPlayerMatchStatistics().isEmpty()) {
+				c++;
+				c++;
+			} else {
 				PlayerStats maxPlayerMatchStatistics = Collections.max(player.getPlayerMatchStatistics(), new PlayerStatsComparator(PlayerStatsComparator.RATING, PlayerStatsComparator.ASCENDING));
 				PlayerStats minPlayerMatchStatistics = Collections.min(player.getPlayerMatchStatistics(), new PlayerStatsComparator(PlayerStatsComparator.RATING, PlayerStatsComparator.ASCENDING));
 				item.setText(c++, String.format("%d (%d')", maxPlayerMatchStatistics.getRating(), maxPlayerMatchStatistics.getTimePlayed()));
 				item.setText(c++, String.format("%d (%d')", minPlayerMatchStatistics.getRating(), minPlayerMatchStatistics.getTimePlayed()));
-			} else {
-				c++;
-				c++;
 			}
 			item.setText(c++, Messages.getString("formation." + player.getPreferredPosition()));
 
@@ -245,28 +245,26 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			int maxSizeY = 200;
 
 			Player player = (Player) item.getData(Player.class.getName());
-			if (player.getNote() != null) {
-				if (!player.getNote().isEmpty()) {
-					label.setText(player.getNote());
+			if (player.getNote() != null && !player.getNote().isEmpty()) {
+				label.setText(player.getNote());
 
-					Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				Point size = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-					if (size.x < minSizeX) {
-						size.x = minSizeX;
-					}
-					if (size.y < minSizeY) {
-						size.y = minSizeY;
-					}
-
-					if (size.x > maxSizeX) {
-						size.x = maxSizeX;
-					}
-
-					if (size.y > maxSizeY) {
-						size.y = maxSizeY;
-					}
-					label.setSize(size);
+				if (size.x < minSizeX) {
+					size.x = minSizeX;
 				}
+				if (size.y < minSizeY) {
+					size.y = minSizeY;
+				}
+
+				if (size.x > maxSizeX) {
+					size.x = maxSizeX;
+				}
+
+				if (size.y > maxSizeY) {
+					size.y = maxSizeY;
+				}
+				label.setSize(size);
 			}
 		}
 

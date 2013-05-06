@@ -34,7 +34,7 @@ public class ReportsXmlManager extends XmlManager<Report> {
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getReports());
+		setContent(getDownloader().getReports());
 	}
 
 	@Override

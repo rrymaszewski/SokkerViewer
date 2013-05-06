@@ -126,7 +126,6 @@ public class OperationOnFile {
 	}
 
 	public static boolean moveDirectory(File source, String destination) {
-		// Move file to new directory
 		boolean success = source.renameTo(new File(destination));
 
 		if (success) {
@@ -143,7 +142,6 @@ public class OperationOnFile {
 	}
 
 	public static boolean moveFile(File source, String destination) {
-		// Move file to new directory
 		return source.renameTo(new File(destination, source.getName()));
 	}
 
@@ -194,33 +192,17 @@ public class OperationOnFile {
 		if (!file.contains(".pdf")) { 
 			file += ".pdf"; 
 		}
-		// step 1: creation of a document-object
 		Document document = new Document();
-		try {
-			// step 2:
-			// we create a writer that listens to the document
-			// and directs a PDF-stream to a file
-			PdfWriter.getInstance(document, new FileOutputStream(file));
-
-			// step 3: we open the document
-			document.open();
-			// step 4: we add a paragraph to the document
-			BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator
-													 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);  
-			Font font = new Font(bfCourier, 12);
-			document.add(new Paragraph(text, font));
-		} catch (DocumentException de) {
-			throw de;
-		} catch (IOException ioe) {
-			throw ioe;
-		}
-
-		// step 5: we close the document
+		PdfWriter.getInstance(document, new FileOutputStream(file));
+		document.open();
+		BaseFont bfCourier = BaseFont.createFont(SettingsHandler.getSokkerViewerSettings().getBaseDirectory() + File.separator
+												 + "ext" + File.separator + "cour.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);  
+		Font font = new Font(bfCourier, 12);
+		document.add(new Paragraph(text, font));
 		document.close();
 	}
 
 	public static List<File> visitAllDirs(File dir, FileFilter filter, List<File> listFiles) {
-		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
 			for (int i = 0; i < children.length; i++) {
@@ -234,7 +216,6 @@ public class OperationOnFile {
 	}
 
 	public static List<File> visitAllDirs(File dir, FileFilter filter, List<File> listFiles, int level) {
-		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
 			if (level > 0) {
@@ -250,7 +231,6 @@ public class OperationOnFile {
 	}
 
 	public static List<File> getFileChildren(File dir, FileFilter filter, List<File> listFiles, ProgressMonitor monitor) {
-		// This filter only returns directories
 		if (dir.isDirectory()) {
 			monitor.beginTask(Messages.getString("OperationOnFile.scanning"), 1); 
 			File[] children = dir.listFiles(filter);
@@ -268,7 +248,6 @@ public class OperationOnFile {
 	}
 
 	public static List<String> getChildrensPath(File dir, FileFilter filter, List<String> listFiles, int level) {
-		// This filter only returns directories
 		if (dir.isDirectory()) {
 			File[] children = dir.listFiles(filter);
 			if (level > 0) {
@@ -284,7 +263,6 @@ public class OperationOnFile {
 	}
 
 	public static List<File> getDirList(File dir) {
-		// This filter only returns directories
 		File[] children = dir.listFiles();
 		List<File> files = new ArrayList<File>();
 		if (children != null) {

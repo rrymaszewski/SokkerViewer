@@ -25,11 +25,7 @@ public class SQLQuery {
 	}
 
 	private static synchronized void closeBatch() throws SQLException {
-		try {
-			batchStm.close();
-		} catch (SQLException e) {
-			throw e;
-		}
+		batchStm.close();
 	}
 
 	// use for SQL commands CREATE, DROP, INSERT and UPDATE
@@ -79,8 +75,6 @@ public class SQLQuery {
 		try {
 			stm = SQLSession.getConnection().createStatement();
 			stm.executeUpdate(expression);
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			if (stm != null) {
 				stm.close();

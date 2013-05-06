@@ -698,8 +698,6 @@ public class OldXmlParser {
 			parser.setContentHandler(handler);
 			parser.setErrorHandler(new MyErrorHandler());
 			parser.parse(input);
-		} catch (IOException e) {
-			throw e;
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

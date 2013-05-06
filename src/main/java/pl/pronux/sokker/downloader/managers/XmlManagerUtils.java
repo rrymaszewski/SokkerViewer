@@ -9,17 +9,17 @@ import pl.pronux.sokker.utils.file.OperationOnFile;
 public class XmlManagerUtils {
 
 	private String name;
-	protected String destination;
-	protected Date currentDay;
+	private String destination;
+	private Date currentDay;
 
 	public XmlManagerUtils(String name, String destination, Date currentDay) {
 		this.name = name;
 		this.destination = destination;
-		this.currentDay = currentDay;
+		this.setCurrentDay(currentDay);
 	}
 	
 	public XmlManagerUtils(Date currentDay) {
-		this.currentDay = currentDay;
+		this.setCurrentDay(currentDay);
 	}
 
 	public static String filterCharacters(String xml) {
@@ -43,7 +43,7 @@ public class XmlManagerUtils {
 		if(teamId != null) {
 			name += "_" + teamId; 
 		}
-		String file = destination + File.separator + addTail(name, currentDay);
+		String file = destination + File.separator + addTail(name, getCurrentDay());
 		if(content != null) {
 			OperationOnFile.writeToFileUTF(file, content);
 			return true;
@@ -54,5 +54,13 @@ public class XmlManagerUtils {
 
 	private String addTail(String name, Date currentDay) {
 		return String.format("%s_%d_%d_%d.xml", name, currentDay.getSokkerDate().getWeek(), currentDay.getSokkerDate().getDay(),currentDay.getMillis()); 
+	}
+
+	public Date getCurrentDay() {
+		return currentDay;
+	}
+
+	public void setCurrentDay(Date currentDay) {
+		this.currentDay = currentDay;
 	}
 }

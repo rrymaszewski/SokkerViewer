@@ -48,7 +48,7 @@ public class LeagueIDXmlParser {
 
 	private static final int TAG_TEAMS = 20;
 
-	private static final int TAG_TEAM = 21;
+//	private static final int TAG_TEAM = 21;
 
 	private static final int TAG_ROUND_TEAM = 30;
 

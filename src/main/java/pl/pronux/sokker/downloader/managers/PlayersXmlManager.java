@@ -33,38 +33,34 @@ public class PlayersXmlManager extends XmlManager<Player> {
 		String value = "-3"; 
 		List<Integer> playersId = new ArrayList<Integer>();
 
-		try {
-			PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
-			playersId = playersDao.getUncompletePlayers();
-			if (downloader.getStatus().equals("OK")) { 
-				value = "0"; 
-			} else {
-				value = downloader.getErrorno();
-			}
-			// download xmls
-			if (value.equals("0")) { 
-				for (int i = 0; i < playersId.size(); i++) {
+		PlayersDao playersDao = new PlayersDao(SQLSession.getConnection());
+		playersId = playersDao.getUncompletePlayers();
+		if (getDownloader().getStatus().equals("OK")) { 
+			value = "0"; 
+		} else {
+			value = getDownloader().getErrorno();
+		}
+		// download xmls
+		if (value.equals("0")) { 
+			for (int i = 0; i < playersId.size(); i++) {
+				try {
+					String xml = getDownloader().getPlayer(String.valueOf(playersId.get(i)));
+					PlayerXmlParser parser = new PlayerXmlParser();
+					InputSource input = new InputSource(new StringReader(xml));
 					try {
-						String xml = downloader.getPlayer(String.valueOf(playersId.get(i)));
-						PlayerXmlParser parser = new PlayerXmlParser();
-						InputSource input = new InputSource(new StringReader(xml));
-						try {
-							parser.parseXmlSax(input, null);
-						} catch (SAXException sex) {
-							continue;
-						}
-						Player player = parser.getPlayer();
-						if (player != null) {
-							playersDao.updateUncompletedPlayer(player);
-						} else {
-							playersDao.updateNotExists(playersId.get(i));
-						}
-					} catch (IOException ioex) {
+						parser.parseXmlSax(input, null);
+					} catch (SAXException sex) {
+						continue;
 					}
+					Player player = parser.getPlayer();
+					if (player != null) {
+						playersDao.updateUncompletedPlayer(player);
+					} else {
+						playersDao.updateNotExists(playersId.get(i));
+					}
+				} catch (IOException ioex) {
 				}
 			}
-		} catch (final SQLException e) {
-			throw e;
 		}
 		return value;
 	}
@@ -84,11 +80,11 @@ public class PlayersXmlManager extends XmlManager<Player> {
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getPlayers(downloader.getTeamId()));
+		setContent(getDownloader().getPlayers(getDownloader().getTeamId()));
 	}
 
 	public void download(String teamId) throws IOException {
-		teamsMap.put(teamId, downloader.getPlayers(teamId));
+		teamsMap.put(teamId, getDownloader().getPlayers(teamId));
 	}
 	
 	public void importToSQL(Training training) throws SQLException {
@@ -125,7 +121,7 @@ public class PlayersXmlManager extends XmlManager<Player> {
 
 	@Override
 	public boolean write() throws IOException {
-		return write(getContent(), downloader.getTeamId());
+		return write(getContent(), getDownloader().getTeamId());
 	}
 
 }

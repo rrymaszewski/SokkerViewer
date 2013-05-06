@@ -114,7 +114,7 @@ public class JuniorXmlParser  {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
 						if (name.equalsIgnoreCase("teamID")) { 
-							teamId = Integer.valueOf(value);
+							setTeamId(Integer.valueOf(value));
 						}
 					}
 				}
@@ -175,6 +175,14 @@ public class JuniorXmlParser  {
 	 */
 	public List<Junior> getJuniors() {
 		return juniors;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }
 

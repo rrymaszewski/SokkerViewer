@@ -27,7 +27,7 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 		int maxSkill = 0;
 		double teamValuePast = 0;
 		double teamSalaryPast = 0;
-		double averAgePast = 0;
+//		double averAgePast = 0;
 		double teamValue = 0;
 		double teamSalary = 0;
 		double averAge = 0;
@@ -43,7 +43,7 @@ public class PlayersDescriptionComposite extends DescriptionSingleComposite {
 			if (maxSkill > 1) {
 				teamValuePast += player.getSkills()[maxSkill - 1].getValue().getDoubleValue();
 				teamSalaryPast += player.getSkills()[maxSkill - 1].getSalary().getDoubleValue();
-				averAgePast += player.getSkills()[maxSkill - 1].getAge();
+//				averAgePast += player.getSkills()[maxSkill - 1].getAge();
 			}
 		}
 

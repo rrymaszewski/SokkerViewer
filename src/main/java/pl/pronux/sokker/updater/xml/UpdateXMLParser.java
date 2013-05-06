@@ -234,8 +234,6 @@ public class UpdateXMLParser {
 			parser.setErrorHandler(new UpdateErrorHandler());
 
 			parser.parse(input);
-		} catch (IOException e) {
-			throw e;
 		} catch (SAXException e) {
 			if (file != null) {
 				new File(file).delete();

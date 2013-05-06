@@ -44,10 +44,10 @@ public class MatchXmlManager extends XmlManager<Match> {
 		
 		List<Match> uncompletedMatches = leagueDao.getUncompletedLeague(teamId);
 
-		if (downloader.getStatus().equals("OK")) { 
+		if (getDownloader().getStatus().equals("OK")) { 
 			value = "0"; 
 		} else {
-			value = downloader.getErrorno();
+			value = getDownloader().getErrorno();
 		}
 
 		if (value.equals("0")) { 
@@ -104,12 +104,12 @@ public class MatchXmlManager extends XmlManager<Match> {
 	public void download(List<Match> matches) throws IOException {
 		for (Match match : matches) {
 			String matchId = String.valueOf(match.getMatchId());
-			matchesMap.put(matchId, downloader.getMatch(matchId));
+			matchesMap.put(matchId, getDownloader().getMatch(matchId));
 		}
 	}
 
 	public void download(int matchId) throws IOException {
-		matchesMap.put(String.valueOf(matchId), downloader.getMatch(String.valueOf(matchId)));
+		matchesMap.put(String.valueOf(matchId), getDownloader().getMatch(String.valueOf(matchId)));
 	}
 
 	@Override

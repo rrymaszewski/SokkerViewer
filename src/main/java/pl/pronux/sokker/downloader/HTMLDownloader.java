@@ -66,8 +66,6 @@ public class HTMLDownloader extends AbstractDownloader {
 					monitor.subTask(String.format("%s ( %dkb)", srcFile, counter / 1000)); 
 				}
 			}
-		} catch (final IOException e) {
-			throw e;
 		} finally {
 			if (in != null) {
 				in.close();

@@ -28,11 +28,11 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getMatchesTeam(downloader.getTeamId()));
+		setContent(getDownloader().getMatchesTeam(getDownloader().getTeamId()));
 	}
 	
 	public void download(String teamID) throws IOException {
-		matchesTeamMap.put(teamID, downloader.getMatchesTeam(teamID));
+		matchesTeamMap.put(teamID, getDownloader().getMatchesTeam(teamID));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 	
 	@Override
 	public boolean write() throws IOException {
-		write(getContent(), downloader.getTeamId());
+		write(getContent(), getDownloader().getTeamId());
 
 		Set<String> matchesTeamStringSet = matchesTeamMap.keySet();
 
@@ -70,8 +70,7 @@ public class MatchesTeamXmlManager extends XmlManager<Match> {
 	}
 	
 	public List<Match> parseXML(int teamId) throws SAXException {
-		List<Match> matches = parseXML(matchesTeamMap.get(String.valueOf(teamId)));
-		return matches;
+		return parseXML(matchesTeamMap.get(String.valueOf(teamId)));
 	}
 
 	public List<Match> parseXML() throws SAXException {

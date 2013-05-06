@@ -37,7 +37,7 @@ public class TransfersXmlManager extends XmlManager<Transfer> {
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getTransfers());
+		setContent(getDownloader().getTransfers());
 	}
 
 	@Override

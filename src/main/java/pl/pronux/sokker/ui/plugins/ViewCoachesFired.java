@@ -416,7 +416,7 @@ public class ViewCoachesFired implements IPlugin, Sort {
 	private void setDescriptionComposite(List<Coach> coach) {
 		double allSalary = 0;
 		double allAge = 0;
-		int textSize = 0;
+//		int textSize = 0;
 
 		descriptionComposite.clearAll();
 
@@ -432,27 +432,27 @@ public class ViewCoachesFired implements IPlugin, Sort {
 		values[3][0] = Messages.getString("coach.allCoaches"); 
 
 		values[0][1] = Money.formatDoubleCurrencySymbol(allSalary);
-		textSize = descriptionComposite.checkFirstTextSize(values[0][0]) + descriptionComposite.checkSecondTextSize(values[0][1]);
+//		textSize = descriptionComposite.checkFirstTextSize(values[0][0]) + descriptionComposite.checkSecondTextSize(values[0][1]);
 
 		if (coach.size() > 0) {
 
 			values[1][1] = Money.formatDoubleCurrencySymbol(BigDecimal.valueOf(allSalary / coach.size()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
+//			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
 
 			values[2][1] = BigDecimal.valueOf(allAge / coach.size()).setScale(2, BigDecimal.ROUND_HALF_UP) + "   "; 
-			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
+//			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
 
 		} else {
 			values[1][1] = Money.formatDoubleCurrencySymbol(0);
-			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
+//			textSize += descriptionComposite.checkFirstTextSize(values[1][0]) + descriptionComposite.checkSecondTextSize(values[1][1]);
 
 			values[2][1] = BigDecimal.valueOf(0).toString() + "   "; 
-			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
+//			textSize += descriptionComposite.checkFirstTextSize(values[2][0]) + descriptionComposite.checkSecondTextSize(values[2][1]);
 
 		}
 
 		values[3][1] = String.valueOf(coach.size()).toString() + "   "; 
-		textSize += descriptionComposite.checkFirstTextSize(values[3][0]) + descriptionComposite.checkSecondTextSize(values[3][1]);
+//		textSize += descriptionComposite.checkFirstTextSize(values[3][0]) + descriptionComposite.checkSecondTextSize(values[3][1]);
 
 		for (int i = 0; i < values.length; i++) {
 			descriptionComposite.addText(values[i]);

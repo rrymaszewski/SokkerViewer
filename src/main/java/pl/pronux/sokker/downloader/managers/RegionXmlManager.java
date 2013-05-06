@@ -41,7 +41,7 @@ public class RegionXmlManager extends XmlManager<Region> {
 	}
 
 	public void download(int regionId) throws IOException {
-		setContent(downloader.getRegion(String.valueOf(regionId)));
+		setContent(getDownloader().getRegion(String.valueOf(regionId)));
 	}
 
 	@Override

@@ -36,16 +36,16 @@ public class PlayerXmlManager extends XmlManager<Player> {
 			playersToDownload.addAll(alPlayersToDownload);
 		}
 		
-		if (downloader.getStatus().equals("OK")) { 
+		if (getDownloader().getStatus().equals("OK")) { 
 			value = "0"; 
 		} else {
-			value = downloader.getErrorno();
+			value = getDownloader().getErrorno();
 		}
 
 		if (value.equals("0")) { 
 			for (Integer playerId : playersToDownload) {
 				try {
-					String xml = downloader.getPlayer(String.valueOf(playerId));
+					String xml = getDownloader().getPlayer(String.valueOf(playerId));
 					PlayerXmlParser parser = new PlayerXmlParser();
 					InputSource input = new InputSource(new StringReader(xml));
 					try {

@@ -46,12 +46,12 @@ public class LeagueXmlManager extends XmlManager<League> {
 		}
 		
 		for (String leagueId : leagueIdSet) {
-			leaguesMap.put(leagueId, downloader.getLeague(leagueId));
+			leaguesMap.put(leagueId, getDownloader().getLeague(leagueId));
 		}
 	}
 	
 	public void download(int leagueId) throws IOException {
-		leaguesMap.put(String.valueOf(leagueId), downloader.getLeague(String.valueOf(leagueId)));
+		leaguesMap.put(String.valueOf(leagueId), getDownloader().getLeague(String.valueOf(leagueId)));
 	}
 
 	@Override

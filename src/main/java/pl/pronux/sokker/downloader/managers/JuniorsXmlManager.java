@@ -35,7 +35,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 	
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getJuniors());
+		setContent(getDownloader().getJuniors());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class JuniorsXmlManager extends XmlManager<Junior> {
 	}
 
 	public void importToSQL(Training training) throws SQLException {
-		juniorsManager.addJuniors(this.juniors, training, teamId);
+		juniorsManager.addJuniors(this.juniors, training, getTeamId());
 	}
 
 	public List<Junior> parseXML() throws SAXException {

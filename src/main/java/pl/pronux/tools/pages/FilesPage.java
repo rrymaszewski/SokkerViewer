@@ -90,13 +90,11 @@ public class FilesPage extends Page {
 				directory = fileDialog.getFilterPath() + File.separator;
 
 				if (filenames != null) {
-					if (filenames.length > 0) {
-						for (int i = 0; i < filenames.length; i++) {
-							new TableItem(table, SWT.NONE).setText(directory + filenames[i]);
-							files.add(directory + filenames[i]);
-						}
-						table.getColumn(0).pack();
+					for (int i = 0; i < filenames.length; i++) {
+						new TableItem(table, SWT.NONE).setText(directory + filenames[i]);
+						files.add(directory + filenames[i]);
 					}
+					table.getColumn(0).pack();
 				}
 			}
 		});

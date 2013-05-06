@@ -38,7 +38,7 @@ public class TrainersXmlManager extends XmlManager<Coach> {
 
 	@Override
 	public void download() throws IOException {
-		setContent(downloader.getTrainers());
+		setContent(getDownloader().getTrainers());
 	}
 
 	public List<Coach> getTrainers() {

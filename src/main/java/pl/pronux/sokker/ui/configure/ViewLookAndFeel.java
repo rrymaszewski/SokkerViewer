@@ -77,7 +77,7 @@ public class ViewLookAndFeel implements IViewConfigure {
 	// private Group proxyGroup;
 	// private SVProperties confProperties;
 
-	protected Properties defaultProperties;
+	private Properties defaultProperties;
 
 	private Group fontGroup;
 
@@ -245,14 +245,10 @@ public class ViewLookAndFeel implements IViewConfigure {
 					};
 					dialog.setFontList(fontDataTable);
 					FontData fontData = dialog.open();
-					if (fontData != null) {
-						if (!fontButtonMap.get(buttonMap.get(tempButton)).equals(fontData)) {
-							tempButton.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {fontData}));
-
-							buttonLabelMap.get(tempButton).setFont(tempButton.getFont());
-
-							fontButtonMap.put(buttonMap.get(tempButton), fontData);
-						}
+					if (fontData != null && !fontButtonMap.get(buttonMap.get(tempButton)).equals(fontData)) {
+						tempButton.setFont(Fonts.getFont(DisplayHandler.getDisplay(), new FontData[] {fontData}));
+						buttonLabelMap.get(tempButton).setFont(tempButton.getFont());
+						fontButtonMap.put(buttonMap.get(tempButton), fontData);
 					}
 				}
 			});

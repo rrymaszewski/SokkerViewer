@@ -1,7 +1,6 @@
 package pl.pronux.sokker.ui.widgets.menus;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
@@ -16,7 +15,7 @@ public class ChartsMenu extends Menu {
 	protected void checkSubclass() {
 //		super.checkSubclass();
 	}
-	public ChartsMenu(MenuItem parentItem, Composite parent) {
+	public ChartsMenu(MenuItem parentItem) {
 		super(parentItem);
 		MenuItem item;
 		item = new MenuItem(this, SWT.PUSH);

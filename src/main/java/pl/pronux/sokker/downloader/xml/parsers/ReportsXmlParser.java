@@ -110,7 +110,7 @@ public class ReportsXmlParser {
 						String name = atts.getQName(i);
 						String value = atts.getValue(i);
 						if (name.equalsIgnoreCase("teamID")) { 
-							teamId = Integer.valueOf(value);
+							setTeamId(Integer.valueOf(value));
 						}
 					}
 				}
@@ -162,6 +162,14 @@ public class ReportsXmlParser {
 	 */
 	public List<Report> getReports() {
 		return reports;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }
 

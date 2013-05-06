@@ -149,8 +149,6 @@ public final class PersonsManager {
 			} else if (person instanceof PlayerArchive) {
 				new PlayersArchiveDao(SQLSession.getConnection()).updatePlayerArchiveNote(person);
 			}
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			SQLSession.close();
 		}
