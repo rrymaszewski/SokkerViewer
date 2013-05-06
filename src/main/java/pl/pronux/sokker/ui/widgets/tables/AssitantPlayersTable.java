@@ -11,11 +11,17 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerAssistantComparator;
+import pl.pronux.sokker.comparators.PlayerComparator;
+import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
+import pl.pronux.sokker.model.League;
 import pl.pronux.sokker.model.Player;
+import pl.pronux.sokker.model.PlayerStats;
 import pl.pronux.sokker.resources.Messages;
+import pl.pronux.sokker.ui.beans.Colors;
 import pl.pronux.sokker.ui.beans.ConfigBean;
+import pl.pronux.sokker.ui.handlers.DisplayHandler;
 import pl.pronux.sokker.ui.listeners.SortTableListener;
 import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
@@ -63,6 +69,8 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 				Messages.getString("assistant.position.short.10"), 
 				Messages.getString("assistant.position.short.11"), 
 				Messages.getString("table.position.best"), 
+				Messages.getString("table.1st"), //$NON-NLS-1$
+				Messages.getString("table.2nd"), //$NON-NLS-1$
 				"" 
 		};
 		
@@ -184,7 +192,52 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			item.setFont(player.getPosition() + 1, Fonts.getBoldFont(item.getDisplay(), item.getFont().getFontData()));
 			// item.setForeground(player.getPosition() + 1,
 			// composite.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-		}
+
+			if (player.getPlayerMatchStatistics() != null) {
+				int week = Cache.getDate().getSokkerDate().getWeek();
+                                System.out.println("PLAYED");
+				for (PlayerStats playerStats : player.getPlayerMatchStatistics()) {
+					if (playerStats.getMatch().getWeek() == week) {
+						if (playerStats.getFormation() >= 0 && playerStats.getFormation() <= 4 && playerStats.getTimePlayed() > 0) {
+							League league = playerStats.getMatch().getLeague();
+
+							if ((league.getType() == League.TYPE_LEAGUE || league.getType() == League.TYPE_PLAYOFF) && league.getIsOfficial() == League.OFFICIAL) {
+								item.setFont(c+0, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(c+0).getFontData()));
+								item.setText(c+0, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
+								if (playerStats.getFormation() == PlayerStats.GK) {
+									item.setBackground(c+0, Colors.getPositionGK());
+								} else if (playerStats.getFormation() == PlayerStats.DEF) {
+									item.setBackground(c+0, Colors.getPositionDEF());
+								} else if (playerStats.getFormation() == PlayerStats.MID) {
+									item.setBackground(c+0, Colors.getPositionMID());
+								} else if (playerStats.getFormation() == PlayerStats.ATT) {
+									item.setBackground(c+0, Colors.getPositionATT());
+								}
+							} else {
+								if (league.getIsOfficial() == League.OFFICIAL) {
+									item.setFont(c+1, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(c+0).getFontData()));
+								}
+								//item.setText(c+1, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(c+1, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
+								if (playerStats.getFormation() == PlayerStats.GK) {
+									item.setBackground(c+1, Colors.getPositionGK());
+								} else if (playerStats.getFormation() == PlayerStats.DEF) {
+									item.setBackground(c+1, Colors.getPositionDEF());
+								} else if (playerStats.getFormation() == PlayerStats.MID) {
+									item.setBackground(c+1, Colors.getPositionMID());
+								} else if (playerStats.getFormation() == PlayerStats.ATT) {
+									item.setBackground(c+1, Colors.getPositionATT());
+								}
+							}
+						}
+					}
+				}
+			} else {
+                                System.out.println("not played");
+				item.setText(c++, "[1]"); //$NON-NLS-1$
+				item.setText(c++, "[2]"); //$NON-NLS-1$
+			}
+                }
 		// Turn drawing back on
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();
