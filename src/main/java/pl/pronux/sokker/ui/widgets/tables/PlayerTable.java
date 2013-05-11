@@ -28,23 +28,28 @@ public class PlayerTable extends SVTable<Player> {
 	
 	public static final int AGE = 3;
 	
-	public static final int FORM = 4;
+	public static final int WEIGHT = 4;
 	
-	public static final int STAMINA = 5;
+	public static final int BMI = 5;
+
+	public static final int FORM = 6;
 	
-	public static final int PACE = 6;
+	public static final int STAMINA = 7;
 	
-	public static final int TECHNIQUE = 7;
+	public static final int PACE = 8;
 	
-	public static final int PASSING = 8;
+	public static final int TECHNIQUE = 9;
 	
-	public static final int KEEPER = 9;
+	public static final int PASSING = 10;
 	
-	public static final int DEFENDER = 10;
+	public static final int KEEPER = 11;
 	
-	public static final int PLAYMAKER = 11;
+	public static final int DEFENDER = 12;
 	
-	public static final int SCORER = 12;
+	public static final int PLAYMAKER = 13;
+	
+	public static final int SCORER = 14;
+	
 	
 	public PlayerTable(Composite parent, int style) {
 		super(parent, style);
@@ -58,6 +63,8 @@ public class PlayerTable extends SVTable<Player> {
 				Messages.getString("table.value"), 
 				Messages.getString("table.salary"), 
 				Messages.getString("table.age"), 
+				Messages.getString("table.weight"),
+				Messages.getString("table.bmi"), 
 				Messages.getString("table.form"), 
 				Messages.getString("table.stamina"), 
 				Messages.getString("table.pace"), 
@@ -109,6 +116,8 @@ public class PlayerTable extends SVTable<Player> {
 			item.setText(c++, player.getSkills()[i].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[i].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[i].getAge()));
+			item.setText(c++, String.valueOf(player.getSkills()[i].getWeight()));
+			item.setText(c++, String.valueOf(player.getSkills()[i].getBmi()));
 			item.setText(c++, String.valueOf(player.getSkills()[i].getForm()));
 			item.setText(c++, String.valueOf(player.getSkills()[i].getStamina()));
 			item.setText(c++, String.valueOf(player.getSkills()[i].getPace()));
@@ -141,39 +150,39 @@ public class PlayerTable extends SVTable<Player> {
 							League league = playerStats.getMatch().getLeague();
 
 							if ((league.getType() == League.TYPE_LEAGUE || league.getType() == League.TYPE_PLAYOFF) && league.getIsOfficial() == League.OFFICIAL) {
-								item.setFont(18, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(18).getFontData()));
-								item.setText(18, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
+								item.setFont(20, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(20).getFontData()));
+								item.setText(20, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
 //								if(league.getType() == League.TYPE_LEAGUE) {
 //									item.setImage(18, ImageResources.getImageResources("league.png"));
 //								} else if(league.getType() == League.TYPE_PLAYOFF) {
 //									item.setImage(18, ImageResources.getImageResources("playoff.png"));
 //								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(18, Colors.getPositionGK());
+									item.setBackground(20, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(18, Colors.getPositionDEF());
+									item.setBackground(20, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(18, Colors.getPositionMID());
+									item.setBackground(20, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(18, Colors.getPositionATT());
+									item.setBackground(20, Colors.getPositionATT());
 								}
 
 							} else {
 								c++;
 								if (league.getIsOfficial() == League.OFFICIAL) {
-									item.setFont(19, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(19).getFontData()));
+									item.setFont(21, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(21).getFontData()));
 //									item.setImage(19, ImageResources.getImageResources("cup.png"));
 								}
 								if (playerStats.getFormation() == PlayerStats.GK) {
-								item.setBackground(19, Colors.getPositionGK());
+								item.setBackground(21, Colors.getPositionGK());
 							} else if (playerStats.getFormation() == PlayerStats.DEF) {
-								item.setBackground(19, Colors.getPositionDEF());
+								item.setBackground(21, Colors.getPositionDEF());
 							} else if (playerStats.getFormation() == PlayerStats.MID) {
-								item.setBackground(19, Colors.getPositionMID());
+								item.setBackground(21, Colors.getPositionMID());
 							} else if (playerStats.getFormation() == PlayerStats.ATT) {
-								item.setBackground(19, Colors.getPositionATT());
+								item.setBackground(21, Colors.getPositionATT());
 							}
-								item.setText(19, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
+								item.setText(21, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()) , playerStats.getTimePlayed()));  
 //								if(league.getType() == League.TYPE_LEAGUE) {
 //									item.setImage(19, ImageResources.getImageResources("friendly_league.png"));
 //								} else if(league.getType() == League.TYPE_FRIENDLY_MATCH) {
@@ -184,27 +193,30 @@ public class PlayerTable extends SVTable<Player> {
 					}
 				}
 			} else {
-				item.setText(18, ""); 
-				item.setText(19, ""); 
+				item.setText(20, ""); 
+				item.setText(21, ""); 
 			}
 			if (i > 0) {
 				PlayerSkills now = player.getSkills()[i];
 				PlayerSkills before = player.getSkills()[i - 1];
-				compare(now.getValue().toInt(), before.getValue().toInt(), item, 1);
-				compare(now.getSalary().toInt(), before.getSalary().toInt(), item, 2);
-				compare(now.getAge(), before.getAge(), item, 3);
-				compare(now.getForm(), before.getForm(), item, 4);
-				compare(now.getStamina(), before.getStamina(), item, 5);
-				compare(now.getPace(), before.getPace(), item, 6);
-				compare(now.getTechnique(), before.getTechnique(), item, 7);
-				compare(now.getPassing(), before.getPassing(), item, 8);
-				compare(now.getKeeper(), before.getKeeper(), item, 9);
-				compare(now.getDefender(), before.getDefender(), item, 10);
-				compare(now.getPlaymaker(), before.getPlaymaker(), item, 11);
-				compare(now.getScorer(), before.getScorer(), item, 12);
-				compare(now.getDiscipline(), before.getDiscipline(), item, 13);
-				compare(now.getExperience(), before.getExperience(), item, 14);
-				compare(now.getTeamwork(), before.getTeamwork(), item, 15);
+				int idx = 1;
+				compare(now.getValue().toInt(), before.getValue().toInt(), item, idx++);
+				compare(now.getSalary().toInt(), before.getSalary().toInt(), item, idx++);
+				compare(now.getAge(), before.getAge(), item, idx++);
+				compare(now.getWeight(), before.getWeight(), item, idx++);
+				compare(now.getBmi(), before.getBmi(), item, idx++);
+				compare(now.getForm(), before.getForm(), item, idx++);
+				compare(now.getStamina(), before.getStamina(), item, idx++);
+				compare(now.getPace(), before.getPace(), item, idx++);
+				compare(now.getTechnique(), before.getTechnique(), item, idx++);
+				compare(now.getPassing(), before.getPassing(), item, idx++);
+				compare(now.getKeeper(), before.getKeeper(), item, idx++);
+				compare(now.getDefender(), before.getDefender(), item, idx++);
+				compare(now.getPlaymaker(), before.getPlaymaker(), item, idx++);
+				compare(now.getScorer(), before.getScorer(), item, idx++);
+				compare(now.getDiscipline(), before.getDiscipline(), item, idx++);
+				compare(now.getExperience(), before.getExperience(), item, idx++);
+				compare(now.getTeamwork(), before.getTeamwork(), item, idx++);
 			}
 		}
 
@@ -213,19 +225,18 @@ public class PlayerTable extends SVTable<Player> {
 //			this.getColumn(i).setWidth(this.getColumn(i).getWidth() + 5);
 		}
 
-		if (this.getColumn(18).getWidth() < this.getColumn(19).getWidth()) {
-			this.getColumn(18).setWidth(this.getColumn(19).getWidth());
+		if (this.getColumn(20).getWidth() < this.getColumn(21).getWidth()) {
+			this.getColumn(20).setWidth(this.getColumn(21).getWidth());
 		} else {
-			this.getColumn(19).setWidth(this.getColumn(18).getWidth());
+			this.getColumn(21).setWidth(this.getColumn(20).getWidth());
 		}
 	}
 
-	private void compare(int now, int before, TableItem item, int index) {
+	private void compare(double now, double before, TableItem item, int index) {
 		if (before < now) {
 			item.setBackground(index, ConfigBean.getColorIncrease());
 		} else if (before > now) {
 			item.setBackground(index, ConfigBean.getColorDecrease());
 		}
 	}
-
 }

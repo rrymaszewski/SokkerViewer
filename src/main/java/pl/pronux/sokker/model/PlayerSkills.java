@@ -63,6 +63,10 @@ public class PlayerSkills implements Serializable {
 
 	private int summarySkill;
 
+	private double weight = 0;
+	
+	private double bmi = 0.0;
+	
 	public int[] getStatsTable() {
 		int[] intTable = {
 				value.toInt(),
@@ -301,4 +305,20 @@ public class PlayerSkills implements Serializable {
 		this.passTraining = passTraining;
 	}
 
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public double getBmi() {
+		return bmi;
+	}
+
+	public void setBmi(double bmi) {
+		this.bmi = bmi;
+	}
+	
 }

@@ -90,6 +90,10 @@ public class PlayerXmlParser {
 
 	private static final int TAG_HEIGHT = 34;
 	
+	private static final int TAG_WEIGHT = 35;
+	
+	private static final int TAG_BMI = 36;
+	
 	private static int tagSwitch = 0;
 
 	private Player player;
@@ -207,6 +211,12 @@ public class PlayerXmlParser {
 				case TAG_HEIGHT:
 					player.setHeight(Integer.valueOf(message.toString()).intValue());
 					break;
+				case TAG_WEIGHT:
+					playerSkills[0].setWeight(Double.valueOf(message.toString()).doubleValue());
+					break;
+				case TAG_BMI:
+					playerSkills[0].setBmi(Double.valueOf(message.toString()).doubleValue());
+					break;
 				default:
 					break;
 				}
@@ -317,6 +327,10 @@ public class PlayerXmlParser {
 						currentTag = TAG_SKILLSCORING;
 					} else if (localName.equals("height")) {
 						currentTag = TAG_HEIGHT;
+					} else if (localName.equals("weight")) {
+						currentTag = TAG_WEIGHT;
+					} else if (localName.equals("BMI")) {
+						currentTag = TAG_BMI;
 					}
 
 				}

@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.pronux.sokker.comparators.PlayerAssistantComparator;
-import pl.pronux.sokker.comparators.PlayerComparator;
 import pl.pronux.sokker.data.cache.Cache;
 import pl.pronux.sokker.handlers.SettingsHandler;
 import pl.pronux.sokker.interfaces.SVComparator;
@@ -27,13 +26,13 @@ import pl.pronux.sokker.ui.resources.ColorResources;
 import pl.pronux.sokker.ui.resources.Fonts;
 import pl.pronux.sokker.ui.widgets.interfaces.IViewSort;
 
-public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<Player> {
+public class AssistantPlayersTable extends SVTable<Player> implements IViewSort<Player> {
 
 	private PlayerAssistantComparator comparator;
 	
 	private List<Player> players = new ArrayList<Player>();
 
-	public AssitantPlayersTable(Composite parent, int style) {
+	public AssistantPlayersTable(Composite parent, int style) {
 		super(parent, style);
 		
 		this.setHeaderVisible(true);
@@ -141,11 +140,11 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 				item.setBackground(ColorResources.getColor(226, 255, 208));
 			} 
 			
-			int c = 0;
+			int idx = 0;
 			int j = 0;
 			item.setData("person", player); 
-			item.setText(c++, player.getName());
-			item.setText(c++, player.getSurname());
+			item.setText(idx++, player.getName());
+			item.setText(idx++, player.getSurname());
 			// item.setText(c++,
 			// String.valueOf(player.getSkills()[maxSkill].getForm()).toString());
 			// item.setText(c++,
@@ -164,17 +163,17 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			// String.valueOf(player.getSkills()[maxSkill].getPlaymaker()).toString());
 			// item.setText(c++,
 			// String.valueOf(player.getSkills()[maxSkill].getScorer()).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
-			item.setText(c++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
+			item.setText(idx++, BigDecimal.valueOf(player.getPositionTable()[j++]).setScale(2).toString());
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
@@ -187,7 +186,7 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 			// item.setText(c++, String.valueOf(player.getPositionTable()[j++]));
 
-			item.setText(c++, Messages.getString("assistant.position." + player.getPosition())); 
+			item.setText(idx++, Messages.getString("assistant.position." + player.getPosition())); 
 
 			item.setFont(player.getPosition() + 1, Fonts.getBoldFont(item.getDisplay(), item.getFont().getFontData()));
 			// item.setForeground(player.getPosition() + 1,
@@ -195,49 +194,47 @@ public class AssitantPlayersTable extends SVTable<Player> implements IViewSort<P
 
 			if (player.getPlayerMatchStatistics() != null) {
 				int week = Cache.getDate().getSokkerDate().getWeek();
-                                System.out.println("PLAYED");
 				for (PlayerStats playerStats : player.getPlayerMatchStatistics()) {
 					if (playerStats.getMatch().getWeek() == week) {
 						if (playerStats.getFormation() >= 0 && playerStats.getFormation() <= 4 && playerStats.getTimePlayed() > 0) {
 							League league = playerStats.getMatch().getLeague();
 
 							if ((league.getType() == League.TYPE_LEAGUE || league.getType() == League.TYPE_PLAYOFF) && league.getIsOfficial() == League.OFFICIAL) {
-								item.setFont(c+0, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(c+0).getFontData()));
-								item.setText(c+0, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setFont(idx+0, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(idx+0).getFontData()));
+								item.setText(idx+0, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(c+0, Colors.getPositionGK());
+									item.setBackground(idx+0, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(c+0, Colors.getPositionDEF());
+									item.setBackground(idx+0, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(c+0, Colors.getPositionMID());
+									item.setBackground(idx+0, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(c+0, Colors.getPositionATT());
+									item.setBackground(idx+0, Colors.getPositionATT());
 								}
 							} else {
 								if (league.getIsOfficial() == League.OFFICIAL) {
-									item.setFont(c+1, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(c+0).getFontData()));
+									item.setFont(idx+1, Fonts.getBoldFont(DisplayHandler.getDisplay(), item.getFont(idx+0).getFontData()));
 								}
 								//item.setText(c+1, String.format("%s (%d')", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed())); //$NON-NLS-1$ //$NON-NLS-2$
-								item.setText(c+1, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
+								item.setText(idx+1, String.format("%s (%d' - %d%%)", Messages.getString("formation." + playerStats.getFormation()), playerStats.getTimePlayed(), playerStats.getRating())); //$NON-NLS-1$ //$NON-NLS-2$
 								if (playerStats.getFormation() == PlayerStats.GK) {
-									item.setBackground(c+1, Colors.getPositionGK());
+									item.setBackground(idx+1, Colors.getPositionGK());
 								} else if (playerStats.getFormation() == PlayerStats.DEF) {
-									item.setBackground(c+1, Colors.getPositionDEF());
+									item.setBackground(idx+1, Colors.getPositionDEF());
 								} else if (playerStats.getFormation() == PlayerStats.MID) {
-									item.setBackground(c+1, Colors.getPositionMID());
+									item.setBackground(idx+1, Colors.getPositionMID());
 								} else if (playerStats.getFormation() == PlayerStats.ATT) {
-									item.setBackground(c+1, Colors.getPositionATT());
+									item.setBackground(idx+1, Colors.getPositionATT());
 								}
 							}
 						}
 					}
 				}
 			} else {
-                                System.out.println("not played");
-				item.setText(c++, "[1]"); //$NON-NLS-1$
-				item.setText(c++, "[2]"); //$NON-NLS-1$
+				item.setText(idx++, "[1]"); //$NON-NLS-1$
+				item.setText(idx++, "[2]"); //$NON-NLS-1$
 			}
-                }
+        }
 		// Turn drawing back on
 		for (int i = 0; i < this.getColumnCount() - 1; i++) {
 			this.getColumn(i).pack();

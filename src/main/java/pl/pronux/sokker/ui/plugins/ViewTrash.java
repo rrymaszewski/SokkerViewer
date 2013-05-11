@@ -515,11 +515,11 @@ public class ViewTrash implements IPlugin, Sort {
 		playersTable.setLayoutData(tabComposite.getViewFormData());
 
 		String[] title = { Messages.getString("table.name"), Messages.getString("table.surname"), Messages.getString("table.height"),
-						  Messages.getString("table.value"), Messages.getString("table.salary"), Messages.getString("table.age"),
-						  Messages.getString("table.form"), Messages.getString("table.stamina"), Messages.getString("table.pace"),
-						  Messages.getString("table.technique"), Messages.getString("table.passing"), Messages.getString("table.keeper"),
-						  Messages.getString("table.defender"), Messages.getString("table.playmaker"), Messages.getString("table.scorer"),
-						  Messages.getString("table.sold"), "" };
+				Messages.getString("table.weight"), Messages.getString("table.bmi"), Messages.getString("table.value"), Messages.getString("table.salary"),
+				Messages.getString("table.age"), Messages.getString("table.form"), Messages.getString("table.stamina"), Messages.getString("table.pace"),
+				Messages.getString("table.technique"), Messages.getString("table.passing"), Messages.getString("table.keeper"),
+				Messages.getString("table.defender"), Messages.getString("table.playmaker"), Messages.getString("table.scorer"),
+				Messages.getString("table.sold"), "" };
 
 		tabComposite.setViewTable(playersTable);
 
@@ -1386,6 +1386,8 @@ public class ViewTrash implements IPlugin, Sort {
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			item.setText(c++, String.valueOf(player.getHeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[maxSkill].getWeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[maxSkill].getBmi()));
 			item.setText(c++, player.getSkills()[maxSkill].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[maxSkill].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getAge()));

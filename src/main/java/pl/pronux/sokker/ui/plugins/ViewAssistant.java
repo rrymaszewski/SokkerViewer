@@ -44,7 +44,7 @@ import pl.pronux.sokker.ui.resources.CursorResources;
 import pl.pronux.sokker.ui.resources.ImageResources;
 import pl.pronux.sokker.ui.widgets.composites.DescriptionDoubleComposite;
 import pl.pronux.sokker.ui.widgets.shells.BugReporter;
-import pl.pronux.sokker.ui.widgets.tables.AssitantPlayersTable;
+import pl.pronux.sokker.ui.widgets.tables.AssistantPlayersTable;
 
 public class ViewAssistant implements IPlugin, Sort {
 
@@ -469,7 +469,7 @@ public class ViewAssistant implements IPlugin, Sort {
 
 	private List<Player> players;
 
-	private AssitantPlayersTable playersTable;
+	private AssistantPlayersTable playersTable;
 
 	private FormData sashFormData;
 
@@ -529,7 +529,7 @@ public class ViewAssistant implements IPlugin, Sort {
 		descriptionComposite.setRightFirstColumnSize(20);
 		descriptionComposite.setRightSecondColumnSize(15);
 
-		playersTable = new AssitantPlayersTable(composite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
+		playersTable = new AssistantPlayersTable(composite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		playersTable.setLayoutData(viewFormData);
 	}
 

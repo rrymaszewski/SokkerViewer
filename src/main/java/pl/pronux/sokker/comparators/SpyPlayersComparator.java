@@ -18,39 +18,43 @@ public class SpyPlayersComparator implements SVComparator<Player>, Sort {
 	
 	public static final int HEIGHT = 3;
 
-	public static final int VALUE = 4;
-
-	public static final int SALARY = 5;
-
-	public static final int AGE = 6;
+	public static final int WEIGHT = 4;
 	
-	public static final int FORM = 7;
-
-	public static final int DISCIPLINE = 8;
-
-	public static final int EXPERIENCE = 9;
-
-	public static final int TEAMWORK = 10;
-
-	public static final int MATCHES = 11;
-
-	public static final int GOALS = 12;
-
-	public static final int ASSISTS = 13;
-
-	public static final int RANKING_AVG = 14;
+	public static final int BMI = 5;
 	
-	public static final int RANKING_MAX = 15;
+	public static final int VALUE = 6;
+
+	public static final int SALARY = 7;
+
+	public static final int AGE = 8;
 	
-	public static final int RANKING_MIN = 16;
+	public static final int FORM = 9;
+
+	public static final int DISCIPLINE = 10;
+
+	public static final int EXPERIENCE = 11;
+
+	public static final int TEAMWORK = 12;
+
+	public static final int MATCHES = 13;
+
+	public static final int GOALS = 14;
+
+	public static final int ASSISTS = 15;
+
+	public static final int RANKING_AVG = 16;
 	
-	public static final int PREFERRED_POSITION = 17;
+	public static final int RANKING_MAX = 17;
+	
+	public static final int RANKING_MIN = 18;
+	
+	public static final int PREFERRED_POSITION = 19;
 
-	public static final int CARDS = 18;
+	public static final int CARDS = 20;
 
-	public static final int INJURY = 19;
+	public static final int INJURY = 21;
 
-	public static final int NOTE = 20;
+	public static final int NOTE = 22;
 
 	private int column;
 
@@ -84,6 +88,12 @@ public class SpyPlayersComparator implements SVComparator<Player>, Sort {
 			break;
 		case HEIGHT:
 			rc = p1.getHeight() < p2.getHeight() ? -1 : 1;
+			break;
+		case WEIGHT:
+			rc = (p1.getSkills()[p1.getSkills().length - 1].getWeight() < p2.getSkills()[p2.getSkills().length - 1].getWeight()) ? -1 : 1;
+			break;
+		case BMI:
+			rc = (p1.getSkills()[p1.getSkills().length - 1].getBmi() < p2.getSkills()[p2.getSkills().length - 1].getBmi()) ? -1 : 1;
 			break;
 		case COUNTRY:
 			rc = (p1.getCountryfrom() < p2.getCountryfrom()) ? -1 : 1;

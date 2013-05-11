@@ -171,13 +171,63 @@ public class PlayerDescription extends StyledText implements IDescription {
 			}
 		}
 
-		text = String.format(", %s: %d cm", Messages.getString("player.height"), player.getHeight());
+		text = String.format(" (ID %d)", player.getId()); 
+		this.addText(text);
+		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
+		this.addText(NEW_LINE);
+
+		text = String.format(" %s: %d cm", Messages.getString("player.height"), player.getHeight());
 		this.addText(text);
 		addStyle(getText().length() - String.valueOf(player.getHeight()).length() - 3, String.valueOf(player.getHeight()).length(), ColorResources.getBlack(), SWT.BOLD);
 		
-		text = String.format("  (ID %d)", player.getId()); 
+		String lastWeight = String.format("%.2f", player.getSkills()[max].getWeight());
+		text = String.format(", %s: %s kg", Messages.getString("player.weight"), lastWeight);
 		this.addText(text);
-		addStyle(getText().length() - text.length(), text.length(), ColorResources.getDarkGray(), SWT.NONE);
+
+		if (max > 0) {
+			double now = player.getSkills()[max].getWeight();
+			double before = player.getSkills()[max - 1].getWeight();
+			int offset = getText().length();
+
+			if (now > before) {
+				text = String.format("(%s)", SVNumberFormat.formatDoubleWithSign(now - before)); 
+				this.addText(text);
+				addStyle(offset, text.length(), ConfigBean.getColorIncreaseDescription(), SWT.NONE);
+				addStyle(offset - lastWeight.length() - 3, lastWeight.length(), ConfigBean.getColorIncreaseDescription(), SWT.BOLD);
+			} else if (now < before) {
+				text = String.format("(%s)", SVNumberFormat.formatDoubleWithSign(now - before)); 
+				this.addText(text);
+				addStyle(offset, text.length(), ConfigBean.getColorDecreaseDescription(), SWT.NONE);
+				addStyle(offset - lastWeight.length() - 3, lastWeight.length(), ConfigBean.getColorDecreaseDescription(), SWT.BOLD);
+			} else {
+				addStyle(offset  - lastWeight.length() - 3, lastWeight.length(), ColorResources.getBlack(), SWT.BOLD);
+			}
+		}
+
+		String lastBmi = String.format("%.2f", player.getSkills()[max].getBmi());
+		text = String.format(", %s: %s", Messages.getString("player.bmi"), lastBmi);
+		this.addText(text);
+		
+		if (max > 0) {
+			double now = player.getSkills()[max].getBmi();
+			double before = player.getSkills()[max - 1].getBmi();
+			int offset = getText().length();
+
+			if (now > before) {
+				text = String.format("(%s)", SVNumberFormat.formatDoubleWithSign(now - before)); 
+				this.addText(text);
+				addStyle(offset, text.length(), ConfigBean.getColorIncreaseDescription(), SWT.NONE);
+				addStyle(offset - lastBmi.length(), lastBmi.length(), ConfigBean.getColorIncreaseDescription(), SWT.BOLD);
+			} else if (now < before) {
+				text = String.format("(%s)", SVNumberFormat.formatDoubleWithSign(now - before)); 
+				this.addText(text);
+				addStyle(offset, text.length(), ConfigBean.getColorDecreaseDescription(), SWT.NONE);
+				addStyle(offset - lastBmi.length(), lastBmi.length(), ConfigBean.getColorDecreaseDescription(), SWT.BOLD);
+			} else {
+				addStyle(offset - lastBmi.length(), lastBmi.length(), ColorResources.getBlack(), SWT.BOLD);
+			}
+		}
+		
 		this.addText(NEW_LINE);
 
 		this.addText(String.format(" %s: %s", Messages.getString("player.value"), player.getSkills()[max].getValue().formatIntegerCurrencySymbol()));  

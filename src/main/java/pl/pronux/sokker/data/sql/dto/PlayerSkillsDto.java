@@ -46,6 +46,8 @@ public PlayerSkills getPlayerSkills() throws SQLException {
 	this.getDate().getSokkerDate().setDay(rs.getInt("day")); 
 	this.getDate().getSokkerDate().setWeek(rs.getInt("week")); 
 	this.setPassTraining(rs.getBoolean("pass_training")); 
+	this.setWeight(rs.getDouble("weight"));
+	this.setBmi(rs.getDouble("bmi"));
 	this.setSummarySkill();
 	return this;
 }

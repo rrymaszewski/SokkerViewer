@@ -16,31 +16,35 @@ public class PlayerHistoryComparator implements SVComparator<Player>, Sort {
 	
 	public static final int HEIGHT = 3;
 
-	public static final int VALUE = 4;
+	public static final int WEIGHT = 4;
+	
+	public static final int BMI = 5;
+	
+	public static final int VALUE = 6;
 
-	public static final int SALARY = 5;
+	public static final int SALARY = 7;
 
-	public static final int AGE = 6;
+	public static final int AGE = 8;
 
-	public static final int FORM = 7;
+	public static final int FORM = 9;
 
-	public static final int STAMINA = 8;
+	public static final int STAMINA = 10;
 
-	public static final int PACE = 9;
+	public static final int PACE = 11;
 
-	public static final int TECHNIQUE = 10;
+	public static final int TECHNIQUE = 12;
 
-	public static final int PASSING = 11;
+	public static final int PASSING = 13;
 
-	public static final int KEEPER = 12;
+	public static final int KEEPER = 14;
 
-	public static final int DEFENDER = 13;
+	public static final int DEFENDER = 15;
 
-	public static final int PLAYMAKER = 14;
+	public static final int PLAYMAKER = 16;
 
-	public static final int SCORER = 15;
+	public static final int SCORER = 17;
 
-	public static final int SOLD = 16;
+	public static final int SOLD = 18;
 
 	private int column;
 
@@ -74,6 +78,12 @@ public class PlayerHistoryComparator implements SVComparator<Player>, Sort {
 				break;
 			case HEIGHT:
 				rc = p1.getHeight() < p2.getHeight() ? -1 : 1;
+				break;
+			case WEIGHT:
+				rc = (p1.getSkills()[p1.getSkills().length-1].getWeight() < p2.getSkills()[p2.getSkills().length-1].getWeight()) ? -1 : 1;
+				break;
+			case BMI:
+				rc = (p1.getSkills()[p1.getSkills().length-1].getBmi() < p2.getSkills()[p2.getSkills().length-1].getBmi()) ? -1 : 1;
 				break;
 			case VALUE:
 				rc = p1.getSkills()[p1.getSkills().length-1].getValue().compareTo(p2.getSkills()[p2.getSkills().length-1].getValue());

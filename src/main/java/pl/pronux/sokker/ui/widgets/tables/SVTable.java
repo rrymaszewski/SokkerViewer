@@ -55,7 +55,7 @@ public abstract class SVTable<T> extends Table {
 		this.addListener(SWT.MouseHover, tableListener);
 	}
 	
-	protected void getChanges(int max, int min, TableItem tableItem, int column) {
+	protected void getChanges(double max, double min, TableItem tableItem, int column) {
 		if (max > min) {
 			tableItem.setBackground(column, ConfigBean.getColorIncrease());
 		} else if (max < min) {

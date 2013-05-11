@@ -112,7 +112,7 @@ public class PlayersDao {
 
 	public void addPlayerSkills(int id, PlayerSkills skills, Date date) throws SQLException {
 		PreparedStatement ps = connection
-			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays,day,week,experience, teamwork, discipline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)"); 
+			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays,day,week,experience, teamwork, discipline, weight, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)"); 
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
 		ps.setInt(3, skills.getAge());
@@ -137,13 +137,15 @@ public class PlayersDao {
 		ps.setInt(22, skills.getExperience());
 		ps.setInt(23, skills.getTeamwork());
 		ps.setInt(24, skills.getDiscipline());
+		ps.setDouble(25, skills.getWeight());
+		ps.setDouble(26, skills.getBmi());
 		ps.executeUpdate();
 		ps.close();
 	}
 
 	public void addPlayerSkills(int id, PlayerSkills skills, Date date, int trainingId) throws SQLException {
 		PreparedStatement ps = connection
-			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays, id_training_fk, day, week, experience, teamwork, discipline, pass_training) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); 
+			.prepareStatement("INSERT INTO player_skills (id_player_fk,millis,age,value,salary,form,stamina,pace,technique,passing,keeper,defender,playmaker,scorer,matches,goals,assists,cards,injurydays, id_training_fk, day, week, experience, teamwork, discipline, pass_training, weight, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); 
 		ps.setInt(1, id);
 		ps.setLong(2, date.getMillis());
 		ps.setInt(3, skills.getAge());
@@ -170,6 +172,8 @@ public class PlayersDao {
 		ps.setInt(24, skills.getTeamwork());
 		ps.setInt(25, skills.getDiscipline());
 		ps.setBoolean(26, skills.isPassTraining());
+		ps.setDouble(27, skills.getWeight());
+		ps.setDouble(28, skills.getBmi());
 		ps.executeUpdate();
 		ps.close();
 
@@ -262,10 +266,9 @@ public class PlayersDao {
 	}
 
 	public void updatePlayerSkills(int id, PlayerSkills skills, Training training) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("UPDATE player_skills SET " + "millis = ?, " + "age = ?, " + "value = ?, " + "salary = ?, " + "form = ?, "
-										 + "stamina = ?, " + "pace = ?, " + "technique = ?, " + "passing = ?, " + "keeper = ?, " + "defender = ? ,"
-										 + "playmaker = ?, " + "scorer = ?, " + "matches = ?, " + "goals = ?, " + "assists = ?, " + "cards = ?, "
-										 + "injurydays = ?, " + "day = ?, " + "week = ?, " + "experience = ?, " + "teamwork = ?, " + "discipline = ? "
+		PreparedStatement ps = connection.prepareStatement("UPDATE player_skills SET millis = ?, age = ?, value = ?, salary = ?, form = ?, " +
+				"stamina = ?, pace = ?, technique = ?, passing = ?, keeper = ?, defender = ? ,playmaker = ?, scorer = ?, matches = ?, goals = ?, " + "assists = ?, " + "cards = ?, "
+										 + "injurydays = ?, day = ?, week = ?, experience = ?, teamwork = ?, discipline = ?, weight = ?, bmi = ? " 
 										 + "WHERE id_player_fk = ? AND id_training_fk = ?");
 
 		ps.setLong(1, training.getDate().getMillis());
@@ -291,8 +294,10 @@ public class PlayersDao {
 		ps.setInt(21, skills.getExperience());
 		ps.setInt(22, skills.getTeamwork());
 		ps.setInt(23, skills.getDiscipline());
-		ps.setInt(24, id);
-		ps.setInt(25, training.getId());
+		ps.setDouble(24, skills.getWeight());
+		ps.setDouble(25, skills.getBmi());
+		ps.setInt(26, id);
+		ps.setInt(27, training.getId());
 
 		ps.executeUpdate();
 		ps.close();
@@ -323,7 +328,9 @@ public class PlayersDao {
 							  + "week = ?, "
 							  + "experience = ?, "
 							  + "teamwork = ?, "
-							  + "discipline = ? "
+							  + "discipline = ?, "
+							  + "weight = ?, "
+							  + "bmi = ?"
 							  + "WHERE id_player_fk = ? AND week = (select max(week) from player_skills WHERE id_player_fk = ?) AND day = (select max(day) from player_skills where week = p.week AND id_player_fk = ?)");
 
 		ps.setLong(1, date.getMillis());
@@ -349,9 +356,11 @@ public class PlayersDao {
 		ps.setInt(21, skills.getExperience());
 		ps.setInt(22, skills.getTeamwork());
 		ps.setInt(23, skills.getDiscipline());
-		ps.setInt(24, id);
-		ps.setInt(25, id);
+		ps.setDouble(24, skills.getWeight());
+		ps.setDouble(25, skills.getBmi());
 		ps.setInt(26, id);
+		ps.setInt(27, id);
+		ps.setInt(28, id);
 
 		ps.executeUpdate();
 		ps.close();

@@ -44,6 +44,8 @@ public class PlayersHistoryTable extends SVTable<Player> {
 				Messages.getString("table.name"), 
 				Messages.getString("table.surname"), 
 				Messages.getString("table.height"),
+				Messages.getString("table.weight"),
+				Messages.getString("table.bmi"),
 				Messages.getString("table.value"), 
 				Messages.getString("table.salary"), 
 				Messages.getString("table.age"), 
@@ -119,6 +121,8 @@ public class PlayersHistoryTable extends SVTable<Player> {
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			item.setText(c++, String.valueOf(player.getHeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[maxSkill].getWeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[maxSkill].getBmi()));
 			item.setText(c++, player.getSkills()[maxSkill].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[maxSkill].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[maxSkill].getAge()));

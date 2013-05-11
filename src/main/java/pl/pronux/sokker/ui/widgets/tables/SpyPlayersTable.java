@@ -45,6 +45,8 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 				Messages.getString("table.name"), 
 				Messages.getString("table.surname"), 
 				Messages.getString("table.height"),
+				Messages.getString("table.weight"),
+				Messages.getString("table.bmi"),
 				Messages.getString("table.value"), 
 				Messages.getString("table.salary"), 
 				Messages.getString("table.age"), 
@@ -134,6 +136,8 @@ public class SpyPlayersTable extends SVTable<Player> implements IViewSort<Player
 			item.setText(c++, player.getName());
 			item.setText(c++, player.getSurname());
 			item.setText(c++, String.valueOf(player.getHeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[max].getWeight()));
+			item.setText(c++, String.format("%.2f", player.getSkills()[max].getBmi()));
 			item.setText(c++, player.getSkills()[max].getValue().formatIntegerCurrency());
 			item.setText(c++, player.getSkills()[max].getSalary().formatIntegerCurrency());
 			item.setText(c++, String.valueOf(player.getSkills()[max].getAge()));
